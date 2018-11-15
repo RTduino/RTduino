@@ -72,7 +72,6 @@ public:
     String(const __FlashStringHelper *str);
 #if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
     String(String &&rval);
-    String(StringSumHelper &&rval);
 #endif
     explicit String(char c);
     explicit String(unsigned char, unsigned char base=10);
@@ -99,7 +98,6 @@ public:
     String & operator = (const __FlashStringHelper *str);
 #if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
     String & operator = (String &&rval);
-    String & operator = (StringSumHelper &&rval);
 #endif
 
     // concatenate (works w/ built-in types)

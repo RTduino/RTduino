@@ -54,13 +54,9 @@ String::String(const String &value)
 #if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
 String::String(String &&rval)
 {
-    init();
-    move(rval);
-}
-String::String(StringSumHelper &&rval)
-{
-    init();
-    move(rval);
+	rval.buffer = NULL;
+	rval.capacity = 0;
+	rval.len = 0;
 }
 #endif
 
@@ -200,22 +196,18 @@ String & String::copy(const __FlashStringHelper *pstr, unsigned int length)
 #if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
 void String::move(String &rhs)
 {
-    if (buffer) {
-        if (rhs != NULL && capacity >= rhs.len) {
-            strcpy(buffer, rhs.buffer);
-            len = rhs.len;
-            rhs.len = 0;
-            return;
-        } else {
-            free(buffer);
-        }
-    }
-    buffer = rhs.buffer;
-    capacity = rhs.capacity;
-    len = rhs.len;
-    rhs.buffer = NULL;
-    rhs.capacity = 0;
-    rhs.len = 0;
+	if (this != &rhs)
+	{
+		free(buffer);
+
+		buffer = rhs.buffer;
+		len = rhs.len;
+		capacity = rhs.capacity;
+
+		rhs.buffer = NULL;
+		rhs.len = 0;
+		rhs.capacity = 0;
+	}
 }
 #endif
 
@@ -232,13 +224,7 @@ String & String::operator = (const String &rhs)
 #if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
 String & String::operator = (String &&rval)
 {
-    if (this != &rval) move(rval);
-    return *this;
-}
-
-String & String::operator = (StringSumHelper &&rval)
-{
-    if (this != &rval) move(rval);
+    move(rval);
     return *this;
 }
 #endif
