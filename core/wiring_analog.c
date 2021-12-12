@@ -27,3 +27,19 @@ void analogWrite(uint8_t pin, int val)
         rt_pwm_enable(pwm_dev, pin_map_table[pin].channel);
     }
 }
+
+int analogRead(uint8_t pin)
+{
+    rt_adc_device_t adc_dev;
+
+    adc_dev = (rt_adc_device_t)rt_device_find(pin_map_table[pin].device_name);
+    if(adc_dev != RT_NULL)
+    {
+        rt_adc_enable(adc_dev, pin_map_table[pin].channel);
+        return rt_adc_read(adc_dev, pin_map_table[pin].channel);
+    }
+    else
+    {
+        return 0;
+    }
+}
