@@ -34,7 +34,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <rtdevice.h>
+#include <rtdef.h>
 #include <arduino_layout.h>
 
 #define HIGH 0x1
@@ -126,11 +126,16 @@ void detachInterrupt(uint8_t interruptNum);
 void setup(void);
 void loop(void);
 
+long map(long, long, long, long, long);
+void randomSeed(unsigned long);
+
 /* Arduino Pin Map */
 typedef struct
 {
-    rt_ubase_t rt_pin;
     uint8_t arduino_pin;
+    rt_ubase_t rt_pin;
+    const char* device_name;
+    rt_uint8_t channel;
 }pin_map_t;
 
 #ifdef __cplusplus
@@ -139,15 +144,11 @@ typedef struct
 
 #ifdef __cplusplus
 
-/* WMath prototypes */
+long random(long);
+long random(long, long);
 uint16_t makeWord(uint16_t w);
 uint16_t makeWord(byte h, byte l);
 #define word(...) makeWord(__VA_ARGS__)
-long random(long);
-long random(long, long);
-void randomSeed(unsigned long);
-long map(long, long, long, long, long);
 
 #endif /* __cplusplus */
-
 #endif /* Arduino_h */

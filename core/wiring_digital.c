@@ -9,6 +9,7 @@
  */
 #include <Arduino.h>
 #include "wiring_private.h"
+#include <rtdevice.h>
 
 #define DBG_TAG    "Arduino"
 #define DBG_LVL    DBG_INFO

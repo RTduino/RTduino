@@ -8,6 +8,7 @@
  * 2021-12-10     Meco Man     first version
  */
 #include <Arduino.h>
+#include <rtthread.h>
 
 #define DBG_TAG    "Arduino"
 #define DBG_LVL    DBG_INFO

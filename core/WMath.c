@@ -27,39 +27,17 @@
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
 */
+#include <stdlib.h>
 
-extern "C" {
-  #include <stdlib.h>
-}
-
-long random(long howbig)
+void randomSeed(unsigned long seed)
 {
-    if (howbig == 0)
+    if (seed != 0)
     {
-        return 0;
+        srand(seed);
     }
-    return rand() % howbig;
 }
 
-long random(long howsmall, long howbig)
+long map(long x, long in_min, long in_max, long out_min, long out_max)
 {
-    long diff;
-
-    if (howsmall >= howbig)
-    {
-        return howsmall;
-    }
-    diff = howbig - howsmall;
-
-    return random(diff) + howsmall;
-}
-
-unsigned int makeWord(unsigned int w)
-{
-    return w;
-}
-
-unsigned int makeWord(unsigned char h, unsigned char l)
-{
-    return (h << 8) | l;
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
