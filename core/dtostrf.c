@@ -18,6 +18,10 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/*
+http://www.nongnu.org/avr-libc/user-manual/group__avr__stdlib.html#ga060c998e77fb5fc0d3168b3ce8771d42
+*/
+
 #include "dtostrf.h"
 
 char *dtostrf(double val, signed char width, unsigned char prec, char *sout)
