@@ -43,7 +43,7 @@ typedef struct
   struct rt_device_pwm* rt_dev;
 }servo_t;
 
-#define MAX_SERVOS        ARDUINO_PWM_PIN_MAX
+#define MAX_SERVOS        ARDUINO_PINOUT_PWM_MAX
 
 #define MIN_PULSE_WIDTH       544     // the shortest pulse sent to a servo in us
 #define MAX_PULSE_WIDTH      2400     // the longest pulse sent to a servo in us

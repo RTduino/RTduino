@@ -35,7 +35,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 #include <rtdef.h>
-#include <arduino_layout.h>
+#include <arduino_pinout.h>
 
 #define HIGH 0x1
 #define LOW  0x0
