@@ -134,10 +134,13 @@ typedef struct
 }pin_map_t;
 
 #ifdef __cplusplus
-}
+} // extern "C"
 #endif
 
 #ifdef __cplusplus
+
+#include "ConsoleSerial.h"
+#include "WString.h"
 
 long random(long);
 long random(long, long);
