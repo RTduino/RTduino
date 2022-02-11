@@ -7,6 +7,7 @@
  * Date           Author       Notes
  * 2021-12-10     Meco Man     first version
  */
+
 /*
  Servo.cpp - Interrupt driven Servo library for Arduino using 16 bit timers- Version 2
  Copyright (c) 2009 Michael Margolis.  All right reserved.
@@ -25,6 +26,7 @@
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 #include <Arduino.h>
 #include "Servo.h"
 #include <rtdevice.h>
