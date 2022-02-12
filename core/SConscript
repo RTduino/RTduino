@@ -4,6 +4,6 @@ cwd = GetCurrentDir()
 src = Glob('*.c') + Glob('*.cpp')
 inc = [cwd]
 
-group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO'], CPPPATH = inc, CPPDEFINES = ['ARDUINO_ARCH_RTTHREAD'])
+group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO'], CPPPATH = inc, CPPDEFINES = ['ARDUINO', 'ARDUINO_ARCH_RTTHREAD'])
 
 Return('group')
