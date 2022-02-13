@@ -138,7 +138,7 @@ typedef struct
 
 #ifdef __cplusplus
 
-#include "ConsoleSerial.h"
+#include "HardwareSerial.h"
 #include "WString.h"
 
 long random(long);

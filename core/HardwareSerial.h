@@ -8,23 +8,22 @@
  * 2022-02-11    Meco Man     first version
  */
 
-#ifndef ConsoleSerial_h
-#define ConsoleSerial_h
+#ifndef HardwareSerial_h
+#define HardwareSerial_h
 
 #include "Print.h"
 
 // https://playground.arduino.cc/Code/Printclass/
 
-class ConsoleSerial: public Print
+class HardwareSerial: public Print
 {
 public:
-    ConsoleSerial(void);
     void begin(uint32_t BaudRate);
     // overwrite Print::write
     virtual size_t write(uint8_t c);
     virtual size_t write(const uint8_t *buffer, size_t size);
 };
 
-extern ConsoleSerial Serial;
+extern HardwareSerial Serial;
 
-#endif /* ConsoleSerial_h */
+#endif /* HardwareSerial_h */
