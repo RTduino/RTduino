@@ -21,7 +21,7 @@
 #endif
 
 #ifndef RT_USING_ARDUINO_THREAD_PRIO
-#define RT_USING_ARDUINO_THREAD_PRIO     20
+#define RT_USING_ARDUINO_THREAD_PRIO     31
 #endif
 
 static void arduino_entry(void *parameter)
@@ -42,7 +42,7 @@ static int arduino_thread_init(void)
     tid = rt_thread_create("Arduino",
                             arduino_entry, RT_NULL,
                             RT_USING_ARDUINO_THREAD_SIZE,
-                            RT_USING_ARDUINO_THREAD_PRIO, 10);
+                            RT_USING_ARDUINO_THREAD_PRIO, 0);
 
     if (tid != RT_NULL)
     {
