@@ -11,11 +11,6 @@
 #include <rtthread.h>
 #include <rthw.h>
 
-void init(void)
-{
-
-}
-
 unsigned long millis(void)
 {
     return rt_tick_get_millisecond();

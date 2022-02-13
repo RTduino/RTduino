@@ -26,7 +26,6 @@
 
 static void arduino_entry(void *parameter)
 {
-    init();
     initVariant();
     setup();
 

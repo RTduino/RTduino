@@ -93,7 +93,6 @@ typedef unsigned int word;
 typedef bool boolean;
 typedef uint8_t byte;
 
-void init(void);
 void initVariant(void);
 
 void yield(void);
