@@ -11,7 +11,12 @@
 #include <rtthread.h>
 #include "HardwareSerial.h"
 
-void HardwareSerial::begin(uint32_t BaudRate)
+void HardwareSerial::begin(uint32_t baud)
+{
+    begin(baud, SERIAL_8N1);
+}
+
+void HardwareSerial::begin(uint32_t baud, uint8_t config)
 {
     /* Nothing need to do */
 }

@@ -23,11 +23,12 @@
 #include <math.h>
 #include <stdlib.h>
 #include <inttypes.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
-#include <compat/twi.h>
-#include "Arduino.h" // for digitalWrite and micros
+//#include <avr/io.h>
+//#include <avr/interrupt.h>
+//#include <util/delay.h>
+//#include <compat/twi.h>
+#include <Arduino.h> // for digitalWrite and micros
+#include <rtthread.h>
 
 #ifndef cbi
 #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
