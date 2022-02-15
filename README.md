@@ -1,5 +1,4 @@
-# RTduino - Arduino core for RT-Thread
-## Arduino Ecological Compatibility Layer of RT-Thread
+# RTduino - Arduino Ecological Compatibility Layer of RT-Thread
 ## RT-Thread的Arduino生态兼容层
 ### 如果喜欢请Star，这是对本开源项目最大的鼓励，谢谢
 --------
