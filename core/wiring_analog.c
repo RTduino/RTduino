@@ -12,6 +12,10 @@
 #include "wiring_private.h"
 #include <rtdevice.h>
 
+#define DBG_TAG    "Arduino"
+#define DBG_LVL    DBG_INFO
+#include <rtdbg.h>
+
 #define PWM_PERIOD_NS 1000*1000*1000/*ns*//ARDUINO_PWM_HZ
 
 void analogWrite(uint8_t pin, int val)
@@ -27,6 +31,10 @@ void analogWrite(uint8_t pin, int val)
         rt_pwm_set(pwm_dev, pin_map_table[pin].channel, PWM_PERIOD_NS, rt_val);
         rt_pwm_enable(pwm_dev, pin_map_table[pin].channel);
     }
+    else
+    {
+        LOG_E("This pin doesn't support PWM");
+    }
 }
 
 int analogRead(uint8_t pin)
@@ -41,6 +49,7 @@ int analogRead(uint8_t pin)
     }
     else
     {
+        LOG_E("This pin doesn't support ADC");
         return 0;
     }
 }

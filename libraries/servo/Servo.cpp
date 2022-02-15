@@ -32,6 +32,10 @@
 #include <rtdevice.h>
 #include <wiring_private.h>
 
+#define DBG_TAG    "Arduino.Servo"
+#define DBG_LVL    DBG_INFO
+#include <rtdbg.h>
+
 typedef struct
 {
   uint8_t nbr        :6 ;             // a pin number from 0 to 63
@@ -57,15 +61,22 @@ typedef struct
 #define SERVO_PWM_HZ        50 /*20ms*/
 #define PWM_PERIOD_NS       1000*1000*1000/*ns*//SERVO_PWM_HZ
 
+#define _MAX_INDEV_WARNING "The number of servos has reached the maximum number"
+
 static servo_t servos[MAX_SERVOS];                          // static array of servo structures
 static uint8_t ServoCount = 0;                              // the total number of attached servos
 
 Servo::Servo(void)
 {
     if(ServoCount < MAX_SERVOS)
+    {
         this->servoIndex = ServoCount++;     // assign a servo index to this instance
+    }
     else
+    {
+        LOG_E(_MAX_INDEV_WARNING);
         this->servoIndex = INVALID_SERVO ;  // too many servos
+    }
 }
 
 uint8_t Servo::attach(int pin)
@@ -104,6 +115,11 @@ uint8_t Servo::attach(int pin, int min, int max)
         servos[this->servoIndex].pulsewidth = DEFAULT_PULSE_WIDTH;   // store default values
         servos[this->servoIndex].Pin.isActive = true;
     }
+    else
+    {
+        LOG_E(_MAX_INDEV_WARNING);
+    }
+
     return this->servoIndex ;
 }
 
@@ -147,6 +163,10 @@ void Servo::writeMicroseconds(int pulsewidth)
         rt_pwm_set(pwm_dev, pwm_channel, PWM_PERIOD_NS, pulsewidth * 1000/*ns*/);
         rt_pwm_enable(pwm_dev, pwm_channel);
     }
+    else
+    {
+        LOG_E(_MAX_INDEV_WARNING);
+    }
 }
 
 int Servo::read(void) // return the value as degrees
@@ -157,9 +177,14 @@ int Servo::read(void) // return the value as degrees
 int Servo::readMicroseconds(void)
 {
     if(this->servoIndex != INVALID_SERVO)
+    {
         return servos[this->servoIndex].pulsewidth;
+    }
     else
+    {
+        LOG_E(_MAX_INDEV_WARNING);
         return 0;
+    }
 }
 
 bool Servo::attached(void)

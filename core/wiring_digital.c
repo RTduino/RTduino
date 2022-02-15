@@ -34,6 +34,7 @@ void pinMode(uint8_t pin, uint8_t mode)
     }
     else
     {
+        LOG_E("pinMode mode parameter is illegal");
         return;
     }
 
