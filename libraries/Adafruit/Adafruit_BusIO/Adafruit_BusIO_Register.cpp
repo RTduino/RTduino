@@ -166,7 +166,7 @@ bool Adafruit_BusIO_Register::write(uint32_t value, uint8_t numbytes) {
  */
 uint32_t Adafruit_BusIO_Register::read(void) {
   if (!read(_buffer, _width)) {
-    return -1;
+    return (uint32_t)-1;
   }
 
   uint32_t value = 0;
