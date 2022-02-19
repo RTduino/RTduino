@@ -89,40 +89,14 @@ bool Adafruit_I2CDevice::write(const uint8_t *buffer, size_t len, bool stop,
                                size_t prefix_len)
 {
     rt_uint16_t flag = RT_NULL;
-//    rt_uint8_t *temp_buffer;
-//    rt_uint8_t i;
 
     if(stop == false)
     {
         flag |= RT_I2C_NO_STOP;
     }
 
-//    temp_buffer = (rt_uint8_t*)rt_malloc(prefix_len+len);
-//    if(temp_buffer == RT_NULL)
-//    {
-//        return false;
-//    }
-
-    // prefix_buffer: register address 16bit
-    // buffer: actual data
-//    for(i = 0; i<prefix_len; i++)
-//    {
-//        temp_buffer[i] = prefix_buffer[i];
-//    }
-//    rt_memcpy(&temp_buffer[i], buffer, len);
-//    rt_i2c_master_send(_i2c_bus_dev, _addr, flag, temp_buffer, prefix_len+len);
-//
-//    rt_free(temp_buffer);
-
-    // this method is OK
-    // 通过RT_I2C_NO_STOP和RT_I2C_NO_START的组合可以将数据一口气传过去
-    // RT_I2C_NO_START 不会发送起始位以及芯片地址
     rt_i2c_master_send(_i2c_bus_dev, _addr, flag | RT_I2C_NO_STOP, prefix_buffer, prefix_len);
     rt_i2c_master_send(_i2c_bus_dev, _addr, flag | RT_I2C_NO_START, buffer, len);
-
-    // cannot send like this
-//    rt_i2c_master_send(_i2c_bus_dev, _addr, flag, prefix_buffer, prefix_len);
-//    rt_i2c_master_send(_i2c_bus_dev, _addr, flag, buffer, len);
 
     return true;
 }
