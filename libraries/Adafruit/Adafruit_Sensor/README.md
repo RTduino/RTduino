@@ -1,5 +1,7 @@
 # Adafruit Unified Sensor Driver #
 
+https://github.com/adafruit/Adafruit_Sensor
+
 Many small embedded systems exist to collect data from sensors, analyse the data, and either take an appropriate action or send that sensor data to another system for processing.
 
 One of the many challenges of embedded systems design is the fact that parts you used today may be out of production tomorrow, or system requirements may change and you may need to choose a different sensor down the road.
@@ -29,7 +31,7 @@ The following drivers are based on the Adafruit Unified Sensor Driver:
 **Magnetometers**
   - [Adafruit\_LSM303DLHC](https://github.com/adafruit/Adafruit_LSM303DLHC)
   - [Adafruit\_HMC5883\_Unified](https://github.com/adafruit/Adafruit_HMC5883_Unified)
-  
+
 **Barometric Pressure**
   - [Adafruit\_BMP085\_Unified](https://github.com/adafruit/Adafruit_BMP085_Unified)
   - [Adafruit\_BMP183\_Unified\_Library](https://github.com/adafruit/Adafruit_BMP183_Unified_Library)

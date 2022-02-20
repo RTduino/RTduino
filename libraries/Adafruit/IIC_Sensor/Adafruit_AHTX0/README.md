@@ -1,4 +1,6 @@
-# Adafruit AHTX0 (AHT10 & AHT20) [![Build Status](https://github.com/adafruit/Adafruit_AHTX0/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_AHTX0/actions)
+# Adafruit AHTX0 (AHT10 & AHT20)
+
+https://github.com/adafruit/Adafruit_AHTX0
 
 This is the Adafruit AHT10+AHT20 Humidity and Temperature Sensor library for Arduino
 
