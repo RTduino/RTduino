@@ -1,6 +1,6 @@
 # Adafruit Unified Sensor Driver #
 
-https://github.com/adafruit/Adafruit_Sensor
+https://github.com/adafruit/Adafruit_Sensor (v1.1.4 2020-06-29)
 
 Many small embedded systems exist to collect data from sensors, analyse the data, and either take an appropriate action or send that sensor data to another system for processing.
 

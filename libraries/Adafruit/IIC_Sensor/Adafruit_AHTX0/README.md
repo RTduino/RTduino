@@ -1,6 +1,6 @@
 # Adafruit AHTX0 (AHT10 & AHT20)
 
-https://github.com/adafruit/Adafruit_AHTX0
+https://github.com/adafruit/Adafruit_AHTX0 (v2.0.1 2021-08-27)
 
 This is the Adafruit AHT10+AHT20 Humidity and Temperature Sensor library for Arduino
 

@@ -1,6 +1,6 @@
 # Adafruit Bus IO Library
 
-https://github.com/adafruit/Adafruit_BusIO
+https://github.com/adafruit/Adafruit_BusIO (v1.11.1 2022-02-10)
 
 This is a helper library to abstract away I2C & SPI transactions and registers
 
