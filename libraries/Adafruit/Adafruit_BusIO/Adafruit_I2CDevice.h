@@ -3,17 +3,19 @@
 
 #include <Arduino.h>
 #include <rtdevice.h>
+#include "Wire.h"
 
 ///< The class which defines how we will talk to this device over I2C
 class Adafruit_I2CDevice
 {
     private:
+        TwoWire *_wire;
         uint8_t _addr;
         bool _begun;
         struct rt_i2c_bus_device *_i2c_bus_dev;
 
     public:
-        Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire);
+        Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire = &Wire);
         uint8_t address(void);
         bool begin(bool addr_detect = true);
         void end(void);
