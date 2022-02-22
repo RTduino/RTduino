@@ -77,7 +77,7 @@ public:
   Adafruit_AHTX0();
   ~Adafruit_AHTX0();
 
-  bool begin(int32_t sensor_id = 0);
+  bool begin(TwoWire *wire = &Wire, int32_t sensor_id = 0);
 
   bool getEvent(sensors_event_t *humidity, sensors_event_t *temp);
   uint8_t getStatus(void);

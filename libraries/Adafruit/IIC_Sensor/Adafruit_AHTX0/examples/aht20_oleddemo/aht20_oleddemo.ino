@@ -13,7 +13,7 @@ Adafruit_AHTX0 aht;
 void setup() {
   Serial.begin(115200);
   //while (!Serial);
-  
+
   Serial.println("128x64 OLED FeatherWing test");
   display.begin(0x3C, true); // Address 0x3C default
 
@@ -35,16 +35,16 @@ void setup() {
     Serial.println("Found AHT20");
   } else {
     Serial.println("Didn't find AHT20");
-  }  
+  }
 
   display.setTextSize(1);
-  display.setTextColor(SH110X_WHITE);  
+  display.setTextColor(SH110X_WHITE);
 }
 
 void loop() {
   display.clearDisplay();
   sensors_event_t humidity, temp;
-  
+
   aht.getEvent(&humidity, &temp);// populate temp and humidity objects with fresh data
   display.setCursor(0,20);
   display.print("AHT20 Demo");
@@ -54,7 +54,7 @@ void loop() {
   display.print("Hum: "); display.print(humidity.relative_humidity); display.println(" %");
   Serial.print("Temperature: ");Serial.print(temp.temperature);Serial.println(" degrees C");
   Serial.print("Pressure: ");Serial.print(humidity.relative_humidity);Serial.println(" RH %");
-  
+
   yield();
   display.display();
   delay(100);

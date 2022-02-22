@@ -5,17 +5,13 @@
  *    @param  addr The 7-bit I2C address for the device
  *    @param  theWire The I2C bus to use, defaults to &Wire
  */
-Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr)
+Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire)
 {
+    _wire = theWire;
     _addr = addr;
     _begun = false;
     _i2c_bus_dev = RT_NULL;
 }
-
-// Adafruit_I2CDevice::Adafruit_I2CDevice(uint8_t addr, TwoWire *theWire)
-// {
-//   Adafruit_I2CDevice(addr);
-// }
 
 /*!
  *    @brief  Initializes and does basic address detection
@@ -28,11 +24,7 @@ bool Adafruit_I2CDevice::begin(bool addr_detect)
 {
     bool rst = true;
 
-    _i2c_bus_dev = (struct rt_i2c_bus_device *)rt_device_find("i2c4"); // TODO
-    if(_i2c_bus_dev == RT_NULL)
-    {
-        return false;
-    }
+    _wire->begin();
 
     if(addr_detect)
     {
@@ -42,6 +34,7 @@ bool Adafruit_I2CDevice::begin(bool addr_detect)
     if(rst == true)
     {
         _begun = true;
+        _i2c_bus_dev = _wire->_i2c_bus_dev;
         return true;
     }
     else
