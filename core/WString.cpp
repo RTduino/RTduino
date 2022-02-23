@@ -174,27 +174,27 @@ String & String::copy(const char *cstr, unsigned int length)
     return *this;
 }
 
-#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
-void String::move(String &rhs)
-{
-    if (buffer) {
-        if (rhs && capacity >= rhs.len) {
-            strcpy(buffer, rhs.buffer);
-            len = rhs.len;
-            rhs.len = 0;
-            return;
-        } else {
-            free(buffer);
-        }
-    }
-    buffer = rhs.buffer;
-    capacity = rhs.capacity;
-    len = rhs.len;
-    rhs.buffer = NULL;
-    rhs.capacity = 0;
-    rhs.len = 0;
-}
-#endif
+//#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
+//void String::move(String &rhs)
+//{
+//    if (buffer) {
+//        if (rhs && capacity >= rhs.len) {
+//            strcpy(buffer, rhs.buffer);
+//            len = rhs.len;
+//            rhs.len = 0;
+//            return;
+//        } else {
+//            free(buffer);
+//        }
+//    }
+//    buffer = rhs.buffer;
+//    capacity = rhs.capacity;
+//    len = rhs.len;
+//    rhs.buffer = NULL;
+//    rhs.capacity = 0;
+//    rhs.len = 0;
+//}
+//#endif
 
 String & String::operator = (const String &rhs)
 {
