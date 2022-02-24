@@ -27,7 +27,7 @@ extern "C" {
 #include <string.h>
 #include <inttypes.h>
 }
-
+#include <rtdevice.h>
 #include "Wire.h"
 
 #define DBG_TAG    "Arduino.library.Wire"
@@ -45,22 +45,47 @@ extern "C" {
  *          length: number of bytes to read into array
  * Output   number of bytes read
  */
-uint8_t twi_readFrom(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop)
+uint8_t TwoWire::twi_readFrom(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop)
 {
+    rt_uint16_t flag = RT_NULL;
+
+    if(sendStop == false)
+    {
+        flag |= RT_I2C_NO_STOP;
+    }
+
+    return rt_i2c_master_recv(_i2c_bus_dev, address, flag, buf, len);
+}
+
+uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop)
+{
+    rt_uint16_t flag = RT_NULL;
+
+    if(sendStop == false)
+    {
+        flag |= RT_I2C_NO_STOP;
+    }
+
+    return rt_i2c_master_send(_i2c_bus_dev, address, flag, buf, len);
+}
+
+/* 
+ * Function twi_transmit
+ * Desc     fills slave tx buffer with data
+ *          must be called in slave tx event callback
+ * Input    data: pointer to byte array
+ *          length: number of bytes in array
+ * Output   1 length too long for buffer
+ *          2 not slave transmitter
+ *          0 ok
+ */
+uint8_t TwoWire::twi_transmit(const uint8_t * buf, uint8_t len)
+{
+    rt_i2c_master_send(_i2c_bus_dev, txAddress, RT_I2C_NO_START | RT_I2C_NO_STOP, buf, len);
     return 0;
 }
 
-uint8_t twi_writeTo(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop)
-{
-    return 0;
-}
-
-uint8_t twi_transmit(const uint8_t * buf, uint8_t len)
-{
-    return 0;
-}
-
-uint8_t twi_status()
+uint8_t TwoWire::twi_status(void)
 {
     return 0;
 }

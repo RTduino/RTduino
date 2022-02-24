@@ -52,6 +52,12 @@ private:
     void (*user_onReceive)(size_t);
     void onRequestService(void);
     void onReceiveService(uint8_t*, size_t);
+
+    uint8_t twi_readFrom(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop);
+    uint8_t twi_writeTo(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop);
+    uint8_t twi_transmit(const uint8_t * buf, uint8_t len);
+    uint8_t twi_status(void);
+
 public:
     struct rt_i2c_bus_device *_i2c_bus_dev;
     TwoWire();
