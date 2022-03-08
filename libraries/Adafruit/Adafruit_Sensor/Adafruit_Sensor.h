@@ -69,9 +69,6 @@ typedef enum {
   SENSOR_TYPE_COLOR = (17)
 } sensors_type_t;
 
-#ifdef __ARMCC_VERSION
-#pragma anon_unions
-#endif
 /** struct sensors_vec_s is used to return a vector in a common format. */
 typedef struct {
   union {
@@ -156,9 +153,6 @@ typedef struct {
   int32_t min_delay; /**< min delay in microseconds between events. zero = not a
                         constant rate */
 } sensor_t;
-#ifdef __ARMCC_VERSION
-#pragma no_anon_unions
-#endif
 
 /** @brief Common sensor interface to unify various sensors.
  * Intentionally modeled after sensors.h in the Android API:
