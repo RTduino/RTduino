@@ -28,6 +28,6 @@ for root, dirs, files in os.walk(GetCurrentDir()):
         if check_h_hpp_exsit(current_path):
             inc = inc + [current_path]
 
-group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO', 'ARDUINO_USING_LIBRARIES'], CPPPATH = inc)
+group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO'], CPPPATH = inc)
 
 Return('group')
