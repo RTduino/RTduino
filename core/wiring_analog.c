@@ -20,6 +20,7 @@
 
 void analogWrite(uint8_t pin, int val)
 {
+#ifdef RT_USING_PWM
     struct rt_device_pwm *pwm_dev;
     rt_uint32_t rt_val;
 
@@ -32,6 +33,7 @@ void analogWrite(uint8_t pin, int val)
         rt_pwm_enable(pwm_dev, pin_map_table[pin].channel);
     }
     else
+#endif /* RT_USING_PWM */
     {
         LOG_E("This pin doesn't support PWM");
     }
@@ -39,6 +41,7 @@ void analogWrite(uint8_t pin, int val)
 
 int analogRead(uint8_t pin)
 {
+#ifdef RT_USING_ADC
     rt_adc_device_t adc_dev;
 
     adc_dev = (rt_adc_device_t)rt_device_find(pin_map_table[pin].device_name);
@@ -48,6 +51,7 @@ int analogRead(uint8_t pin)
         return rt_adc_read(adc_dev, pin_map_table[pin].channel);
     }
     else
+#endif /* RT_USING_ADC */
     {
         LOG_E("This pin doesn't support ADC");
         return 0;
