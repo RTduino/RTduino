@@ -88,7 +88,7 @@ bool Adafruit_I2CDevice::write(const uint8_t *buffer, size_t len, bool stop,
         flag |= RT_I2C_NO_STOP;
     }
 
-    rt_i2c_master_send(_i2c_bus_dev, _addr, flag | RT_I2C_NO_STOP, prefix_buffer, prefix_len);
+    rt_i2c_master_send(_i2c_bus_dev, _addr, RT_I2C_NO_STOP, prefix_buffer, prefix_len);
     rt_i2c_master_send(_i2c_bus_dev, _addr, flag | RT_I2C_NO_START, buffer, len);
 
     return true;
