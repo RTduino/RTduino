@@ -14,6 +14,7 @@
 #include <Arduino.h>
 
 extern const pin_map_t pin_map_table[];
-#define ARDUINO_PINOUT_PIN_MAX (sizeof(pin_map_table))
+
+#define ARDUINO_PINOUT_PIN_MAX (sizeof(pin_map_table)/sizeof(pin_map_t))
 
 #endif
