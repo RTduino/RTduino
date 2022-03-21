@@ -4,6 +4,6 @@ cwd  = GetCurrentDir()
 src = ['Wire.cpp']
 inc = [cwd]
 
-group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO'], CPPPATH = inc)
+group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO', 'ARDUINO_USING_WIRE'], CPPPATH = inc)
 
 Return('group')
