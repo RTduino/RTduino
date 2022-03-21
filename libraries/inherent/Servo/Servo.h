@@ -60,6 +60,19 @@
 
 #define INVALID_SERVO         255     // flag indicating an invalid servo index
 
+typedef struct
+{
+  uint8_t nbr        :6 ;             // a pin number from 0 to 63
+  uint8_t isActive   :1 ;             // true if this channel is enabled, pin not pulsed if false
+}ServoPin_t;
+
+typedef struct
+{
+  ServoPin_t Pin;
+  unsigned int pulsewidth;        // current PWM pulse in us on this pin
+  struct rt_device_pwm* rt_dev;
+}servo_t;
+
 class Servo
 {
 public:
@@ -73,9 +86,9 @@ public:
     int readMicroseconds();            // returns current pulse width in microseconds for this servo (was read_us() in first release)
     bool attached();                   // return true if this servo is attached, otherwise false
 private:
-    uint8_t servoIndex;               // index into the channel data for this servo
-    uint16_t min;                          // the pulse width, in microseconds, corresponding to the minimum (0 degree) angle on the servo (defaults to 544)
-    uint16_t max;                          // the pulse width, in microseconds, corresponding to the maximum (180 degree) angle on the servo (defaults to 2400)
+    servo_t servo_info;                // servo information
+    uint16_t min;                      // the pulse width, in microseconds, corresponding to the minimum (0 degree) angle on the servo (defaults to 544)
+    uint16_t max;                      // the pulse width, in microseconds, corresponding to the maximum (180 degree) angle on the servo (defaults to 2400)
 };
 
 #endif /* __SERVO_H__ */

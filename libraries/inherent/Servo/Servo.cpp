@@ -36,21 +36,6 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-typedef struct
-{
-  uint8_t nbr        :6 ;             // a pin number from 0 to 63
-  uint8_t isActive   :1 ;             // true if this channel is enabled, pin not pulsed if false
-}ServoPin_t;
-
-typedef struct
-{
-  ServoPin_t Pin;
-  unsigned int pulsewidth;        // current PWM pulse in us on this pin
-  struct rt_device_pwm* rt_dev;
-}servo_t;
-
-#define MAX_SERVOS        ARDUINO_PINOUT_PWM_MAX
-
 #define MIN_PULSE_WIDTH       544     // the shortest pulse sent to a servo in us
 #define MAX_PULSE_WIDTH      2400     // the longest pulse sent to a servo in us
 #define DEFAULT_PULSE_WIDTH  1500     // default pulse width when servo is attached in us
@@ -61,22 +46,12 @@ typedef struct
 #define SERVO_PWM_HZ        50 /*20ms*/
 #define PWM_PERIOD_NS       1000*1000*1000/*ns*//SERVO_PWM_HZ
 
-#define _MAX_INDEV_WARNING "The number of servos has reached the maximum number"
-
-static servo_t servos[MAX_SERVOS];                          // static array of servo structures
-static uint8_t ServoCount = 0;                              // the total number of attached servos
-
 Servo::Servo(void)
 {
-    if(ServoCount < MAX_SERVOS)
-    {
-        this->servoIndex = ServoCount++;     // assign a servo index to this instance
-    }
-    else
-    {
-        LOG_E(_MAX_INDEV_WARNING);
-        this->servoIndex = INVALID_SERVO ;  // too many servos
-    }
+    this->servo_info.Pin.isActive = false;
+    this->servo_info.Pin.nbr = 0;
+    this->servo_info.rt_dev = RT_NULL;
+    this->servo_info.pulsewidth = 0;
 }
 
 uint8_t Servo::attach(int pin)
@@ -86,7 +61,7 @@ uint8_t Servo::attach(int pin)
 
 // pulse width's min and max in us
 // attach the given pin to the next free channel
-// returns channel number or INVALID_SERVO if failure
+// returns pin number or INVALID_SERVO if failure
 uint8_t Servo::attach(int pin, int min, int max)
 {
     struct rt_device_pwm *pwm_dev;
@@ -98,36 +73,38 @@ uint8_t Servo::attach(int pin, int min, int max)
         return INVALID_SERVO;
     }
 
-    if(this->servoIndex < MAX_SERVOS)
+    if(this->servo_info.Pin.isActive == false)
     {
-        servos[this->servoIndex].Pin.nbr = pin;
+        this->servo_info.Pin.nbr = pin;
 
         /*pulse width in us*/
         this->min  = min;
         this->max  = max;
 
-        pwm_channel = pin_map_table[servos[this->servoIndex].Pin.nbr].channel;
+        pwm_channel = pin_map_table[this->servo_info.Pin.nbr].channel;
         rt_pwm_disable(pwm_dev, pwm_channel);
         rt_pwm_set(pwm_dev, pwm_channel, PWM_PERIOD_NS, DEFAULT_PULSE_WIDTH * 1000/*ns*/);
         rt_pwm_enable(pwm_dev, pwm_channel);
 
-        servos[this->servoIndex].rt_dev = pwm_dev;
-        servos[this->servoIndex].pulsewidth = DEFAULT_PULSE_WIDTH;   // store default values
-        servos[this->servoIndex].Pin.isActive = true;
+        this->servo_info.rt_dev = pwm_dev;
+        this->servo_info.pulsewidth = DEFAULT_PULSE_WIDTH;   // store default values
+        this->servo_info.Pin.isActive = true;
     }
     else
     {
-        LOG_E(_MAX_INDEV_WARNING);
+        LOG_E("This servo has been used!");
     }
 
-    return this->servoIndex ;
+    return this->servo_info.Pin.nbr;
 }
 
 void Servo::detach(void)
 {
-    rt_pwm_disable(servos[this->servoIndex].rt_dev, pin_map_table[servos[this->servoIndex].Pin.nbr].channel);
-    servos[this->servoIndex].Pin.isActive = false;
-    this->servoIndex = INVALID_SERVO;
+    if(this->servo_info.Pin.isActive == true)
+    {
+        rt_pwm_disable(this->servo_info.rt_dev, pin_map_table[this->servo_info.Pin.nbr].channel);
+        this->servo_info.Pin.isActive = false;
+    }
 }
 
 // angle in degree 0-180
@@ -147,17 +124,17 @@ void Servo::writeMicroseconds(int pulsewidth)
     int pwm_channel;
     struct rt_device_pwm *pwm_dev;
 
-    if(this->servoIndex < MAX_SERVOS)   // ensure channel is valid
+    if(this->servo_info.Pin.isActive == true)   // ensure channel is valid
     {
         if(pulsewidth < SERVO_MIN())          // ensure pulse width is valid
             pulsewidth = SERVO_MIN();
         else if(pulsewidth > SERVO_MAX())
             pulsewidth = SERVO_MAX();
 
-        servos[this->servoIndex].pulsewidth = pulsewidth;
+        this->servo_info.pulsewidth = pulsewidth;
 
-        pwm_channel = pin_map_table[servos[this->servoIndex].Pin.nbr].channel;
-        pwm_dev = servos[this->servoIndex].rt_dev;
+        pwm_channel = pin_map_table[this->servo_info.Pin.nbr].channel;
+        pwm_dev = this->servo_info.rt_dev;
 
         rt_pwm_disable(pwm_dev, pwm_channel);
         rt_pwm_set(pwm_dev, pwm_channel, PWM_PERIOD_NS, pulsewidth * 1000/*ns*/);
@@ -165,7 +142,7 @@ void Servo::writeMicroseconds(int pulsewidth)
     }
     else
     {
-        LOG_E(_MAX_INDEV_WARNING);
+        LOG_E("You need to attach a servo first!");
     }
 }
 
@@ -176,21 +153,18 @@ int Servo::read(void) // return the value as degrees
 
 int Servo::readMicroseconds(void)
 {
-    if(this->servoIndex != INVALID_SERVO)
+    if(this->servo_info.Pin.isActive == true)
     {
-        return servos[this->servoIndex].pulsewidth;
+        return this->servo_info.pulsewidth;
     }
     else
     {
-        LOG_E(_MAX_INDEV_WARNING);
+        LOG_E("You need to attach a servo first!");
         return 0;
     }
 }
 
 bool Servo::attached(void)
 {
-    if(this->servoIndex != INVALID_SERVO)
-        return servos[this->servoIndex].Pin.isActive;
-    else
-        return false;
+    return this->servo_info.Pin.isActive;
 }
