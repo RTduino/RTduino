@@ -1,0 +1,33 @@
+from building import *
+import os
+
+src = []
+inc = []
+
+# check if .h or .hpp files exsit
+def check_h_hpp_exsit(path):
+    file_dirs = os.listdir(path)
+    for file_dir in file_dirs:
+        if os.path.splitext(file_dir)[1] in ['.h', '.hpp']:
+            return True
+    return False
+
+for root, dirs, files in os.walk(GetCurrentDir()):
+    for dir in dirs:
+        current_path = os.path.join(root,dir)
+
+        # exclude 'examples' folder
+        if 'examples' in current_path: 
+            continue
+
+        # add all .c and .cpp file
+        src = src + Glob(os.path.join(current_path, '*.c'))
+        src = src + Glob(os.path.join(current_path, '*.cpp'))
+
+        # add .h and .hpp path
+        if check_h_hpp_exsit(current_path):
+            inc = inc + [current_path]
+
+group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO'], CPPPATH = inc)
+
+Return('group')
