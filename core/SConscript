@@ -1,22 +1,12 @@
 from building import *
-import rtconfig
 
 cwd = GetCurrentDir()
 src = Glob('*.c') + Glob('*.cpp')
 inc = [cwd]
 
-LOCAL_CCFLAGS = ''
-if rtconfig.PLATFORM == 'gcc': # GCC
-    LOCAL_CCFLAGS += ' -std=c99'
-elif rtconfig.PLATFORM == 'armcc': # Keil AC5
-    LOCAL_CCFLAGS += ' --c99 --gnu -g -W'
-elif rtconfig.PLATFORM == 'armclang': # Keil AC6
-    LOCAL_CCFLAGS += ' -std=c99 -g -w'
-
 group = DefineGroup('Arduino', src,
                      depend = ['RT_USING_ARDUINO'],
                      CPPPATH = inc,
-                     CPPDEFINES = ['ARDUINO=100', 'ARDUINO_ARCH_RTTHREAD'],
-                     LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+                     CPPDEFINES = ['ARDUINO=100', 'ARDUINO_ARCH_RTTHREAD'])
 
 Return('group')
