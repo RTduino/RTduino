@@ -15,6 +15,7 @@ if rtconfig.PLATFORM == 'gcc': # GCC
 elif rtconfig.PLATFORM == 'armcc': # Keil AC5
     LOCAL_CCFLAGS += ' --gnu -g -W'
     LOCAL_CFLAGS += ' --c99' # cannot use --c99 symbol when are using C++, pertically in Keil
+    LOCAL_CXXFLAGS += ' --cpp11' # support C++11
 elif rtconfig.PLATFORM == 'armclang': # Keil AC6
     LOCAL_CCFLAGS += ' -std=c99 -g -w'
 
