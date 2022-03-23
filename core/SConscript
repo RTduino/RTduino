@@ -7,9 +7,11 @@ inc = [cwd]
 
 LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
+LOCAL_CXXFLAGS = ''
 
 if rtconfig.PLATFORM == 'gcc': # GCC
     LOCAL_CCFLAGS += ' -std=c99'
+    LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, some libraries need this, like non-static data member initializers
 elif rtconfig.PLATFORM == 'armcc': # Keil AC5
     LOCAL_CCFLAGS += ' --gnu -g -W'
     LOCAL_CFLAGS += ' --c99' # cannot use --c99 symbol when are using C++, pertically in Keil
@@ -21,6 +23,7 @@ group = DefineGroup('Arduino', src,
                      CPPPATH = inc,
                      CPPDEFINES = ['ARDUINO=100', 'ARDUINO_ARCH_RTTHREAD'],
                      LOCAL_CCFLAGS = LOCAL_CCFLAGS,
-                     LOCAL_CFLAGS = LOCAL_CFLAGS)
+                     LOCAL_CFLAGS = LOCAL_CFLAGS,
+                     LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
 
 Return('group')
