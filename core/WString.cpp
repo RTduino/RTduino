@@ -39,18 +39,18 @@ String::String(const String &value)
     *this = value;
 }
 
-#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
-String::String(String &&rval)
-{
-    init();
-    move(rval);
-}
-String::String(StringSumHelper &&rval)
-{
-    init();
-    move(rval);
-}
-#endif
+//#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
+//String::String(String &&rval)
+//{
+//    init();
+//    move(rval);
+//}
+//String::String(StringSumHelper &&rval)
+//{
+//    init();
+//    move(rval);
+//}
+//#endif
 
 String::String(char c)
 {
@@ -206,19 +206,19 @@ String & String::operator = (const String &rhs)
     return *this;
 }
 
-#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
-String & String::operator = (String &&rval)
-{
-    if (this != &rval) move(rval);
-    return *this;
-}
+//#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
+//String & String::operator = (String &&rval)
+//{
+//    if (this != &rval) move(rval);
+//    return *this;
+//}
 
-String & String::operator = (StringSumHelper &&rval)
-{
-    if (this != &rval) move(rval);
-    return *this;
-}
-#endif
+//String & String::operator = (StringSumHelper &&rval)
+//{
+//    if (this != &rval) move(rval);
+//    return *this;
+//}
+//#endif
 
 String & String::operator = (const char *cstr)
 {
