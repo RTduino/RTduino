@@ -4,6 +4,6 @@ cwd  = GetCurrentDir()
 src = ['USBSerial.cpp']
 inc = [cwd]
 
-group = DefineGroup('Arduino', src, depend = ['RT_USING_ARDUINO', 'ARDUINO_USING_USBSERIAL'], CPPPATH = inc)
+group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_USBSERIAL'], CPPPATH = inc)
 
 Return('group')

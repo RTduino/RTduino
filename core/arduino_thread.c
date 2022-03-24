@@ -16,13 +16,13 @@
 #include <rtdbg.h>
 
 
-#ifndef RT_USING_ARDUINO_THREAD_SIZE
-#define RT_USING_ARDUINO_THREAD_SIZE     1024
-#endif
+#ifndef RTDUINO_THREAD_SIZE
+#define RTDUINO_THREAD_SIZE     1024
+#endif /* RTDUINO_THREAD_SIZE */
 
-#ifndef RT_USING_ARDUINO_THREAD_PRIO
-#define RT_USING_ARDUINO_THREAD_PRIO     31
-#endif
+#ifndef RTDUINO_THREAD_PRIO
+#define RTDUINO_THREAD_PRIO     30
+#endif /* RTDUINO_THREAD_PRIO */
 
 static void arduino_entry(void *parameter)
 {
@@ -41,8 +41,8 @@ static int arduino_thread_init(void)
     rt_thread_t tid;
     tid = rt_thread_create("Arduino",
                             arduino_entry, RT_NULL,
-                            RT_USING_ARDUINO_THREAD_SIZE,
-                            RT_USING_ARDUINO_THREAD_PRIO, 0);
+                            RTDUINO_THREAD_SIZE,
+                            RTDUINO_THREAD_PRIO, 20);
 
     if (tid != RT_NULL)
     {
