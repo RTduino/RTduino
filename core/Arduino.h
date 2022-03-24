@@ -138,14 +138,17 @@ typedef struct
 
 #ifdef __cplusplus
 
-#include "HardwareSerial.h"
-#include "WString.h"
-
 long random(long);
 long random(long, long);
 uint16_t makeWord(uint16_t w);
 uint16_t makeWord(byte h, byte l);
 #define word(...) makeWord(__VA_ARGS__)
+
+#include "WString.h"
+#include "HardwareSerial.h"
+#ifdef ARDUINO_USING_USBSERIAL
+#include "USBSerial.h"
+#endif /* ARDUINO_USING_USBSERIAL */
 
 #endif /* __cplusplus */
 #endif /* Arduino_h */
