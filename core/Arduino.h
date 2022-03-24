@@ -145,7 +145,7 @@ uint16_t makeWord(byte h, byte l);
 #define word(...) makeWord(__VA_ARGS__)
 
 #include "WString.h"
-#include "HardwareSerial.h"
+#include "ConsoleSerial.h"
 #ifdef ARDUINO_USING_USBSERIAL
 #include "USBSerial.h"
 #endif /* ARDUINO_USING_USBSERIAL */

@@ -45,12 +45,6 @@ class HardwareSerial: public Print
 public:
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint8_t config);
-    // overwrite Print::write
-    virtual size_t write(uint8_t c);
-    virtual size_t write(const uint8_t *buffer, size_t size);
-    using Print::write; // pull in write(str) and write(buf, size) from Print
 };
-
-extern HardwareSerial Serial;
 
 #endif /* HardwareSerial_h */

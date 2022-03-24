@@ -8,12 +8,12 @@
  * 2022-03-24     Meco Man     first version
  */
 
-#ifndef USBSerial_h
-#define USBSerial_h
+#ifndef ConsoleSerial_h
+#define ConsoleSerial_h
 
 #include <HardwareSerial.h>
 
-class USBSerial: public HardwareSerial
+class ConsoleSerial: public HardwareSerial
 {
 public:
     void begin(uint32_t baud);
@@ -24,6 +24,6 @@ public:
     using HardwareSerial::write;
 };
 
-extern USBSerial SerialUSB;
+extern ConsoleSerial Serial;
 
-#endif /* USBSerial_h */
+#endif /* ConsoleSerial_h */
