@@ -1,5 +1,6 @@
 from building import *
 import os
+import zipfile
 
 src = []
 inc = []
@@ -12,6 +13,22 @@ def check_h_hpp_exsit(path):
             return True
     return False
 
+user_libraries_root_path = GetCurrentDir()
+
+# Find and deal the ZIP file first
+files = os.listdir(user_libraries_root_path)
+for file in files:
+    if os.path.isfile(file) == True:
+        splitext = os.path.splitext(file)
+        if splitext[1] == '.zip':
+            # unzip the file
+            zFile = zipfile.ZipFile(os.path.join(user_libraries_root_path, file), 'r')
+            for fileM in zFile.namelist():
+                zFile.extract(fileM, '.')
+            zFile.close()
+            os.remove(file) # delete the zip file
+
+# Add all C/C++ and header files into the group
 for root, dirs, files in os.walk(GetCurrentDir()):
     for dir in dirs:
         current_path = os.path.join(root,dir)
