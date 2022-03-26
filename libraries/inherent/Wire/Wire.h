@@ -1,4 +1,13 @@
 /*
+ * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-03-26     Meco Man     first version
+ */
+/*
     TwoWire.h - TWI/I2C library for Arduino & Wiring
     Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
 
@@ -29,21 +38,17 @@
 #include <Stream.h>
 #include <Arduino.h>
 
-#ifndef I2C_BUFFER_LENGTH
-// DEPRECATED: Do not use BUFFER_LENGTH, prefer I2C_BUFFER_LENGTH
-#define BUFFER_LENGTH 128
-#define I2C_BUFFER_LENGTH BUFFER_LENGTH
-#endif
+#define BUFFER_LENGTH 32
 
 class TwoWire : public Stream
 {
 private:
-    uint8_t rxBuffer[I2C_BUFFER_LENGTH];
+    uint8_t rxBuffer[BUFFER_LENGTH];
     size_t rxBufferIndex;
     size_t rxBufferLength;
 
     uint8_t txAddress;
-    uint8_t txBuffer[I2C_BUFFER_LENGTH];
+    uint8_t txBuffer[BUFFER_LENGTH];
     size_t txBufferIndex;
     size_t txBufferLength;
 
@@ -60,34 +65,35 @@ private:
 
 public:
     struct rt_i2c_bus_device *_i2c_bus_dev;
+
     TwoWire();
     void begin(const char *i2c_dev_name = ARDUINO_DEFAULT_IIC_BUS_NAME);
     void begin(uint8_t);
     void begin(int);
     void setClock(uint32_t);
-    void setClockStretchLimit(uint32_t);
+    void setWireTimeout(uint32_t timeout = 25000, bool reset_with_timeout = false);
     void beginTransmission(uint8_t);
     void beginTransmission(int);
     uint8_t endTransmission(void);
     uint8_t endTransmission(uint8_t);
-    size_t requestFrom(uint8_t address, size_t size, bool sendStop);
-    uint8_t status();
-
     uint8_t requestFrom(uint8_t, uint8_t);
     uint8_t requestFrom(uint8_t, uint8_t, uint8_t);
+    uint8_t requestFrom(uint8_t, uint8_t, uint32_t, uint8_t, uint8_t);
     uint8_t requestFrom(int, int);
     uint8_t requestFrom(int, int, int);
-
     virtual size_t write(uint8_t);
-    virtual size_t write(int);
     virtual size_t write(const uint8_t *, size_t);
     virtual int available(void);
     virtual int read(void);
     virtual int peek(void);
     virtual void flush(void);
-    void onReceive(void (*)(int));      // arduino api
-    void onReceive(void (*)(size_t));   // legacy esp8266 backward compatibility
+    void onReceive(void (*)(int));
     void onRequest(void (*)(void));
+
+    inline size_t write(unsigned long n) { return write((uint8_t)n); }
+    inline size_t write(long n) { return write((uint8_t)n); }
+    inline size_t write(unsigned int n) { return write((uint8_t)n); }
+    inline size_t write(int n) { return write((uint8_t)n); }
 
     using Print::write;
 };

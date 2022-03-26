@@ -1,4 +1,13 @@
 /*
+ * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2021-12-10     Meco Man     first version
+ */
+/*
   Stream.h - base class for character-based streams.
   Copyright (c) 2010 David A. Mellis.  All right reserved.
 

@@ -1,4 +1,13 @@
 /*
+ * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2021-12-10     Meco Man     first version
+ */
+/*
  Print.cpp - Base class that provides print() and println()
  Copyright (c) 2008 David A. Mellis.  All right reserved.
 

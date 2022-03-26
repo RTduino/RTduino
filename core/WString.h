@@ -1,4 +1,13 @@
 /*
+ * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2021-12-10     Meco Man     first version
+ */
+/*
   WString.h - String library for Wiring & Arduino
   ...mostly rewritten by Paul Stoffregen...
   Copyright (c) 2009-10 Hernando Barragan.  All right reserved.

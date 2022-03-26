@@ -1,4 +1,13 @@
 /*
+ * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-03-26     Meco Man     first version
+ */
+/*
     TwoWire.cpp - TWI/I2C library for Arduino & Wiring
     Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
 
@@ -57,6 +66,20 @@ uint8_t TwoWire::twi_readFrom(unsigned char address, unsigned char * buf, unsign
     return rt_i2c_master_recv(_i2c_bus_dev, address, flag, buf, len);
 }
 
+/*
+ * Function twi_writeTo
+ * Desc     attempts to become twi bus master and write a
+ *          series of bytes to a device on the bus
+ * Input    address: 7bit i2c device address
+ *          data: pointer to byte array
+ *          length: number of bytes in array
+ *          wait: boolean indicating to wait for write or not
+ * Output   0 .. success
+ *          1 .. length to long for buffer
+ *          2 .. address send, NACK received
+ *          3 .. data send, NACK received
+ *          4 .. other twi error (lost bus arbitration, bus error, ..)
+ */
 uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigned int len, unsigned char sendStop)
 {
     rt_uint16_t flag = RT_NULL;
@@ -66,10 +89,17 @@ uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigne
         flag |= RT_I2C_NO_STOP;
     }
 
-    return rt_i2c_master_send(_i2c_bus_dev, address, flag, buf, len);
+    if(rt_i2c_master_send(_i2c_bus_dev, address, flag, buf, len) != 0)
+    {
+        return 0; //success
+    }
+    else
+    {
+        return 4;
+    }
 }
 
-/* 
+/*
  * Function twi_transmit
  * Desc     fills slave tx buffer with data
  *          must be called in slave tx event callback
@@ -93,18 +123,13 @@ uint8_t TwoWire::twi_transmit(const uint8_t * buf, uint8_t len)
     }
 }
 
-uint8_t TwoWire::twi_status(void)
-{
-    return 0;
-}
-
 // Constructors ////////////////////////////////////////////////////////////////
 
 TwoWire::TwoWire()
 {
     _i2c_bus_dev = RT_NULL;
-    rt_memset(rxBuffer, 0, I2C_BUFFER_LENGTH);
-    rt_memset(txBuffer, 0, I2C_BUFFER_LENGTH);
+    rt_memset(rxBuffer, 0, BUFFER_LENGTH);
+    rt_memset(txBuffer, 0, BUFFER_LENGTH);
     rxBufferIndex = 0;
     rxBufferLength = 0;
     txAddress = 0;
@@ -128,68 +153,118 @@ void TwoWire::begin(const char *i2c_dev_name)
         return;
     }
     _i2c_bus_dev = dev;
+
+    rxBufferIndex = 0;
+    rxBufferLength = 0;
+
+    txBufferIndex = 0;
+    txBufferLength = 0;
 }
 
-void TwoWire::begin(uint8_t address)
-{
-}
-
-void TwoWire::begin(int address)
-{
-    begin((uint8_t)address);
-}
-
-uint8_t TwoWire::status()
-{
-    return twi_status();
-}
+//void TwoWire::begin(uint8_t address)
+//{
+//}
+//
+//void TwoWire::begin(int address)
+//{
+//    begin((uint8_t)address);
+//}
 
 void TwoWire::setClock(uint32_t frequency)
 {
-
+    /* Nothing needs to do */
 }
 
-void TwoWire::setClockStretchLimit(uint32_t limit)
+/***
+ * Sets the TWI timeout.
+ *
+ * This limits the maximum time to wait for the TWI hardware. If more time passes, the bus is assumed
+ * to have locked up (e.g. due to noise-induced glitches or faulty slaves) and the transaction is aborted.
+ * Optionally, the TWI hardware is also reset, which can be required to allow subsequent transactions to
+ * succeed in some cases (in particular when noise has made the TWI hardware think there is a second
+ * master that has claimed the bus).
+ *
+ * When a timeout is triggered, a flag is set that can be queried with `getWireTimeoutFlag()` and is cleared
+ * when `clearWireTimeoutFlag()` or `setWireTimeoutUs()` is called.
+ *
+ * Note that this timeout can also trigger while waiting for clock stretching or waiting for a second master
+ * to complete its transaction. So make sure to adapt the timeout to accommodate for those cases if needed.
+ * A typical timeout would be 25ms (which is the maximum clock stretching allowed by the SMBus protocol),
+ * but (much) shorter values will usually also work.
+ *
+ * In the future, a timeout will be enabled by default, so if you require the timeout to be disabled, it is
+ * recommended you disable it by default using `setWireTimeoutUs(0)`, even though that is currently
+ * the default.
+ *
+ * @param timeout a timeout value in microseconds, if zero then timeout checking is disabled
+ * @param reset_with_timeout if true then TWI interface will be automatically reset on timeout
+ *                           if false then TWI interface will not be reset on timeout
+ */
+void TwoWire::setWireTimeout(uint32_t timeout, bool reset_with_timeout)
 {
-
+    /* Nothing needs to do */
 }
 
-size_t TwoWire::requestFrom(uint8_t address, size_t size, bool sendStop)
+uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop)
 {
-    if (size > I2C_BUFFER_LENGTH)
-    {
-        size = I2C_BUFFER_LENGTH;
-    }
-    size_t read = twi_readFrom(address, rxBuffer, size, sendStop);
-    rxBufferIndex = 0;
-    rxBufferLength = read;
-    return read;
+  if (isize > 0) {
+  // send internal address; this mode allows sending a repeated start to access
+  // some devices' internal registers. This function is executed by the hardware
+  // TWI module on other processors (for example Due's TWI_IADR and TWI_MMR registers)
+
+  beginTransmission(address);
+
+  // the maximum size of internal address is 3 bytes
+  if (isize > 3){
+    isize = 3;
+  }
+
+  // write internal register address - most significant byte first
+  while (isize-- > 0)
+    write((uint8_t)(iaddress >> (isize*8)));
+  endTransmission(false);
+  }
+
+  // clamp to buffer length
+  if(quantity > BUFFER_LENGTH){
+    quantity = BUFFER_LENGTH;
+  }
+  // perform blocking read into buffer
+  uint8_t read = twi_readFrom(address, rxBuffer, quantity, sendStop);
+  // set rx buffer iterator vars
+  rxBufferIndex = 0;
+  rxBufferLength = read;
+
+  return read;
 }
 
-uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
-{
-    return requestFrom(address, static_cast<size_t>(quantity), static_cast<bool>(sendStop));
+uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop) {
+    return requestFrom((uint8_t)address, (uint8_t)quantity, (uint32_t)0, (uint8_t)0, (uint8_t)sendStop);
 }
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity)
 {
-    return requestFrom(address, static_cast<size_t>(quantity), true);
+  return requestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
 }
 
 uint8_t TwoWire::requestFrom(int address, int quantity)
 {
-    return requestFrom(static_cast<uint8_t>(address), static_cast<size_t>(quantity), true);
+  return requestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
 }
 
 uint8_t TwoWire::requestFrom(int address, int quantity, int sendStop)
 {
-    return requestFrom(static_cast<uint8_t>(address), static_cast<size_t>(quantity), static_cast<bool>(sendStop));
+  return requestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)sendStop);
 }
+
 
 void TwoWire::beginTransmission(uint8_t address)
 {
+    // indicate that we are transmitting
     transmitting = 1;
+    // set address of targeted slave
     txAddress = address;
+    // reset tx buffer iterator vars
     txBufferIndex = 0;
     txBufferLength = 0;
 }
@@ -199,6 +274,19 @@ void TwoWire::beginTransmission(int address)
     beginTransmission((uint8_t)address);
 }
 
+//
+//  Originally, 'endTransmission' was an f(void) function.
+//  It has been modified to take one parameter indicating
+//  whether or not a STOP should be performed on the bus.
+//  Calling endTransmission(false) allows a sketch to
+//  perform a repeated start.
+//
+//  WARNING: Nothing in the library keeps track of whether
+//  the bus tenure has been properly ended with a STOP. It
+//  is very possible to leave the bus in a hung state if
+//  no call to endTransmission(true) is made. Some I2C
+//  devices will behave oddly if they do not see a STOP.
+//
 //Returns
 //byte, which indicates the status of the transmission:
 //0:success
@@ -208,19 +296,17 @@ void TwoWire::beginTransmission(int address)
 //4:other error
 uint8_t TwoWire::endTransmission(uint8_t sendStop)
 {
+    // transmit buffer (blocking)
     int8_t ret =twi_writeTo(txAddress, txBuffer, txBufferLength, sendStop);
+
+    // reset tx buffer iterator vars
     txBufferIndex = 0;
     txBufferLength = 0;
+
+    // indicate that we are done transmitting
     transmitting = 0;
 
-    if(ret > 0)
-    {
-        return 0; //success
-    }
-    else
-    {
-        return 4; //other error
-    }
+    return ret;
 
 }
 
@@ -229,11 +315,14 @@ uint8_t TwoWire::endTransmission(void)
     return endTransmission(true);
 }
 
+// must be called in:
+// slave tx event callback
+// or after beginTransmission(address)
 size_t TwoWire::write(uint8_t data)
 {
     if (transmitting)
     {
-        if (txBufferLength >= I2C_BUFFER_LENGTH)
+        if (txBufferLength >= BUFFER_LENGTH)
         {
             setWriteError();
             return 0;
@@ -244,20 +333,21 @@ size_t TwoWire::write(uint8_t data)
     }
     else
     {
+        // in slave send mode
+        // reply to master
         twi_transmit(&data, 1);
     }
     return 1;
 }
 
-size_t TwoWire::write(int data)
-{
-    return write((uint8_t)data);
-}
-
+// must be called in:
+// slave tx event callback
+// or after beginTransmission(address)
 size_t TwoWire::write(const uint8_t *data, size_t quantity)
 {
     if (transmitting)
     {
+        // in master transmitter mode
         for (size_t i = 0; i < quantity; ++i)
         {
             if (!write(data[i]))
@@ -268,19 +358,29 @@ size_t TwoWire::write(const uint8_t *data, size_t quantity)
     }
     else
     {
+        // in slave send mode
+        // reply to master
         twi_transmit(data, quantity);
     }
     return quantity;
 }
 
+// must be called in:
+// slave rx event callback
+// or after requestFrom(address, numBytes)
 int TwoWire::available(void)
 {
     return rxBufferLength - rxBufferIndex;
 }
 
+// must be called in:
+// slave rx event callback
+// or after requestFrom(address, numBytes)
 int TwoWire::read(void)
 {
     int value = -1;
+
+    // get each successive byte on each call
     if (rxBufferIndex < rxBufferLength)
     {
         value = rxBuffer[rxBufferIndex];
@@ -289,6 +389,9 @@ int TwoWire::read(void)
     return value;
 }
 
+// must be called in:
+// slave rx event callback
+// or after requestFrom(address, numBytes)
 int TwoWire::peek(void)
 {
     int value = -1;
@@ -301,76 +404,64 @@ int TwoWire::peek(void)
 
 void TwoWire::flush(void)
 {
+    // Arduino original code says that this part needs to be implemented.
     rxBufferIndex = 0;
     rxBufferLength = 0;
     txBufferIndex = 0;
     txBufferLength = 0;
 }
 
-void TwoWire::onReceiveService(uint8_t* inBytes, size_t numBytes)
-{
-    // don't bother if user hasn't registered a callback
-    if (!user_onReceive)
-    {
-        return;
-    }
-    // // don't bother if rx buffer is in use by a master requestFrom() op
-    // // i know this drops data, but it allows for slight stupidity
-    // // meaning, they may not have read all the master requestFrom() data yet
-    // if(rxBufferIndex < rxBufferLength){
-    //   return;
-    // }
-
-    // copy twi rx buffer into local read buffer
-    // this enables new reads to happen in parallel
-    for (uint8_t i = 0; i < numBytes; ++i)
-    {
-        rxBuffer[i] = inBytes[i];
-    }
-
-    // set rx iterator vars
-    rxBufferIndex = 0;
-    rxBufferLength = numBytes;
-
-    // alert user program
-    user_onReceive(numBytes);
-}
-
-void TwoWire::onRequestService(void)
-{
-    // don't bother if user hasn't registered a callback
-    if (!user_onRequest)
-    {
-        return;
-    }
-
-    // reset tx buffer iterator vars
-    // !!! this will kill any pending pre-master sendTo() activity
-    txBufferIndex = 0;
-    txBufferLength = 0;
-
-    // alert user program
-    user_onRequest();
-}
-
-//void TwoWire::onReceive(void (*function)(int))
+//// behind the scenes function that is called when data is received
+//void TwoWire::onReceiveService(uint8_t* inBytes, int numBytes)
 //{
-//    // arduino api compatibility fixer:
-//    // really hope size parameter will not exceed 2^31 :)
-//    static_assert(sizeof(int) == sizeof(size_t), "something is wrong in Arduino kingdom");
-//    user_onReceive = reinterpret_cast<void(*)(size_t)>(function);
+//    // don't bother if user hasn't registered a callback
+//    if(!user_onReceive){
+//        return;
+//    }
+//    // don't bother if rx buffer is in use by a master requestFrom() op
+//    // i know this drops data, but it allows for slight stupidity
+//    // meaning, they may not have read all the master requestFrom() data yet
+//    if(rxBufferIndex < rxBufferLength){
+//        return;
+//    }
+//    // copy twi rx buffer into local read buffer
+//    // this enables new reads to happen in parallel
+//    for(uint8_t i = 0; i < numBytes; ++i){
+//        rxBuffer[i] = inBytes[i];
+//    }
+//    // set rx iterator vars
+//    rxBufferIndex = 0;
+//    rxBufferLength = numBytes;
+//    // alert user program
+//    user_onReceive(numBytes);
 //}
 
-//void TwoWire::onReceive(void (*function)(size_t))
+//// behind the scenes function that is called when data is requested
+//void TwoWire::onRequestService(void)
+//{
+//    // don't bother if user hasn't registered a callback
+//    if(!user_onRequest){
+//        return;
+//    }
+//    // reset tx buffer iterator vars
+//    // !!! this will kill any pending pre-master sendTo() activity
+//    txBufferIndex = 0;
+//    txBufferLength = 0;
+//    // alert user program
+//    user_onRequest();
+//}
+
+//// sets function called on slave write
+//void TwoWire::onReceive( void (*function)(int) )
 //{
 //    user_onReceive = function;
-//    twi_enableSlaveMode();
 //}
+//
 
-//void TwoWire::onRequest(void (*function)(void))
+//// sets function called on slave read
+//void TwoWire::onRequest( void (*function)(void) )
 //{
 //    user_onRequest = function;
-//    twi_enableSlaveMode();
 //}
 
 // Preinstantiate Objects //////////////////////////////////////////////////////

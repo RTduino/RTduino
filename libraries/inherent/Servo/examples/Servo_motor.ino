@@ -3,7 +3,7 @@
 // By Cornel Amariei for Packt Publishing
 
 // Include the Servo library
-#include <Servo.h> 
+#include <Servo.h>
 
 // Declare the Servo pin
 int servoPin = 3;
