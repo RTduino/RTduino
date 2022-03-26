@@ -148,7 +148,7 @@ uint16_t makeWord(byte h, byte l);
 #include "ConsoleSerial.h"
 #ifdef RTDUINO_USING_USBSERIAL
 #include "USBSerial.h"
-#endif /* ARDUINO_USING_USBSERIAL */
+#endif /* RTDUINO_USING_USBSERIAL */
 
 #endif /* __cplusplus */
 #endif /* Arduino_h */
