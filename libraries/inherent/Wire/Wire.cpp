@@ -81,8 +81,16 @@ uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigne
  */
 uint8_t TwoWire::twi_transmit(const uint8_t * buf, uint8_t len)
 {
-    rt_i2c_master_send(_i2c_bus_dev, txAddress, RT_I2C_NO_START | RT_I2C_NO_STOP, buf, len);
-    return 0;
+    int8_t ret = rt_i2c_master_send(_i2c_bus_dev, txAddress, RT_NULL, buf, len);
+
+    if(ret > 0)
+    {
+        return 0; // success
+    }
+    else
+    {
+        return 4; // other error
+    }
 }
 
 uint8_t TwoWire::twi_status(void)
@@ -152,7 +160,7 @@ size_t TwoWire::requestFrom(uint8_t address, size_t size, bool sendStop)
     {
         size = I2C_BUFFER_LENGTH;
     }
-    size_t read = (twi_readFrom(address, rxBuffer, size, sendStop) == 0) ? size : 0;
+    size_t read = twi_readFrom(address, rxBuffer, size, sendStop);
     rxBufferIndex = 0;
     rxBufferLength = read;
     return read;
@@ -191,13 +199,29 @@ void TwoWire::beginTransmission(int address)
     beginTransmission((uint8_t)address);
 }
 
+//Returns
+//byte, which indicates the status of the transmission:
+//0:success
+//1:data too long to fit in transmit buffer
+//2:received NACK on transmit of address
+//3:received NACK on transmit of data
+//4:other error
 uint8_t TwoWire::endTransmission(uint8_t sendStop)
 {
-    int8_t ret = twi_writeTo(txAddress, txBuffer, txBufferLength, sendStop);
+    int8_t ret =twi_writeTo(txAddress, txBuffer, txBufferLength, sendStop);
     txBufferIndex = 0;
     txBufferLength = 0;
     transmitting = 0;
-    return ret;
+
+    if(ret > 0)
+    {
+        return 0; //success
+    }
+    else
+    {
+        return 4; //other error
+    }
+
 }
 
 uint8_t TwoWire::endTransmission(void)
@@ -223,6 +247,11 @@ size_t TwoWire::write(uint8_t data)
         twi_transmit(&data, 1);
     }
     return 1;
+}
+
+size_t TwoWire::write(int data)
+{
+    return write((uint8_t)data);
 }
 
 size_t TwoWire::write(const uint8_t *data, size_t quantity)
