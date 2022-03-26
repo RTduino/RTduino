@@ -128,8 +128,8 @@ uint8_t TwoWire::twi_transmit(const uint8_t * buf, uint8_t len)
 TwoWire::TwoWire()
 {
     _i2c_bus_dev = RT_NULL;
-    rt_memset(rxBuffer, 0, BUFFER_LENGTH);
-    rt_memset(txBuffer, 0, BUFFER_LENGTH);
+    rt_memset(rxBuffer, 0, RTDUINO_WIRE_BUFFER_LENGTH);
+    rt_memset(txBuffer, 0, RTDUINO_WIRE_BUFFER_LENGTH);
     rxBufferIndex = 0;
     rxBufferLength = 0;
     txAddress = 0;
@@ -226,8 +226,8 @@ uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddres
   }
 
   // clamp to buffer length
-  if(quantity > BUFFER_LENGTH){
-    quantity = BUFFER_LENGTH;
+  if(quantity > RTDUINO_WIRE_BUFFER_LENGTH){
+    quantity = RTDUINO_WIRE_BUFFER_LENGTH;
   }
   // perform blocking read into buffer
   uint8_t read = twi_readFrom(address, rxBuffer, quantity, sendStop);
@@ -322,7 +322,7 @@ size_t TwoWire::write(uint8_t data)
 {
     if (transmitting)
     {
-        if (txBufferLength >= BUFFER_LENGTH)
+        if (txBufferLength >= RTDUINO_WIRE_BUFFER_LENGTH)
         {
             setWriteError();
             return 0;

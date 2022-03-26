@@ -38,17 +38,20 @@
 #include <Stream.h>
 #include <Arduino.h>
 
-#define BUFFER_LENGTH 32
+// DEPRECATED: Do not use BUFFER_LENGTH, prefer RTDUINO_WIRE_BUFFER_LENGTH
+#ifndef RTDUINO_WIRE_BUFFER_LENGTH
+#define RTDUINO_WIRE_BUFFER_LENGTH 32
+#endif
 
 class TwoWire : public Stream
 {
 private:
-    uint8_t rxBuffer[BUFFER_LENGTH];
+    uint8_t rxBuffer[RTDUINO_WIRE_BUFFER_LENGTH];
     size_t rxBufferIndex;
     size_t rxBufferLength;
 
     uint8_t txAddress;
-    uint8_t txBuffer[BUFFER_LENGTH];
+    uint8_t txBuffer[RTDUINO_WIRE_BUFFER_LENGTH];
     size_t txBufferIndex;
     size_t txBufferLength;
 
