@@ -9,7 +9,7 @@ LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
 LOCAL_CXXFLAGS = ''
 
-if rtconfig.PLATFORM == 'gcc' or 'armclang': # GCC or Keil AC6
+if rtconfig.PLATFORM == 'gcc' or rtconfig.PLATFORM == 'armclang': # GCC or Keil AC6
     LOCAL_CFLAGS += ' -std=c99'
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
 elif rtconfig.PLATFORM == 'armcc': # Keil AC5
