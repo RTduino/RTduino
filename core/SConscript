@@ -18,7 +18,7 @@ elif rtconfig.PLATFORM == 'armcc': # Keil AC5
     LOCAL_CXXFLAGS += ' --cpp11' # support C++11
 elif rtconfig.PLATFORM == 'armclang': # Keil AC6
     LOCAL_CFLAGS += ' -std=c99'
-    LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
+    LOCAL_CXXFLAGS += ' -std=c++11' # support C++11
 
 group = DefineGroup('Arduino', src,
                      depend = ['PKG_USING_RTDUINO'],
