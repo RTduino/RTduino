@@ -15,8 +15,6 @@ https://www.nongnu.org/avr-libc/user-manual/group__avr__stdlib.html
 #include "avr_libc.h"
 #include <rtthread.h>
 
-//https://github.com/esp8266/Arduino/pull/7093
-//We don't need to implement like #7093 because rt_sprintf can support float
 char *dtostrf(double val, signed char width, unsigned char prec, char *sout)
 {
     char fmt[20];

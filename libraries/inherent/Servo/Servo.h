@@ -57,6 +57,7 @@
 #define __SERVO_H__
 
 #include <inttypes.h>
+#include <Arduino.h>
 
 #define INVALID_SERVO         255     // flag indicating an invalid servo index
 

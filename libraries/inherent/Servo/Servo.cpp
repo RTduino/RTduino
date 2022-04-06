@@ -70,6 +70,7 @@ uint8_t Servo::attach(int pin, int min, int max)
     pwm_dev = (struct rt_device_pwm*)rt_device_find(pin_map_table[pin].device_name);
     if(pwm_dev == RT_NULL)
     {
+        LOG_E("Pin %d doesn't support PWM", pin);
         return INVALID_SERVO;
     }
 
