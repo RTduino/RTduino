@@ -1,9 +1,0 @@
-from building import *
-
-cwd  = GetCurrentDir()
-src = Glob('*.cpp')
-inc = [cwd]
-
-group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_ADAFRUIT'], CPPPATH = inc)
-
-Return('group')
