@@ -35,7 +35,16 @@ void analogWrite(uint8_t pin, int val)
     else
 #endif /* RT_USING_PWM */
     {
-        LOG_E("This pin doesn't support PWM");
+        if (val < 128)
+        {
+            digitalWrite(pin, LOW);
+        }
+        else
+        {
+            digitalWrite(pin, HIGH);
+        }
+        LOG_W("This pin %d doesn't support PWM."
+              "Values less than 128 is LOW and higher values is HIGH", pin);
     }
 }
 
@@ -59,7 +68,7 @@ int analogRead(uint8_t pin)
     else
 #endif /* RT_USING_ADC */
     {
-        LOG_E("This pin doesn't support ADC");
+        LOG_E("This pin %d doesn't support ADC", pin);
         return 0;
     }
 }
