@@ -39,6 +39,12 @@ void analogWrite(uint8_t pin, int val)
     }
 }
 
+void analogReference(uint8_t mode)
+{
+    LOG_E("analogReference() has not been implemented yet!");
+}
+
+
 int analogRead(uint8_t pin)
 {
 #ifdef RT_USING_ADC

@@ -8,9 +8,11 @@
  * 2021-12-10     Meco Man     first version
  */
 
+#include <rtdevice.h>
+
+#ifdef RT_USING_PIN
 #include <Arduino.h>
 #include "wiring_private.h"
-#include <rtdevice.h>
 
 #define DBG_TAG    "Arduino"
 #define DBG_LVL    DBG_INFO
@@ -65,3 +67,5 @@ int digitalRead(uint8_t pin)
 {
     return (rt_pin_read(pin_map_table[pin].rt_pin) == PIN_HIGH)? HIGH : LOW;
 }
+
+#endif /* RT_USING_PIN */
