@@ -22,20 +22,30 @@ void pinMode(uint8_t pin, uint8_t mode)
 {
     rt_base_t rt_mode;
 
-    if(mode == INPUT)
+    switch(mode)
     {
+    case INPUT:
         rt_mode = PIN_MODE_INPUT;
-    }
-    else if(mode == INPUT_PULLUP)
-    {
-        rt_mode = PIN_MODE_INPUT_PULLUP;
-    }
-    else if(mode == OUTPUT)
-    {
+        break;
+
+    case OUTPUT:
         rt_mode = PIN_MODE_OUTPUT;
-    }
-    else
-    {
+        break;
+
+    case INPUT_PULLUP:
+        rt_mode = PIN_MODE_INPUT_PULLUP;
+        break;
+
+    case INPUT_PULLDOWN:
+        rt_mode = PIN_MODE_INPUT_PULLDOWN;
+        break;
+
+    case OUTPUT_OPEN_DRAIN:
+        rt_mode = PIN_MODE_OUTPUT_OD;
+        break;
+
+    default:
+        rt_mode = RT_NULL;
         LOG_E("pinMode mode parameter is illegal");
         return;
     }

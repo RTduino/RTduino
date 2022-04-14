@@ -12,7 +12,7 @@
 https://www.nongnu.org/avr-libc/user-manual/group__avr__stdlib.html
 */
 
-#include "avr_libc.h"
+#include "dtostrf.h"
 #include <rtthread.h>
 
 char *dtostrf(double val, signed char width, unsigned char prec, char *sout)

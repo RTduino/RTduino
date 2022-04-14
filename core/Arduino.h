@@ -38,12 +38,20 @@ extern "C" {
 #include <rthw.h>
 #include <pins_arduino.h>
 
-#define HIGH 0x1
-#define LOW  0x0
+#define LOW     0x0
+#define HIGH    0x1
+#define CHANGE  0x2
+#define FALLING 0x3
+#define RISING  0x4
 
-#define INPUT 0x0
-#define OUTPUT 0x1
-#define INPUT_PULLUP 0x2
+/* Official Arduino */
+#define INPUT               0x0
+#define OUTPUT              0x1
+#define INPUT_PULLUP        0x2
+/* RT-Thread extension */
+#define INPUT_FLOATING      INPUT
+#define INPUT_PULLDOWN      0x3
+#define OUTPUT_OPEN_DRAIN   0x4
 
 #define PI 3.1415926535897932384626433832795
 #define HALF_PI 1.5707963267948966192313216916398
@@ -57,10 +65,6 @@ extern "C" {
 
 #define LSBFIRST 0
 #define MSBFIRST 1
-
-#define CHANGE 1
-#define FALLING 2
-#define RISING 3
 
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
@@ -116,6 +120,7 @@ unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout);
 void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
 uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
 
+uint8_t digitalPinToInterrupt(uint8_t pin);
 void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode);
 void detachInterrupt(uint8_t interruptNum);
 

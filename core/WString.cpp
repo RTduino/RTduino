@@ -30,7 +30,7 @@
 
 #include <itoa.h>
 #include "WString.h"
-#include "avr_libc.h"
+#include "avr/dtostrf.h"
 
 /*********************************************/
 /*  Constructors                             */

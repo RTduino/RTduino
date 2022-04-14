@@ -35,3 +35,8 @@ RT_WEAK void yield(void)
 {
     rt_schedule();
 }
+
+/* initialization for BSP; maybe a blank function  */
+RT_WEAK void initVariant(void)
+{
+}

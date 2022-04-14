@@ -8,8 +8,8 @@
  * 2021-12-10     Meco Man     first version
  */
 
-#ifndef __AVR_LIBC_H__
-#define __AVR_LIBC_H__
+#ifndef __AVR_DTOSTRF_H__
+#define __AVR_DTOSTRF_H__
 
 #include <stdio.h>
 
@@ -23,4 +23,4 @@ char *dtostrf(double val, signed char width, unsigned char prec, char *sout);
 }
 #endif
 
-#endif /* __AVR_LIBC_H__ */
+#endif /* __AVR_DTOSTRF_H__ */
