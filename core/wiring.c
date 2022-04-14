@@ -30,3 +30,8 @@ void delayMicroseconds(unsigned int us)
 {
     rt_hw_us_delay(us);
 }
+
+RT_WEAK void yield(void)
+{
+
+}
