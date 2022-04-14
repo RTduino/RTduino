@@ -35,6 +35,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 #include <rtdef.h>
+#include <rthw.h>
 #include <pins_arduino.h>
 
 #define HIGH 0x1
@@ -70,8 +71,9 @@ extern "C" {
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
 
-#define interrupts() sei()
-#define noInterrupts() cli()
+#define interruptLevel()    register rt_base_t level
+#define interrupts()        do{rt_hw_interrupt_enable(level);}while(0)
+#define noInterrupts()      do{level = rt_hw_interrupt_disable()}while(0)
 
 //#define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
 //#define clockCyclesToMicroseconds(a) ( (a) / clockCyclesPerMicrosecond() )
