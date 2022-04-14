@@ -33,5 +33,5 @@ void delayMicroseconds(unsigned int us)
 
 RT_WEAK void yield(void)
 {
-
+    rt_schedule();
 }
