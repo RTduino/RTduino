@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2021-12-10     Meco Man     port to RT-Thread
+ * 2022-04-13     Meco Man     port to RT-Thread
  */
 /*
  WCharacter.h - Character utility functions for Wiring & Arduino
