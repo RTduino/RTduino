@@ -56,7 +56,7 @@ void analogWrite(uint8_t pin, int val)
     rt_uint32_t rt_val;
 
     pwm_dev = (struct rt_device_pwm*)rt_device_find(pin_map_table[pin].device_name);
-    if(pwm_dev != RT_NULL)
+    if(pwm_dev != RT_NULL && pwm_dev->parent.type == RT_Device_Class_PWM)
     {
         rt_val = map(val, 0, _pow2(_analog_write_resolution)-1, 0, PWM_PERIOD_NS);
         rt_pwm_disable(pwm_dev, pin_map_table[pin].channel);
@@ -65,6 +65,18 @@ void analogWrite(uint8_t pin, int val)
         return;
     }
 #endif /* RT_USING_PWM */
+
+#ifdef RT_USING_DAC
+    rt_dac_device_t dac_dev;
+    rt_uint32_t rt_val;
+
+    dac_dev = (rt_dac_device_t)rt_device_find(pin_map_table[pin].device_name);
+    if(dac_dev != RT_NULL && dac_dev->parent.type == RT_Device_Class_DAC)
+    {
+        /* TODO */
+        return;
+    }
+#endif
 
     /* This pin doesn't support PWM or DAC */
     if (val < _pow2(_analog_write_resolution)/2)
