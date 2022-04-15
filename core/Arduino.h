@@ -34,6 +34,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <math.h>
 #include <rtdef.h>
 #include <rthw.h>
 
@@ -70,9 +71,9 @@ extern "C" {
 
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
-//#define abs(x) ((x)>0?(x):-(x))
+//#define abs(x) ((x)>0?(x):-(x)) // in stdlib.h
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
+//#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5)) // in math.h
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
@@ -107,8 +108,11 @@ void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t val);
 int digitalRead(uint8_t pin);
 int analogRead(uint8_t pin);
-void analogReference(uint8_t mode);
 void analogWrite(uint8_t pin, int val);
+void analogReference(uint8_t mode);
+void analogReadResolution(uint8_t bits);
+void analogWriteResolution(uint8_t bits);
+void analogWriteFrequency(uint32_t frequency);
 
 void yield(void);
 
@@ -129,7 +133,7 @@ void detachInterrupt(uint8_t interruptNum);
 void setup(void);
 void loop(void);
 
-long map(long, long, long, long, long);
+long long map(long long, long long, long long, long long, long long);
 void randomSeed(unsigned long);
 
 /* Arduino Pin Map */

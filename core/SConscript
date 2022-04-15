@@ -2,7 +2,7 @@ from building import *
 import rtconfig
 
 cwd = GetCurrentDir()
-src = Glob('*.c') + Glob('*.cpp')
+src = Glob('*.c') + Glob('avr/*.c') + Glob('*.cpp')
 inc = [cwd]
 
 LOCAL_CCFLAGS = ''
