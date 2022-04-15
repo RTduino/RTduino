@@ -62,18 +62,18 @@ void analogWrite(uint8_t pin, int val)
         rt_pwm_disable(pwm_dev, pin_map_table[pin].channel);
         rt_pwm_set(pwm_dev, pin_map_table[pin].channel, PWM_PERIOD_NS, rt_val);
         rt_pwm_enable(pwm_dev, pin_map_table[pin].channel);
+        return;
+    }
+#endif /* RT_USING_PWM */
+
+    /* This pin doesn't support PWM or DAC */
+    if (val < _pow2(_analog_write_resolution)/2)
+    {
+        digitalWrite(pin, LOW);
     }
     else
-#endif /* RT_USING_PWM */
     {
-        if (val < _pow2(_analog_write_resolution)/2)
-        {
-            digitalWrite(pin, LOW);
-        }
-        else
-        {
-            digitalWrite(pin, HIGH);
-        }
+        digitalWrite(pin, HIGH);
     }
 }
 
