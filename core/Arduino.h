@@ -78,7 +78,7 @@ extern "C" {
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
 
-#define interruptLevel()    register rt_base_t level
+#define interruptLevel()    rt_base_t level
 #define interrupts()        do{rt_hw_interrupt_enable(level);}while(0)
 #define noInterrupts()      do{level = rt_hw_interrupt_disable()}while(0)
 

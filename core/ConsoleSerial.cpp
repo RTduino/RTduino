@@ -210,7 +210,7 @@ void ConsoleSerial::begin(uint32_t baud, uint8_t config)
         break;
     }
 
-    rt_device_control(uart_dev, RT_DEVICE_CTRL_CONFIG, &rt_config);
+    // rt_device_control(uart_dev, RT_DEVICE_CTRL_CONFIG, &rt_config);
 }
 
 /*Code to display letter when given the ASCII code for it*/
