@@ -90,7 +90,7 @@ RT_WEAK void loop(void)
 
 由于每个BSP的板子设计、以及芯片型号等，引脚分布是有区别的，因此需要到指定BSP的`applications/arduino`文件夹下的README.md文件查看详细信息。例如：
 
-[STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino) | [STM32L072 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino) |
+[STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino) | [STM32L072 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino)
 
 ## 3 Arduino库的导入
 
@@ -110,7 +110,7 @@ RT_WEAK void loop(void)
 
 ### 3.3. 导入一个Arduino库到RT-Thread工程（以潘多拉板为例）
 
-首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。比如，我想要一个驱动AHT10温湿度传感器的库，可以在[此处](https://github.com/adafruit/Adafruit_AHTX0)下载：此处以潘多拉板为例，因为潘多拉板板载了AHT10传感器。
+首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。比如，我想要一个驱动AHT10温湿度传感器的库，可以在[此处](https://github.com/adafruit/Adafruit_AHTX0)下载。此处以潘多拉板为例，因为潘多拉板板载了AHT10传感器。
 
 下载好之后，直接将zip压缩包拖进RTduino文件夹下的`libraries\user`这个目录下即可。选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。
 
