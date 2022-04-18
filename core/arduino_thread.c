@@ -24,6 +24,21 @@
 #define RTDUINO_THREAD_PRIO     30
 #endif /* RTDUINO_THREAD_PRIO */
 
+/* initialization for BSP; maybe a blank function  */
+RT_WEAK void initVariant(void)
+{
+}
+
+/* put your setup code here, to run once: */
+RT_WEAK void setup(void)
+{
+}
+
+/* put your main code here, to run repeatedly: */
+RT_WEAK void loop(void)
+{
+}
+
 static void arduino_entry(void *parameter)
 {
     initVariant();
