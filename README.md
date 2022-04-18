@@ -67,7 +67,7 @@ libraries文件夹是Arduino库所在文件夹。其中，inherent文件夹下�
 RT_WEAK void setup(void)
 {
     // put your setup code here, to run once:
-    pinMode(LED_BUILTIN, OUTPUT)
+    pinMode(LED_BUILTIN, OUTPUT);
 }
 
 RT_WEAK void loop(void)
