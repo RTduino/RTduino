@@ -4,7 +4,6 @@ cwd  = GetCurrentDir()
 src = ['SPI.cpp']
 inc = [cwd]
 
-#  'RTDUINO_USING_SPI'
-group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
+group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_SPI'], CPPPATH = inc)
 
 Return('group')
