@@ -63,26 +63,29 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 
 ### 2.3 Arduino经典的setup和loop函数在哪里？
 
-对于Arduino，最经典的莫过于setup和loop函数，在RTduino兼容层中，这两个函数位于`core/arduino_main.cpp`。细心的你已经注意到，这两个函数前面多了个`RT_WEAK`，表示这是一个弱函数。这是方便用户，可以在其他文件夹中去重新编写setup和loop函数，用户新编写的函数会覆盖掉这两个弱函数。如果你想直接在arduino_main.cpp文件中去直接写Arduino的代码也是完全没有问题的！
+对于Arduino，最经典的莫过于setup和loop函数。以潘多拉板为例，这两个函数位于：`bsp/stm32/stm32l475-atk-pandora/applications`文件夹下，在开启RTduino软件包后，你可以直接在工程的Applications组中找到它。
 
 ### 2.4 点一个LED灯吧！
 
 ```c
-RT_WEAK void setup(void)
+#include <Arduino.h>
+
+void setup(void)
 {
     // put your setup code here, to run once:
     pinMode(LED_BUILTIN, OUTPUT);
 }
 
-RT_WEAK void loop(void)
+void loop(void)
 {
     // put your main code here, to run repeatedly:
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    Serial.println("Hello Arduino!");
     delay(100);
 }
 ```
 
-可以看到，板载的LED灯已经开始闪烁了。
+可以看到，板载的LED灯已经开始闪烁，串口开始输出了。
 
 > 注意：
 >
@@ -94,7 +97,7 @@ RT_WEAK void loop(void)
 
 由于每个BSP的板子设计、以及芯片型号等，引脚分布是有区别的，因此需要到指定BSP的`applications/arduino`文件夹下的README.md文件查看详细信息。例如：
 
-[STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino) | [STM32L072 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino)
+[STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino) | [STM32F072 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino)
 
 ## 3 Arduino库的导入
 
