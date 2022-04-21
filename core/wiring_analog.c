@@ -109,7 +109,7 @@ int analogRead(uint8_t pin)
         }
         else
         {
-            LOG_W("This BSP deesn't support to adjust ADC resolution. It will return real ADC value!");
+            LOG_W("This board doesn't support to adjust ADC resolution. It will return real ADC value!");
             return rt_adc_val;
         }
     }
