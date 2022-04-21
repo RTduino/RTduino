@@ -95,12 +95,23 @@ int analogRead(uint8_t pin)
 {
 #ifdef RT_USING_ADC
     rt_adc_device_t adc_dev;
+    rt_uint32_t rt_adc_val;
+    rt_uint8_t resolution;
 
     adc_dev = (rt_adc_device_t)rt_device_find(pin_map_table[pin].device_name);
     if(adc_dev != RT_NULL)
     {
         rt_adc_enable(adc_dev, pin_map_table[pin].channel);
-        return rt_adc_read(adc_dev, pin_map_table[pin].channel);
+        rt_adc_val = rt_adc_read(adc_dev, pin_map_table[pin].channel);
+        if(rt_device_control((rt_device_t)adc_dev, RT_ADC_CMD_GET_RESOLUTION, &resolution) == RT_EOK)
+        {
+            return map(rt_adc_val, 0, _pow2(resolution)-1, 0, _pow2(_analog_read_resolution)-1);
+        }
+        else
+        {
+            LOG_W("This BSP deesn't support to adjust ADC resolution. It will return real ADC value!");
+            return rt_adc_val;
+        }
     }
     else
 #endif /* RT_USING_ADC */
