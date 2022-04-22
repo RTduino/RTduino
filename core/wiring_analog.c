@@ -87,6 +87,7 @@ void analogWrite(uint8_t pin, int val)
 #endif /* RT_USING_DAC */
 
     /* This pin doesn't support PWM or DAC */
+    pinMode(pin, OUTPUT);
     if (val < _pow2(_analog_write_resolution)/2)
     {
         digitalWrite(pin, LOW);
