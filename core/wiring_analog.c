@@ -69,11 +69,17 @@ void analogWrite(uint8_t pin, int val)
 #ifdef RT_USING_DAC
     rt_dac_device_t dac_dev;
     rt_uint32_t rt_dac_val;
+    rt_uint8_t resolution;
 
     dac_dev = (rt_dac_device_t)rt_device_find(pin_map_table[pin].device_name);
     if(dac_dev != RT_NULL && dac_dev->parent.type == RT_Device_Class_DAC)
     {
-        rt_dac_val = map(val, 0, _pow2(_analog_write_resolution)-1, 0, 4096); /* TODO: assume 4096 */
+        if(rt_device_control((rt_device_t)dac_dev, RT_DAC_CMD_GET_RESOLUTION, &resolution) != RT_EOK)
+        {
+            LOG_W("This board doesn't support to adjust DAC resolution.");
+            resolution = 12; /* assume the hardware resolution is 12 bits */
+        }
+        rt_dac_val = map(val, 0, _pow2(_analog_write_resolution)-1, 0, _pow2(resolution)-1);
         rt_dac_enable(dac_dev, pin_map_table[pin].channel);
         rt_dac_write(dac_dev, pin_map_table[pin].channel, rt_dac_val);
         return;
