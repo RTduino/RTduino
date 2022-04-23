@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2021-12-10     Meco Man     first version
+ * 2021-12-10     Meco Man     port to RT-Thread
  */
 /*
   Print.h - Base class that provides print() and println()
@@ -33,6 +33,7 @@
 #include <stdio.h> // for size_t
 
 #include "WString.h"
+#include "Printable.h"
 
 #define DEC 10
 #define HEX 16
@@ -67,6 +68,7 @@ class Print
     // should be overridden by subclasses with buffering
     virtual int availableForWrite() { return 0; }
 
+//    size_t print(const __FlashStringHelper *);
     size_t print(const String &);
     size_t print(const char[]);
     size_t print(char);
@@ -76,8 +78,9 @@ class Print
     size_t print(long, int = DEC);
     size_t print(unsigned long, int = DEC);
     size_t print(double, int = 2);
-//    size_t print(const Printable&);
+    size_t print(const Printable&);
 
+//    size_t println(const __FlashStringHelper *);
     size_t println(const String &s);
     size_t println(const char[]);
     size_t println(char);
@@ -87,7 +90,7 @@ class Print
     size_t println(long, int = DEC);
     size_t println(unsigned long, int = DEC);
     size_t println(double, int = 2);
-//    size_t println(const Printable&);
+    size_t println(const Printable&);
     size_t println(void);
 
     virtual void flush() { /* Empty implementation for backward compatibility */ }

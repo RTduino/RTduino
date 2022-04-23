@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2021-12-10     Meco Man     first version
+ * 2021-12-10     Meco Man     port to RT-Thread
  */
 /*
  Print.cpp - Base class that provides print() and println()
@@ -49,6 +49,19 @@ size_t Print::write(const uint8_t *buffer, size_t size)
   }
   return n;
 }
+
+//size_t Print::print(const __FlashStringHelper *ifsh)
+//{
+//  PGM_P p = reinterpret_cast<PGM_P>(ifsh);
+//  size_t n = 0;
+//  while (1) {
+//    unsigned char c = pgm_read_byte(p++);
+//    if (c == 0) break;
+//    if (write(c)) n++;
+//    else break;
+//  }
+//  return n;
+//}
 
 size_t Print::print(const String &s)
 {
@@ -107,10 +120,17 @@ size_t Print::print(double n, int digits)
   return printFloat(n, digits);
 }
 
-//size_t Print::print(const Printable& x)
+//size_t Print::println(const __FlashStringHelper *ifsh)
 //{
-//  return x.printTo(*this);
+//  size_t n = print(ifsh);
+//  n += println();
+//  return n;
 //}
+
+size_t Print::print(const Printable& x)
+{
+  return x.printTo(*this);
+}
 
 size_t Print::println(void)
 {
@@ -180,12 +200,12 @@ size_t Print::println(double num, int digits)
   return n;
 }
 
-//size_t Print::println(const Printable& x)
-//{
-//  size_t n = print(x);
-//  n += println();
-//  return n;
-//}
+size_t Print::println(const Printable& x)
+{
+  size_t n = print(x);
+  n += println();
+  return n;
+}
 
 // Private Methods /////////////////////////////////////////////////////////////
 
