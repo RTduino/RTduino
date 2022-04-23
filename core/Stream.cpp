@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2021-12-10     Meco Man     first version
+ * 2021-12-10     Meco Man     port to RT-Thread
  */
 /*
  Stream.cpp - adds parsing methods to Stream class
@@ -43,7 +43,9 @@ int Stream::timedRead()
   _startMillis = millis();
   do {
     c = read();
-    if (c >= 0) return c;
+    if(c >= 0) return c;
+    if(_timeout == 0) return -1;
+    yield();
   } while(millis() - _startMillis < _timeout);
   return -1;     // -1 indicates timeout
 }
@@ -55,7 +57,9 @@ int Stream::timedPeek()
   _startMillis = millis();
   do {
     c = peek();
-    if (c >= 0) return c;
+    if(c >= 0) return c;
+    if(_timeout == 0) return -1;
+    yield();
   } while(millis() - _startMillis < _timeout);
   return -1;     // -1 indicates timeout
 }

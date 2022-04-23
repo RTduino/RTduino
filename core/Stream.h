@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2021-12-10     Meco Man     first version
+ * 2021-12-10     Meco Man     port to RT-Thread
  */
 /*
   Stream.h - base class for character-based streams.
