@@ -241,8 +241,33 @@ void HardwareSerial::end(void)
     // This could cause other threads make errors.
 }
 
+int HardwareSerial::available(void)
+{
+    return 0; //TODO
+}
+
+int HardwareSerial::peek(void)
+{
+    return 0; //TODO
+}
+
+int HardwareSerial::read(void)
+{
+    return 0; //TODO
+}
+
+int HardwareSerial::availableForWrite(void)
+{
+    return 0; //TODO
+}
+
+void HardwareSerial::flush(void)
+{
+    //TODO
+}
+
 #ifdef RT_USING_CONSOLE
-HardwareSerial Serial;
+HardwareSerial Serial; /* console device */
 #endif
 #ifdef RTDUINO_SERIAL2_DEVICE_NAME
 HardwareSerial Serial2(RTDUINO_SERIAL2_DEVICE_NAME);

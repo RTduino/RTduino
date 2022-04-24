@@ -12,7 +12,7 @@
 #define HardwareSerial_h
 
 #include <rtthread.h>
-#include "Print.h"
+#include "Stream.h"
 
 // Define config for Serial.begin(baud, config);
 #define SERIAL_5N1 0x00
@@ -40,26 +40,30 @@
 #define SERIAL_7O2 0x3C
 #define SERIAL_8O2 0x3E
 
-// https://playground.arduino.cc/Code/Printclass/
-class HardwareSerial: public Print
+class HardwareSerial: public Stream
 {
-public:
+private:
     rt_device_t uart_dev;
 
+public:
     HardwareSerial(void);
     HardwareSerial(const char* dev_name);
-
+    virtual ~HardwareSerial() {}
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint8_t config);
     void end(void);
-
-    // overwrite Print::write
+    virtual int available(void);
+    virtual int peek(void);
+    virtual int read(void);
+    virtual int availableForWrite(void);
+    virtual void flush(void);
     virtual size_t write(uint8_t c);
     virtual size_t write(const uint8_t *buffer, size_t size);
     inline size_t write(unsigned long n) { return write((uint8_t)n); }
     inline size_t write(long n) { return write((uint8_t)n); }
     inline size_t write(unsigned int n) { return write((uint8_t)n); }
     inline size_t write(int n) { return write((uint8_t)n); }
+    using Print::write; // pull in write(str) and write(buf, size) from Print
 };
 
 extern HardwareSerial Serial;
