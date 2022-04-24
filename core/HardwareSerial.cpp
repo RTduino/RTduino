@@ -234,6 +234,13 @@ void HardwareSerial::begin(uint32_t baud, uint8_t config)
     rt_device_control(this->uart_dev, RT_DEVICE_CTRL_CONFIG, &rt_config);
 }
 
+void HardwareSerial::end(void)
+{
+    // Nothing to do.
+    // RTduino has not right to close RT-Thread devices.
+    // This could cause other threads make errors.
+}
+
 #ifdef RT_USING_CONSOLE
 HardwareSerial Serial;
 #endif
