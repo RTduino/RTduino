@@ -1,26 +1,47 @@
 /*
  * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
  *
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: LGPL-v2.1
  *
  * Change Logs:
  * Date           Author       Notes
  * 2022-03-24     Meco Man     first version
  */
 
-#include <rtthread.h>
 #include <rtdevice.h>
-#include "ConsoleSerial.h"
+#include "HardwareSerial.h"
 
-void ConsoleSerial::begin(uint32_t baud)
+HardwareSerial::HardwareSerial(void)
+{
+    this->uart_dev = rt_console_get_device();
+}
+
+HardwareSerial::HardwareSerial(const char* dev_name)
+{
+    this->uart_dev = rt_device_find(dev_name);
+}
+
+/*Code to display letter when given the ASCII code for it*/
+size_t HardwareSerial::write(uint8_t c)
+{
+    return write(&c, 1);
+}
+
+/*Code to display array of chars when given a pointer to the beginning of the array and a size
+    -- this will not end with the null character*/
+size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
+{
+    return rt_device_write(this->uart_dev, 0, buffer, size);
+}
+
+void HardwareSerial::begin(uint32_t baud)
 {
     begin(baud, SERIAL_8N1);
 }
 
-void ConsoleSerial::begin(uint32_t baud, uint8_t config)
+void HardwareSerial::begin(uint32_t baud, uint8_t config)
 {
     struct serial_configure rt_config = RT_SERIAL_CONFIG_DEFAULT;
-    rt_device_t uart_dev = rt_console_get_device();
 
     switch(baud)
     {
@@ -210,21 +231,15 @@ void ConsoleSerial::begin(uint32_t baud, uint8_t config)
         break;
     }
 
-    // rt_device_control(uart_dev, RT_DEVICE_CTRL_CONFIG, &rt_config);
+    rt_device_control(this->uart_dev, RT_DEVICE_CTRL_CONFIG, &rt_config);
 }
 
-/*Code to display letter when given the ASCII code for it*/
-size_t ConsoleSerial::write(uint8_t c)
-{
-    rt_kprintf("%c", c);
-    return 1;
-}
-
-/*Code to display array of chars when given a pointer to the beginning of the array and a size
-    -- this will not end with the null character*/
-size_t ConsoleSerial::write(const uint8_t *buffer, size_t size)
-{
-    return rt_device_write(rt_console_get_device(), 0, buffer, size);
-}
-
-ConsoleSerial Serial;
+#ifdef RT_USING_CONSOLE
+HardwareSerial Serial;
+#endif
+#ifdef RTDUINO_SERIAL2_DEVICE_NAME
+HardwareSerial Serial2(RTDUINO_SERIAL2_DEVICE_NAME);
+#endif
+#ifdef RTDUINO_SERIAL3_DEVICE_NAME
+HardwareSerial Serial3(RTDUINO_SERIAL3_DEVICE_NAME);
+#endif

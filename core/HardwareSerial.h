@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
  *
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: LGPL-v2.1
  *
  * Change Logs:
  * Date           Author       Notes
@@ -11,6 +11,7 @@
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
 
+#include <rtthread.h>
 #include "Print.h"
 
 // Define config for Serial.begin(baud, config);
@@ -43,8 +44,25 @@
 class HardwareSerial: public Print
 {
 public:
+    rt_device_t uart_dev;
+
+    HardwareSerial(void);
+    HardwareSerial(const char* dev_name);
+
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint8_t config);
+
+    // overwrite Print::write
+    virtual size_t write(uint8_t c);
+    virtual size_t write(const uint8_t *buffer, size_t size);
 };
+
+extern HardwareSerial Serial;
+#ifdef RTDUINO_SERIAL2_DEVICE_NAME
+extern HardwareSerial Serial2;
+#endif
+#ifdef RTDUINO_SERIAL3_DEVICE_NAME
+extern HardwareSerial Serial3;
+#endif
 
 #endif /* HardwareSerial_h */

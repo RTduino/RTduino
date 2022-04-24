@@ -167,7 +167,7 @@ void noTone(uint8_t _pin);
 
 #include "WCharacter.h"
 #include "WString.h"
-#include "ConsoleSerial.h"
+#include "HardwareSerial.h"
 #ifdef RTDUINO_USING_USBSERIAL
 #include "USBSerial.h"
 #endif /* RTDUINO_USING_USBSERIAL */
