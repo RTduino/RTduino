@@ -32,11 +32,13 @@ RT_WEAK void initVariant(void)
 /* put your setup code here, to run once: */
 RT_WEAK void setup(void)
 {
+    LOG_W("run in weak setup(): %s", __FILE__);
 }
 
 /* put your main code here, to run repeatedly: */
 RT_WEAK void loop(void)
 {
+    LOG_W("run in weak loop(): %s", __FILE__);
 }
 
 static void arduino_entry(void *parameter)
