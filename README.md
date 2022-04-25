@@ -9,7 +9,7 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 作为RT-Thread社区用户，你也可以直接使用Arduino社区的库（例如I2C传感器驱动库、算法库等）直接用在RT-Thread工程中，极大地补充了RT-Thread社区生态。
 
-本软件包可以运行在RT-Studio (GCC)和Keil编译环境下，因为Arduino的库都是基于GCC环境开发的，因此推荐使用RT-Studio运行。
+本软件包可以运行在[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)和Keil编译环境下，因为Arduino的库都是基于GCC环境开发的，因此推荐使用RT-Studio运行。
 
 ## 2 如何使用本兼容层
 
@@ -113,7 +113,7 @@ void loop(void)
 
 目前RTduino兼容层可以实现对Arduino纯软件类（例如算法类、数据处理类等）、串口相关、I2C传感器相关的库做到100%兼容。但是目前还不兼容SPI传感器类的Arduino库。
 
-支持的详细情况和计划，请查看：https://github.com/mysterywolf/RTduino/issues/2
+支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/issues/2
 
 ### 3.3. 导入一个Arduino库到RT-Thread工程（以潘多拉板为例）
 
@@ -131,5 +131,5 @@ void loop(void)
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
 
-软件包地址：https://github.com/mysterywolf/RTduino
+软件包地址：https://github.com/RTduino/RTduino
 
