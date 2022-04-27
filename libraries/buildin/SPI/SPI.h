@@ -24,13 +24,14 @@
 #define _SPI_H_INCLUDED
 
 #include <Arduino.h>
+#include <rtdevice.h>
 
 // SPI_HAS_TRANSACTION means SPI has beginTransaction(), endTransaction(),
 // usingInterrupt(), and SPISetting(clock, bitOrder, dataMode)
 #define SPI_HAS_TRANSACTION 1
 
 // SPI_HAS_NOTUSINGINTERRUPT means that SPI has notUsingInterrupt() method
-#define SPI_HAS_NOTUSINGINTERRUPT 1
+#define SPI_HAS_NOTUSINGINTERRUPT 0
 
 // SPI_ATOMIC_VERSION means that SPI has atomicity fixes and what version.
 // This way when there is a bug fix you can check this define to alert users
@@ -52,52 +53,32 @@
 #define MSBFIRST 1
 #endif
 
-#define SPI_CLOCK_DIV4 0x00
-#define SPI_CLOCK_DIV16 0x01
-#define SPI_CLOCK_DIV64 0x02
-#define SPI_CLOCK_DIV128 0x03
-#define SPI_CLOCK_DIV2 0x04
-#define SPI_CLOCK_DIV8 0x05
-#define SPI_CLOCK_DIV32 0x06
-
-#define SPI_MODE0 0x00
-#define SPI_MODE1 0x04
-#define SPI_MODE2 0x08
-#define SPI_MODE3 0x0C
-
-#define SPI_MODE_MASK 0x0C  // CPOL = bit 3, CPHA = bit 2 on SPCR
-#define SPI_CLOCK_MASK 0x03  // SPR1 = bit 1, SPR0 = bit 0 on SPCR
-#define SPI_2XCLOCK_MASK 0x01  // SPI2X = bit 0 on SPSR
-
-class SPISettings {
-public:
-  SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) {
-
-  }
-  SPISettings() {
-
-  }
+#define SPI_MODE0 0x00 ///<  CPOL: 0  CPHA: 0
+#define SPI_MODE1 0x04 ///<  CPOL: 0  CPHA: 1
+#define SPI_MODE2 0x08 ///<  CPOL: 1  CPHA: 0
+#define SPI_MODE3 0x0C ///<  CPOL: 1  CPHA: 1
+class SPISettings
+{
+    public:
+        SPISettings() :_clock(1000000), _bitOrder(LSBFIRST), _dataMode(SPI_MODE0){}
+        SPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) :_clock(clock), _bitOrder(bitOrder), _dataMode(dataMode){}
+        uint32_t _clock;
+        uint8_t  _bitOrder;
+        uint8_t  _dataMode;
 };
-
 
 class SPIClass
 {
+    private:
+        struct rt_spi_device spi_device;
     public:
-        static void begin(void);
+        void begin(const char *spi_bus_name = ARDUINO_DEFAULT_SPI_BUS_NAME);
         void beginTransaction(SPISettings settings);
         uint8_t transfer(uint8_t data);
         void transfer(void *buf, size_t count);
         uint16_t transfer16(uint16_t data);
         void endTransaction(void);
         void end(void);
-        void setBitOrder(uint8_t bitOrder);
-        void setDataMode(uint8_t dataMode);
-        void setClockDivider(uint8_t clockDiv);
-        void attachInterrupt(void);
-        void detachInterrupt(void);
-        void usingInterrupt(uint8_t interruptNumber);
-        void notUsingInterrupt(uint8_t interruptNumber);
-
 };
 
 extern SPIClass SPI;
