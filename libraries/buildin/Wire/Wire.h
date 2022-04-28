@@ -70,7 +70,7 @@ public:
     struct rt_i2c_bus_device *_i2c_bus_dev;
 
     TwoWire();
-    void begin(const char *i2c_dev_name = ARDUINO_DEFAULT_IIC_BUS_NAME);
+    void begin(const char *i2c_dev_name = RTDUINO_DEFAULT_IIC_BUS_NAME);
     void begin(uint8_t);
     void begin(int);
     void setClock(uint32_t);

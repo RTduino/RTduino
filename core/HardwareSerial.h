@@ -12,6 +12,7 @@
 #define HardwareSerial_h
 
 #include <rtthread.h>
+#include <pins_arduino.h>
 #include "Stream.h"
 
 // Define config for Serial.begin(baud, config);

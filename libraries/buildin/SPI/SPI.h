@@ -72,7 +72,7 @@ class SPIClass
     private:
         struct rt_spi_device spi_device;
     public:
-        void begin(const char *spi_bus_name = ARDUINO_DEFAULT_SPI_BUS_NAME);
+        void begin(const char *spi_bus_name = RTDUINO_DEFAULT_SPI_BUS_NAME);
         void beginTransaction(SPISettings settings);
         uint8_t transfer(uint8_t data);
         void transfer(void *buf, size_t count);
