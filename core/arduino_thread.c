@@ -15,7 +15,6 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-
 #ifndef RTDUINO_THREAD_SIZE
 #define RTDUINO_THREAD_SIZE     1024
 #endif /* RTDUINO_THREAD_SIZE */
