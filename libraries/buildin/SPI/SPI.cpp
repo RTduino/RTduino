@@ -71,6 +71,8 @@ void SPIClass::beginTransaction(SPISettings settings)
     }
 
     rt_spi_configure(&this->spi_device, &cfg);
+
+    rt_spi_take_bus(&this->spi_device);
 }
 
 uint8_t SPIClass::transfer(uint8_t data)
@@ -107,10 +109,10 @@ uint16_t SPIClass::transfer16(uint16_t data)
 
 void SPIClass::endTransaction(void)
 {
-
+    rt_spi_release_bus(&this->spi_device);
 }
 
 void SPIClass::end(void)
 {
-
+    /* Nothing to do. RTduino has no right to shutdown RT-Thread SPI devcies */
 }
