@@ -1,9 +1,0 @@
-from building import *
-
-cwd  = GetCurrentDir()
-src = ['Tone.cpp']
-inc = [cwd]
-
-group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_TONE'], CPPPATH = inc)
-
-Return('group')
