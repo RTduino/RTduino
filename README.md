@@ -13,17 +13,19 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 ### 1.1 已经支持Arduino生态兼容层的BSP
 
-| BSP名称                                                      | 备注                     |
-| ------------------------------------------------------------ | ------------------------ |
-| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | 引脚异形布局，但外设丰富 |
-| [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局  |
-| [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局  |
+| BSP名称                                                      | 备注                               |
+| ------------------------------------------------------------ | ---------------------------------- |
+| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | 引脚异形布局，但外设丰富           |
+| [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局            |
+| [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局（支持SPI） |
 
-
+> 注：
+>
+> 由于Arduino UNO引脚布局中，SPI功能引脚（D10-D13）与PWM以及数字IO功能引脚有冲突，因此只有一部分BSP以牺牲PWM以及数字IO功能为代价支持SPI功能。支持SPI的BSP会用括号标注出来。
 
 ## 2 如何使用本兼容层
 
-本软件包需要对特定的BSP进行适配之后才可以使用，适配方法很简单请参考。本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)、[STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
+本软件包需要对特定的BSP进行适配之后才可以使用，适配方法很简单请参考。本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
 
 ### 2.1 工程的创建和导入
 
@@ -121,7 +123,7 @@ void loop(void)
 
 ### 3.2 RTduino兼容层对Arduino库的兼容情况
 
-目前RTduino兼容层可以实现对Arduino纯软件类（例如算法类、数据处理类等）、串口相关、I2C传感器相关的库做到100%兼容。但是目前还不兼容SPI传感器类的Arduino库。
+目前RTduino兼容层可以实现对Arduino纯软件类（例如算法类、数据处理类等）、串口相关、I2C传感器相关的库做到100%兼容。
 
 支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/issues/2
 
@@ -137,7 +139,70 @@ void loop(void)
 
 工程编译通过之后，你可以将这个AHT10 Arduino库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
 
-## 4 维护
+## 4 如何给某个BSP适配RTduino
+
+### 4.1 创建文件夹和文件
+
+需要在某个BSP的applications文件夹下创建如下文件、文件夹：
+
+参考示例BSP：[STM32F072 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | [STM32F401 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout)
+
+#### 4.1.1 arduino_main.cpp文件
+
+该文件是Arduino的编程入口，提供setup和loop函数。在loop函数默认以200ms为周期，闪烁Arduino内建LED灯（LED_BUILTIN）。如果该BSP默认支持SPI功能且为UNO引脚布局，由于SPI和LED_BUILTIN可能存在冲突(D13)，可以在loop函数内以 `Serial.println("Hello Arduino\n");` 代替频闪LED（例如STM32F401 Nucleo板）。
+
+#### 4.1.2 arduino_pinout文件夹
+
+需要在applications文件夹下创建arduino_pinout文件夹，这个文件夹主要包含 `arduino_pinout.c` 和 `arduino_pinout.h` 两个关键的文件，这两个文件是对接的关键。用户只需要做好这两个文件，即可完成与RTduino的对接。
+
+同时，这个文件夹内也需要SConscript脚本文件，以及提供Arduino引脚布局的README说明文档。请参照上面的示例BSP来完成对这两个文件的编写。
+
+### 4.2 修改Kconfig文件
+
+Kconfig文件位于BSP的board文件夹下：
+
+参考示例BSP：[STM32F072 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/board/Kconfig) | [STM32F401 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f401-st-nucleo/board/Kconfig)
+
+```Kconfig
+menu "Onboard Peripheral Drivers"
+    config BSP_USING_STLINK_TO_USART
+        bool "Enable STLINK TO USART (uart2)"
+        select BSP_USING_UART
+        select BSP_USING_UART2
+        default y
+
+    #增加 BSP_USING_ARDUINO 配置选项
+    config BSP_USING_ARDUINO
+        bool "Support Arduino"
+        select PKG_USING_RTDUINO
+        select BSP_USING_STLINK_TO_USART
+        select BSP_USING_GPIO
+        select BSP_USING_ADC
+        select BSP_USING_ADC1
+        select BSP_USING_PWM
+        select BSP_USING_PWM2
+        select BSP_USING_PWM2_CH2
+        select BSP_USING_PWM2_CH3
+        select BSP_USING_PWM3
+        select BSP_USING_PWM3_CH1
+        select BSP_USING_PWM3_CH2
+        select BSP_USING_PWM16
+        select BSP_USING_PWM16_CH1
+        select BSP_USING_PWM17
+        select BSP_USING_PWM17_CH1
+        select BSP_USING_I2C
+        select BSP_USING_I2C1
+        imply RTDUINO_USING_SERVO
+        imply RTDUINO_USING_WIRE
+        imply RTDUINO_USING_ADAFRUIT
+        default n
+
+endmenu
+```
+
+需要在`Onboard Peripheral Drivers`栏下增加 `BSP_USING_ARDUINO` 配置选项，并依赖相应的PWM、ADC、UART、I2C以及SPI等设备框架，满足一键化开启RTduino的能力。
+
+## 5 维护
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
 
