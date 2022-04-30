@@ -15,7 +15,7 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 | BSP名称                                                      | 备注                               |
 | ------------------------------------------------------------ | ---------------------------------- |
-| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | 引脚异形布局，但外设丰富           |
+| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | 引脚异形布局，但外设丰富（支持SPI）         |
 | [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局            |
 | [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局（支持SPI） |
 
