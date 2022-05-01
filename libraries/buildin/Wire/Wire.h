@@ -43,6 +43,10 @@
 #define RTDUINO_WIRE_BUFFER_LENGTH 32
 #endif
 
+#ifndef RTDUINO_DEFAULT_IIC_BUS_NAME
+#define RTDUINO_DEFAULT_IIC_BUS_NAME "i2c0" /* dummy name */
+#endif
+
 class TwoWire : public Stream
 {
 private:

@@ -21,7 +21,6 @@
  */
 
 #include "SPI.h"
-#include <rtdevice.h>
 
 SPIClass SPI;
 
@@ -115,4 +114,17 @@ void SPIClass::endTransaction(void)
 void SPIClass::end(void)
 {
     /* Nothing to do. RTduino has no right to shutdown RT-Thread SPI devcies */
+}
+
+/* legacy functions */
+void SPIClass::setBitOrder(uint8_t bitOrder)
+{
+}
+
+void SPIClass::setDataMode(uint8_t dataMode)
+{
+}
+
+void SPIClass::setClockDivider(uint8_t clockDiv)
+{
 }
