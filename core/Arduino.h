@@ -41,6 +41,19 @@ extern "C" {
 #include <pins_arduino.h>
 #include "binary.h"
 
+/* Arduino Pin Map */
+typedef struct
+{
+    uint8_t arduino_pin;
+    rt_ubase_t rt_pin;
+    const char* device_name;
+    rt_uint8_t channel;
+}pin_map_t;
+
+typedef unsigned int word;
+typedef bool boolean;
+typedef uint8_t byte;
+
 #define LOW     0x0
 #define HIGH    0x1
 #define CHANGE  0x2
@@ -89,20 +102,12 @@ extern "C" {
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
 
+#define bit(b) (1UL << (b))
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
-
-typedef unsigned int word;
-
-#define bit(b) (1UL << (b))
-
-typedef bool boolean;
-typedef uint8_t byte;
-
-void initVariant(void);
 
 void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t val);
@@ -137,14 +142,8 @@ long long map(long long, long long, long long, long long, long long);
 float mapFloat(float, float, float, float, float);
 void randomSeed(unsigned long);
 
-/* Arduino Pin Map */
-typedef struct
-{
-    uint8_t arduino_pin;
-    rt_ubase_t rt_pin;
-    const char* device_name;
-    rt_uint8_t channel;
-}pin_map_t;
+/* Don't invoke this function manually */
+void initVariant(void);
 
 #ifdef __cplusplus
 } // extern "C"
@@ -173,4 +172,5 @@ void noTone(uint8_t _pin);
 #endif /* RTDUINO_USING_USBSERIAL */
 
 #endif /* __cplusplus */
+
 #endif /* Arduino_h */
