@@ -43,7 +43,7 @@ long long map(long long x, long long in_min, long long in_max, long long out_min
     return (double)((x - in_min) * (out_max - out_min)) / (double)((in_max - in_min)) + out_min;
 }
 
-double mapFloat(double x, double in_min, double in_max, double out_min, double out_max)
+float mapFloat(float x, float in_min, float in_max, float out_min, float out_max)
 {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

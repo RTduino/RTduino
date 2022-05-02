@@ -134,7 +134,7 @@ void setup(void);
 void loop(void);
 
 long long map(long long, long long, long long, long long, long long);
-double mapFloat(double, double, double, double, double);
+float mapFloat(float, float, float, float, float);
 void randomSeed(unsigned long);
 
 /* Arduino Pin Map */
