@@ -45,6 +45,6 @@ for root, dirs, files in os.walk(GetCurrentDir()):
         if check_h_hpp_exsit(current_path):
             inc = inc + [current_path]
 
-group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
+group = DefineGroup('Arduino-library', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
 
 Return('group')

@@ -34,19 +34,19 @@ RT_WEAK void initVariant(void)
 
 static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
 {
-    rt_kprintf("this is hwtimer timeout callback fucntion!\n");
-    rt_kprintf("tick is :%d !\n", rt_tick_get());
+//    rt_kprintf("this is hwtimer timeout callback fucntion!\n");
+//    rt_kprintf("tick is :%d !\n", rt_tick_get());
 
-    return 0;
+    return RT_EOK;
 }
 
 static void hwtimer_init(void)
 {
     rt_device_t hwtimer_device;
     rt_hwtimer_mode_t mode = HWTIMER_MODE_PERIOD;
-    rt_uint32_t freq = 1;
+    rt_uint32_t freq = 1000000; /* 1us */
     rt_hwtimerval_t val;
-    
+
     val.sec = 1;
     val.usec = 0;
 
@@ -58,6 +58,10 @@ static void hwtimer_init(void)
         rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq);
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode);
         rt_device_write(hwtimer_device, 0, &val, sizeof(val));
+    }
+    else
+    {
+        LOG_E("Cannot find hardware timer");
     }
 }
 
