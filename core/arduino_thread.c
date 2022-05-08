@@ -59,10 +59,6 @@ static void hwtimer_init(void)
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode);
         rt_device_write(hwtimer_device, 0, &val, sizeof(val));
     }
-    else
-    {
-        LOG_E("Cannot find hardware timer");
-    }
 }
 
 static void arduino_entry(void *parameter)
