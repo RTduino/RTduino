@@ -29,7 +29,6 @@ struct
     rt_device_t hwdevice;
 }pulse_record;
 
-
 static void pulsein_pin_interrupt_cb(void *args)
 {
     rt_hwtimerval_t timestamp;
@@ -127,6 +126,5 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
  */
 unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout)
 {
-    LOG_E("pulseInLong() has not been implemented yet!");
-    return 0;
+    return pulseIn(pin, state, timeout);
 }
