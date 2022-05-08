@@ -8,8 +8,8 @@
  * 2021-12-10     Meco Man     first version
  */
 
-#include <rtthread.h>
-#include <rthw.h>
+#include <rtdevice.h>
+#include <Arduino.h>
 
 unsigned long millis(void)
 {
@@ -18,7 +18,19 @@ unsigned long millis(void)
 
 unsigned long micros(void)
 {
-    return millis()*1000;
+    rt_device_t hwtimer_device;
+    rt_hwtimerval_t timestamp;
+
+    hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
+    if(hwtimer_device != RT_NULL)
+    {
+        rt_device_read(hwtimer_device, 0, &timestamp, sizeof(timestamp));
+        return timestamp.sec*1000000 + timestamp.usec;
+    }
+    else
+    {
+        return millis()*1000;
+    }
 }
 
 void delay(unsigned long ms)
