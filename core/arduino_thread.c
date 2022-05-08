@@ -34,8 +34,6 @@ RT_WEAK void initVariant(void)
 
 static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
 {
-//    rt_kprintf("this is hwtimer timeout callback fucntion!\n");
-//    rt_kprintf("tick is :%d !\n", rt_tick_get());
 
     return RT_EOK;
 }

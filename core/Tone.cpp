@@ -25,4 +25,3 @@ void noTone(uint8_t _pin)
 {
     LOG_E("noTone() has not been implemented yet!");
 }
-
