@@ -11,7 +11,7 @@
 #include <rtdevice.h>
 #include "wiring_private.h"
 
-#define DBG_TAG    "Arduino"
+#define DBG_TAG    "Arduino.Tone"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

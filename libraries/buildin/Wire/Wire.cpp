@@ -39,7 +39,7 @@ extern "C" {
 #include <rtdevice.h>
 #include "Wire.h"
 
-#define DBG_TAG    "Arduino.library.Wire"
+#define DBG_TAG    "Arduino.Wire"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

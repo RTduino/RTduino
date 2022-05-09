@@ -11,6 +11,10 @@
 #include <rtdevice.h>
 #include "HardwareSerial.h"
 
+#define DBG_TAG    "Arduino.HardwareSerial"
+#define DBG_LVL    DBG_INFO
+#include <rtdbg.h>
+
 HardwareSerial::HardwareSerial(void)
 {
     this->uart_dev = rt_console_get_device();

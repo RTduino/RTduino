@@ -11,14 +11,13 @@
 #include <rtdevice.h>
 #include "wiring_private.h"
 
-#define DBG_TAG    "Arduino"
+#define DBG_TAG    "Arduino.pulse"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
 #ifdef RT_USING_HWTIMER
 static struct rt_semaphore pulsein_sem;
 static rt_bool_t pulsein_sem_init_flag = RT_FALSE;
-
 static struct
 {
     rt_bool_t first_pulse_coming;
@@ -27,14 +26,18 @@ static struct
     rt_hwtimerval_t second_pulse_timestamp;
     rt_uint8_t state;
     rt_int32_t rt_isr_pin;
-    rt_device_t hwdevice;
 }pulse_record;
 
 static void pulsein_pin_interrupt_cb(void *args)
 {
     rt_hwtimerval_t timestamp;
 
-    rt_device_read(pulse_record.hwdevice, 0, &timestamp, sizeof(timestamp));
+    if(rt_device_read(arduino_hwtimer_device, 0,
+        &timestamp, sizeof(timestamp)) != RT_EOK)
+    {
+        LOG_E("Failed to read from hardware timer!");
+        return;
+    }
 
     if(pulse_record.first_pulse_coming == RT_FALSE
         && pulse_record.second_pulse_coming == RT_FALSE
@@ -55,7 +58,8 @@ static void pulsein_pin_interrupt_cb(void *args)
     }
     else
     {
-        /* logic error, skip */
+        /* logic illegal, skip */
+        LOG_D("pulsein_pin_interrupt logic illegal. Skip");
     }
 }
 #endif /* RT_USING_HWTIMER */
@@ -76,8 +80,7 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 
     RT_ASSERT(state == HIGH || state == LOW);
 
-    pulse_record.hwdevice = arduino_hwtimer_device;
-    if(pulse_record.hwdevice == RT_NULL)
+    if(arduino_hwtimer_device == RT_NULL)
     {
         LOG_E("Cannot find hardware timer!");
         return 0;

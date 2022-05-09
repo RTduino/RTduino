@@ -22,6 +22,10 @@
 
 #include "SPI.h"
 
+#define DBG_TAG    "Arduino.SPI"
+#define DBG_LVL    DBG_INFO
+#include <rtdbg.h>
+
 SPIClass SPI;
 
 void SPIClass::begin(const char *spi_bus_name)
