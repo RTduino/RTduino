@@ -10,6 +10,7 @@
 
 #include <Arduino.h>
 #include <rtdevice.h>
+#include "wiring_private.h"
 
 #define DBG_TAG    "Arduino"
 #define DBG_LVL    DBG_INFO
@@ -23,14 +24,17 @@
 #define RTDUINO_THREAD_PRIO     30
 #endif /* RTDUINO_THREAD_PRIO */
 
-#ifndef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-#define RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME "timer0" /* dummy name */
-#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
+rt_device_t arduino_hwtimer_device = RT_NULL;
 
 /* initialization for BSP; maybe a blank function  */
 RT_WEAK void initVariant(void)
 {
 }
+
+#ifdef RT_USING_HWTIMER
+#ifndef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
+#define RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME "timer0" /* dummy name */
+#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
 static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
 {
@@ -56,12 +60,16 @@ static void hwtimer_init(void)
         rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq);
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode);
         rt_device_write(hwtimer_device, 0, &val, sizeof(val));
+        arduino_hwtimer_device = hwtimer_device;
     }
 }
+#endif /* RT_USING_HWTIMER */
 
 static void arduino_entry(void *parameter)
 {
+#ifdef RT_USING_HWTIMER
     hwtimer_init();
+#endif
     initVariant();
     setup();
 

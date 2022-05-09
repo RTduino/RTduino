@@ -95,9 +95,13 @@ typedef uint8_t byte;
 #define interrupts()        do{rt_hw_interrupt_enable(level);}while(0)
 #define noInterrupts()      do{level = rt_hw_interrupt_disable()}while(0)
 
-//#define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
-//#define clockCyclesToMicroseconds(a) ( (a) / clockCyclesPerMicrosecond() )
-//#define microsecondsToClockCycles(a) ( (a) * clockCyclesPerMicrosecond() )
+#ifdef F_CPU
+#define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
+#else
+#define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
+#endif
+#define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
+#define microsecondsToClockCycles(a) ((a) * clockCyclesPerMicrosecond())
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))

@@ -10,6 +10,7 @@
 
 #include <rtdevice.h>
 #include <Arduino.h>
+#include "wiring_private.h"
 
 unsigned long millis(void)
 {
@@ -18,16 +19,15 @@ unsigned long millis(void)
 
 unsigned long micros(void)
 {
-    rt_device_t hwtimer_device;
+#ifdef RT_USING_HWTIMER
     rt_hwtimerval_t timestamp;
-
-    hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
-    if(hwtimer_device != RT_NULL)
+    if(arduino_hwtimer_device != RT_NULL)
     {
-        rt_device_read(hwtimer_device, 0, &timestamp, sizeof(timestamp));
+        rt_device_read(arduino_hwtimer_device, 0, &timestamp, sizeof(timestamp));
         return timestamp.sec*1000000 + timestamp.usec;
     }
     else
+#endif /* RT_USING_HWTIMER */
     {
         return millis()*1000;
     }

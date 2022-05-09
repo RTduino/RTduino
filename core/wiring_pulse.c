@@ -15,10 +15,11 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
+#ifdef RT_USING_HWTIMER
 static struct rt_semaphore pulsein_sem;
 static rt_bool_t pulsein_sem_init_flag = RT_FALSE;
 
-struct
+static struct
 {
     rt_bool_t first_pulse_coming;
     rt_hwtimerval_t first_pulse_timestamp;
@@ -57,6 +58,7 @@ static void pulsein_pin_interrupt_cb(void *args)
         /* logic error, skip */
     }
 }
+#endif /* RT_USING_HWTIMER */
 
 /* Measures the length (in microseconds) of a pulse on the pin; state is HIGH
  * or LOW, the type of pulse to measure.  Works on pulses from 2-3 microseconds
@@ -67,13 +69,14 @@ static void pulsein_pin_interrupt_cb(void *args)
  */
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 {
+    long delta;
+#ifdef RT_USING_HWTIMER
     rt_int32_t rt_pin;
     rt_err_t rt_err;
-    long delta;
 
     RT_ASSERT(state == HIGH || state == LOW);
 
-    pulse_record.hwdevice = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
+    pulse_record.hwdevice = arduino_hwtimer_device;
     if(pulse_record.hwdevice == RT_NULL)
     {
         LOG_E("Cannot find hardware timer!");
@@ -110,6 +113,7 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
         delta += (pulse_record.second_pulse_timestamp.usec - pulse_record.first_pulse_timestamp.usec);
     }
     else
+#endif /* RT_USING_HWTIMER */
     {
         delta = 0; /* timeout or other errors */
     }
