@@ -31,19 +31,13 @@ RT_WEAK void initVariant(void)
 {
 }
 
-#ifdef RT_USING_HWTIMER
 #ifndef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
 #define RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME "timer0" /* dummy name */
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
-static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
-{
-
-    return RT_EOK;
-}
-
 static void hwtimer_init(void)
 {
+#ifdef RT_USING_HWTIMER
     rt_device_t hwtimer_device;
 
     hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
@@ -58,7 +52,6 @@ static void hwtimer_init(void)
             LOG_E("Failed to open hardware timer!");
             return;
         }
-        rt_device_set_rx_indicate(hwtimer_device, hwtimer_timeout_cb);
         rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq);
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode);
         if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) != 0)
@@ -70,14 +63,16 @@ static void hwtimer_init(void)
             LOG_E("Failed to start (write) hardware timer!");
         }
     }
-}
+    else
 #endif /* RT_USING_HWTIMER */
+    {
+        LOG_W("Cannot find a hardware timer. Some functions cannot be used.");
+    }
+}
 
 static void arduino_entry(void *parameter)
 {
-#ifdef RT_USING_HWTIMER
     hwtimer_init();
-#endif
     initVariant();
     setup();
 
