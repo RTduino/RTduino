@@ -18,6 +18,7 @@ extern "C" {
 #endif
 
 char *dtostrf(double val, signed char width, unsigned char prec, char *sout);
+char *dtostrnf(double val, signed char width, unsigned char prec, char *sout, size_t sout_size);
 
 #ifdef __cplusplus
 }
