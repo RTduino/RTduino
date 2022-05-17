@@ -90,6 +90,7 @@ typedef uint8_t byte;
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
+#define pow2(x) (1<<x) /* 2^x */
 
 #define interruptLevel()    rt_base_t level
 #define interrupts()        do{rt_hw_interrupt_enable(level);}while(0)
