@@ -89,7 +89,7 @@ typedef uint8_t byte;
 //#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5)) // in math.h
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
-#define sq(x) ((x)*(x))
+#define sq(x) ((x)*(x)) /* x^2 */
 #define pow2(x) (1<<x) /* 2^x */
 
 #define interruptLevel()    rt_base_t level
@@ -98,11 +98,9 @@ typedef uint8_t byte;
 
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
-#else
-#define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
-#endif
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
 #define microsecondsToClockCycles(a) ((a) * clockCyclesPerMicrosecond())
+#endif
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))

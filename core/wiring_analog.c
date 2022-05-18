@@ -27,17 +27,19 @@ void analogReference(uint8_t mode)
     LOG_E("analogReference() has not been implemented yet!");
 }
 
+/* set analogRead resolution */
 void analogReadResolution(uint8_t bits)
 {
     _analog_read_resolution = bits;
-    LOG_E("analogReadResolution() has not been implemented yet!");
 }
 
+/* set analogWrtie resolution */
 void analogWriteResolution(uint8_t bits)
 {
     _analog_write_resolution = bits;
 }
 
+/* set analogWrtie frequency */
 void analogWriteFrequency(uint32_t frequency)
 {
     _analog_pwm_hz = frequency;
