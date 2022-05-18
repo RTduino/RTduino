@@ -11,7 +11,7 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 本软件包可以运行在[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)和Keil编译环境下，因为Arduino的库都是基于GCC环境开发的，因此推荐使用RT-Studio运行。
 
-### 1.1 已经支持Arduino生态兼容层的BSP
+### 1.1 已经支持Arduino生态兼容层的RT-Thread BSP
 
 | BSP名称                                                      | 备注                               |
 | ------------------------------------------------------------ | ---------------------------------- |
