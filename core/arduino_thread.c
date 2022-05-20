@@ -6,6 +6,8 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-10     Meco Man     first version
+ * 2022-05-01     Meco Man     support hardware timer
+ * 2022-05-20     Meco Man     support no setup-loop structure
  */
 
 #include <Arduino.h>
@@ -48,7 +50,7 @@ static void hwtimer_init(void)
     hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
     if(hwtimer_device != RT_NULL)
     {
-        rt_hwtimer_mode_t mode = HWTIMER_MODE_PERIOD;
+        rt_hwtimer_mode_t mode = HWTIMER_MODE_PERIOD; /* periodic */
         rt_uint32_t freq = 1000000; /* 1Mhz, 1us */
         rt_hwtimerval_t val = {.sec=1, .usec=0}; /* callback interval */
 
@@ -57,9 +59,9 @@ static void hwtimer_init(void)
             LOG_E("Failed to open hardware timer!");
             return;
         }
-        rt_device_set_rx_indicate(hwtimer_device, hwtimer_timeout_cb);
-        rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq);
-        rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode);
+        rt_device_set_rx_indicate(hwtimer_device, hwtimer_timeout_cb); /* set timeout callback function for hwtimer */
+        rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq); /* set hwtimer prescaler frequency */
+        rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode); /* set hwtimer mode */
         if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) != 0)
         {
             arduino_hwtimer_device = hwtimer_device;
@@ -80,6 +82,7 @@ static void arduino_entry(void *parameter)
 {
     hwtimer_init();
     initVariant();
+#ifndef RTDUINO_NO_SETUP_LOOP
     setup();
 
     while(1)
@@ -87,6 +90,7 @@ static void arduino_entry(void *parameter)
         loop();
         rt_schedule();
     }
+#endif /* RTDUINO_NO_SETUP_LOOP */
 }
 
 static int arduino_thread_init(void)
@@ -108,4 +112,4 @@ static int arduino_thread_init(void)
 
     return 0;
 }
-INIT_APP_EXPORT(arduino_thread_init);
+INIT_COMPONENT_EXPORT(arduino_thread_init);
