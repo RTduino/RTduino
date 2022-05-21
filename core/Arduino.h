@@ -37,8 +37,8 @@ extern "C" {
 #include <math.h>
 #include <rtdef.h>
 #include <rthw.h>
-
 #include <pins_arduino.h>
+#include <board.h>
 #include "binary.h"
 
 /* Arduino Pin Map */
@@ -96,11 +96,17 @@ typedef uint8_t byte;
 #define interrupts()        do{rt_hw_interrupt_enable(level);}while(0)
 #define noInterrupts()      do{level = rt_hw_interrupt_disable()}while(0)
 
+/* ARM CMSIS for all ARM MCU */
+#if !defined(F_CPU) && defined(__CM_CMSIS_VERSION)
+extern uint32_t SystemCoreClock;
+#define F_CPU SystemCoreClock
+#endif /* !defined(F_CPU) && defined(__CM_CMSIS_VERSION) */
+
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
 #define microsecondsToClockCycles(a) ((a) * clockCyclesPerMicrosecond())
-#endif
+#endif /* F_CPU */
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
