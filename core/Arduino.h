@@ -96,10 +96,6 @@ typedef uint8_t byte;
 #ifdef __CM_CMSIS_VERSION
 #define interrupts()   __enable_irq()
 #define noInterrupts() __disable_irq()
-#ifndef F_CPU
-extern uint32_t SystemCoreClock;
-#define F_CPU SystemCoreClock
-#endif /* F_CPU */
 #endif /* __CM_CMSIS_VERSION */
 
 #ifdef F_CPU
