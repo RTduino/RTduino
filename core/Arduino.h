@@ -92,15 +92,21 @@ typedef uint8_t byte;
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
 
-/* CMSIS for all ARM Cortex CPU */
-#ifdef __CM_CMSIS_VERSION
+/* define interrupts and noInterrupts */
+#if defined(__CM_CMSIS_VERSION) /* CMSIS for all ARM Cortex CPU */
 #define interrupts()   __enable_irq()
 #define noInterrupts() __disable_irq()
-#endif /* __CM_CMSIS_VERSION */
+#else
+#warning "Please define interrupts for this architecture in Arduino.h"
+#endif /* interrupts and noInterrupts */
 
+#ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
 #define microsecondsToClockCycles(a) ((a) * clockCyclesPerMicrosecond())
+#else
+#warning "Please define F_CPU in pins_arduino.h"
+#endif /* F_CPU */
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
