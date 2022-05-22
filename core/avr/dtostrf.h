@@ -6,6 +6,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-10     Meco Man     first version
+ * 2022-05-12     Meco Man     add dtostrnf
  */
 
 #ifndef __AVR_DTOSTRF_H__

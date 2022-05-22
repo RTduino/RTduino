@@ -6,11 +6,8 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-10     Meco Man     first version
+ * 2022-05-12     Meco Man     add dtostrnf
  */
-
-/*
-https://www.nongnu.org/avr-libc/user-manual/group__avr__stdlib.html
-*/
 
 #include "dtostrf.h"
 #include <rtthread.h>
