@@ -98,11 +98,9 @@ typedef uint8_t byte;
 #define noInterrupts() __disable_irq()
 #endif /* __CM_CMSIS_VERSION */
 
-#ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
 #define microsecondsToClockCycles(a) ((a) * clockCyclesPerMicrosecond())
-#endif /* F_CPU */
 
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
