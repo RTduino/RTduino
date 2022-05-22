@@ -54,7 +54,7 @@ void analogWrite(uint8_t pin, int val)
     pwm_dev = (struct rt_device_pwm*)rt_device_find(pin_map_table[pin].device_name);
     if(pwm_dev != RT_NULL && pwm_dev->parent.type == RT_Device_Class_PWM)
     {
-        rt_pwm_val = map(val, 0, pow2(_analog_write_resolution)-1, 0, PWM_PERIOD_NS);
+        rt_pwm_val = map(val, 0, bit(_analog_write_resolution)-1, 0, PWM_PERIOD_NS);
         rt_pwm_disable(pwm_dev, pin_map_table[pin].channel);
         rt_pwm_set(pwm_dev, pin_map_table[pin].channel, PWM_PERIOD_NS, rt_pwm_val);
         rt_pwm_enable(pwm_dev, pin_map_table[pin].channel);
@@ -75,7 +75,7 @@ void analogWrite(uint8_t pin, int val)
             LOG_W("This board doesn't support to adjust DAC resolution.");
             resolution = 12; /* assume the hardware resolution is 12 bits */
         }
-        rt_dac_val = map(val, 0, pow2(_analog_write_resolution)-1, 0, pow2(resolution)-1);
+        rt_dac_val = map(val, 0, bit(_analog_write_resolution)-1, 0, bit(resolution)-1);
         rt_dac_enable(dac_dev, pin_map_table[pin].channel);
         rt_dac_write(dac_dev, pin_map_table[pin].channel, rt_dac_val);
         return;
@@ -84,7 +84,7 @@ void analogWrite(uint8_t pin, int val)
 
     /* This pin doesn't support PWM or DAC */
     pinMode(pin, OUTPUT);
-    if (val < pow2(_analog_write_resolution)/2)
+    if (val < bit(_analog_write_resolution)/2)
     {
         digitalWrite(pin, LOW);
     }
@@ -108,7 +108,7 @@ int analogRead(uint8_t pin)
         rt_adc_val = rt_adc_read(adc_dev, pin_map_table[pin].channel);
         if(rt_device_control((rt_device_t)adc_dev, RT_ADC_CMD_GET_RESOLUTION, &resolution) == RT_EOK)
         {
-            return map(rt_adc_val, 0, pow2(resolution)-1, 0, pow2(_analog_read_resolution)-1);
+            return map(rt_adc_val, 0, bit(resolution)-1, 0, bit(_analog_read_resolution)-1);
         }
         else
         {

@@ -11,7 +11,7 @@
 #ifndef __AVR_DTOSTRF_H__
 #define __AVR_DTOSTRF_H__
 
-#include <stdio.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {

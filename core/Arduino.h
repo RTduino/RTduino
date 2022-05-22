@@ -37,6 +37,7 @@ extern "C" {
 #include <math.h>
 #include <rtdef.h>
 #include <rthw.h>
+#include <avr/io.h>
 #include <pins_arduino.h>
 #include <board.h>
 #include "binary.h"
@@ -90,17 +91,16 @@ typedef uint8_t byte;
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
-#define pow2(x) (1<<x) /* 2^x */
 
-#define interruptLevel()    rt_base_t level
-#define interrupts()        do{rt_hw_interrupt_enable(level);}while(0)
-#define noInterrupts()      do{level = rt_hw_interrupt_disable()}while(0)
-
-/* ARM CMSIS for all ARM MCU */
-#if !defined(F_CPU) && defined(__CM_CMSIS_VERSION)
+/* CMSIS for all ARM Cortex CPU */
+#ifdef __CM_CMSIS_VERSION
+#define interrupts()   __enable_irq()
+#define noInterrupts() __disable_irq()
+#ifndef F_CPU
 extern uint32_t SystemCoreClock;
 #define F_CPU SystemCoreClock
-#endif /* !defined(F_CPU) && defined(__CM_CMSIS_VERSION) */
+#endif /* F_CPU */
+#endif /* __CM_CMSIS_VERSION */
 
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
