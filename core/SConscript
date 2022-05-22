@@ -20,7 +20,7 @@ elif rtconfig.PLATFORM == 'armcc': # Keil AC5
 group = DefineGroup('Arduino', src,
                      depend = ['PKG_USING_RTDUINO'],
                      CPPPATH = inc,
-                     CPPDEFINES = ['ARDUINO=100', 'ARDUINO_ARCH_RTTHREAD'],
+                     CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD'],
                      LOCAL_CCFLAGS = LOCAL_CCFLAGS,
                      LOCAL_CFLAGS = LOCAL_CFLAGS,
                      LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
