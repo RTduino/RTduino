@@ -1,0 +1,9 @@
+from building import *
+
+cwd  = GetCurrentDir()
+src = Glob('*.cpp')
+inc = [cwd]
+
+group = DefineGroup('Arduino-MsTimer2', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_MSTIMER2'], CPPPATH = inc)
+
+Return('group')
