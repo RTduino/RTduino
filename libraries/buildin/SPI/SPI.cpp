@@ -51,9 +51,14 @@ void SPIClass::beginTransaction(SPISettings settings)
     {
         cfg.mode |= RT_SPI_LSB;
     }
-    else /*MSBFIRST*/
+    else if (settings._bitOrder == MSBFIRST)
     {
         cfg.mode |= RT_SPI_MSB;
+    }
+    else
+    {
+        LOG_E("SPISettings illegal parameter");
+        return;
     }
 
     if(settings._dataMode == SPI_MODE0)
@@ -68,13 +73,17 @@ void SPIClass::beginTransaction(SPISettings settings)
     {
         cfg.mode |= RT_SPI_MODE_2;
     }
-    else /*SPI_MODE3*/
+    else if(settings._dataMode == SPI_MODE3)
     {
         cfg.mode |= RT_SPI_MODE_3;
     }
+    else
+    {
+        LOG_E("SPISettings illegal parameter");
+        return;
+    }
 
     rt_spi_configure(&this->spi_device, &cfg);
-
     rt_spi_take_bus(&this->spi_device);
 }
 
@@ -123,12 +132,57 @@ void SPIClass::end(void)
 /* legacy functions */
 void SPIClass::setBitOrder(uint8_t bitOrder)
 {
+    rt_uint8_t temp_mode = this->spi_device.config.mode;
+    if(bitOrder == LSBFIRST)
+    {
+        temp_mode &= ~RT_SPI_MSB; /* clear bit */
+    }
+    else if(bitOrder == LSBFIRST)
+    {
+        temp_mode |= RT_SPI_MSB; /* set bit */
+    }
+    else
+    {
+        LOG_E("setBitOrder() setBitOrder illegal parameter");
+    }
+
+    this->spi_device.config.mode = temp_mode;
+    this->spi_device.bus->ops->configure(&this->spi_device, &this->spi_device.config);
 }
 
 void SPIClass::setDataMode(uint8_t dataMode)
 {
+    rt_uint8_t temp_mode = this->spi_device.config.mode;
+    temp_mode &= ~RT_SPI_MODE_MASK;
+
+    if(dataMode == SPI_MODE0)
+    {
+        temp_mode |= RT_SPI_MODE_0;
+    }
+    else if(dataMode == SPI_MODE1)
+    {
+        temp_mode |= RT_SPI_MODE_1;
+    }
+    else if(dataMode == SPI_MODE2)
+    {
+        temp_mode |= RT_SPI_MODE_2;
+    }
+    else if(dataMode == SPI_MODE3)
+    {
+        temp_mode |= RT_SPI_MODE_3;
+    }
+    else
+    {
+        LOG_E("setDataMode() dataMode illegal parameter");
+        return;
+    }
+
+    this->spi_device.config.mode = temp_mode;
+    this->spi_device.bus->ops->configure(&this->spi_device, &this->spi_device.config);
 }
 
 void SPIClass::setClockDivider(uint8_t clockDiv)
 {
+    this->spi_device.config.max_hz = 100000;
+    this->spi_device.bus->ops->configure(&this->spi_device, &this->spi_device.config);
 }
