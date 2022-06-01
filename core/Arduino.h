@@ -38,6 +38,7 @@ extern "C" {
 #include <rtdef.h>
 #include <rthw.h>
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include <pins_arduino.h>
 #include <board.h>
 #include "binary.h"
