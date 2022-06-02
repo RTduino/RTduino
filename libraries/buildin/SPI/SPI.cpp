@@ -30,12 +30,15 @@ SPIClass SPI;
 
 void SPIClass::begin(const char *spi_bus_name)
 {
-    rt_spi_bus_attach_device(&this->spi_device, "spiardev", spi_bus_name, NULL);
+    if(rt_spi_bus_attach_device(&this->spi_device, "spiardev", spi_bus_name, NULL) != RT_EOK)
+    {
+        LOG_E("SPI device fail to attach!");
+    }
 }
 
 void SPIClass::beginTransaction(SPISettings settings)
 {
-    struct rt_spi_configuration cfg;
+    struct rt_spi_configuration cfg = {0};
 
     RT_ASSERT(settings._bitOrder == LSBFIRST || settings._bitOrder == MSBFIRST);
     RT_ASSERT(settings._dataMode == SPI_MODE0 ||
@@ -43,6 +46,7 @@ void SPIClass::beginTransaction(SPISettings settings)
               settings._dataMode == SPI_MODE2 ||
               settings._dataMode == SPI_MODE3);
 
+    /* Don't need to RT-Thread SPI device driver to control CS */
     cfg.mode = RT_SPI_MASTER | RT_SPI_NO_CS;
     cfg.data_width = 8;
     cfg.max_hz = settings._clock;
@@ -57,7 +61,6 @@ void SPIClass::beginTransaction(SPISettings settings)
     }
     else
     {
-        LOG_E("SPISettings illegal parameter");
         return;
     }
 
@@ -79,7 +82,6 @@ void SPIClass::beginTransaction(SPISettings settings)
     }
     else
     {
-        LOG_E("SPISettings illegal parameter");
         return;
     }
 
@@ -96,6 +98,8 @@ void SPIClass::transfer(void *buf, size_t count)
 {
     rt_err_t err;
     void *recv_buf;
+
+    RT_ASSERT(buf != RT_NULL);
 
     recv_buf = rt_malloc(count);
     if(recv_buf == RT_NULL)
@@ -129,21 +133,24 @@ void SPIClass::end(void)
     /* Nothing to do. RTduino has no right to shutdown RT-Thread SPI devcies */
 }
 
-/* legacy functions */
+/* ----------------------- legacy functions -------------------------- */
 void SPIClass::setBitOrder(uint8_t bitOrder)
 {
     rt_uint8_t temp_mode = this->spi_device.config.mode;
+
+    RT_ASSERT(bitOrder == LSBFIRST || bitOrder == MSBFIRST);
+
     if(bitOrder == LSBFIRST)
     {
         temp_mode &= ~RT_SPI_MSB; /* clear bit */
     }
-    else if(bitOrder == LSBFIRST)
+    else if(bitOrder == MSBFIRST)
     {
         temp_mode |= RT_SPI_MSB; /* set bit */
     }
     else
     {
-        LOG_E("setBitOrder() setBitOrder illegal parameter");
+        return;
     }
 
     this->spi_device.config.mode = temp_mode;
@@ -153,6 +160,12 @@ void SPIClass::setBitOrder(uint8_t bitOrder)
 void SPIClass::setDataMode(uint8_t dataMode)
 {
     rt_uint8_t temp_mode = this->spi_device.config.mode;
+
+    RT_ASSERT(dataMode == SPI_MODE0 ||
+              dataMode == SPI_MODE1 ||
+              dataMode == SPI_MODE2 ||
+              dataMode == SPI_MODE3);
+
     temp_mode &= ~RT_SPI_MODE_MASK;
 
     if(dataMode == SPI_MODE0)
@@ -173,7 +186,6 @@ void SPIClass::setDataMode(uint8_t dataMode)
     }
     else
     {
-        LOG_E("setDataMode() dataMode illegal parameter");
         return;
     }
 
