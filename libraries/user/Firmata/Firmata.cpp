@@ -120,9 +120,9 @@ void FirmataClass::begin(void)
  */
 void FirmataClass::begin(long speed)
 {
-  Serial.begin(speed);
+  SerialUSB.begin(speed);
   blinkVersion();
-  begin(Serial);
+  begin(SerialUSB);
 }
 
 /**
