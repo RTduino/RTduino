@@ -29,13 +29,6 @@
 
 SerialFirmata::SerialFirmata()
 {
-#if defined(SoftwareSerial_h)
-  swSerial0 = NULL;
-  swSerial1 = NULL;
-  swSerial2 = NULL;
-  swSerial3 = NULL;
-#endif
-
   serialIndex = -1;
 
 #if defined(FIRMATA_SERIAL_RX_DELAY)
@@ -94,46 +87,6 @@ boolean SerialFirmata::handleSysex(byte command, byte argc, byte *argv)
               }
               ((HardwareSerial*)serialPort)->begin(baud);
             }
-          } else {
-#if defined(SoftwareSerial_h)
-            byte swTxPin, swRxPin;
-            if (argc > 4) {
-              swRxPin = argv[4];
-              swTxPin = argv[5];
-            } else {
-              // RX and TX pins must be specified when using SW serial
-              Firmata.sendString("Specify serial RX and TX pins");
-              return false;
-            }
-            switch (portId) {
-              case SW_SERIAL0:
-                if (swSerial0 == NULL) {
-                  swSerial0 = new SoftwareSerial(swRxPin, swTxPin);
-                }
-                break;
-              case SW_SERIAL1:
-                if (swSerial1 == NULL) {
-                  swSerial1 = new SoftwareSerial(swRxPin, swTxPin);
-                }
-                break;
-              case SW_SERIAL2:
-                if (swSerial2 == NULL) {
-                  swSerial2 = new SoftwareSerial(swRxPin, swTxPin);
-                }
-                break;
-              case SW_SERIAL3:
-                if (swSerial3 == NULL) {
-                  swSerial3 = new SoftwareSerial(swRxPin, swTxPin);
-                }
-                break;
-            }
-            serialPort = getPortFromId(portId);
-            if (serialPort != NULL) {
-              Firmata.setPinMode(swRxPin, FIRMATA_PIN_MODE_SERIAL);
-              Firmata.setPinMode(swTxPin, FIRMATA_PIN_MODE_SERIAL);
-              ((SoftwareSerial*)serialPort)->begin(baud);
-            }
-#endif
           }
           break; // SERIAL_CONFIG
         }
@@ -191,14 +144,6 @@ boolean SerialFirmata::handleSysex(byte command, byte argc, byte *argv)
         if (serialPort != NULL) {
           if (portId < 8) {
             ((HardwareSerial*)serialPort)->end();
-          } else {
-#if defined(SoftwareSerial_h)
-            ((SoftwareSerial*)serialPort)->end();
-            if (serialPort != NULL) {
-              free(serialPort);
-              serialPort = NULL;
-            }
-#endif
           }
         }
         break; // SERIAL_CLOSE
@@ -208,17 +153,6 @@ boolean SerialFirmata::handleSysex(byte command, byte argc, byte *argv)
           getPortFromId(portId)->flush();
         }
         break; // SERIAL_FLUSH
-#if defined(SoftwareSerial_h)
-      case SERIAL_LISTEN:
-        // can only call listen() on software serial ports
-        if (portId > 7) {
-          serialPort = getPortFromId(portId);
-          if (serialPort != NULL) {
-            ((SoftwareSerial*)serialPort)->listen();
-          }
-        }
-        break; // SERIAL_LISTEN
-#endif
     } // end switch
     return true;
   }
@@ -232,18 +166,6 @@ void SerialFirmata::update()
 
 void SerialFirmata::reset()
 {
-#if defined(SoftwareSerial_h)
-  Stream *serialPort;
-  // free memory allocated for SoftwareSerial ports
-  for (byte i = SW_SERIAL0; i < SW_SERIAL3 + 1; i++) {
-    serialPort = getPortFromId(i);
-    if (serialPort != NULL) {
-      free(serialPort);
-      serialPort = NULL;
-    }
-  }
-#endif
-
   serialIndex = -1;
   for (byte i = 0; i < SERIAL_READ_ARR_LEN; i++) {
     serialBytesToRead[i] = 0;
@@ -286,29 +208,6 @@ Stream* SerialFirmata::getPortFromId(byte portId)
     case HW_SERIAL6:
       return &Serial6;
 #endif
-#if defined(SoftwareSerial_h)
-    case SW_SERIAL0:
-      if (swSerial0 != NULL) {
-        // instances of SoftwareSerial are already pointers so simply return the instance
-        return swSerial0;
-      }
-      break;
-    case SW_SERIAL1:
-      if (swSerial1 != NULL) {
-        return swSerial1;
-      }
-      break;
-    case SW_SERIAL2:
-      if (swSerial2 != NULL) {
-        return swSerial2;
-      }
-      break;
-    case SW_SERIAL3:
-      if (swSerial3 != NULL) {
-        return swSerial3;
-      }
-      break;
-#endif
   }
   return NULL;
 }
@@ -336,12 +235,7 @@ void SerialFirmata::checkSerial()
       if (serialPort == NULL) {
         continue;
       }
-#if defined(SoftwareSerial_h)
-      // only the SoftwareSerial port that is "listening" can read data
-      if (portId > 7 && !((SoftwareSerial*)serialPort)->isListening()) {
-        continue;
-      }
-#endif
+
       int bytesAvailable = serialPort->available();
       if (bytesAvailable > 0) {
 #if defined(FIRMATA_SERIAL_RX_DELAY)

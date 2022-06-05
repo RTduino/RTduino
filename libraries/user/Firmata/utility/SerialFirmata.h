@@ -102,7 +102,6 @@
 #define SERIAL_REPLY                0x40
 #define SERIAL_CLOSE                0x50
 #define SERIAL_FLUSH                0x60
-#define SERIAL_LISTEN               0x70
 
 // Serial read modes
 #define SERIAL_READ_CONTINUOUSLY    0x00
@@ -247,13 +246,6 @@ class SerialFirmata: public FirmataFeature
     byte maxRxDelay[SERIAL_READ_ARR_LEN];
     int lastBytesAvailable[SERIAL_READ_ARR_LEN];
     unsigned long lastBytesReceived[SERIAL_READ_ARR_LEN];
-#endif
-
-#if defined(SoftwareSerial_h)
-    Stream *swSerial0;
-    Stream *swSerial1;
-    Stream *swSerial2;
-    Stream *swSerial3;
 #endif
 
     Stream* getPortFromId(byte portId);
