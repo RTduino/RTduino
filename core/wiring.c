@@ -12,6 +12,10 @@
 #include <Arduino.h>
 #include "wiring_private.h"
 
+#define DBG_TAG    "Arduino.wiring"
+#define DBG_LVL    DBG_INFO
+#include <rtdbg.h>
+
 unsigned long millis(void)
 {
     return rt_tick_get_millisecond();
@@ -25,12 +29,20 @@ unsigned long micros(void)
 
     if(arduino_hwtimer_device != RT_NULL)
     {
-        rt_device_read(arduino_hwtimer_device, 0, &timestamp, sizeof(timestamp));
-        return timestamp.sec*1000000 + timestamp.usec;
+        if(rt_device_read(arduino_hwtimer_device, 0, &timestamp, sizeof(timestamp)) > 0)
+        {
+            return timestamp.sec*1000000 + timestamp.usec;
+        }
+        else
+        {
+            LOG_E("Failed to read from hardware timer!");
+            return 0;
+        }
     }
     else
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
     {
+        LOG_W("Low accuracy micros()");
         return millis()*1000;
     }
 }

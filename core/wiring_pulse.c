@@ -93,6 +93,7 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
     }
     else
     {
+        LOG_E("semaphore error: %d", rt_err);
         delta = 0; /* timeout or other errors */
     }
     return delta;
