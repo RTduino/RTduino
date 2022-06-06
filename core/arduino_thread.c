@@ -26,16 +26,13 @@
 #define RTDUINO_THREAD_PRIO     30
 #endif /* RTDUINO_THREAD_PRIO */
 
-#ifndef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-#define RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME "timer0" /* dummy name */
-#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
-
-rt_device_t arduino_hwtimer_device = RT_NULL;
-
 /* initialization for BSP; maybe a blank function  */
 RT_WEAK void initVariant(void)
 {
 }
+
+#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
+rt_device_t arduino_hwtimer_device = RT_NULL;
 
 static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
 {
@@ -44,7 +41,6 @@ static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
 
 static void hwtimer_init(void)
 {
-#ifdef RT_USING_HWTIMER
     rt_device_t hwtimer_device;
 
     hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
@@ -72,15 +68,17 @@ static void hwtimer_init(void)
         }
     }
     else
-#endif /* RT_USING_HWTIMER */
     {
         LOG_W("Cannot find a hardware timer. Some functions cannot be used.");
     }
 }
+#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
 static void arduino_entry(void *parameter)
 {
+#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
     hwtimer_init();
+#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
     initVariant();
 #ifndef RTDUINO_NO_SETUP_LOOP
     setup();

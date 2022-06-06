@@ -14,6 +14,5 @@
 #include <Arduino.h>
 
 extern const pin_map_t pin_map_table[];
-extern rt_device_t arduino_hwtimer_device;
 
-#endif
+#endif /* __WIRING_PRIVATE_H__ */
