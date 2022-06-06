@@ -8,51 +8,38 @@
  * 2022-04-12     Meco Man     first version
  */
 
-#include <rtdevice.h>
 #include "wiring_private.h"
 
 #define DBG_TAG    "Arduino.pulse"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-#ifdef RT_USING_HWTIMER
 static struct rt_semaphore pulsein_sem;
 static rt_bool_t pulsein_sem_init_flag = RT_FALSE;
 static struct
 {
     rt_bool_t first_pulse_coming;
-    rt_hwtimerval_t first_pulse_timestamp;
+    unsigned long first_pulse_timestamp_us;
     rt_bool_t second_pulse_coming;
-    rt_hwtimerval_t second_pulse_timestamp;
+    unsigned long second_pulse_timestamp_us;
     rt_uint8_t state;
     rt_int32_t rt_isr_pin;
 }pulse_record;
 
 static void pulsein_pin_interrupt_cb(void *args)
 {
-    rt_hwtimerval_t timestamp;
-
-    if(rt_device_read(arduino_hwtimer_device, 0,
-        &timestamp, sizeof(timestamp)) != RT_EOK)
-    {
-        LOG_E("Failed to read from hardware timer!");
-        return;
-    }
-
     if(pulse_record.first_pulse_coming == RT_FALSE
         && pulse_record.second_pulse_coming == RT_FALSE
         && rt_pin_read(pulse_record.rt_isr_pin) == pulse_record.state)
     {
-        pulse_record.first_pulse_timestamp.sec = timestamp.sec;
-        pulse_record.first_pulse_timestamp.usec = timestamp.usec;
+        pulse_record.first_pulse_timestamp_us = micros();
         pulse_record.first_pulse_coming = RT_TRUE;
     }
     else if(pulse_record.first_pulse_coming == RT_TRUE
         && pulse_record.second_pulse_coming == RT_FALSE
         && rt_pin_read(pulse_record.rt_isr_pin) != pulse_record.state)
     {
-        pulse_record.second_pulse_timestamp.sec = timestamp.sec;
-        pulse_record.second_pulse_timestamp.usec = timestamp.usec;
+        pulse_record.second_pulse_timestamp_us = micros();
         pulse_record.second_pulse_coming = RT_TRUE;
         rt_sem_release(&pulsein_sem); /* has waitted the second pulse */
     }
@@ -62,7 +49,6 @@ static void pulsein_pin_interrupt_cb(void *args)
         LOG_D("pulsein_pin_interrupt logic illegal. Skip");
     }
 }
-#endif /* RT_USING_HWTIMER */
 
 /* Measures the length (in microseconds) of a pulse on the pin; state is HIGH
  * or LOW, the type of pulse to measure.  Works on pulses from 2-3 microseconds
@@ -73,18 +59,11 @@ static void pulsein_pin_interrupt_cb(void *args)
  */
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 {
-    long delta;
-#ifdef RT_USING_HWTIMER
+    unsigned long delta;
     rt_int32_t rt_pin;
     rt_err_t rt_err;
 
     RT_ASSERT(state == HIGH || state == LOW);
-
-    if(arduino_hwtimer_device == RT_NULL)
-    {
-        LOG_E("Cannot find hardware timer!");
-        return 0;
-    }
 
     if(pulsein_sem_init_flag == RT_FALSE)
     {
@@ -97,11 +76,9 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
     /* clear parameters */
     pulsein_sem.value = 0; /* clear sem value */
     pulse_record.first_pulse_coming = RT_FALSE;
-    pulse_record.first_pulse_timestamp.sec = 0;
-    pulse_record.first_pulse_timestamp.usec = 0;
+    pulse_record.first_pulse_timestamp_us = 0;
     pulse_record.second_pulse_coming = RT_FALSE;
-    pulse_record.second_pulse_timestamp.sec = 0;
-    pulse_record.second_pulse_timestamp.usec = 0;
+    pulse_record.second_pulse_timestamp_us = 0;
     pulse_record.state = state;
     pulse_record.rt_isr_pin = rt_pin;
 
@@ -112,11 +89,9 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 
     if(rt_err == RT_EOK)
     {
-        delta = (pulse_record.second_pulse_timestamp.sec - pulse_record.first_pulse_timestamp.sec)*1000000;
-        delta += (pulse_record.second_pulse_timestamp.usec - pulse_record.first_pulse_timestamp.usec);
+        delta = (pulse_record.second_pulse_timestamp_us - pulse_record.first_pulse_timestamp_us);
     }
     else
-#endif /* RT_USING_HWTIMER */
     {
         delta = 0; /* timeout or other errors */
     }
