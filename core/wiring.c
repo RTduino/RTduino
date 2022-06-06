@@ -40,10 +40,16 @@ unsigned long micros(void)
         }
     }
     else
+#elif defined(RT_USING_CPUTIME)
+    if(RT_TRUE)
+    {
+        return clock_cpu_microsecond(clock_cpu_gettime());
+    }
+    else
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
     {
         LOG_W("Low accuracy micros()");
-        return millis()*1000;
+        return millis() * 1000;
     }
 }
 

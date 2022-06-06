@@ -41,7 +41,7 @@ static void pulsein_pin_interrupt_cb(void *args)
     {
         pulse_record.second_pulse_timestamp_us = micros();
         pulse_record.second_pulse_coming = RT_TRUE;
-        rt_sem_release(&pulsein_sem); /* has waitted the second pulse */
+        rt_sem_release(&pulsein_sem); /* has waited the second pulse */
     }
     else
     {

@@ -34,11 +34,6 @@ RT_WEAK void initVariant(void)
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
 rt_device_t arduino_hwtimer_device = RT_NULL;
 
-static rt_err_t hwtimer_timeout_cb(rt_device_t dev, rt_size_t size)
-{
-    return RT_EOK;
-}
-
 static void hwtimer_init(void)
 {
     rt_device_t hwtimer_device;
@@ -55,7 +50,6 @@ static void hwtimer_init(void)
             LOG_E("Failed to open hardware timer!");
             return;
         }
-        rt_device_set_rx_indicate(hwtimer_device, hwtimer_timeout_cb); /* set timeout callback function for hwtimer */
         rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq); /* set hwtimer prescaler frequency */
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode); /* set hwtimer mode */
         if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) != 0)
