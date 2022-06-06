@@ -59,6 +59,7 @@ static void pulsein_pin_interrupt_cb(void *args)
  */
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 {
+    rt_base_t level;
     unsigned long delta;
     rt_int32_t rt_pin;
     rt_err_t rt_err;
@@ -74,6 +75,7 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
     rt_pin = pin_map_table[pin].rt_pin;
 
     /* clear parameters */
+    level = rt_hw_interrupt_disable();
     pulsein_sem.value = 0; /* clear sem value */
     pulse_record.first_pulse_coming = RT_FALSE;
     pulse_record.first_pulse_timestamp_us = 0;
@@ -81,6 +83,7 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
     pulse_record.second_pulse_timestamp_us = 0;
     pulse_record.state = state;
     pulse_record.rt_isr_pin = rt_pin;
+    rt_hw_interrupt_enable(level);
 
     rt_pin_attach_irq(rt_pin, PIN_IRQ_MODE_RISING_FALLING, pulsein_pin_interrupt_cb, RT_NULL);
     rt_pin_irq_enable(rt_pin, PIN_IRQ_ENABLE); /* enable interrupt */
@@ -89,7 +92,9 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 
     if(rt_err == RT_EOK)
     {
+        level = rt_hw_interrupt_disable();
         delta = (pulse_record.second_pulse_timestamp_us - pulse_record.first_pulse_timestamp_us);
+        rt_hw_interrupt_enable(level);
     }
     else
     {
