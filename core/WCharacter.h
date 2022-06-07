@@ -29,7 +29,7 @@
 #ifndef Character_h
 #define Character_h
 
-#include <ctype.h>
+#include <ctypes.h>
 
 // WCharacter.h prototypes
 inline boolean isAlphaNumeric(int c) __attribute__((always_inline));
@@ -66,12 +66,12 @@ inline boolean isAlpha(int c)
 }
 
 
-//// Checks whether c is a 7-bit unsigned char value
-//// that fits into the ASCII character set.
-//inline boolean isAscii(int c)
-//{
-//  return ( isascii (c) == 0 ? false : true);
-//}
+// Checks whether c is a 7-bit unsigned char value
+// that fits into the ASCII character set.
+inline boolean isAscii(int c)
+{
+  return ( isascii (c) == 0 ? false : true);
+}
 
 
 // Checks for a blank character, that is, a space or a tab.
@@ -148,12 +148,12 @@ inline boolean isHexadecimalDigit(int c)
 }
 
 
-//// Converts c to a 7-bit unsigned char value that fits into the
-//// ASCII character set, by clearing the high-order bits.
-//inline int toAscii(int c)
-//{
-//  return toascii (c);
-//}
+// Converts c to a 7-bit unsigned char value that fits into the
+// ASCII character set, by clearing the high-order bits.
+inline int toAscii(int c)
+{
+  return toascii (c);
+}
 
 
 // Warning:
