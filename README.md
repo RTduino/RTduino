@@ -214,5 +214,7 @@ endmenu
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
 
-软件包地址：https://github.com/RTduino/RTduino
+https://github.com/RTduino/RTduino
+
+https://gitee.com/rtduino/RTduino
 
