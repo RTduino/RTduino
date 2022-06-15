@@ -33,31 +33,31 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 请到[RT-Thread Github官方仓库](https://github.com/RT-Thread/rt-thread)，下载最新的源码。对于部分用户下载Github源码慢的问题，可以百度或者到B站搜索“Github加速”等关键字来解决，此处不再赘述。
 
-![2.1-1](figures/2.1-1.png)
+![2.1-1](docs/figures/2.1-1.png)
 
 下载好之后请解压，打开RT-Studio IDE，选择文件(File) -> 导入(Import)，并选择RT-Thread BSP Project into Workspace，也就是将BSP工程导入到Studio的选项。
 
-![2.1-2](figures/2.1-2.png)
+![2.1-2](docs/figures/2.1-2.png)
 
-![2.1-3](figures/2.1-3.png)
+![2.1-3](docs/figures/2.1-3.png)
 
 路径选择，你刚刚下载解压好的RT-Thread源码，以STM32L475潘多拉板为例：`rt-thread\bsp\stm32\stm32l475-atk-pandora`。工程名字随便起一个就好，比如`STM32`：
 
-![2.1-4](figures/2.1-4.png)
+![2.1-4](docs/figures/2.1-4.png)
 
 点击完成(Finish)，稍等片刻即可完成工程导入。
 
 导入成功之后，双击RT-Thread Settings，进入到RT-Thread工程配置界面，点击<<按钮，进入到详细配置页面：
 
-![2.1-5](figures/2.1-5.png)
+![2.1-5](docs/figures/2.1-5.png)
 
-![2.1-6](figures/2.1-6.png)
+![2.1-6](docs/figures/2.1-6.png)
 
 点击Hardware，选择Support Arduino，只需要点一下即可，其他依赖项会自动处理。然后点击小锤子按钮进行编译，RT-Thread Studio会自动保存你当前的配置并下载RTduino软件包以及依赖项软件包，并将这些软件包加入到工程中，最后自动编译整个工程。
 
 总的来讲，你只需要选择Support Arduino，并点一下小锤子按钮，就坐等编译成功即可。
 
-![2.1-7](figures/2.1-7.png)
+![2.1-7](docs/figures/2.1-7.png)
 
 至此，RTduino软件包安装完成，此BSP工程已经具备了兼容Arduino生态的能力。
 
@@ -137,7 +137,7 @@ void loop(void)
 
 然后再点一下小锤子按钮来重新编译一下工程。
 
-![3.3-1](figures/3.3-1.png)
+![3.3-1](docs/figures/3.3-1.png)
 
 工程编译通过之后，你可以将这个AHT10 Arduino库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
 
