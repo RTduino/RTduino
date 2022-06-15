@@ -105,3 +105,28 @@ static int arduino_thread_init(void)
     return 0;
 }
 INIT_COMPONENT_EXPORT(arduino_thread_init);
+
+
+#ifdef RT_USING_FINSH
+#include <string.h>
+#include <finsh.h>
+#include <shell.h>
+
+static void _cmd_serial_read(void)
+{
+    while(1)
+    {
+        rt_kprintf("%c",(char)finsh_getchar());
+    }
+}
+
+static int _cmd_arduino(int argc, char **argv)
+{
+    if(strcmp(argv[1], "serial") == 0)
+    {
+        _cmd_serial_read();
+    }
+    return 0;
+}
+MSH_CMD_EXPORT_ALIAS(_cmd_arduino, arduino, arduino [option]);
+#endif /* RT_USING_FINSH */
