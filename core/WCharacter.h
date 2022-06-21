@@ -29,7 +29,7 @@
 #ifndef Character_h
 #define Character_h
 
-#include <ctypes.h>
+#include <posix/ctype.h>
 
 // WCharacter.h prototypes
 inline boolean isAlphaNumeric(int c) __attribute__((always_inline));
