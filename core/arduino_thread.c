@@ -124,7 +124,6 @@ static void _cmd_serial_read(void)
     {
         readchar = (unsigned char)finsh_getchar();
         getsize = rt_ringbuffer_putchar(console_serial_ringbuffer, readchar);
-        rt_exit_critical();
         if(getsize != 1)
         {
             LOG_E("ringbuffer write error!");
