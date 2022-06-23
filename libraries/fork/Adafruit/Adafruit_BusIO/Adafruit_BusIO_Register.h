@@ -3,8 +3,11 @@
 
 #include <Arduino.h>
 
+#if !defined(SPI_INTERFACES_COUNT) ||                                          \
+    (defined(SPI_INTERFACES_COUNT) && (SPI_INTERFACES_COUNT > 0))
+
 #include <Adafruit_I2CDevice.h>
-//#include <Adafruit_SPIDevice.h>
+#include <Adafruit_SPIDevice.h>
 
 typedef enum _Adafruit_BusIO_SPIRegType {
   ADDRBIT8_HIGH_TOREAD = 0,
@@ -43,16 +46,16 @@ public:
                           uint8_t width = 1, uint8_t byteorder = LSBFIRST,
                           uint8_t address_width = 1);
 
-//  Adafruit_BusIO_Register(Adafruit_SPIDevice *spidevice, uint16_t reg_addr,
-//                          Adafruit_BusIO_SPIRegType type, uint8_t width = 1,
-//                          uint8_t byteorder = LSBFIRST,
-//                          uint8_t address_width = 1);
+  Adafruit_BusIO_Register(Adafruit_SPIDevice *spidevice, uint16_t reg_addr,
+                          Adafruit_BusIO_SPIRegType type, uint8_t width = 1,
+                          uint8_t byteorder = LSBFIRST,
+                          uint8_t address_width = 1);
 
-//  Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
-//                          Adafruit_SPIDevice *spidevice,
-//                          Adafruit_BusIO_SPIRegType type, uint16_t reg_addr,
-//                          uint8_t width = 1, uint8_t byteorder = LSBFIRST,
-//                          uint8_t address_width = 1);
+  Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
+                          Adafruit_SPIDevice *spidevice,
+                          Adafruit_BusIO_SPIRegType type, uint16_t reg_addr,
+                          uint8_t width = 1, uint8_t byteorder = LSBFIRST,
+                          uint8_t address_width = 1);
 
   bool read(uint8_t *buffer, uint8_t len);
   bool read(uint8_t *value);
@@ -68,18 +71,18 @@ public:
   void setAddress(uint16_t address);
   void setAddressWidth(uint16_t address_width);
 
-//  void print(Stream *s = &Serial);
-//  void println(Stream *s = &Serial);
+  void print(Stream *s = &Serial);
+  void println(Stream *s = &Serial);
 
 private:
   Adafruit_I2CDevice *_i2cdevice;
-//  Adafruit_SPIDevice *_spidevice;
+  Adafruit_SPIDevice *_spidevice;
   Adafruit_BusIO_SPIRegType _spiregtype;
   uint16_t _address;
   uint8_t _width, _addrwidth, _byteorder;
   uint8_t _buffer[4]; // we won't support anything larger than uint32 for
                       // non-buffered read
-  uint32_t _cached;
+  uint32_t _cached = 0;
 };
 
 /*!
@@ -98,4 +101,5 @@ private:
   uint8_t _bits, _shift;
 };
 
+#endif // SPI exists
 #endif // BusIO_Register_h
