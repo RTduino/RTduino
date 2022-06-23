@@ -112,12 +112,24 @@ INIT_COMPONENT_EXPORT(arduino_thread_init);
 #include <finsh.h>
 #include <shell.h>
 
+struct rt_ringbuffer *console_serial_ringbuffer = RT_NULL;
+
 static void _cmd_serial_read(void)
 {
+    rt_size_t getsize;
+    rt_uint8_t readchar;
+
+    console_serial_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
     while(1)
     {
-        rt_kprintf("%c",(char)finsh_getchar());
+        readchar = (unsigned char)finsh_getchar();
+        getsize = rt_ringbuffer_putchar(console_serial_ringbuffer, readchar);
+        if(getsize != 1)
+        {
+            LOG_E("ringbuffer write error!");
+        }
     }
+    rt_ringbuffer_destroy(console_serial_ringbuffer);
 }
 
 static int _cmd_arduino(int argc, char **argv)
