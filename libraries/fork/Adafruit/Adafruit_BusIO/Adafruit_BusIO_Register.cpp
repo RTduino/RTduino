@@ -1,5 +1,8 @@
 #include <Adafruit_BusIO_Register.h>
 
+#if !defined(SPI_INTERFACES_COUNT) ||                                          \
+    (defined(SPI_INTERFACES_COUNT) && (SPI_INTERFACES_COUNT > 0))
+
 /*!
  *    @brief  Create a register we access over an I2C Device (which defines the
  * bus and address)
@@ -18,12 +21,11 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
                                                  uint8_t byteorder,
                                                  uint8_t address_width) {
   _i2cdevice = i2cdevice;
-//  _spidevice = NULL;
+  _spidevice = NULL;
   _addrwidth = address_width;
   _address = reg_addr;
   _byteorder = byteorder;
   _width = width;
-  _cached = 0;
 }
 
 /*!
@@ -40,29 +42,29 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
  *    @param  address_width The width of the register address itself, defaults
  * to 1 byte
  */
-//Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_SPIDevice *spidevice,
-//                                                 uint16_t reg_addr,
-//                                                 Adafruit_BusIO_SPIRegType type,
-//                                                 uint8_t width,
-//                                                 uint8_t byteorder,
-//                                                 uint8_t address_width) {
-//  _spidevice = spidevice;
-//  _spiregtype = type;
-//  _i2cdevice = NULL;
-//  _addrwidth = address_width;
-//  _address = reg_addr;
-//  _byteorder = byteorder;
-//  _width = width;
-//}
+Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_SPIDevice *spidevice,
+                                                 uint16_t reg_addr,
+                                                 Adafruit_BusIO_SPIRegType type,
+                                                 uint8_t width,
+                                                 uint8_t byteorder,
+                                                 uint8_t address_width) {
+  _spidevice = spidevice;
+  _spiregtype = type;
+  _i2cdevice = NULL;
+  _addrwidth = address_width;
+  _address = reg_addr;
+  _byteorder = byteorder;
+  _width = width;
+}
 
 /*!
  *    @brief  Create a register we access over an I2C or SPI Device. This is a
- * handy function because we can pass in NULL for the unused interface, allowing
- * libraries to mass-define all the registers
- *    @param  i2cdevice The I2CDevice to use for underlying I2C access, if NULL
- * we use SPI
- *    @param  spidevice The SPIDevice to use for underlying SPI access, if NULL
- * we use I2C
+ * handy function because we can pass in nullptr for the unused interface,
+ * allowing libraries to mass-define all the registers
+ *    @param  i2cdevice The I2CDevice to use for underlying I2C access, if
+ * nullptr we use SPI
+ *    @param  spidevice The SPIDevice to use for underlying SPI access, if
+ * nullptr we use I2C
  *    @param  reg_addr The address pointer value for the I2C/SMBus/SPI register,
  * can be 8 or 16 bits
  *    @param  type     The method we use to read/write data to SPI (which is not
@@ -73,18 +75,18 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
  *    @param  address_width The width of the register address itself, defaults
  * to 1 byte
  */
-//Adafruit_BusIO_Register::Adafruit_BusIO_Register(
-//    Adafruit_I2CDevice *i2cdevice, Adafruit_SPIDevice *spidevice,
-//    Adafruit_BusIO_SPIRegType type, uint16_t reg_addr, uint8_t width,
-//    uint8_t byteorder, uint8_t address_width) {
-//  _spidevice = spidevice;
-//  _i2cdevice = i2cdevice;
-//  _spiregtype = type;
-//  _addrwidth = address_width;
-//  _address = reg_addr;
-//  _byteorder = byteorder;
-//  _width = width;
-//}
+Adafruit_BusIO_Register::Adafruit_BusIO_Register(
+    Adafruit_I2CDevice *i2cdevice, Adafruit_SPIDevice *spidevice,
+    Adafruit_BusIO_SPIRegType type, uint16_t reg_addr, uint8_t width,
+    uint8_t byteorder, uint8_t address_width) {
+  _spidevice = spidevice;
+  _i2cdevice = i2cdevice;
+  _spiregtype = type;
+  _addrwidth = address_width;
+  _address = reg_addr;
+  _byteorder = byteorder;
+  _width = width;
+}
 
 /*!
  *    @brief  Write a buffer of data to the register location
@@ -101,32 +103,32 @@ bool Adafruit_BusIO_Register::write(uint8_t *buffer, uint8_t len) {
   if (_i2cdevice) {
     return _i2cdevice->write(buffer, len, true, addrbuffer, _addrwidth);
   }
-//  if (_spidevice) {
-//    if (_spiregtype == ADDRESSED_OPCODE_BIT0_LOW_TO_WRITE) {
-//      // very special case!
+  if (_spidevice) {
+    if (_spiregtype == ADDRESSED_OPCODE_BIT0_LOW_TO_WRITE) {
+      // very special case!
 
-//      // pass the special opcode address which we set as the high byte of the
-//      // regaddr
-//      addrbuffer[0] =
-//          (uint8_t)(_address >> 8) & ~0x01; // set bottom bit low to write
-//      // the 'actual' reg addr is the second byte then
-//      addrbuffer[1] = (uint8_t)(_address & 0xFF);
-//      // the address appears to be a byte longer
-//      return _spidevice->write(buffer, len, addrbuffer, _addrwidth + 1);
-//    }
+      // pass the special opcode address which we set as the high byte of the
+      // regaddr
+      addrbuffer[0] =
+          (uint8_t)(_address >> 8) & ~0x01; // set bottom bit low to write
+      // the 'actual' reg addr is the second byte then
+      addrbuffer[1] = (uint8_t)(_address & 0xFF);
+      // the address appears to be a byte longer
+      return _spidevice->write(buffer, len, addrbuffer, _addrwidth + 1);
+    }
 
-//    if (_spiregtype == ADDRBIT8_HIGH_TOREAD) {
-//      addrbuffer[0] &= ~0x80;
-//    }
-//    if (_spiregtype == ADDRBIT8_HIGH_TOWRITE) {
-//      addrbuffer[0] |= 0x80;
-//    }
-//    if (_spiregtype == AD8_HIGH_TOREAD_AD7_HIGH_TOINC) {
-//      addrbuffer[0] &= ~0x80;
-//      addrbuffer[0] |= 0x40;
-//    }
-//    return _spidevice->write(buffer, len, addrbuffer, _addrwidth);
-//  }
+    if (_spiregtype == ADDRBIT8_HIGH_TOREAD) {
+      addrbuffer[0] &= ~0x80;
+    }
+    if (_spiregtype == ADDRBIT8_HIGH_TOWRITE) {
+      addrbuffer[0] |= 0x80;
+    }
+    if (_spiregtype == AD8_HIGH_TOREAD_AD7_HIGH_TOINC) {
+      addrbuffer[0] &= ~0x80;
+      addrbuffer[0] |= 0x40;
+    }
+    return _spidevice->write(buffer, len, addrbuffer, _addrwidth);
+  }
   return false;
 }
 
@@ -166,7 +168,7 @@ bool Adafruit_BusIO_Register::write(uint32_t value, uint8_t numbytes) {
  */
 uint32_t Adafruit_BusIO_Register::read(void) {
   if (!read(_buffer, _width)) {
-    return (uint32_t)-1;
+    return -1;
   }
 
   uint32_t value = 0;
@@ -203,31 +205,31 @@ bool Adafruit_BusIO_Register::read(uint8_t *buffer, uint8_t len) {
   if (_i2cdevice) {
     return _i2cdevice->write_then_read(addrbuffer, _addrwidth, buffer, len);
   }
-//  if (_spidevice) {
-//    if (_spiregtype == ADDRESSED_OPCODE_BIT0_LOW_TO_WRITE) {
-//      // very special case!
+  if (_spidevice) {
+    if (_spiregtype == ADDRESSED_OPCODE_BIT0_LOW_TO_WRITE) {
+      // very special case!
 
-//      // pass the special opcode address which we set as the high byte of the
-//      // regaddr
-//      addrbuffer[0] =
-//          (uint8_t)(_address >> 8) | 0x01; // set bottom bit high to read
-//      // the 'actual' reg addr is the second byte then
-//      addrbuffer[1] = (uint8_t)(_address & 0xFF);
-//      // the address appears to be a byte longer
-//      return _spidevice->write_then_read(addrbuffer, _addrwidth + 1, buffer,
-//                                         len);
-//    }
-//    if (_spiregtype == ADDRBIT8_HIGH_TOREAD) {
-//      addrbuffer[0] |= 0x80;
-//    }
-//    if (_spiregtype == ADDRBIT8_HIGH_TOWRITE) {
-//      addrbuffer[0] &= ~0x80;
-//    }
-//    if (_spiregtype == AD8_HIGH_TOREAD_AD7_HIGH_TOINC) {
-//      addrbuffer[0] |= 0x80 | 0x40;
-//    }
-//    return _spidevice->write_then_read(addrbuffer, _addrwidth, buffer, len);
-//  }
+      // pass the special opcode address which we set as the high byte of the
+      // regaddr
+      addrbuffer[0] =
+          (uint8_t)(_address >> 8) | 0x01; // set bottom bit high to read
+      // the 'actual' reg addr is the second byte then
+      addrbuffer[1] = (uint8_t)(_address & 0xFF);
+      // the address appears to be a byte longer
+      return _spidevice->write_then_read(addrbuffer, _addrwidth + 1, buffer,
+                                         len);
+    }
+    if (_spiregtype == ADDRBIT8_HIGH_TOREAD) {
+      addrbuffer[0] |= 0x80;
+    }
+    if (_spiregtype == ADDRBIT8_HIGH_TOWRITE) {
+      addrbuffer[0] &= ~0x80;
+    }
+    if (_spiregtype == AD8_HIGH_TOREAD_AD7_HIGH_TOINC) {
+      addrbuffer[0] |= 0x80 | 0x40;
+    }
+    return _spidevice->write_then_read(addrbuffer, _addrwidth, buffer, len);
+  }
   return false;
 }
 
@@ -273,20 +275,20 @@ bool Adafruit_BusIO_Register::read(uint8_t *value) {
  *    @brief  Pretty printer for this register
  *    @param  s The Stream to print to, defaults to &Serial
  */
-//void Adafruit_BusIO_Register::print(Stream *s) {
-//  uint32_t val = read();
-//  s->print("0x");
-//  s->print(val, HEX);
-//}
+void Adafruit_BusIO_Register::print(Stream *s) {
+  uint32_t val = read();
+  s->print("0x");
+  s->print(val, HEX);
+}
 
 /*!
  *    @brief  Pretty printer for this register
  *    @param  s The Stream to print to, defaults to &Serial
  */
-//void Adafruit_BusIO_Register::println(Stream *s) {
-//  print(s);
-//  s->println();
-//}
+void Adafruit_BusIO_Register::println(Stream *s) {
+  print(s);
+  s->println();
+}
 
 /*!
  *    @brief  Create a slice of the register that we can address without
@@ -359,3 +361,5 @@ void Adafruit_BusIO_Register::setAddress(uint16_t address) {
 void Adafruit_BusIO_Register::setAddressWidth(uint16_t address_width) {
   _addrwidth = address_width;
 }
+
+#endif // SPI exists
