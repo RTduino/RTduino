@@ -123,6 +123,16 @@ uint8_t TwoWire::twi_transmit(const uint8_t * buf, uint8_t len)
     }
 }
 
+/*
+ * Function twi_disable
+ * Desc     disables twi pins
+ * Input    none
+ * Output   none
+ */
+void twi_disable(void)
+{
+}
+
 // Constructors ////////////////////////////////////////////////////////////////
 
 TwoWire::TwoWire()
@@ -169,6 +179,11 @@ void TwoWire::begin(const char *i2c_dev_name)
 //{
 //    begin((uint8_t)address);
 //}
+
+void TwoWire::end(void)
+{
+    twi_disable();
+}
 
 void TwoWire::setClock(uint32_t frequency)
 {

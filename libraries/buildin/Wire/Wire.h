@@ -77,6 +77,7 @@ public:
     void begin(const char *i2c_dev_name = RTDUINO_DEFAULT_IIC_BUS_NAME);
     void begin(uint8_t);
     void begin(int);
+    void end(void);
     void setClock(uint32_t);
     void setWireTimeout(uint32_t timeout = 25000, bool reset_with_timeout = false);
     void beginTransmission(uint8_t);
