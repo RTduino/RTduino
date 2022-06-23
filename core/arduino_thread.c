@@ -123,7 +123,6 @@ static void _cmd_serial_read(void)
     while(1)
     {
         readchar = (unsigned char)finsh_getchar();
-        rt_enter_critical();
         getsize = rt_ringbuffer_putchar(console_serial_ringbuffer, readchar);
         rt_exit_critical();
         if(getsize != 1)
