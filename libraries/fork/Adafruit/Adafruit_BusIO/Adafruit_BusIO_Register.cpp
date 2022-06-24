@@ -26,6 +26,7 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
   _address = reg_addr;
   _byteorder = byteorder;
   _width = width;
+  _cached = 0;
 }
 
 /*!
@@ -55,6 +56,7 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_SPIDevice *spidevice,
   _address = reg_addr;
   _byteorder = byteorder;
   _width = width;
+  _cached = 0;
 }
 
 /*!
@@ -86,6 +88,7 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(
   _address = reg_addr;
   _byteorder = byteorder;
   _width = width;
+  _cached = 0;
 }
 
 /*!
@@ -168,7 +171,7 @@ bool Adafruit_BusIO_Register::write(uint32_t value, uint8_t numbytes) {
  */
 uint32_t Adafruit_BusIO_Register::read(void) {
   if (!read(_buffer, _width)) {
-    return -1;
+    return (uint32_t)-1;
   }
 
   uint32_t value = 0;
