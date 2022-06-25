@@ -1,6 +1,9 @@
 # RT-Thread的Arduino生态兼容层
+
 ## Arduino Application and Ecosystem Compatibility Layer for RT-Thread
+
 ### 如果喜欢请Star，这是对本开源项目最大的鼓励，谢谢；如果想要贡献PR，请fork
+
 --------
 
 ## 1 简介
@@ -15,15 +18,11 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 ### 1.1 已经支持Arduino生态兼容层的RT-Thread BSP
 
-| BSP名称                                                      | 备注                               |
-| ------------------------------------------------------------ | ---------------------------------- |
-| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | 引脚异形布局，但外设丰富         |
-| [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局            |
+| BSP名称                                                                                                                            | 备注                |
+| -------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout)   | 引脚异形布局，但外设丰富      |
+| [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
 | [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
-
-> 注：
->
-> 由于Arduino UNO引脚布局中，SPI功能引脚（D10-D13）与PWM以及数字IO功能引脚有冲突，因此只有一部分BSP以牺牲PWM以及数字IO功能为代价支持SPI功能。支持SPI的BSP会用括号标注出来。
 
 ## 2 如何使用本兼容层
 
@@ -68,11 +67,11 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 - core文件夹主要是提供Arduino内置的所有的API函数，例如analogWrite、analogRead函数等等，这些函数可以在[Arduino官方](https://www.arduino.cc/reference/en/)找到详细的介绍。
 
 - libraries文件夹是Arduino库所在文件夹。其中：
-
+  
   - buildin文件夹下存放着Arduino内置的一些库，例如Servo舵机驱动库，Wire I2C驱动库等等；
-
+  
   - fork文件夹是保存着一些Arduino社区比较重要的第三方库，这些库不能直接移植到RT-Thread上来，需要进行一些适配，因此保存在这里；
-
+  
   - user文件夹是用户文件夹，这是对用户来说很重要的一个文件夹，里边默认是空的，用户可以把下载好的Arduino库拖入到此文件夹中来，在下个章节会细说这个操作。
 
 ### 2.3 Arduino经典的setup和loop函数在哪里？
@@ -102,9 +101,9 @@ void loop(void)
 可以看到，板载的LED灯已经开始闪烁，串口开始输出了。
 
 > 注意：
->
+> 
 > 由于RT-Thread的main.c文件内，也会默认闪烁一个LED灯，如果板子上只有一个LED灯的话，两个线程会发生干涉。但是你会发现这个LED的闪烁速度明显变快了。因为main.c那边的闪烁周期是1000ms，上面这个例程是200ms。
->
+> 
 > 如果你用潘多拉板，main.c闪烁的是红灯，RTduino兼容层的Arduino程序默认闪烁的是绿色的灯，二者不会发生干扰。
 
 ### 2.5 具体Arduino引脚分布信息
@@ -113,7 +112,7 @@ void loop(void)
 
 [STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | [STM32F072 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout)
 
-## 3 Arduino库的导入
+## 3 Arduino库的导入和使用
 
 ### 3.1 术语说明
 
@@ -129,7 +128,7 @@ void loop(void)
 
 支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/issues/2
 
-### 3.3. 导入一个Arduino库到RT-Thread工程（以潘多拉板为例）
+### 3.3 导入一个Arduino库到RT-Thread工程（以潘多拉板为例）
 
 首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。比如，我想要一个驱动AHT10温湿度传感器的库，可以在[此处](https://github.com/adafruit/Adafruit_AHTX0)下载。此处以潘多拉板为例，因为潘多拉板板载了AHT10传感器。
 
@@ -140,6 +139,27 @@ void loop(void)
 ![3.3-1](docs/figures/3.3-1.png)
 
 工程编译通过之后，你可以将这个AHT10 Arduino库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
+
+### 3.4 RTduino内置库
+
+在RTduino中内置了两类库，方便用户直接使用。
+
+一类是在Arduino中原生内建(buildin)的库，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
+
+| 库名称       | 说明       | 使能宏                     | 备注                    |
+| --------- | -------- | ----------------------- | --------------------- |
+| Servo     | 舵机库      | RTDUINO_USING_SERVO     | 所有支持PWM功能的BSP均会默认开启该库 |
+| SPI       | SPI库     | RTDUINO_USING_SPI       | 正在开发中                 |
+| Wire      | I2C库     | RTDUINO_USING_WIRE      | 所有支持I2C功能的BSP均会默认开启该库 |
+| USBSerial | USB虚拟串口库 | RTDUINO_USING_USBSERIAL |                       |
+
+另一类是Arduino社区比较重要的第三方库，且该第三方库不能直接在RTduino上运行，需要进行重新适配到RTduino，存放于 `libraries/fork` 文件夹内。具体如下表所示：
+
+| 库名称                                                            | 说明                 | 使能宏                    | 备注                        |
+| -------------------------------------------------------------- | ------------------ | ---------------------- | ------------------------- |
+| [Adafruit_BusIO](https://github.com/adafruit/Adafruit_BusIO)   | Adafruit社区总线库      | RTDUINO_USING_ADAFRUIT | 所有支持I2C、SPI功能的BSP均会默认开启该库 |
+| [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor) | Adafruit社区传感器统一驱动库 | RTDUINO_USING_ADAFRUIT | 所有支持I2C、SPI功能的BSP均会默认开启该库 |
+| [MsTimer2](https://github.com/PaulStoffregen/MsTimer2)         | 1ms级定时器库           | RTDUINO_USING_MSTIMER2 | 所有BSP默认开启该库               |
 
 ## 4 如何给某个BSP适配RTduino
 
@@ -158,6 +178,133 @@ void loop(void)
 需要在applications文件夹下创建arduino_pinout文件夹，这个文件夹主要包含 `arduino_pinout.c` 和 `arduino_pinout.h` 两个关键的文件，这两个文件是对接的关键。用户只需要做好这两个文件，即可完成与RTduino的对接。
 
 同时，这个文件夹内也需要SConscript脚本文件，以及提供Arduino引脚布局的README说明文档。请参照上面的示例BSP来完成对这两个文件的编写。
+
+#### 4.1.3 arduino_pinout.c 文件的编写
+
+`arduino_pinout.c` 内需要完成一个IO编号和功能的映射表。由于Arduino的习惯是采用1-13 (D0-D13) 以及 A0-A5的引脚编号，而正规的MCU的引脚编号一般都是PA1之类，因此需要将MCU真正的引脚编号与Arduino引脚编号映射起来。
+
+以下段代码来举例讲解：
+
+```c
+/*
+    {Arduino Pin, RT-Thread Pin [, Device Name(PWM or ADC), Channel]}
+    [] means optional
+    Digital pins must NOT give the device name and channel.
+    Analog pins MUST give the device name and channel(ADC, PWM or DAC).
+    Arduino Pin must keep in sequence.
+*/
+/* 按照先数字引脚后模拟引脚的顺序从0开始，一定要按序排列 */
+/* 可以按照板卡实际IO情况，灵活调整功能，不一定非得按照Arduino UNO的引脚功能布局，但是建议按此布局设计 */
+const pin_map_t pin_map_table[]=
+{
+    {D0}, /* RX */
+    {D1}, /* TX */
+    {D2, GET_PIN(A,10)},
+    {D3, GET_PIN(B,3), "pwm2", 2}, /* PWM */
+    {D4, GET_PIN(B,5)},
+    {D5, GET_PIN(B,4), "pwm3", 1}, /* PWM */
+    {D6, GET_PIN(B,10), "pwm2", 3}, /* PWM */
+    {D7, GET_PIN(A,8)},
+    {D8, GET_PIN(A,9)},
+    {D9, GET_PIN(C,7), "pwm3", 2}, /* PWM */
+    {D10, GET_PIN(B,6), "pwm16", 1}, /* PWM */
+    {D11, GET_PIN(A,7), "pwm17", 1}, /* PWM */
+    {D12, GET_PIN(A,6)},
+    {D13, GET_PIN(A,5)},
+    {D14}, /* I2C1-SDA */
+    {D15}, /* I2C1-SCL */
+    {D16, GET_PIN(C,13)}, /* user button */
+    {A0, GET_PIN(A,0), "adc1", 0}, /* ADC */
+    {A1, GET_PIN(A,1), "adc1", 1}, /* ADC */
+    {A2, GET_PIN(A,4), "adc1", 4}, /* ADC */
+    {A3, GET_PIN(B,0), "adc1", 8}, /* ADC */
+    {A4, GET_PIN(C,1), "adc1", 11}, /* ADC */
+    {A5, GET_PIN(C,0), "adc1", 10}, /* ADC */
+}
+```
+
+如上截取展示了IO编号和功能映射表，每一行用花括号包裹（实际是一个结构体）来建议一个IO的映射关系：
+
+```c
+{Arduino引脚编号, RT-Thread引脚编号(通过GET_PIN宏获取), 复用功能的设备名(PWM、ADC或DAC), 该复用功能设备的通道号}
+```
+
+其中，Arduino引脚编号，即是第一个参数，是必填的，D0 - Dx 或者是 A0 - Ax。注意一定要按先数字引脚后模拟引脚照顺序来填写。
+
+RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什么，这里就填什么，一般使用 `GET_PIN` 宏来获取。注意：D0、D1以及I2C、SPI IO需要将此参数略过。
+
+后两个参数是复用功能IO才需要填写的，普通引脚只需要略过即可。
+
+#### 4.1.4 arduino_pinout.h 文件的编写
+
+该文件主要负责定义各种宏，包括：
+
+D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引脚的顺序进行排号。
+
+定义默认开启的一些硬件功能，如下表所示：
+
+```c
+/* pins alias. Must keep in sequence */
+/* 按照先数字引脚后模拟引脚的顺序从0开始，一定要按序排列 */
+/* 可以按照板卡实际IO情况，灵活调整功能，不一定非得按照Arduino UNO的引脚功能布局，但是建议按此布局设计 */
+#define D0   (0)
+#define D1   (1)
+#define D2   (2)
+#define D3   (3)
+#define D4   (4)
+#define D5   (5)
+#define D6   (6)
+#define D7   (7)
+#define D8   (8)
+#define D9   (9)
+#define D10  (10)
+#define D11  (11)
+#define D12  (12)
+#define D13  (13)
+#define D14  (14)
+#define D15  (15)
+#define D16  (16)
+#define D17  (17)
+#define D18  (18)
+#define D19  (19)
+#define D20  (20)
+#define D21  (21)
+#define D22  (22)
+#define D23  (23)
+#define D24  (24)
+#define D25  (25)
+#define D26  (26)
+#define D27  (27)
+#define D28  (28)
+#define D29  (29)
+#define D30  (30)
+#define D31  (31)
+#define D32  (32)
+#define A0   (33)
+#define A1   (34)
+#define A2   (35)
+#define A3   (36)
+#define DAC0 (37)
+
+#define F_CPU  80000000L /* CPU: 80MHz，定义CPU的主频 */
+#define LED_BUILTIN  D22 /* Default Built-in LED，定义Arduino内置LED的引脚编号 */
+
+/* 定义I2C设备名称，在使用Wire库时会直接调用。可选，如果没有I2C功能，不需要定义该宏 */
+#define RTDUINO_DEFAULT_IIC_BUS_NAME            "i2c4"
+
+/* 定义SPI设备名称，在使用SPI库时会直接调用。可选，如果没有SPI功能，不需要定义该宏 */
+#define RTDUINO_DEFAULT_SPI_BUS_NAME            "spi2"
+
+/* 
+   定义高精度定时器设备名称，该宏主要是提供us时基信号使用。
+   所有Cortex-M核MCU均不需要定义此宏，RTduino会自动调用systick来计算us级时间戳。
+   非Cortex-M核的MCU需要提供一个硬件定时器来提供us级时间戳。
+ */
+#define RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME     "timer7"
+
+/* 如果有串口2、串口3可以定义串口2、3的设备名称，若没有可直接不定义此宏 */
+#define RTDUINO_SERIAL2_DEVICE_NAME             "uart2"
+```
 
 ### 4.2 修改Kconfig文件
 
@@ -217,4 +364,3 @@ endmenu
 https://github.com/RTduino/RTduino
 
 https://gitee.com/rtduino/RTduino
-
