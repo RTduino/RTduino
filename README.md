@@ -167,7 +167,7 @@ void loop(void)
 
 需要在某个BSP的applications文件夹下创建如下文件、文件夹：
 
-参考示例BSP：[STM32F072 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | [STM32F401 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout)
+参考示例BSP：[STM32F072 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | [STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications)
 
 #### 4.1.1 arduino_main.cpp文件
 
@@ -236,6 +236,8 @@ RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什�
 后两个参数是复用功能IO才需要填写的，普通引脚只需要略过即可。
 
 #### 4.1.4 arduino_pinout.h 文件的编写
+
+参考示例BSP：[STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/pins_arduino.h)
 
 该文件主要负责定义各种宏，包括：
 
@@ -310,7 +312,7 @@ D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引�
 
 Kconfig文件位于BSP的board文件夹下：
 
-参考示例BSP：[STM32F072 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/board/Kconfig) | [STM32F401 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f401-st-nucleo/board/Kconfig)
+参考示例BSP：[STM32F072 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/board/Kconfig) | [STM32L475 潘多拉板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/board/Kconfig)
 
 ```Kconfig
 menu "Onboard Peripheral Drivers"
