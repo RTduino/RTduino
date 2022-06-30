@@ -14,8 +14,6 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 本软件包可以运行在[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)和Keil编译环境下，因为Arduino的库都是基于GCC环境开发的，因此推荐使用RT-Studio运行。
 
-2022年RT-Thread全球开发者大会报告：[视频](https://www.bilibili.com/video/BV1Wa411L7B4) | [PPT](docs/zh/RTduino_2022_GTC.pdf)
-
 ### 1.1 已经支持Arduino生态兼容层的RT-Thread BSP
 
 | BSP名称                                                                                                                            | 备注                |
@@ -359,7 +357,18 @@ endmenu
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
 
-## 5 维护
+
+## 5 参考资料
+
+### 5.1 演讲、会议相关
+
+2022年RT-Thread全球开发者大会报告：[视频](https://www.bilibili.com/video/BV1Wa411L7B4) | [PPT](docs/zh/RTduino_2022_GTC.pdf)
+
+### 5.2 需要注意的事项
+
+[需要注意的事项](docs/zh/需要注意的事项.md)
+
+## 6 维护
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
 
