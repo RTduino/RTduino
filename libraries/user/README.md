@@ -2,7 +2,4 @@
 
 更多信息
 
-https://docs.arduino.cc/hacking/software/LibraryTutorial
-
 https://arduino.github.io/arduino-cli/0.21/sketch-build-process/
-
