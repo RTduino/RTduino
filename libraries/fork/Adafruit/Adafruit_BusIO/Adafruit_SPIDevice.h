@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 
+#ifdef RTDUINO_USING_SPI
 #if !defined(SPI_INTERFACES_COUNT) ||                                          \
     (defined(SPI_INTERFACES_COUNT) && (SPI_INTERFACES_COUNT > 0))
 
@@ -59,4 +60,5 @@ private:
 };
 
 #endif // has SPI defined
+#endif /* RTDUINO_USING_SPI */
 #endif // Adafruit_SPIDevice_h

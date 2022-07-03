@@ -1,5 +1,6 @@
 #include "Adafruit_SPIDevice.h"
 
+#ifdef RTDUINO_USING_SPI
 #if !defined(SPI_INTERFACES_COUNT) ||                                          \
     (defined(SPI_INTERFACES_COUNT) && (SPI_INTERFACES_COUNT > 0))
 
@@ -491,3 +492,4 @@ bool Adafruit_SPIDevice::write_and_read(uint8_t *buffer, size_t len) {
 }
 
 #endif // SPI exists
+#endif /* RTDUINO_USING_SPI */
