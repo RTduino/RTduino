@@ -3,7 +3,9 @@
 
 #include <Arduino.h>
 
+#ifdef RTDUINO_USING_WIRE
 #include <Adafruit_I2CDevice.h>
+#endif /* RTDUINO_USING_WIRE */
 #ifdef RTDUINO_USING_SPI
 #include <Adafruit_SPIDevice.h>
 #endif /* RTDUINO_USING_SPI */
