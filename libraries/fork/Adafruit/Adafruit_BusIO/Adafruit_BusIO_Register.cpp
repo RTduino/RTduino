@@ -1,5 +1,6 @@
 #include <Adafruit_BusIO_Register.h>
 
+#ifdef RTDUINO_USING_WIRE
 /*!
  *    @brief  Create a register we access over an I2C Device (which defines the
  * bus and address)
@@ -27,6 +28,7 @@ Adafruit_BusIO_Register::Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice,
   _width = width;
   _cached = 0;
 }
+#endif /* RTDUINO_USING_WIRE */
 
 #ifdef RTDUINO_USING_SPI
 /*!
@@ -103,10 +105,11 @@ bool Adafruit_BusIO_Register::write(uint8_t *buffer, uint8_t len) {
 
   uint8_t addrbuffer[2] = {(uint8_t)(_address & 0xFF),
                            (uint8_t)(_address >> 8)};
-
+#ifdef RTDUINO_USING_WIRE
   if (_i2cdevice) {
     return _i2cdevice->write(buffer, len, true, addrbuffer, _addrwidth);
   }
+#endif /* RTDUINO_USING_WIRE */
 #ifdef RTDUINO_USING_SPI
   if (_spidevice) {
     if (_spiregtype == ADDRESSED_OPCODE_BIT0_LOW_TO_WRITE) {
@@ -207,10 +210,11 @@ uint32_t Adafruit_BusIO_Register::readCached(void) { return _cached; }
 bool Adafruit_BusIO_Register::read(uint8_t *buffer, uint8_t len) {
   uint8_t addrbuffer[2] = {(uint8_t)(_address & 0xFF),
                            (uint8_t)(_address >> 8)};
-
+#ifdef RTDUINO_USING_WIRE
   if (_i2cdevice) {
     return _i2cdevice->write_then_read(addrbuffer, _addrwidth, buffer, len);
   }
+#endif /* RTDUINO_USING_WIRE */
 #ifdef RTDUINO_USING_SPI
   if (_spidevice) {
     if (_spiregtype == ADDRESSED_OPCODE_BIT0_LOW_TO_WRITE) {

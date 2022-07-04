@@ -1,5 +1,6 @@
 #include "Adafruit_I2CDevice.h"
 
+#ifdef RTDUINO_USING_WIRE
 /*!
  *    @brief  Create an I2C device at a given address
  *    @param  addr The 7-bit I2C address for the device
@@ -152,3 +153,5 @@ bool Adafruit_I2CDevice::setSpeed(uint32_t desiredclk) {
   (void)desiredclk;
   return false;
 }
+
+#endif /* RTDUINO_USING_WIRE */

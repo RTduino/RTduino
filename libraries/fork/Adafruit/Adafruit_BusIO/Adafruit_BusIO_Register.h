@@ -41,9 +41,11 @@ typedef enum _Adafruit_BusIO_SPIRegType {
  */
 class Adafruit_BusIO_Register {
 public:
+#ifdef RTDUINO_USING_WIRE
   Adafruit_BusIO_Register(Adafruit_I2CDevice *i2cdevice, uint16_t reg_addr,
                           uint8_t width = 1, uint8_t byteorder = LSBFIRST,
                           uint8_t address_width = 1);
+#endif /* RTDUINO_USING_WIRE */
 #ifdef RTDUINO_USING_SPI
   Adafruit_BusIO_Register(Adafruit_SPIDevice *spidevice, uint16_t reg_addr,
                           Adafruit_BusIO_SPIRegType type, uint8_t width = 1,
@@ -74,7 +76,9 @@ public:
   void println(Stream *s = &Serial);
 
 private:
+#ifdef RTDUINO_USING_WIRE
   Adafruit_I2CDevice *_i2cdevice;
+#endif /* RTDUINO_USING_WIRE */
 #ifdef RTDUINO_USING_SPI
   Adafruit_SPIDevice *_spidevice;
   Adafruit_BusIO_SPIRegType _spiregtype;

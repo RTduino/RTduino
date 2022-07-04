@@ -2,6 +2,8 @@
 #define Adafruit_I2CDevice_h
 
 #include <Arduino.h>
+
+#ifdef RTDUINO_USING_WIRE
 #include <rtdevice.h>
 #include "Wire.h"
 
@@ -29,4 +31,5 @@ class Adafruit_I2CDevice
         bool setSpeed(uint32_t desiredclk);
 };
 
+#endif /* RTDUINO_USING_WIRE */
 #endif // Adafruit_I2CDevice_h

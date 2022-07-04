@@ -1,8 +1,12 @@
 from building import *
 
 cwd  = GetCurrentDir()
-src = Glob('*.cpp')
-inc = [cwd]
+src = []
+inc = []
+
+if GetDepend('RTDUINO_USING_WIRE') or GetDepend('RTDUINO_USING_SPI'):
+    src += Glob('*.cpp')
+    inc += [cwd]
 
 group = DefineGroup('Arduino-Adafruit', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_ADAFRUIT'], CPPPATH = inc)
 
