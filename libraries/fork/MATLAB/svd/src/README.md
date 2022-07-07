@@ -1,0 +1,1 @@
+This is just a template. This will not be used. For arduino, the real files is in arduinobase folder.
