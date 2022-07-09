@@ -26,6 +26,9 @@
 #define RTDUINO_THREAD_PRIO     30
 #endif /* RTDUINO_THREAD_PRIO */
 
+static struct rt_thread arduino_thread;
+static ALIGN(8) rt_uint8_t arduino_thread_stack[RTDUINO_THREAD_SIZE];
+
 /* initialization for BSP; maybe a blank function  */
 RT_WEAK void initVariant(void)
 {
@@ -87,15 +90,17 @@ static void arduino_entry(void *parameter)
 
 static int arduino_thread_init(void)
 {
-    rt_thread_t tid;
-    tid = rt_thread_create("Arduino",
+    rt_err_t rt_err;
+
+    rt_err = rt_thread_init(&arduino_thread, "Arduino",
                             arduino_entry, RT_NULL,
+                            arduino_thread_stack,
                             RTDUINO_THREAD_SIZE,
                             RTDUINO_THREAD_PRIO, 20);
 
-    if (tid != RT_NULL)
+    if (rt_err == RT_EOK)
     {
-        rt_thread_startup(tid);
+        rt_thread_startup(&arduino_thread);
     }
     else
     {
