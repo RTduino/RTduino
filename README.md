@@ -16,12 +16,13 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 ### 1.1 已经支持Arduino生态兼容层的RT-Thread BSP
 
-| BSP名称                                                                                                                            | 备注                |
-| -------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout)   | 引脚异形布局，但外设丰富      |
-| [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
-| [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
-| [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout)| 标准Arduino UNO引脚布局 |
+| BSP名称                                                                                                                              | 备注                |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| [STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout)     | 引脚异形布局，但外设丰富      |
+| [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout)   | 标准Arduino UNO引脚布局 |
+| [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout)   | 标准Arduino UNO引脚布局 |
+| [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
+| [ES32F3696](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinout)                   | 引脚异形布局            |
 
 ## 2 如何使用本兼容层
 
@@ -143,14 +144,14 @@ void loop(void)
 
 在RTduino中内置了两类库，方便用户直接使用。
 
-一类是在Arduino中原生内建(buildin)的库，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
+一类是在Arduino中[原生内建(buildin)的库](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries)，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
 
-| 库名称       | 说明       | 使能宏                     | 备注                    |
-| --------- | -------- | ----------------------- | --------------------- |
-| Servo     | 舵机库      | RTDUINO_USING_SERVO     | 所有支持PWM功能的BSP均会默认开启该库 |
-| SPI       | SPI库     | RTDUINO_USING_SPI       | 正在开发中                 |
-| Wire      | I2C库     | RTDUINO_USING_WIRE      | 所有支持I2C功能的BSP均会默认开启该库 |
-| USBSerial | USB虚拟串口库 | RTDUINO_USING_USBSERIAL |                       |
+| 库名称       | 说明       | 使能宏                     | 备注                                                                            |
+| --------- | -------- | ----------------------- | ----------------------------------------------------------------------------- |
+| Servo     | 舵机库      | RTDUINO_USING_SERVO     | 所有支持PWM功能的BSP均会默认开启该库                                                         |
+| SPI       | SPI库     | RTDUINO_USING_SPI       | 正在开发中                                                                         |
+| Wire      | I2C库     | RTDUINO_USING_WIRE      | 所有支持I2C功能的BSP均会默认开启该库                                                         |
+| USBSerial | USB虚拟串口库 | RTDUINO_USING_USBSERIAL | 自动依赖[TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb)软件包 |
 
 另一类是Arduino社区比较重要的第三方库，且该第三方库不能直接在RTduino上运行，需要进行重新适配到RTduino，存放于 `libraries/fork` 文件夹内。具体如下表所示：
 
@@ -357,7 +358,6 @@ endmenu
 示例： [STM32F072 Nucleo的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout/README.md) | [STM32L475潘多拉的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/README.md)
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
-
 
 ## 5 参考资料
 
