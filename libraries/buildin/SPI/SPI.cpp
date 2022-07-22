@@ -96,7 +96,7 @@ uint8_t SPIClass::transfer(uint8_t data)
 
 void SPIClass::transfer(void *buf, size_t count)
 {
-    rt_err_t err;
+    rt_err_t ret;
     void *recv_buf;
 
     RT_ASSERT(buf != RT_NULL);
@@ -107,8 +107,8 @@ void SPIClass::transfer(void *buf, size_t count)
         return;
     }
 
-    err = rt_spi_transfer(&this->spi_device, buf, recv_buf, count);
-    if(err != RT_EOK)
+    ret = rt_spi_transfer(&this->spi_device, buf, recv_buf, count);
+    if(ret == 0)
     {
         rt_free(recv_buf);
         return;
