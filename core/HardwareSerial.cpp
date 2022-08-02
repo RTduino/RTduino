@@ -51,40 +51,52 @@ void HardwareSerial::begin(uint32_t baud, uint8_t config)
     {
     case 2400:
         rt_config.baud_rate = BAUD_RATE_2400;
+        break;
 
     case 4800:
         rt_config.baud_rate = BAUD_RATE_4800;
+        break;
 
     case 9600:
         rt_config.baud_rate = BAUD_RATE_9600;
+        break;
 
     case 19200:
         rt_config.baud_rate = BAUD_RATE_19200;
+        break;
 
     case 38400:
         rt_config.baud_rate = BAUD_RATE_38400;
+        break;
 
     case 57600:
         rt_config.baud_rate = BAUD_RATE_57600;
+        break;
 
     case 230400:
         rt_config.baud_rate = BAUD_RATE_230400;
+        break;
 
     case 460800:
         rt_config.baud_rate = BAUD_RATE_460800;
+        break;
 
     case 921600:
         rt_config.baud_rate = BAUD_RATE_921600;
+        break;
 
     case 2000000:
         rt_config.baud_rate = BAUD_RATE_2000000;
+        break;
 
     case 3000000:
         rt_config.baud_rate = BAUD_RATE_3000000;
+        break;
 
     case 115200:
     default:
         rt_config.baud_rate = BAUD_RATE_115200;
+        break;
     }
 
     switch(config)
