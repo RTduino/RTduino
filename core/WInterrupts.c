@@ -56,7 +56,7 @@ void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
     default:
         rt_mode = RT_NULL;
         LOG_E("attachInterrupt mode parameter is illegal");
-        return;
+        break;
     }
 
     rt_pin_attach_irq(rt_pin, rt_mode, (void*)userFunc, RT_NULL);
