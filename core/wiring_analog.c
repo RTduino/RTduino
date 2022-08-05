@@ -106,6 +106,7 @@ int analogRead(uint8_t pin)
     {
         rt_adc_enable(adc_dev, pin_map_table[pin].channel);
         rt_adc_val = rt_adc_read(adc_dev, pin_map_table[pin].channel);
+        rt_adc_disable(adc_dev, pin_map_table[pin].channel);
         if(rt_device_control((rt_device_t)adc_dev, RT_ADC_CMD_GET_RESOLUTION, &resolution) == RT_EOK)
         {
             return map(rt_adc_val, 0, bit(resolution)-1, 0, bit(_analog_read_resolution)-1);
