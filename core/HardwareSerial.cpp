@@ -60,6 +60,12 @@ size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
     return rt_device_write(this->uart_dev, 0, buffer, size);
 }
 
+void HardwareSerial::begin(void)
+{
+    /* Do nothing. Use RT-Thread default serial settings. */
+}
+
+
 void HardwareSerial::begin(uint32_t baud)
 {
     begin(baud, SERIAL_8N1);
