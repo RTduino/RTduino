@@ -18,12 +18,33 @@
 HardwareSerial::HardwareSerial(void)
 {
     this->uart_dev = rt_console_get_device();
+    if(this->uart_dev != RT_NULL)
+    {
+        LOG_I("HardwareSerial %s (console) initiate successfully", RT_CONSOLE_DEVICE_NAME);
+    }
+    else
+    {
+        LOG_E("HardwareSerial %s (console) initiate failure", RT_CONSOLE_DEVICE_NAME);
+    }
 }
 
 HardwareSerial::HardwareSerial(const char* dev_name)
 {
+    rt_err_t err = -RT_ERROR;
     this->uart_dev = rt_device_find(dev_name);
-    rt_device_open(this->uart_dev , RT_DEVICE_FLAG_INT_RX);
+    if(this->uart_dev != RT_NULL)
+    {
+        err = rt_device_open(this->uart_dev, RT_DEVICE_FLAG_INT_RX);
+    }
+
+    if(err == RT_EOK)
+    {
+        LOG_I("HardwareSerial %s initiate successfully", dev_name);
+    }
+    else
+    {
+        LOG_E("HardwareSerial %s initiate failure", dev_name);
+    }
 }
 
 /*Code to display letter when given the ASCII code for it*/
