@@ -22,6 +22,7 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 | [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout)   | 标准Arduino UNO引脚布局 |
 | [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout)   | 标准Arduino UNO引脚布局 |
 | [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
+| [STM32F103 BluePill](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout) | 引脚异构布局            |
 | [ES32F3696](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinout)                   | 引脚异构布局            |
 
 ## 2 如何使用本兼容层
