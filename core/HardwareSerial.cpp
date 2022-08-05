@@ -23,6 +23,7 @@ HardwareSerial::HardwareSerial(void)
 HardwareSerial::HardwareSerial(const char* dev_name)
 {
     this->uart_dev = rt_device_find(dev_name);
+    rt_device_open(this->uart_dev , RT_DEVICE_FLAG_INT_RX);
 }
 
 /*Code to display letter when given the ASCII code for it*/
