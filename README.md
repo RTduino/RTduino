@@ -129,7 +129,7 @@ void loop(void)
 
 目前RTduino兼容层可以实现对Arduino纯软件类（例如算法类、数据处理类等）、串口相关、I2C传感器相关的库做到100%兼容。
 
-支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/issues/2
+支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/discussions/26
 
 ### 3.3 导入一个Arduino库到RT-Thread工程（以潘多拉板为例）
 
