@@ -20,7 +20,7 @@ HardwareSerial::HardwareSerial(void)
     this->uart_dev = rt_console_get_device();
     if(this->uart_dev != RT_NULL)
     {
-        LOG_I("HardwareSerial %s (console) initiate successfully", RT_CONSOLE_DEVICE_NAME);
+        LOG_D("HardwareSerial %s (console) initiate successfully", RT_CONSOLE_DEVICE_NAME);
     }
     else
     {
@@ -39,7 +39,7 @@ HardwareSerial::HardwareSerial(const char* dev_name)
 
     if(err == RT_EOK)
     {
-        LOG_I("HardwareSerial %s initiate successfully", dev_name);
+        LOG_D("HardwareSerial %s initiate successfully", dev_name);
     }
     else
     {
@@ -62,9 +62,8 @@ size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 
 void HardwareSerial::begin(void)
 {
-    /* Do nothing. Use RT-Thread default serial settings. */
+    /* Do nothing. Use RT-Thread default serial configurations. */
 }
-
 
 void HardwareSerial::begin(uint32_t baud)
 {

@@ -50,7 +50,7 @@ public:
     HardwareSerial(void);
     HardwareSerial(const char* dev_name);
     virtual ~HardwareSerial() {}
-    void begin(void); /* Use RT-Thread default serial settings */
+    void begin(void);
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint8_t config);
     void end(void);
