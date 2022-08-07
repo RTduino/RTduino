@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-08-07     Meco Man     first version
+ */
+
+#include <Arduino.h>
+
+int led = 9; /* LED pin */
+int brightness = 0;
+int fadeAmount = 5;
+
+void setup()
+{
+    /* Do not invoke pinMode for the PWM IO! */
+}
+
+void loop()
+{
+    analogWrite(led, brightness);
+    brightness = brightness + fadeAmount;
+    if (brightness <= 0 || brightness >= 255)
+    {
+        fadeAmount = -fadeAmount;
+    }
+
+    delay(30);
+}

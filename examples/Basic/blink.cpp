@@ -10,17 +10,17 @@
 
 #include <Arduino.h>
 
+uint8_t led = LED_BUILTIN;
+
 void setup(void)
 {
-    SerialUSB.begin();
+    /* put your setup code here, to run once: */
+    pinMode(led, OUTPUT);
 }
 
 void loop(void)
 {
-    int ch;
-    ch = SerialUSB.read();
-    if (ch > 0)
-    {
-        SerialUSB.print((char)ch);
-    }
+    /* put your main code here, to run repeatedly: */
+    digitalWrite(led, !digitalRead(led));
+    delay(100);
 }
