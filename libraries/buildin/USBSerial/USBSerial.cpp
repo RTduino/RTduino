@@ -13,19 +13,26 @@
 #include <Arduino.h>
 #include "USBSerial.h"
 
+void USBSerial::begin(void)
+{
+    /* Do nothing. Use RT-Thread default configurations: typically 115200, 8N1 */
+}
+
 void USBSerial::begin(uint32_t baud)
 {
-
+    /* TODO */
 }
 
 void USBSerial::begin(uint32_t baud, uint8_t config)
 {
-
+    /* TODO */
 }
 
 void USBSerial::end(void)
 {
-
+    // Nothing to do.
+    // RTduino has not right to close RT-Thread devices.
+    // This could cause other threads make errors.
 }
 
 /*Code to display letter when given the ASCII code for it*/
