@@ -49,6 +49,7 @@ void pinMode(uint8_t pin, uint8_t mode)
         LOG_E("pinMode mode parameter is illegal");
         return;
     }
+
     if(pin_map_table[pin].device_name == RT_NULL)
     {
         rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
@@ -72,12 +73,13 @@ void digitalWrite(uint8_t pin, uint8_t val)
         return;
     }
 
+    initVariantIO(pin, RTDUINO_CMD_IO_GPIO);
     rt_pin_write(pin_map_table[pin].rt_pin, rt_val);
 }
 
 int digitalRead(uint8_t pin)
 {
+    initVariantIO(pin, RTDUINO_CMD_IO_GPIO);
     return (rt_pin_read(pin_map_table[pin].rt_pin) == PIN_HIGH)? HIGH : LOW;
 }
-
 #endif /* RT_USING_PIN */

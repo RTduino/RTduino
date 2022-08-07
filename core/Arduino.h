@@ -153,7 +153,10 @@ float mapFloat(float, float, float, float, float);
 void randomSeed(unsigned long);
 
 /* Don't invoke this function manually */
+#define RTDUINO_CMD_IO_GPIO     0x01
+#define RTDUINO_CMD_IO_AFIO     0x02
 void initVariant(void);
+void initVariantIO(int pin, int cmd);
 
 #ifdef __cplusplus
 } // extern "C"

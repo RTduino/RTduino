@@ -34,6 +34,10 @@ RT_WEAK void initVariant(void)
 {
 }
 
+RT_WEAK void initVariantIO(int pin, int cmd)
+{
+}
+
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
 rt_device_t arduino_hwtimer_device = RT_NULL;
 

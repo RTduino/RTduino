@@ -47,6 +47,8 @@ void analogWriteFrequency(uint32_t frequency)
 
 void analogWrite(uint8_t pin, int val)
 {
+    initVariantIO(pin, RTDUINO_CMD_IO_AFIO);
+
 #ifdef RT_USING_PWM
     struct rt_device_pwm *pwm_dev;
     rt_uint32_t rt_pwm_val;
@@ -96,6 +98,8 @@ void analogWrite(uint8_t pin, int val)
 
 int analogRead(uint8_t pin)
 {
+    initVariantIO(pin, RTDUINO_CMD_IO_AFIO);
+
 #ifdef RT_USING_ADC
     rt_adc_device_t adc_dev;
     rt_uint32_t rt_adc_val;
