@@ -16,6 +16,7 @@
 class USBSerial: public Stream
 {
 public:
+    void begin(void);
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint8_t config);
     void end(void);

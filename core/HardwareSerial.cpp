@@ -62,7 +62,7 @@ size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 
 void HardwareSerial::begin(void)
 {
-    /* Do nothing. Use RT-Thread default serial configurations. */
+    /* Do nothing. Use RT-Thread default configurations: typically 115200, 8N1 */
 }
 
 void HardwareSerial::begin(uint32_t baud)
