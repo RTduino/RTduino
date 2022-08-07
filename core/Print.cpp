@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *
  * Change Logs:
  * Date           Author       Notes
- * 2021-12-10     Meco Man     port to RT-Thread
+ * 2021-12-10     Meco Man     port to RTduino
  */
 /*
  Print.cpp - Base class that provides print() and println()

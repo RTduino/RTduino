@@ -1,4 +1,14 @@
 /*
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-02-19     Meco Man     port to RTduino
+ */
+
+/*
  * Copyright (C) 2008 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

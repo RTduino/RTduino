@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-02-19     Meco Man     port to RTduino
+ */
+
 #ifndef Adafruit_SPIDevice_h
 #define Adafruit_SPIDevice_h
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Meco Jianting Man <jiantingman@foxmail.com>
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *

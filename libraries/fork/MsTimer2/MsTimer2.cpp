@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2022, Meco Jianting Man <jiantingman@foxmail.com>
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-05-23     Meco Man     port to RT-Thread
+ * 2022-05-23     Meco Man     first version
  */
 /*
   MsTimer2.h - Using timer2 with 1ms resolution

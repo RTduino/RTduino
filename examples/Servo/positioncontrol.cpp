@@ -1,5 +1,12 @@
-// Controlling Speed
-// By Cornel Amariei for Packt Publishing
+/*
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-05-23     Meco Man     first version
+ */
 
 // Include the Servo library
 #include <Servo.h>
@@ -27,4 +34,3 @@ void loop()
     Servo1.write(180);
     delay(1000);
 }
-

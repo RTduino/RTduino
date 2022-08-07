@@ -1,4 +1,13 @@
 /*
+ * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
+ *
+ * SPDX-License-Identifier: LGPL-v2.1
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2021-04-14     Meco Man     port to RTduino
+ */
+/*
   binary.h - Definitions for binary constants
   Copyright (c) 2006 David A. Mellis.  All right reserved.
 
