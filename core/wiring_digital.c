@@ -18,9 +18,12 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-void pinMode(uint8_t pin, uint8_t mode)
+static uint8_t _pin_mode_state[ARDUINO_PIN_INDEX_MAX] = {0};
+
+static void _pinModeLoad(uint8_t pin)
 {
     rt_base_t rt_mode;
+    uint8_t mode = _pin_mode_state[pin];
 
     switch(mode)
     {
@@ -49,10 +52,13 @@ void pinMode(uint8_t pin, uint8_t mode)
         LOG_E("pinMode mode parameter is illegal");
         return;
     }
-    if(pin_map_table[pin].device_name == RT_NULL)
-    {
-        rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
-    }
+
+    rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
+}
+
+void pinMode(uint8_t pin, uint8_t mode)
+{
+    _pin_mode_state[pin] = mode;
 }
 
 void digitalWrite(uint8_t pin, uint8_t val)
@@ -72,11 +78,13 @@ void digitalWrite(uint8_t pin, uint8_t val)
         return;
     }
 
+    _pinModeLoad(pin);
     rt_pin_write(pin_map_table[pin].rt_pin, rt_val);
 }
 
 int digitalRead(uint8_t pin)
 {
+    _pinModeLoad(pin);
     return (rt_pin_read(pin_map_table[pin].rt_pin) == PIN_HIGH)? HIGH : LOW;
 }
 
