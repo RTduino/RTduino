@@ -49,10 +49,12 @@ void pinMode(uint8_t pin, uint8_t mode)
         LOG_E("pinMode mode parameter is illegal");
         return;
     }
-    if(pin_map_table[pin].device_name == RT_NULL)
+
+    if (pin_map_table[pin].device_name != RT_NULL)
     {
-        rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
+        LOG_W("[pinMode] Pin %d was a %s device IO, but now it becomes a general-purpose IO.\n", pin, pin_map_table[pin].device_name);
     }
+    rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
 }
 
 void digitalWrite(uint8_t pin, uint8_t val)

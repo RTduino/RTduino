@@ -29,9 +29,13 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 本软件包需要对特定的BSP进行适配之后才可以使用，适配方法很简单请参考。本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
 
-2022年RT-Thread全球开发者大会报告：[视频](https://www.bilibili.com/video/BV1Wa411L7B4) | [PPT](docs/zh/RTduino_2022_GTC.pdf)
+### 2.1 参考资料
 
-### 2.1 工程的创建和导入
+- 2022年RT-Thread全球开发者大会报告：[视频](https://www.bilibili.com/video/BV1Wa411L7B4) | [PPT](docs/zh/RTduino_2022_GTC.pdf)
+
+- [需要注意的事项](docs/zh/需要注意的事项.md)
+
+### 2.2 工程的创建和导入
 
 请到[RT-Thread Github官方仓库](https://github.com/RT-Thread/rt-thread)，下载最新的源码。对于部分用户下载Github源码慢的问题，可以百度或者到B站搜索“Github加速”等关键字来解决，此处不再赘述。
 
@@ -63,7 +67,7 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 至此，RTduino软件包安装完成，此BSP工程已经具备了兼容Arduino生态的能力。
 
-### 2.2 RTduino文件夹目录结构
+### 2.3 RTduino文件夹目录结构
 
 RTduino软件包包含有两个主要的文件夹：core和libraries。
 
@@ -77,11 +81,11 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
   
   - user文件夹是用户文件夹，这是对用户来说很重要的一个文件夹，里边默认是空的，用户可以把下载好的Arduino库拖入到此文件夹中来，在下个章节会细说这个操作。
 
-### 2.3 Arduino经典的setup和loop函数在哪里？
+### 2.4 Arduino经典的setup和loop函数在哪里？
 
 对于Arduino，最经典的莫过于setup和loop函数。这两个函数位于BSP目录下的applications文件夹内arduino_main.cpp文件中。以潘多拉板为例，这两个函数位于：`bsp/stm32/stm32l475-atk-pandora/applications/arduino_main.cpp`文件中，在开启RTduino软件包后，你可以直接在工程的Applications组中找到它。
 
-### 2.4 点一个LED灯吧！
+### 2.5 点一个LED灯吧！
 
 ```c
 #include <Arduino.h>
@@ -109,7 +113,7 @@ void loop(void)
 > 
 > 如果你用潘多拉板，main.c闪烁的是红灯，RTduino兼容层的Arduino程序默认闪烁的是绿色的灯，二者不会发生干扰。
 
-### 2.5 具体Arduino引脚分布信息
+### 2.6 具体Arduino引脚分布信息
 
 由于每个BSP的板子设计、以及芯片型号等，引脚分布是有区别的，因此需要到指定BSP的`applications/arduino`文件夹下的README.md文件查看详细信息。例如：
 
@@ -362,17 +366,7 @@ endmenu
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
 
-## 5 参考资料
-
-### 5.1 演讲、会议相关
-
-2022年RT-Thread全球开发者大会报告：[视频](https://www.bilibili.com/video/BV1Wa411L7B4) | [PPT](docs/zh/RTduino_2022_GTC.pdf)
-
-### 5.2 需要注意的事项
-
-[需要注意的事项](docs/zh/需要注意的事项.md)
-
-## 6 维护
+## 5 维护
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
 
