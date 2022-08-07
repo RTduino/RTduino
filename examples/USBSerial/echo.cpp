@@ -2,6 +2,7 @@
 
 void setup(void)
 {
+    SerialUSB.begin();
 }
 
 void loop(void)
