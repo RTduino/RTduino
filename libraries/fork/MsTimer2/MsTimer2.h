@@ -42,6 +42,8 @@
 #ifndef MsTimer2_h
 #define MsTimer2_h
 
+#include <Arduino.h>
+
 namespace MsTimer2{
     void set(unsigned long ms, void (*f)(void));
     void start();
