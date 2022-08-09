@@ -70,21 +70,21 @@ for file_dir in file_dirs:
         inc = inc + [current_path]
 
     # find the current folder's sub-folders and sub-files recursively
-    for root, dirs, files in os.walk(os.path.join(package_root_path, file_dir)):
+    for root, dirs, files in os.walk(current_path):
         for dir in dirs:
-            current_path = os.path.join(root,dir)
+            current_sub_path = os.path.join(root,dir)
 
             # exclude 'examples' folder
-            if 'examples' in current_path:
+            if 'examples' in current_sub_path:
                 continue
 
             # add all .c and .cpp file
-            src = src + Glob(os.path.join(current_path, '*.c'))
-            src = src + Glob(os.path.join(current_path, '*.cpp'))
+            src = src + Glob(os.path.join(current_sub_path, '*.c'))
+            src = src + Glob(os.path.join(current_sub_path, '*.cpp'))
 
             # add .h and .hpp path
-            if check_h_hpp_exsit(current_path):
-                inc = inc + [current_path]
+            if check_h_hpp_exsit(current_sub_path):
+                inc = inc + [current_sub_path]
 
 # os.system("start powershell.exe cmd /k 'python3 rtduinolib.py'")
 
