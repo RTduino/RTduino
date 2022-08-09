@@ -6,6 +6,8 @@ user_libraries_root_path = GetCurrentDir()
 sys.path.append(user_libraries_root_path)
 from rtduinolib import *
 
+rtduinolib_init()
+
 src = Glob('*.c') + Glob('*.cpp')
 inc = [user_libraries_root_path]
 
