@@ -97,6 +97,11 @@ typedef uint8_t byte;
 #if defined(__CM_CMSIS_VERSION) /* CMSIS for all ARM Cortex CPU */
 #define interrupts()   __enable_irq()
 #define noInterrupts() __disable_irq()
+#ifndef F_CPU
+extern uint32_t SystemCoreClock;
+#define F_CPU SystemCoreClock
+#warning "This is just a backup solution. Please define F_CPU in pins_arduino.h"
+#endif /* F_CPU */
 #else
 #warning "Please define interrupts for this architecture in Arduino.h"
 #endif /* interrupts and noInterrupts */
