@@ -3,7 +3,7 @@ import os
 import zipfile
 
 user_libraries_root_path = GetCurrentDir()
-sys.path.append(user_libraries_root_path)
+sys.path.append(os.path.join(user_libraries_root_path, 'script'))
 from rtduinolib import *
 
 rtduinolib_init()
