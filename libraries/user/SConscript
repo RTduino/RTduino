@@ -3,10 +3,10 @@ import os
 import zipfile
 
 user_libraries_root_path = GetCurrentDir()
-sys.path.append(os.path.join(user_libraries_root_path, 'script'))
-from rtduinolib import *
+sys.path.append(os.path.join(user_libraries_root_path, 'ALM'))
+from ALM_CMD import *
 
-rtduinolib_init()
+ALM_Init()
 
 src = Glob('*.c') + Glob('*.cpp')
 inc = [user_libraries_root_path]

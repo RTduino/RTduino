@@ -1,17 +1,16 @@
 import os
 from SCons.Script import AddOption, GetOption
-from rtduinosettings import *
+from ALM_GUI import *
 
-def cmd_rtduino_settings():
-    rtduino_setting_gui()
-    exit()
+def cmd_libraries_manager():
+    ALM_GUI_Init()
 
-def cmd_rtduino_help():
+def cmd_help():
     print('RTduino is Arduino Application and Ecosystem Compatibility Layer for RT-Thread')
     print('scons --rtduino => open Arduino Libraries Manager')
     exit()
 
-def rtduinolib_init():
+def ALM_Init():
     AddOption('--rtduino',
                 help='Arduino Libraries Manager',
                 action='store_true',
@@ -25,7 +24,7 @@ def rtduinolib_init():
                 dest='rtduino-help')
 
     if GetOption('rtduino'):
-        cmd_rtduino_settings()
+        cmd_libraries_manager()
     elif GetOption('rtduino-help'):
-        cmd_rtduino_help()
+        cmd_help()
 
