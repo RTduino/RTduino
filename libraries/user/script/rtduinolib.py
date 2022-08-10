@@ -8,21 +8,21 @@ def cmd_rtduino_settings():
 
 def cmd_rtduino_help():
     print('RTduino is Arduino Application and Ecosystem Compatibility Layer for RT-Thread')
-    print('scons --rtduino => RTduino Settings')
+    print('scons --rtduino => open Arduino Libraries Manager')
     exit()
 
 def rtduinolib_init():
+    AddOption('--rtduino',
+                help='Arduino Libraries Manager',
+                action='store_true',
+                default=False,
+                dest='rtduino')
+
     AddOption('--rtduino-h', '--rtduino-help',
                 help='RTduino Help',
                 action='store_true',
                 default=False,
                 dest='rtduino-help')
-
-    AddOption('--rtduino',
-                help='RTduino Settings',
-                action='store_true',
-                default=False,
-                dest='rtduino')
 
     if GetOption('rtduino'):
         cmd_rtduino_settings()
