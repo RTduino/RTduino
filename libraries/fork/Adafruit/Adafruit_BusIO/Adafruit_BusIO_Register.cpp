@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2021-2022, RTduino Development Team
  *
- * SPDX-License-Identifier: LGPL-v2.1
+ * SPDX-License-Identifier: MIT
  *
  * Change Logs:
  * Date           Author       Notes
