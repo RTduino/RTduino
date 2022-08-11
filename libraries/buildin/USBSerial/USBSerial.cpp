@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RT-Thread RTduino Development Team
+ * Copyright (c) 2021-2022, RTduino Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
