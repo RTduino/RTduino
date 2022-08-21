@@ -3,9 +3,11 @@ import os
 import zipfile
 
 user_libraries_root_path = GetCurrentDir()
-alm_path = os.path.join(user_libraries_root_path, '..', '..', 'scripts', 'ALM') # alm_path: ALM scripts' path
+scripts_path = os.path.join(user_libraries_root_path, '..', '..', 'scripts')
+sys.path.append(scripts_path)
+alm_path = os.path.join(scripts_path, 'ALM') # alm_path: ALM scripts' path
 sys.path.append(alm_path)
-from ALM_CMD import *
+from ALM_CMD import ALM_Init
 
 ALM_Init(alm_path)
 
@@ -83,8 +85,6 @@ for file_dir in file_dirs:
             src = src + Glob(os.path.join(current_sub_path, '*.cpp'))
             if check_h_hpp_exsit(current_sub_path):
                 inc = inc + [current_sub_path]
-
-# os.system("start powershell.exe cmd /k 'python3 rtduinolib.py'")
 
 group = DefineGroup('Arduino-library', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
 
