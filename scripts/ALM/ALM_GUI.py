@@ -1,14 +1,16 @@
+import os
 import Tkinter as tk
 
 
 def _cb_button_setonly():
     exit()
 
-def ALM_GUI_Init():
+# alm_path: ALM scripts' path
+def ALM_GUI_Init(alm_path):
     root = tk.Tk()
     root.title('Arduino Libraries Manager')
     root.geometry('327x272')
-    root.iconbitmap('./ALM/logo/arduino.ico')
+    root.iconbitmap(os.path.join(alm_path, 'logo', 'arduino.ico'))
 
     button_setonly = tk.Button(root, text ="Set Only", command = _cb_button_setonly).pack()
 
