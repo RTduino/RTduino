@@ -1,3 +1,4 @@
+import os
 from building import *
 import rtconfig
 
@@ -24,5 +25,10 @@ group = DefineGroup('Arduino', src,
                      LOCAL_CCFLAGS = LOCAL_CCFLAGS,
                      LOCAL_CFLAGS = LOCAL_CFLAGS,
                      LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
+
+list = os.listdir(cwd)
+for item in list:
+    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
+        group = group + SConscript(os.path.join(item, 'SConscript'))
 
 Return('group')
