@@ -32,6 +32,7 @@
 extern "C" {
 #endif
 
+#include <rtconfig.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
@@ -40,8 +41,11 @@ extern "C" {
 #include <board.h>
 #include "avr/io.h"
 #include "avr/pgmspace.h"
-#include "pins_arduino.h"
 #include "binary.h"
+
+#ifndef RTDUINO_TINY_MODE
+#include "pins_arduino.h"
+#endif
 
 /* Arduino Pin Map */
 typedef struct
@@ -100,7 +104,9 @@ typedef uint8_t byte;
 #ifndef F_CPU
 extern uint32_t SystemCoreClock;
 #define F_CPU SystemCoreClock
+#ifndef RTDUINO_TINY_MODE
 #warning "This is just a backup solution. Please define F_CPU in pins_arduino.h"
+#endif /* RTDUINO_TINY_MODE */
 #endif /* F_CPU */
 #else
 #warning "Please define interrupts for this architecture in Arduino.h"

@@ -18,6 +18,9 @@ elif rtconfig.PLATFORM == 'armcc': # Keil AC5
     LOCAL_CFLAGS += ' --c99' # cannot use --c99 symbol for C++ files, pertically in Keil
     LOCAL_CXXFLAGS += ' --cpp11' # support C++11
 
+if GetDepend(['RTDUINO_TINY_MODE']):
+    SrcRemove(src, ['Tone.cpp', 'WInterrupts.c', 'wiring_analog.c', 'wiring_digital.c', 'wiring_pulse.c', 'wiring_shift.c'])
+
 group = DefineGroup('Arduino', src,
                      depend = ['PKG_USING_RTDUINO'],
                      CPPPATH = inc,
@@ -25,10 +28,5 @@ group = DefineGroup('Arduino', src,
                      LOCAL_CCFLAGS = LOCAL_CCFLAGS,
                      LOCAL_CFLAGS = LOCAL_CFLAGS,
                      LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
-
-list = os.listdir(cwd)
-for item in list:
-    if os.path.isfile(os.path.join(cwd, item, 'SConscript')):
-        group = group + SConscript(os.path.join(item, 'SConscript'))
 
 Return('group')

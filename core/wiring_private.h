@@ -13,6 +13,8 @@
 
 #include <Arduino.h>
 
+#ifndef RTDUINO_TINY_MODE
 extern const pin_map_t pin_map_table[];
+#endif /* RTDUINO_TINY_MODE */
 
 #endif /* __WIRING_PRIVATE_H__ */
