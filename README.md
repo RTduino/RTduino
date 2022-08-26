@@ -366,6 +366,23 @@ endmenu
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
 
+
+### 4.4 如何不用定义引脚映射表，更方便的使用RTduino？
+
+通过4.1 - 4.3节，我们可以看到，RTduino软件包并不是直接可以用的，需要BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚相关的API(如analogRead等)，只想借助RTduino软件包，来直接兼容例如I2C(Wire.h库)、SPI等芯片驱动库，如何快速的使用起来呢？
+
+你可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择：
+
+```c
+RT-Thread online packages  --->
+    system packages  --->
+         [*] RTduino: Arduino Ecological Compatibility Layer  --->
+              [*]   Enable tiny mode  --->
+```
+
+注意：要选择Enable tiny mode，也就是使用RTduino精简模式。这时，用户就无需定义引脚映射表，直接就可以使用Arduino库中的非IO相关的库了。
+
+
 ## 5 维护
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
