@@ -33,7 +33,7 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 
 ### 2.1 参考资料
 
-- 2022年RT-Thread全球开发者大会报告：[视频](https://www.bilibili.com/video/BV1Wa411L7B4) | [PPT](docs/zh/RTduino_2022_GTC.pdf)
+- [2022年RT-Thread全球开发者大会报告视频](https://www.bilibili.com/video/BV1Wa411L7B4)
 
 - [需要注意的事项](docs/zh/需要注意的事项.md)
 
