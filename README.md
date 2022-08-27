@@ -368,22 +368,34 @@ endmenu
 
 ## 5 RTduino精简模式（快速使用，无需适配特定BSP）
 
-### 5.1 如何不用定义引脚映射表，更方便的使用RTduino？
+### 5.1 不使用setup-loop编程模型
 
-通过上文，我们可以看到，RTduino软件包并不是直接可以用的，需要BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚（IO）相关的API（如analogRead等），只想借助RTduino软件包，来直接兼容运行I2C芯片驱动库、纯软件算法库等和IO无关的，如何快速的使用起来呢？
+`setup()` 和 `loop()` 函数是Arduino编程中非常经典的函数，当你在Arduino IDE中新建一个文件时，默认就提供了这两个函数。这两个函数RTduino是完全支持的（参见第4章），但是一些较为复杂或庞大的业务逻辑如果放在setup-loop函数中就会受到一些束缚。因此，可以在Env或者RT-Thread Studio的RT-Thread Settings中取消setup-loop编程模型：
 
-你可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择精简模式：
-
-```c
+```Kconfig
 RT-Thread online packages  --->
     system packages  --->
          [*] RTduino: Arduino Ecological Compatibility Layer  --->
+              [*]   Don't use setup-loop structure  --->
+```
+
+选择此选项后，用户可以直接在 `core/arduino_thread.c` 中的 `arduino_entry` 线程函数中直接编程，或者在任意.cpp文件中调用Arduino API（不局限于Arduino线程，只要是.cpp文件下调用即可）。
+
+### 5.2 如何不用定义引脚映射表，更方便的使用RTduino？
+
+通过上文，我们可以看到，RTduino软件包并不是直接可以用的，需要RT-Thread BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚（IO）相关的API（如analogRead等），只想借助RTduino软件包，来直接兼容运行I2C芯片驱动库、纯软件算法库等和IO无关的函数和库，如何快速的使用起来呢？
+
+用户可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择精简模式 (Enable tiny mode)。在选择精简模式后，用户就无需定义引脚映射表，直接就可以使用Arduino库中的非IO相关的函数和库了。开启精简模式后，会自动开启 5.1 章节所介绍的不使用setup-loop编程模型选项，用户可以在任意.cpp文件下使用Arduino API。
+
+```Kconfig
+RT-Thread online packages  --->
+    system packages  --->
+         [*] RTduino: Arduino Ecological Compatibility Layer  --->
+              -*-   Don't use setup-loop structure
               [*]   Enable tiny mode  --->
 ```
 
-注意：要选择Enable tiny mode，也就是使用RTduino精简模式。这时，用户就无需定义引脚映射表，直接就可以使用Arduino库中的非IO相关的库了。
-
-### 5.2 常规模式（参见第4章）vs 精简模式（参见第5章）
+### 5.3 常规模式（参见第4章）vs 精简模式（参见第5章）
 
 下表列举了在两种不同模式下，RTduino对Arduino API的兼容情况：
 
@@ -452,6 +464,8 @@ RT-Thread online packages  --->
 | [Stream](https://www.arduino.cc/reference/en/language/functions/communication/stream/)                                       | √    | √    |                                                                                                         |
 | [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)                                           | √    | √    | 目前不支持从I2C设备API                                                                                          |
 | [Servo](https://www.arduino.cc/reference/en/libraries/servo/)                                                                | √    | ×    |                                                                                                         |
+
+> 注：SPI库目前还在施工中，暂不开放使用。
 
 ## 6 需要注意的事项
 
