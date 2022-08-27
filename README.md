@@ -77,8 +77,6 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
   
   - buildin文件夹下存放着Arduino内置的一些库，例如Servo舵机驱动库，Wire I2C驱动库等等；
   
-  - fork文件夹是保存着一些Arduino社区比较重要的第三方库，这些库不能直接移植到RT-Thread上来，需要进行一些适配，因此保存在这里；
-  
   - user文件夹是用户文件夹，这是对用户来说很重要的一个文件夹，里边默认是空的，用户可以把下载好的Arduino库拖入到此文件夹中来，在下个章节会细说这个操作。
 
 ### 2.4 Arduino经典的setup和loop函数在哪里？
@@ -158,15 +156,7 @@ void loop(void)
 | Servo     | 舵机库      | RTDUINO_USING_SERVO     | 所有支持PWM功能的BSP均会默认开启该库                                                         |
 | SPI       | SPI库     | RTDUINO_USING_SPI       | 正在开发中                                                                         |
 | Wire      | I2C库     | RTDUINO_USING_WIRE      | 所有支持I2C功能的BSP均会默认开启该库                                                         |
-| USBSerial | USB虚拟串口库 | RTDUINO_USING_USBSERIAL | 自动依赖[TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb)软件包 |
-
-另一类是Arduino社区比较重要的第三方库，且该第三方库不能直接在RTduino上运行，需要进行重新适配到RTduino，存放于 `libraries/fork` 文件夹内。具体如下表所示：
-
-| 库名称                                                            | 说明                 | 使能宏                    | 备注                        |
-| -------------------------------------------------------------- | ------------------ | ---------------------- | ------------------------- |
-| [Adafruit_BusIO](https://github.com/adafruit/Adafruit_BusIO)   | Adafruit社区总线库      | RTDUINO_USING_ADAFRUIT | 所有支持I2C、SPI功能的BSP均会默认开启该库 |
-| [Adafruit_Sensor](https://github.com/adafruit/Adafruit_Sensor) | Adafruit社区传感器统一驱动库 | RTDUINO_USING_ADAFRUIT | 所有支持I2C、SPI功能的BSP均会默认开启该库 |
-| [MsTimer2](https://github.com/PaulStoffregen/MsTimer2)         | 1ms级定时器库           | RTDUINO_USING_MSTIMER2 | 所有BSP默认开启该库               |
+| USBSerial | USB虚拟串口库 | RTDUINO_USING_USBSERIAL | 自动依赖[TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb)软件包 |             |
 
 ## 4 如何给某个BSP适配RTduino
 
