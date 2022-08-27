@@ -399,7 +399,7 @@ RT-Thread online packages  --->
 
 下表列举了在两种不同模式下，RTduino对Arduino API的兼容情况：
 
-| [Arduino API](](https://www.arduino.cc/reference/en/))                                                                       | 常规模式 | 精简模式 | 备注                                                                                                      |
+| [Arduino API](https://www.arduino.cc/reference/en/)                                                                          | 常规模式 | 精简模式 | 备注                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------- | ---- | ---- | ------------------------------------------------------------------------------------------------------- |
 | [digitalRead()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/)                              | √    | ×    |                                                                                                         |
 | [digitalWrite()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/)                            | √    | ×    |                                                                                                         |
