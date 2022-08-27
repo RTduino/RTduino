@@ -86,6 +86,6 @@ for file_dir in file_dirs:
             if check_h_hpp_exsit(current_sub_path):
                 inc = inc + [current_sub_path]
 
-group = DefineGroup('Arduino-library', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
+group = DefineGroup('Arduino-libraries', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
 
 Return('group')
