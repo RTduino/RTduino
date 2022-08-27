@@ -35,6 +35,7 @@ extern "C" {
 #include <rtconfig.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <math.h>
 #include <rtdef.h>
 #include <rthw.h>
