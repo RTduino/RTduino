@@ -368,12 +368,13 @@ endmenu
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
 
+## 5 RTduino精简模式（快速使用，无需适配特定BSP）
 
-### 4.4 如何不用定义引脚映射表，更方便的使用RTduino？
+### 5.1 如何不用定义引脚映射表，更方便的使用RTduino？
 
-通过4.1 - 4.3节，我们可以看到，RTduino软件包并不是直接可以用的，需要BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚相关的API(如analogRead等)，只想借助RTduino软件包，来直接兼容例如I2C(Wire.h库)、SPI等芯片驱动库，如何快速的使用起来呢？
+通过上文，我们可以看到，RTduino软件包并不是直接可以用的，需要BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚（IO）相关的API（如analogRead等），只想借助RTduino软件包，来直接兼容运行I2C芯片驱动库、纯软件算法库等和IO无关的，如何快速的使用起来呢？
 
-你可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择：
+你可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择精简模式：
 
 ```c
 RT-Thread online packages  --->
@@ -384,8 +385,135 @@ RT-Thread online packages  --->
 
 注意：要选择Enable tiny mode，也就是使用RTduino精简模式。这时，用户就无需定义引脚映射表，直接就可以使用Arduino库中的非IO相关的库了。
 
+### 5.2 常规模式（参见第4章）vs 精简模式（参见第5章）
 
-## 5 维护
+下表列举了在两种不同模式下，RTduino对Arduino API的兼容情况：
+
+| Arduino API                                                                                                                  | [常规模式](https://www.arduino.cc/reference/en/) | 精简模式 | 备注                     |
+| ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ---- | ---------------------- |
+| [digitalRead()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/)                              | √                                            | ×    |                        |
+| [digitalWrite()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/)                            | √                                            | ×    |                        |
+| [pinMode()](https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/)                                      | √                                            | ×    |                        |
+| [analogRead()](https://www.arduino.cc/reference/en/language/functions/analog-io/analogread/)                                 | √                                            | ×    |                        |
+| [analogReference()](https://www.arduino.cc/reference/en/language/functions/analog-io/analogreference/)                       | ×                                            | ×    | 不同BSP的参考电压定义不一致，暂不计划实现 |
+| [analogWrite()](https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/)                               | √                                            | ×    |                        |
+| [analogReadResolution()](https://www.arduino.cc/reference/en/language/functions/zero-due-mkr-family/analogreadresolution/)   | √                                            | ×    | Arduino扩展API           |
+| [analogWriteResolution()](https://www.arduino.cc/reference/en/language/functions/zero-due-mkr-family/analogwriteresolution/) | √                                            | ×    | Arduino扩展API           |
+| analogWriteFrequency()                                                                                                       | √                                            | ×    | Arduino扩展API           |
+| [noTone()](https://www.arduino.cc/reference/en/language/functions/advanced-io/notone/)                                       | ×                                            | ×    | 暂不计划实现                 |
+| [pulseIn()](https://www.arduino.cc/reference/en/language/functions/advanced-io/pulsein/)                                     | √                                            | ×    |                        |
+| [pulseInLong()](https://www.arduino.cc/reference/en/language/functions/advanced-io/pulseinlong/)                             | √                                            | ×    |                        |
+| [shiftIn()](https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftin/)                                     | √                                            | ×    |                        |
+| [shiftOut()](https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftout/)                                   | √                                            | ×    |                        |
+| [tone()](https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/)                                           | ×                                            | ×    |                        |
+| [delay()](https://www.arduino.cc/reference/en/language/functions/time/delay/)                                                | √                                            | √    |                        |
+| [delayMicroseconds()](https://www.arduino.cc/reference/en/language/functions/time/delaymicroseconds/)                        | √                                            | √    |                        |
+| [micros()](https://www.arduino.cc/reference/en/language/functions/time/micros/)                                              | √                                            | √    |                        |
+| [millis()](https://www.arduino.cc/reference/en/language/functions/time/millis/)                                              | √                                            | √    |                        |
+| [abs()](https://www.arduino.cc/reference/en/language/functions/math/abs/)                                                    |                                              |      | 待确认                    |
+| [constrain()](https://www.arduino.cc/reference/en/language/functions/math/constrain/)                                        | √                                            | √    |                        |
+| [map()](https://www.arduino.cc/reference/en/language/functions/math/map/)                                                    | √                                            | √    |                        |
+| mapFloat()                                                                                                                   | √                                            | √    | RTduino扩展API           |
+| [max()](https://www.arduino.cc/reference/en/language/functions/math/max/)                                                    | √                                            | √    |                        |
+| [min()](https://www.arduino.cc/reference/en/language/functions/math/min/)                                                    | √                                            | √    |                        |
+| [pow()](https://www.arduino.cc/reference/en/language/functions/math/pow/)                                                    |                                              |      | 待确认                    |
+| [sq()](https://www.arduino.cc/reference/en/language/functions/math/sq/)                                                      | √                                            | √    |                        |
+| [sqrt()](https://www.arduino.cc/reference/en/language/functions/math/sqrt/)                                                  |                                              |      | 待确认                    |
+| [cos()](https://www.arduino.cc/reference/en/language/functions/trigonometry/cos/)                                            |                                              |      | 待确认                    |
+| [sin()](https://www.arduino.cc/reference/en/language/functions/trigonometry/sin/)                                            |                                              |      | 待确认                    |
+| [tan()](https://www.arduino.cc/reference/en/language/functions/trigonometry/tan/)                                            |                                              |      | 待确认                    |
+| [isAlpha()](https://www.arduino.cc/reference/en/language/functions/characters/isalpha/)                                      | √                                            | √    |                        |
+| [isAlphaNumeric()](https://www.arduino.cc/reference/en/language/functions/characters/isalphanumeric/)                        | √                                            | √    |                        |
+| [isAscii()](https://www.arduino.cc/reference/en/language/functions/characters/isascii/)                                      | √                                            | √    |                        |
+| [isControl()](https://www.arduino.cc/reference/en/language/functions/characters/iscontrol/)                                  | √                                            | √    |                        |
+| [isDigit()](https://www.arduino.cc/reference/en/language/functions/characters/isdigit/)                                      | √                                            | √    |                        |
+| [isGraph()](https://www.arduino.cc/reference/en/language/functions/characters/isgraph/)                                      | √                                            | √    |                        |
+| [isHexadecimalDigit()](https://www.arduino.cc/reference/en/language/functions/characters/ishexadecimaldigit/)                | √                                            | √    |                        |
+| [isLowerCase()](https://www.arduino.cc/reference/en/language/functions/characters/islowercase/)                              | √                                            | √    |                        |
+| [isPrintable()](https://www.arduino.cc/reference/en/language/functions/characters/isprintable/)                              | √                                            | √    |                        |
+| [isPunct()](https://www.arduino.cc/reference/en/language/functions/characters/ispunct/)                                      | √                                            | √    |                        |
+| [isSpace()](https://www.arduino.cc/reference/en/language/functions/characters/isspace/)                                      | √                                            | √    |                        |
+| [isUpperCase()](https://www.arduino.cc/reference/en/language/functions/characters/isuppercase/)                              | √                                            | √    |                        |
+| [isWhitespace()](https://www.arduino.cc/reference/en/language/functions/characters/iswhitespace/)                            | √                                            | √    |                        |
+| [random()](https://www.arduino.cc/reference/en/language/functions/random-numbers/random/)                                    | √                                            | √    |                        |
+| [randomSeed()](https://www.arduino.cc/reference/en/language/functions/random-numbers/randomseed/)                            | √                                            | √    |                        |
+| [bit()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bit/)                                          | √                                            | √    |                        |
+| [bitClear()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitclear/)                                | √                                            | √    |                        |
+| [bitRead()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitread/)                                  | √                                            | √    |                        |
+| [bitSet()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitset/)                                    | √                                            | √    |                        |
+| [bitWrite()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/bitwrite/)                                | √                                            | √    |                        |
+| [highByte()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/highbyte/)                                | √                                            | √    |                        |
+| [lowByte()](https://www.arduino.cc/reference/en/language/functions/bits-and-bytes/lowbyte/)                                  | √                                            | √    |                        |
+| [attachInterrupt()](https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/)             | √                                            | ×    |                        |
+| [detachInterrupt()](https://www.arduino.cc/reference/en/language/functions/external-interrupts/detachinterrupt/)             | √                                            | ×    |                        |
+| [interrupts()](https://www.arduino.cc/reference/en/language/functions/interrupts/interrupts/)                                | √                                            | √    |                        |
+| [noInterrupts()](https://www.arduino.cc/reference/en/language/functions/interrupts/nointerrupts/)                            | √                                            | √    |                        |
+| [Serial](https://www.arduino.cc/reference/en/language/functions/communication/serial/)                                       | √                                            | √    | 目前不支持串口接收              |
+| [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)                                             | √                                            | √    |                        |
+| [Stream](https://www.arduino.cc/reference/en/language/functions/communication/stream/)                                       | √                                            | √    |                        |
+| [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)                                           | √                                            | √    | 目前不支持从I2C设备API         |
+
+
+## 6 需要注意的事项
+### 6.1 包含Arduino.h头文件
+
+调用到Arduino相关函数和宏的源文件，请包含Arduino.h头文件，否则可能会报错：
+
+![includearduino](docs/figures/arduinoheader1.png)
+
+![cannot_find_setuploop](docs/figures/arduinoheader2.png)
+
+### 6.2 Keil AC5
+
+如果使用Keil AC5环境，需要勾选GNU extension。AC6不需要。
+
+### 6.3 启用PWM不能调用pinMode函数，否则PWM会失效，ADC、DAC同理
+
+```c
+void setup() {
+  //Declaring LED pin as output
+  //pinMode(led_pin, OUTPUT); //不能设置为OUTPUT，否则PWM会失效
+}
+void loop() {
+  //Fading the LED
+  for(int i=0; i<255; i++){
+    analogWrite(led_pin, i);
+    delay(5);
+  }
+  for(int i=255; i>0; i--){
+    analogWrite(led_pin, i);
+    delay(5);
+  }
+}
+```
+
+因为底层已经将对应的PWM、ADC或DAC的IO设置为模拟输入或者复用推挽，调用pinMode之后把IO模式改成了纯输入输出，原有的PWM、ADC或DAC功能将无法使用。该问题无要修正，只需要知道调用analogRead和analogWrite的时候不需要设置pinMode即可。一旦调用pinMode，该引脚将丧失analogWrite或者analogRead功能，后续只能当做普通IO使用。
+Arduino [官方文档](https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/)也是这么建议的：
+
+```markdown
+You do not need to call pinMode() to set the pin as an output before calling analogWrite().
+The analogWrite function has nothing to do with the analog pins or the analogRead function.
+```
+
+用户如果对PWM、ADC或DAC引脚使用pinMode函数，在终端也会给出警告：
+
+![pwmwarning](docs/figures/pwmwarning.png)
+
+当然，如果用户已经知道这样做的后果，但是故意需要将PWM、ADC或DAC引脚通过pinMode函数转为普通IO也是完全可以的。
+
+### 6.4 Serial.begin
+
+在很多Arduino例程中，都喜欢使用如下语句来初始化串口：
+
+```c
+  Serial.begin(9600);
+```
+
+这句话将串口默认初始化成波特率为9600. 但是在RT-Thread中，串口的初始化实际是有RT-Thread驱动框架负责的，并且默认波特率为115200. 因此如果调用`Serial.begin(9600)` 函数后，串口的波特率将会从默认的115200调整为9600。如果你的终端或者串口助手还保持在115200的波特率，那么接收数据将出现乱码。
+
+**因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口配置，不重新配置串口。
+
+## 7 维护
 
 [Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
 
