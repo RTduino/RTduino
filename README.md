@@ -222,7 +222,7 @@ const pin_map_t pin_map_table[]=
 
 如上截取展示了IO编号和功能映射表，每一行用花括号包裹（实际是一个结构体）来建议一个IO的映射关系：
 
-```c
+```
 {Arduino引脚编号, RT-Thread引脚编号(通过GET_PIN宏获取), 复用功能的设备名(PWM、ADC或DAC), 该复用功能设备的通道号}
 ```
 
