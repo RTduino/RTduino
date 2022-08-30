@@ -10,9 +10,8 @@
 
 ## 1 简介
 
-RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。本软件包旨在兼容Arduino丰富的生态（如Arduino库，以及作品等），来丰富RT-Thread生态，降低RT-Thread操作系统以及与RT-Thread适配的芯片的学习门槛。可以让用户通过Arduino的函数和编程方法，轻松地将RT-Thread以及特定的芯片使用起来。
+RTduino为RT-Thread的Arduino生态兼容层，是RT-Thread社区的下属子社区，旨在兼容Arduino社区生态（如上千种分门别类的Arduino库，以及Arduino社区优秀的开源项目），来丰富RT-Thread社区软件包生态，并降低RT-Thread操作系统以及与RT-Thread适配的芯片的学习门槛。可以让用户通过Arduino的函数和编程方法，轻松地将RT-Thread以及特定的芯片使用起来。用户也可以直接使用Arduino社区的库（例如I2C传感器驱动库、算法库等）直接用在RT-Thread工程中，极大地补充了RT-Thread社区生态。该项目由RT-Thread社区核心开发和维护者[满鉴霆](https://github.com/mysterywolf)发起。
 
-作为RT-Thread社区用户，你也可以直接使用Arduino社区的库（例如I2C传感器驱动库、算法库等）直接用在RT-Thread工程中，极大地补充了RT-Thread社区生态。
 
 本软件包可以运行在[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)和Keil编译环境下，因为Arduino的库都是基于GCC环境开发的，因此**强烈推荐**使用[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)运行。
 
@@ -26,6 +25,8 @@ RTduino表示为RT-Thread的Arduino生态兼容层，是RT-Thread的软件包。
 | [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout) | 标准Arduino UNO引脚布局 |
 | [STM32F103 BluePill](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout) | 引脚异构布局            |
 | [ES32F3696](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinout)                   | 引脚异构布局            |
+
+> 注：RTduino也可以无需适配特定BSP，直接运行在任意RT-Thread BSP上，请参考第5章-RTduino精简模式。
 
 ## 2 如何使用本兼容层
 
