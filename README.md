@@ -518,10 +518,16 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口配置，不重新配置串口。
 
-## 7 维护
+## 7 贡献与维护
 
-[Meco Man](https://github.com/mysterywolf) @ RT-Thread Community
+### 7.1 项目仓库地址
 
 https://github.com/RTduino/RTduino
 
 https://gitee.com/rtduino/RTduino
+
+### 7.2 感谢以下小伙伴对本仓库的贡献
+
+<a href="https://github.com/RTduino/rtduino/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=RTduino/rtduino" />
+</a>
