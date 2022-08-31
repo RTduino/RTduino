@@ -30,7 +30,9 @@ RTduino为RT-Thread的Arduino生态兼容层，是RT-Thread社区的下属子社
 
 ## 2 如何使用本兼容层
 
-本软件包需要对特定的BSP进行适配之后才可以使用，适配方法很简单请参考。本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
+本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
+
+> RTduino 要求 RT-Thread 版本至少为4.1.1
 
 ### 2.1 参考资料
 
