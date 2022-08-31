@@ -10,7 +10,7 @@
 
 ## 1 简介
 
-RTduino为RT-Thread的Arduino生态兼容层，是RT-Thread社区的下属子社区，旨在兼容Arduino社区生态（如上千种分门别类的Arduino库，以及Arduino社区优秀的开源项目），来丰富RT-Thread社区软件包生态，并降低RT-Thread操作系统以及与RT-Thread适配的芯片的学习门槛。可以让用户通过Arduino的函数和编程方法，轻松地将RT-Thread以及特定的芯片使用起来。用户也可以直接使用Arduino社区的库（例如I2C传感器驱动库、算法库等）直接用在RT-Thread工程中，极大地补充了RT-Thread社区生态。该项目由RT-Thread社区核心开发和维护者[满鉴霆](https://github.com/mysterywolf)发起。
+RTduino为RT-Thread的Arduino生态兼容层，是RT-Thread社区的下属子社区，旨在兼容Arduino社区生态（如上千种分门别类的Arduino库，以及Arduino社区优秀的开源项目），来丰富RT-Thread社区软件包生态，并降低RT-Thread操作系统以及与RT-Thread适配的芯片的学习门槛。可以让用户通过Arduino的函数和编程方法，轻松地将RT-Thread以及特定的芯片使用起来。用户也可以直接使用Arduino社区的库（例如I2C传感器驱动库、算法库等）直接用在RT-Thread工程中，极大地补充了RT-Thread社区生态。
 
 
 本软件包可以运行在[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)和Keil编译环境下，因为Arduino的库都是基于GCC环境开发的，因此**强烈推荐**使用[RT-Thread Studio IDE](https://www.rt-thread.org/page/studio.html)运行。
@@ -519,6 +519,8 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口配置，不重新配置串口。
 
 ## 7 贡献与维护
+
+该项目于2021年12月立项，由RT-Thread社区核心开发和维护者[满鉴霆](https://github.com/mysterywolf)发起。
 
 ### 7.1 项目仓库地址
 
