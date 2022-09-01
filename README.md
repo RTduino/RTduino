@@ -453,12 +453,10 @@ RT-Thread online packages  --->
 | [noInterrupts()](https://www.arduino.cc/reference/en/language/functions/interrupts/nointerrupts/)                            | √    | √    |                                                                                                         |
 | [Serial](https://www.arduino.cc/reference/en/language/functions/communication/serial/)                                       | √    | √    | 目前不支持串口接收                                                                                               |
 | [SerialUSB](https://hackaday.com/2021/03/20/arduino-serial-vs-serialusb/)                                                    | √    | √    | 依赖[TinyUSB](https://github.com/RT-Thread-packages/tinyusb)软件包                                           |
-| [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)                                             | √    | √    | 精简模式下，SPI的API本身可正常使用，但是由于SPI要求手动操作片选，会使用digitalWrite()函数。但是，digitalWrite()在精简模式下不可用，因此可能牵连SPI在精简模式下不可用。 |
+| [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)                                             | √    | ×    | 精简模式下，SPI的API本身可正常使用，但是由于SPI要求手动操作片选，会使用digitalWrite()函数。但是，digitalWrite()在精简模式下不可用，因此也牵连SPI在精简模式下不可用。 |
 | [Stream](https://www.arduino.cc/reference/en/language/functions/communication/stream/)                                       | √    | √    |                                                                                                         |
 | [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)                                           | √    | √    | 目前不支持I2C从设备API                                                                                          |
 | [Servo](https://www.arduino.cc/reference/en/libraries/servo/)                                                                | √    | ×    |                                                                                                         |
-
-> 注：SPI库目前还在施工中，暂不开放使用。
 
 ## 6 需要注意的事项
 
