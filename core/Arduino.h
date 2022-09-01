@@ -48,8 +48,8 @@ extern "C" {
 #include "pins_arduino.h"
 #endif
 
-#if RT_VER_NUM <= 0x40100
-#error "RTduino requires that the minimum version of RT-Thread is 4.1.1"
+#if RT_VER_NUM < 0x40101
+#error "The minimum version requirement of RT-Thread is 4.1.1"
 #endif
 
 /* Arduino Pin Map */
