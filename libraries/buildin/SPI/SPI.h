@@ -53,6 +53,20 @@
 #define MSBFIRST 1
 #endif
 
+/* SPI Slave Select
+   It should be defined in arduino_pinout.h
+   If there is no SS definition, it will be defined as a dummy pin number.
+*/
+#ifndef SS
+#define SS      0
+#warning "Please define SS pin number in arduino_pinout.h and make sure this board supports SPI!"
+#endif
+
+#ifndef RTDUINO_DEFAULT_SPI_BUS_NAME
+#define RTDUINO_DEFAULT_SPI_BUS_NAME "spi0" /* dummy name */
+#warning "Please define this macro in arduino_pinout.h and make sure this board supports SPI!"
+#endif
+
 #define SPI_CLOCK_DIV4 0x00
 #define SPI_CLOCK_DIV16 0x01
 #define SPI_CLOCK_DIV64 0x02
@@ -75,10 +89,6 @@ class SPISettings
         uint8_t  _bitOrder;
         uint8_t  _dataMode;
 };
-
-#ifndef RTDUINO_DEFAULT_SPI_BUS_NAME
-#define RTDUINO_DEFAULT_SPI_BUS_NAME "spi0" /* dummy name */
-#endif
 
 class SPIClass
 {

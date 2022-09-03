@@ -45,6 +45,7 @@
 
 #ifndef RTDUINO_DEFAULT_IIC_BUS_NAME
 #define RTDUINO_DEFAULT_IIC_BUS_NAME "i2c0" /* dummy name */
+#warning "Please define this macro in arduino_pinout.h and make sure this board supports I2C!"
 #endif
 
 class TwoWire : public Stream
