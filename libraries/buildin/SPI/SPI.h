@@ -46,13 +46,6 @@
 // on if any mismatch is ever detected.
 //#define SPI_TRANSACTION_MISMATCH_LED 5
 
-#ifndef LSBFIRST
-#define LSBFIRST 0
-#endif
-#ifndef MSBFIRST
-#define MSBFIRST 1
-#endif
-
 /* SPI Slave Select
    It should be defined in arduino_pinout.h
    If there is no SS definition, it will be defined as a dummy pin number.
