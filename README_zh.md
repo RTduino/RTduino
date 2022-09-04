@@ -452,7 +452,7 @@ RT-Thread online packages  --->
 | [noInterrupts()](https://www.arduino.cc/reference/en/language/functions/interrupts/nointerrupts/)                            | √    | √    |                                                                                                         |
 | [Serial](https://www.arduino.cc/reference/en/language/functions/communication/serial/)                                       | √    | √    | 目前不支持串口接收                                                                                               |
 | [SerialUSB](https://hackaday.com/2021/03/20/arduino-serial-vs-serialusb/)                                                    | √    | √    | 依赖[TinyUSB](https://github.com/RT-Thread-packages/tinyusb)软件包                                           |
-| [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)                                             | √    | ×    | 精简模式下，SPI的API本身可正常使用，但是由于SPI要求手动操作片选，会使用digitalWrite()函数。但是，digitalWrite()在精简模式下不可用，因此也牵连SPI在精简模式下不可用。 |
+| [SPI](https://www.arduino.cc/reference/en/language/functions/communication/spi/)                                             | √    | √    | 精简模式下，SPI的API本身可正常使用，但是由于SPI要求手动操作片选，会使用digitalWrite()函数。由于，digitalWrite()在精简模式下不可用，因此也可能牵连SPI相关的驱动库无法在精简模式下直接使用。 |
 | [Stream](https://www.arduino.cc/reference/en/language/functions/communication/stream/)                                       | √    | √    |                                                                                                         |
 | [Wire](https://www.arduino.cc/reference/en/language/functions/communication/wire/)                                           | √    | √    | 目前不支持I2C从设备API                                                                                          |
 | [Servo](https://www.arduino.cc/reference/en/libraries/servo/)                                                                | √    | ×    |                                                                                                         |
@@ -467,9 +467,9 @@ RT-Thread online packages  --->
 
 ![cannot_find_setuploop](docs/figures/arduinoheader2.png)
 
-### 6.2 Keil AC5
+### 6.2 Keil-MDK
 
-如果使用Keil AC5环境，需要勾选GNU extension。AC6不需要。
+如果使用Keil AC5环境，需要勾选GNU extension。AC6不需要。RTduino本身可以在Keil-MDK AC5环境下编译通过，但是不保证所有第三方Arduino库均可顺利编译通过，因为Arduino库是在GNU-C下编写的，AC5不支持GNU-C扩展语法。如果非要使用Keil，建议使用AC6。
 
 ### 6.3 启用PWM不能调用pinMode函数，否则PWM会失效，ADC、DAC同理
 
