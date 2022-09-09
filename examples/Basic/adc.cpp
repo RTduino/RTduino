@@ -10,14 +10,12 @@
 
 #include <Arduino.h>
 
-uint8_t ADC = A0;
-
 void setup(void)
 {
 }
 
 void loop(void)
 {
-    Serial.println(analogRead(ADC));
+    Serial.println(analogRead(A0));
     delay(500);
 }
