@@ -5,20 +5,19 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-08-07     Meco Man     first version
+ * 2022-09-09     Meco Man     first version
  */
 
 #include <Arduino.h>
 
-uint8_t led = LED_BUILTIN;
+uint8_t ADC = A0;
 
 void setup(void)
 {
-    pinMode(led, OUTPUT);
 }
 
 void loop(void)
 {
-    digitalWrite(led, !digitalRead(led));
-    delay(100);
+    Serial.println(analogRead(ADC));
+    delay(500);
 }

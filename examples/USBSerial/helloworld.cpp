@@ -17,6 +17,6 @@ void setup(void)
 
 void loop(void)
 {
-    SerialUSB.println("Hello world!");
+    SerialUSB.println("Hello World!");
     delay(500);
 }

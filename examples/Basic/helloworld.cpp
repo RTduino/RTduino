@@ -10,6 +10,8 @@
 
 #include <Arduino.h>
 
+/* You also can use Serial2 or Serial3 to replace Serial if Serial2 or Serial3 is available on your board. */
+
 void setup(void)
 {
     Serial.begin();
@@ -17,6 +19,6 @@ void setup(void)
 
 void loop(void)
 {
-    Serial.println("Hello world!");
+    Serial.println("Hello World!");
     delay(500);
 }
