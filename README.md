@@ -10,7 +10,7 @@
 
 ## 1 Introduction
 
-RTduino is the Arduino ecosystem compatibility layer for [RT-Thread RTOS](https://www.rt-thread.io). RTduino is the sub-community of [RT-Thread community](https://github.com/RT-Thread/rt-thread) and the downstream project of Arduino. RTduino is an open source project which is compatible with Arduino APIs so that RT-Thread beginners can easily get start to use RT-Thread through Arduino APIs, which significantly reduces the difficulty of learning RT-Thread. Meanwhile, RT-Thread users also can directly run thousands of Arduino libraries on RT-Thread by using RTduino.
+RTduino is the Arduino ecosystem compatibility layer for [RT-Thread RTOS](https://www.rt-thread.io). RTduino is the sub-community of [RT-Thread community](https://github.com/RT-Thread/rt-thread) and the downstream project of Arduino. RTduino is an open source project which is compatible with Arduino APIs so that RT-Thread beginners can easily get start to use RT-Thread through Arduino APIs, which significantly reduces the difficulty of learning RT-Thread. Meanwhile, RT-Thread users also can directly run thousands of [Arduino third party libraries](https://www.arduino.cc/reference/en/libraries/) on RT-Thread by using RTduino.
 
 Using the RTduino and Arduino libraries will be very easy through the [RT-Thread Studio](https://www.rt-thread.io/studio.html) integrate development environment (IDE) with GUI configurations.
 
@@ -35,7 +35,7 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 
 ### 2.1 References
 
-- [How to import a BSP project with latest code into RT-Thread Studio](https://www.youtube.com/watch?v=fREPLuh-h8k)]
+- [How to import a BSP project with latest code into RT-Thread Studio](https://www.youtube.com/watch?v=fREPLuh-h8k)
 
 ### 2.2 Import and create a project
 
@@ -52,3 +52,69 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 ![2.2-2](docs/figures/2.2-2.png)
 
 ![2.2-3](docs/figures/2.2-3.png)
+
+- Click `Browse` button and select the Blue Pill BSP folder: `rt-thread\bsp\stm32\stm32f103-blue-pill`. [This video](https://www.youtube.com/watch?v=fREPLuh-h8k) also teaches you how to import a BSP project into RT-Thread Studio. Then, click `Finish` button to let RT-Thread Studio to import the Blue Pill BSP project.
+
+![2.2-4](docs/figures/2.2-4-bluepill.png)
+
+- When importing finished, please click `RT-Thread Settings`. Then, click `<<` button to show the configuration details.
+
+![2.2-5](docs/figures/2.2-5.png)
+
+![2.2-6](docs/figures/2.2-6.png)
+
+- Click `Hardware`, and select `Support Arduino`. Then, click the "hammer" button to compile the project. RT-Thread Studio will automatically download the RTduino and other dependency software packages and compile the whole project.
+
+![2.2-7](docs/figures/2.2-7.png)
+
+- Up to now, this project has supported Arduino programming.
+
+### 2.3 Where is the setup-loop framework
+
+Now, you have successfully create a RT-Thread Blue Pill Board project and allow you to directly use Arduino APIs to drive this board. However,  where is the setup-loop framework, which is very common seen in an Arduino sketch?
+
+Actually, the Arduino sketch is located in `bsp/stm32/stm32f103-blue-pill/applications/arduino_main.cpp`, and you can directly find it in the `Application` group of the project.
+
+![2.3-1](docs/figures/2.3-1.png)
+
+### 2.4 Try to blink a LED!
+
+```c
+#include <Arduino.h>
+
+void setup(void)
+{
+    // put your setup code here, to run once:
+    pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop(void)
+{
+    // put your main code here, to run repeatedly:
+    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    Serial.println("Hello Arduino!");
+    delay(100);
+}
+```
+
+You will see the LED is blinking and the serial terminal also shows "Hello Arduino!".
+
+### 2.5 RTduino folder directory structure
+
+![2.5-1](docs/figures/2.5-1.png)
+
+There are two main folders in RTduino: core and libraries.
+
+- core folder: contains all Arduino related APIs will be implemented in this folder, such as: digitalRead, analogWrite and so on.
+- libraries folder
+  - buildin folder: contains Arduino build-in libraries such as SPI, Wire (I2C), servo and so on.
+  - user folder: this folder is empty by default and it prepares for users to import the Arduino Third Parity libraries. This operation will introduce and explain in the next chapter.
+
+### 2.6 BSP Arduino IO pinout
+
+You will find more information related a specific BSP Arduino pinout at: `applications/arduino` folder. For Blue Pill BSP, it is located at [here](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout).
+
+
+## 3 Import Arduino Third Party Libraries
+
+
