@@ -146,25 +146,33 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 
 ### 3.2 通过RT-Thread软件包中心加载Arduino第三方库到RT-Thread工程
 
-RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RT-Thread社区会将Arduino社区中一些常用的、重要的第三方库注册（如驱动库等）到RT-Thread软件包中心中，用户可以通过RT-Thread Studio或者Env工具一键化下载使用。下面以潘多拉板载的AHT10温湿度传感器为例，讲解如何快速使用Arduino的AHT10温湿度传感器驱动：
+RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTduino社区会将Arduino社区中一些常用的、重要的第三方库注册（如驱动库等）到RT-Thread软件包中心中，用户可以通过RT-Thread Studio或者Env工具一键化下载使用。下面以潘多拉板载的AHT10温湿度传感器为例，讲解如何快速使用Arduino的AHT10温湿度传感器驱动：
 
-在导入潘多拉BSP后，打开RT-Thread Settings，选择 Support Arduino。此时，工程已经具备支持Arduino生态的能力。
+- 在导入潘多拉BSP后，打开RT-Thread Settings，选择 Support Arduino。此时，工程已经具备支持Arduino生态的能力。
 
-点击Package栏，选择Arduino软件包分类，找到Sensor分类（Arduino传感器库分类），找到并选择Adafruit AHTx0驱动。此时，RT-Thread Studio会自动选择该库依赖的其他Arduino库，例如Adafruit Unified Sensor库以及Adafruit BusIO库等。然后点击小锤子编译，RT-Thread Studio会自动下载这些软件包并将工程整体编译一遍。
+- 点击Package栏，选择Arduino软件包分类，找到Sensor分类（Arduino传感器库分类），找到并选择Adafruit AHTx0驱动。此时，RT-Thread Studio会自动选择该库依赖的其他Arduino库，例如Adafruit Unified Sensor库以及Adafruit BusIO库等。
 
 ![3-1](docs/figures/3-1.png)
 
+- 然后点击小锤子编译，RT-Thread Studio会自动下载这些软件包并将工程整体编译一遍。
+
 ![3-2](docs/figures/3-2.png)
 
-工程编译通过之后，你可以将Adafruit AHTx0库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
+- 工程编译通过之后，你可以将Adafruit AHTx0库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
 
 ### 3.3 手动导入一个Arduino库到RT-Thread工程
 
-上文提到的通过将Arduino第三方库注册到RT-Thread软件包中心，可以解决Arduino库之间的依赖问题以及中国大陆镜像加速的问题。但是，将Arduino第三方库注册到RT-Thread软件包中心是由RTduino社区维护者手动加载完成的，Arduino第三方库有将近5000个，无法都及时筛选并注册到RT-Thread软件包中心。那么，如果用户想要使用一个没有被注册到软件包中心的Arduino库该怎么办呢？RTduino也提供了可以让用户将其他Arduino库手动导入到RT-Thread工程中的方法，同样也非常方便快捷。
+上文提到的通过将Arduino第三方库注册到RT-Thread软件包中心，可以解决Arduino库之间的依赖问题以及中国大陆镜像加速的问题。但是，将Arduino第三方库注册到RT-Thread软件包中心是由RTduino社区维护者手动加载完成的，Arduino第三方库有将近5000个，无法都及时筛选并注册到RT-Thread软件包中心。那么，如果用户想要使用一个没有被注册到软件包中心的Arduino库该怎么办呢？RTduino也提供了可以让用户将其他Arduino库手动导入到RT-Thread工程中的方法，同样也非常方便快捷：
 
-首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。下载好之后，直接将zip压缩包（无需解压）拖进RTduino文件夹下的`libraries\user`这个目录下即可。选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。然后再点一下小锤子按钮来重新编译一下工程。
+- 首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。
+
+- 下载好之后，直接将zip压缩包（无需解压）拖进RTduino文件夹下的`libraries\user`这个目录下即可。
+
+- 选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。然后再点一下小锤子按钮来重新编译一下工程。
 
 ![3-3](docs/figures/3-3.png)
+
+- 编译完成之后，你就会发现在RTduino的`libraries/user`文件夹下，就会出现你刚刚增加的Arduino库。
 
 ## 4 如何给某个BSP适配RTduino
 
@@ -301,6 +309,8 @@ D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引�
 
 /* 定义SPI设备名称，在使用SPI库时会直接调用。可选，如果没有SPI功能，不需要定义该宏 */
 #define RTDUINO_DEFAULT_SPI_BUS_NAME            "spi2"
+
+#define SS  D26 /* 定义SPI片选引脚 */
 
 /* 
    定义高精度定时器设备名称，该宏主要是提供us时基信号使用。

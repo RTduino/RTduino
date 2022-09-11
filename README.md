@@ -137,6 +137,32 @@ RTduino has supported most of [Arduino build-in libraries](https://github.com/ar
 | Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.库                                                                                                                       |
 | USBSerial | RTDUINO_USING_USBSERIAL | Enable by default if USB is available, and reply on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically |
 
-### 3.2 Enable Arduino libraries through RT-Thread software center
+### 3.2 Enable Arduino Third Party libraries through RT-Thread software center
 
-### 3.3 Import Arduino libraries manually
+In RT-Thread software center, there is a specific category for Arduino. RTduino community will register some important and frequent to use Arduino third party libraries to RT-Thread software package center, so that users can directly use those libraries with GUI configuration in RT-Thread Studio.
+
+The following example will show how to enable Arduino Adafruit AHTx0 sensor driver library with a few clicks:
+
+- Please follow the previous chapter to import a project into RT-Thread Studio and select `Support Arduino` in RT-Thread Settings.
+
+- Please to go `Software` column, and select `Arduino` category, and extend `Sensor` sub-category of Arduino library. Then, select and enable the Adafruit AHTx0 Arduino driver library. RT-Thread Studio will help you to enable other dependency libraries, such as Adafruit Unified Sensor library, Adafruit BusIO library and so on.
+
+![3-1](docs/figures/3-1.png)
+
+- Click hammer to compile the project. RT-Thread Studio will automatically download the software packages and libraries and compile the whole project.
+
+![3-2](docs/figures/3-2.png)
+
+- When the compiling finishes, you can copy the example code of AHTx0 library, where is in the example folder, and paste it into `arduino_main.cpp` file. Then, compile the project again and download the program into the board. You will see the current sensor data will show on the terminal. Now, we have successfully directly run Arduino library on RT-Thread.
+
+### 3.3 Import Third Party Arduino Libraries Manually
+
+You also can directly import an Arduino library manually, which has not been registered into RT-Thread software package center. This operation also is very easy.
+
+- You need to download the library from github or other repository and directly drag the zip file into `libraries\user` folder, and you don't need to decompress the zip file. 
+
+- Then, go to RT-Thread Studio, right click the project, select `Sync Sconscript to project` and click hammer to compile the project again. 
+
+![3-3](docs/figures/3-3.png)
+
+- When the compiling finishes, you will find the new library is shown on the project, where is in the `libraries\user` folder of the project group.
