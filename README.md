@@ -120,9 +120,23 @@ There are two main folders in RTduino: core and libraries.
   - [buildin folder](https://github.com/RTduino/RTduino/tree/master/libraries/buildin): contains Arduino build-in libraries such as SPI, Wire (I2C), servo and so on.
   - [user folder](https://github.com/RTduino/RTduino/tree/master/libraries/user): this folder is empty by default and it prepares for users to import the Arduino Third Parity libraries. This operation will introduce and explain in the next chapter.
 
-### 2.6 BSP Arduino IO pinout
+### 2.6 BSP Arduino IO Pinout
 
 You will find more information related a specific BSP Arduino pinout at: `applications/arduino` folder. For Blue Pill BSP, it is located at [here](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout).
 
-## 3 Import Arduino Third Party Libraries
+## 3 Arduino Libraries
 
+### 3.1 Arduino Build-in Libraries
+
+RTduino has supported most of [Arduino build-in libraries](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries), where is in the folder `libraries/buildin`. The following table will show the details:
+
+| Library   | Enable Macro            | Note                                                                                                                                                          |
+| --------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.库                                                                                                                       |
+| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.中                                                                                                                       |
+| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.库                                                                                                                       |
+| USBSerial | RTDUINO_USING_USBSERIAL | Enable by default if USB is available, and reply on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically |
+
+### 3.2 Enable Arduino libraries through RT-Thread software center
+
+### 3.3 Import Arduino libraries manually
