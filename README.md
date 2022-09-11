@@ -27,6 +27,14 @@ Using the RTduino and Arduino libraries will be very easy through the [RT-Thread
 
 > RTduino also allows users to directly run without a specific BSP supporting. Please see Chapter 5
 
+### 1.2 Terms Explanation
+
+[Software Package](https://packages.rt-thread.org/en/index.html): is RT-Thread side third party extension, and belongs to RT-Thread ecosystem.
+
+[Library](https://www.arduino.cc/reference/en/libraries): is Arduino side third party extension, and belongs to Arduino ecosystem.
+
+> Software package and library are the same meaning, but different names for RT-Thread and Arduino communities.
+
 ## 2 How to use RTduino
 
 We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill) as an example to show how to use RTduino.
@@ -117,5 +125,4 @@ There are two main folders in RTduino: core and libraries.
 You will find more information related a specific BSP Arduino pinout at: `applications/arduino` folder. For Blue Pill BSP, it is located at [here](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout).
 
 ## 3 Import Arduino Third Party Libraries
-
 

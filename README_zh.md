@@ -27,6 +27,14 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 > 注：RTduino也可以无需适配特定BSP，直接运行在任意RT-Thread BSP上，请参考第5章-RTduino精简模式。
 
+### 1.2 术语说明
+
+[软件包](https://packages.rt-thread.org)：英文为 software package，是指RT-Thread社区所属维护的第三方扩展，是RT-Thread原生生态一部分。
+
+[库](https://www.arduino.cc/reference/en/libraries)：英文为library，是指Arduino社区所属维护的第三方扩展，是Arduino原生生态一部分。
+
+>  库和软件包其实是一个意思，只不过两个社区叫法不一样。
+
 ## 2 如何使用RTduino
 
 本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
@@ -125,37 +133,9 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 
 ## 3 Arduino库的导入和使用
 
-### 3.1 术语说明
+### 3.1 Arduino内置库
 
-软件包：英文为 software package，是指RT-Thread社区所属维护的第三方扩展，是RT-Thread原生生态一部分。
-
-库：英文为library，是指Arduino社区所属维护的第三方扩展，是Arduino原生生态一部分。
-
->  库和软件包其实是一个意思，只不过两个社区叫法不一样。
-
-### 3.2 RTduino兼容层对Arduino库的兼容情况
-
-目前RTduino兼容层可以实现对Arduino纯软件类（例如算法类、数据处理类等）、串口相关、I2C传感器相关的库做到100%兼容。
-
-支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/discussions/26
-
-### 3.3 导入一个Arduino库到RT-Thread工程（以潘多拉板为例）
-
-首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。比如，我想要一个驱动AHT10温湿度传感器的库，可以在[此处](https://github.com/adafruit/Adafruit_AHTX0)下载。此处以潘多拉板为例，因为潘多拉板板载了AHT10传感器。
-
-下载好之后，直接将zip压缩包拖进RTduino文件夹下的`libraries\user`这个目录下即可。选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。
-
-然后再点一下小锤子按钮来重新编译一下工程。
-
-![3.3-1](docs/figures/3.3-1.png)
-
-工程编译通过之后，你可以将这个AHT10 Arduino库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
-
-### 3.4 RTduino内置库
-
-在RTduino中内置了两类库，方便用户直接使用。
-
-一类是在Arduino中[原生内建(buildin)的库](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries)，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
+目前RTduino已经支持了大部分的Arduino[原生内建(buildin)的库](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries)，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
 
 | 库名称       | 说明       | 使能宏                     | 备注                                                                            |
 | --------- | -------- | ----------------------- | ----------------------------------------------------------------------------- |
@@ -163,6 +143,38 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 | SPI       | SPI库     | RTDUINO_USING_SPI       | 正在开发中                                                                         |
 | Wire      | I2C库     | RTDUINO_USING_WIRE      | 所有支持I2C功能的BSP均会默认开启该库                                                         |
 | USBSerial | USB虚拟串口库 | RTDUINO_USING_USBSERIAL | 自动依赖[TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb)软件包 |
+
+### 3.2 RTduino兼容层对Arduino第三方库的兼容情况
+
+目前RTduino兼容层可以实现对Arduino纯软件类（例如算法类、数据处理类等）、串口相关、I2C传感器相关的库做到100%兼容。
+
+支持的详细情况和计划，请查看：https://github.com/RTduino/RTduino/discussions/26
+
+### 3.2 通过RT-Thread软件包中心加载Arduino第三方库到RT-Thread工程
+
+RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RT-Thread社区会将Arduino社区中一些常用的、重要的第三方库注册（如驱动库等）到RT-Thread软件包中心中，用户可以通过RT-Thread Studio或者Env工具一键化下载使用。
+
+下面以潘多拉板载的AHT10温湿度传感器为例，讲解如何快速使用Arduino的AHT10温湿度传感器驱动：
+
+在导入[潘多拉BSP](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)后，打开RT-Thread Settings，选择 Support Arduino。此时，工程已经具备支持Arduino生态的能力。
+
+点击Package栏，选择Arduino软件包分类，找到Sensor分类（Arduino传感器库分类），找到并选择Adafruit AHTx0驱动。此时，RT-Thread Settings会自动选择该库依赖的其他Arduino库，例如Adafruit Unified Sensor库以及Adafruit BusIO库等。然后点击小锤子编译，RT-Thread Studio会自动下载这些软件包并将工程整体编译一遍。
+
+![3-1](docs/figures/3-1.png)
+
+![3-2](docs/figures/3-2.png)
+
+工程编译通过之后，你可以将这个AHT10 Arduino库的例程（位于该库文件夹下的examples文件夹）直接复制到arduino_main.cpp文件下运行，你可以看到，串口会输出当前的温湿度，Arduino的例程是直接可以在RT-Thread上运行起来的。
+
+### 3.3 手动导入一个Arduino库到RT-Thread工程
+
+除了上文提到的已经注册到RT-Thread软件包中心
+
+首先，你需要到Arduino官方的软件包分类中心去查找你想要的库，或者直接在Github上搜索你想要的库，一般都是C++类型的。
+
+下载好之后，直接将zip压缩包拖进RTduino文件夹下的`libraries\user`这个目录下即可。选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。然后再点一下小锤子按钮来重新编译一下工程。
+
+![3-3](docs/figures/3-3.png)
 
 ## 4 如何给某个BSP适配RTduino
 
