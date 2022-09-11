@@ -145,7 +145,7 @@ The following example will show how to enable Arduino Adafruit AHTx0 sensor driv
 
 - Please follow the previous chapter to import a project into RT-Thread Studio and select `Support Arduino` in RT-Thread Settings.
 
-- Please to go `Software` column, and select `Arduino` category, and extend `Sensor` sub-category of Arduino library. Then, select and enable the Adafruit AHTx0 Arduino driver library. RT-Thread Studio will help you to enable other dependency libraries, such as Adafruit Unified Sensor library, Adafruit BusIO library and so on.
+- Please to go `Software` column, and select `Arduino libraries` category, and extend `Sensors` sub-category of Arduino library. Then, select and enable the Adafruit AHTx0 Arduino driver library. RT-Thread Studio will help you to enable other dependency libraries, such as Adafruit Unified Sensor library, Adafruit BusIO library and so on.
 
 ![3-1](docs/figures/3-1.png)
 
@@ -159,10 +159,12 @@ The following example will show how to enable Arduino Adafruit AHTx0 sensor driv
 
 You also can directly import an Arduino library manually, which has not been registered into RT-Thread software package center. This operation also is very easy.
 
-- You need to download the library from github or other repository and directly drag the zip file into `libraries\user` folder, and you don't need to decompress the zip file. 
-
-- Then, go to RT-Thread Studio, right click the project, select `Sync Sconscript to project` and click hammer to compile the project again. 
+- You need to download the library from github or other repository and directly drag the ZIP file into `libraries\user` folder, and you don't need to decompress the ZIP file.
 
 ![3-3](docs/figures/3-3.png)
+
+- Then, go to RT-Thread Studio, right click the project, select `Sync Sconscript to project` and click hammer to compile the project again.
+
+![3-4](docs/figures/3-4.png)
 
 - When the compiling finishes, you will find the new library is shown on the project, where is in the `libraries\user` folder of the project group.

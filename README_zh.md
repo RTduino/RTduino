@@ -168,9 +168,11 @@ RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTdu
 
 - 下载好之后，直接将zip压缩包（无需解压）拖进RTduino文件夹下的`libraries\user`这个目录下即可。
 
+![3-3](docs/figures/3-3.png)
+
 - 选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。然后再点一下小锤子按钮来重新编译一下工程。
 
-![3-3](docs/figures/3-3.png)
+![3-4](docs/figures/3-4.png)
 
 - 编译完成之后，你就会发现在RTduino的`libraries/user`文件夹下，就会出现你刚刚增加的Arduino库。
 
