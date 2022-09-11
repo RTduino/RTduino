@@ -29,7 +29,7 @@ Using the RTduino and Arduino libraries will be very easy through the [RT-Thread
 
 ## 2 How to use RTduino
 
-We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout) as an example to show how to use RTduino.
+We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill) as an example to show how to use RTduino.
 
 > RTduino requires the minimum version of RT-Thread is 4.1.1
 
@@ -73,7 +73,7 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 
 Now, you have successfully create a RT-Thread Blue Pill Board project and allow you to directly use Arduino APIs to drive this board. However,  where is the setup-loop framework, which is very common seen in an Arduino sketch?
 
-Actually, the Arduino sketch is located in `bsp/stm32/stm32f103-blue-pill/applications/arduino_main.cpp`, and you can directly find it in the `Application` group of the project.
+Actually, the Arduino sketch is located in `bsp/stm32/stm32f103-blue-pill/applications/arduino_main.cpp`, where is in the `application` folder.
 
 ![2.3-1](docs/figures/2.3-1.png)
 
@@ -99,21 +99,22 @@ void loop(void)
 
 You will see the LED is blinking and the serial terminal also shows "Hello Arduino!".
 
+There are many other examples and demos at [example folder](https://github.com/RTduino/RTduino/tree/master/examples)
+
 ### 2.5 RTduino folder directory structure
 
 ![2.5-1](docs/figures/2.5-1.png)
 
 There are two main folders in RTduino: core and libraries.
 
-- core folder: contains all Arduino related APIs will be implemented in this folder, such as: digitalRead, analogWrite and so on.
-- libraries folder
-  - buildin folder: contains Arduino build-in libraries such as SPI, Wire (I2C), servo and so on.
-  - user folder: this folder is empty by default and it prepares for users to import the Arduino Third Parity libraries. This operation will introduce and explain in the next chapter.
+- [core folder](https://github.com/RTduino/RTduino/tree/master/core): contains all Arduino related APIs will be implemented in this folder, such as: digitalRead, analogWrite and so on.
+- [libraries folder](https://github.com/RTduino/RTduino/tree/master/libraries)
+  - [buildin folder](https://github.com/RTduino/RTduino/tree/master/libraries/buildin): contains Arduino build-in libraries such as SPI, Wire (I2C), servo and so on.
+  - [user folder](https://github.com/RTduino/RTduino/tree/master/libraries/user): this folder is empty by default and it prepares for users to import the Arduino Third Parity libraries. This operation will introduce and explain in the next chapter.
 
 ### 2.6 BSP Arduino IO pinout
 
 You will find more information related a specific BSP Arduino pinout at: `applications/arduino` folder. For Blue Pill BSP, it is located at [here](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout).
-
 
 ## 3 Import Arduino Third Party Libraries
 
