@@ -6,7 +6,7 @@
 
 --------
 
-![RTduino](logo/RTduino.png)
+![RTduino](logo/RTduino-RT-Thread.png)
 
 ## 1 Introduction
 
