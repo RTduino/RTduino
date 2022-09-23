@@ -535,6 +535,10 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口配置，不重新配置串口。
 
+### 6.5 SPI.begin() / Wire.begin()
+
+使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`
+
 ## 7 贡献与维护
 
 该项目于2021年12月立项，由RT-Thread社区核心开发和维护者[满鉴霆](https://github.com/mysterywolf)发起。
