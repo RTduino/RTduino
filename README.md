@@ -132,9 +132,9 @@ RTduino has supported most of [Arduino build-in libraries](https://github.com/ar
 
 | Library   | Enable Macro            | Note                                                                                                                                                          |
 | --------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.库                                                                                                                       |
-| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.中                                                                                                                       |
-| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.库                                                                                                                       |
+| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.                                                                                                                     |
+| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.                                                                                                                       |
+| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.                                                                                                                       |
 | USBSerial | RTDUINO_USING_USBSERIAL | Enable by default if USB is available, and reply on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically |
 
 ### 3.2 Enable Arduino Third Party libraries through RT-Thread software center
