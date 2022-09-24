@@ -11,6 +11,9 @@
 #include <rtdevice.h>
 #include <Arduino.h>
 #include "wiring_private.h"
+#ifdef PKG_USING_PERF_COUNTER
+#include <perf_counter.h>
+#endif
 
 #define DBG_TAG    "Arduino.wiring"
 #define DBG_LVL    DBG_INFO
@@ -36,21 +39,18 @@ unsigned long micros(void)
         else
         {
             LOG_E("Failed to read from hardware timer!");
-            return 0;
+            goto _exit;
         }
     }
-    else
+
+_exit:
+    LOG_W("Low accuracy micros()");
+    return millis() * 1000;
+#elif defined(PKG_USING_PERF_COUNTER)
+    return get_system_us();
 #elif defined(RT_USING_CPUTIME)
-    if(RT_TRUE)
-    {
-        return clock_cpu_microsecond(clock_cpu_gettime());
-    }
-    else
+    return clock_cpu_microsecond(clock_cpu_gettime());
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
-    {
-        LOG_W("Low accuracy micros()");
-        return millis() * 1000;
-    }
 }
 
 void delay(unsigned long ms)
