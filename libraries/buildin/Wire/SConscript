@@ -4,6 +4,6 @@ cwd  = GetCurrentDir()
 src = ['Wire.cpp']
 inc = [cwd]
 
-group = DefineGroup('Arduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_WIRE'], CPPPATH = inc)
+group = DefineGroup('RTduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_WIRE'], CPPPATH = inc)
 
 Return('group')
