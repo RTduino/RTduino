@@ -30,26 +30,20 @@ unsigned long micros(void)
     rt_hwtimerval_t timestamp;
     extern rt_device_t arduino_hwtimer_device;
 
-    if(arduino_hwtimer_device != RT_NULL)
+    if(arduino_hwtimer_device != RT_NULL &&
+       rt_device_read(arduino_hwtimer_device, 0, &timestamp, sizeof(timestamp)) > 0)
     {
-        if(rt_device_read(arduino_hwtimer_device, 0, &timestamp, sizeof(timestamp)) > 0)
-        {
-            return timestamp.sec*1000000 + timestamp.usec;
-        }
-        else
-        {
-            LOG_E("Failed to read from hardware timer!");
-            goto _exit;
-        }
+        return timestamp.sec*1000000 + timestamp.usec;
     }
-
-_exit:
-    LOG_W("Low accuracy micros()");
-    return millis() * 1000;
+    LOG_E("Failed to read from hardware timer!");
+    return 0;
 #elif defined(PKG_USING_PERF_COUNTER)
     return get_system_us();
 #elif defined(RT_USING_CPUTIME)
     return clock_cpu_microsecond(clock_cpu_gettime());
+#else
+    LOG_W("Low accuracy micros()");
+    return millis() * 1000;
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 }
 
