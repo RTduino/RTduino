@@ -14,7 +14,7 @@
 #include <rtdevice.h>
 #include "wiring_private.h"
 
-#define DBG_TAG    "Arduino.thread"
+#define DBG_TAG    "RTduino.thread"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
@@ -26,8 +26,8 @@
 #define RTDUINO_THREAD_PRIO     30
 #endif /* RTDUINO_THREAD_PRIO */
 
-static struct rt_thread arduino_thread;
-static ALIGN(8) rt_uint8_t arduino_thread_stack[RTDUINO_THREAD_SIZE];
+static struct rt_thread rtduino_thread;
+static ALIGN(8) rt_uint8_t rtduino_thread_stack[RTDUINO_THREAD_SIZE];
 
 /* initialization for BSP; maybe a blank function  */
 RT_WEAK void initVariant(void)
@@ -35,7 +35,7 @@ RT_WEAK void initVariant(void)
 }
 
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-rt_device_t arduino_hwtimer_device = RT_NULL;
+rt_device_t rtduino_hwtimer_device = RT_NULL;
 
 static void hwtimer_init(void)
 {
@@ -57,7 +57,7 @@ static void hwtimer_init(void)
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode); /* set hwtimer mode */
         if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) != 0)
         {
-            arduino_hwtimer_device = hwtimer_device;
+            rtduino_hwtimer_device = hwtimer_device;
         }
         else
         {
@@ -71,7 +71,7 @@ static void hwtimer_init(void)
 }
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
-static void arduino_entry(void *parameter)
+static void rtduino_entry(void *parameter)
 {
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
     hwtimer_init();
@@ -88,25 +88,25 @@ static void arduino_entry(void *parameter)
 #endif /* RTDUINO_NO_SETUP_LOOP */
 }
 
-static int arduino_thread_init(void)
+static int rtduino_thread_init(void)
 {
     rt_err_t rt_err;
 
-    rt_err = rt_thread_init(&arduino_thread, "Arduino",
-                            arduino_entry, RT_NULL,
-                            arduino_thread_stack,
+    rt_err = rt_thread_init(&rtduino_thread, "RTduino",
+                            rtduino_entry, RT_NULL,
+                            rtduino_thread_stack,
                             RTDUINO_THREAD_SIZE,
                             RTDUINO_THREAD_PRIO, 20);
 
     if (rt_err == RT_EOK)
     {
-        rt_thread_startup(&arduino_thread);
+        rt_thread_startup(&rtduino_thread);
     }
     else
     {
-        LOG_E("Arduino thread initialization failed!");
+        LOG_E("RTduino thread initialization failed!");
     }
 
     return 0;
 }
-INIT_COMPONENT_EXPORT(arduino_thread_init);
+INIT_COMPONENT_EXPORT(rtduino_thread_init);

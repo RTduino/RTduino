@@ -22,7 +22,7 @@
 
 #include "SPI.h"
 
-#define DBG_TAG    "Arduino.SPI"
+#define DBG_TAG    "RTduino.SPI"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

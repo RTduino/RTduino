@@ -11,11 +11,11 @@
 #include <rtdevice.h>
 #include <shell.h>
 
-#define DBG_TAG    "Arduino.cmd"
+#define DBG_TAG    "RTduino.cmd"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-static rt_bool_t arduino_serial_focuson_mode = RT_FALSE;
+static rt_bool_t rtduino_serial_focuson_mode = RT_FALSE;
 
 int rt_kprintf(const char *fmt, ...)
 {
@@ -24,7 +24,7 @@ int rt_kprintf(const char *fmt, ...)
     rt_device_t _console_device;
     static char rt_log_buf[RT_CONSOLEBUF_SIZE];
 
-    if(arduino_serial_focuson_mode && rt_thread_self() != rt_thread_find("Arduino"))
+    if(rtduino_serial_focuson_mode && rt_thread_self() != rt_thread_find("Arduino"))
     {
         /* only can be printed in Arduino thread in foucs on mode is enabled */
         return RT_NULL;
@@ -51,7 +51,7 @@ int rt_kprintf(const char *fmt, ...)
 
 struct rt_ringbuffer *console_serial_ringbuffer = RT_NULL;
 
-rt_mutex_t arduino_serial_ringbuffer_mutex;
+rt_mutex_t rtduino_serial_ringbuffer_mutex;
 
 void _cmd_serial_foucson(void)
 {
@@ -61,21 +61,21 @@ void _cmd_serial_foucson(void)
 
     if(init != RT_TRUE)
     {
-        arduino_serial_ringbuffer_mutex =
-                rt_mutex_create("ArdSeri", RT_IPC_FLAG_PRIO);
-        arduino_serial_focuson_mode = RT_TRUE;
+        rtduino_serial_ringbuffer_mutex =
+                rt_mutex_create("RTduCOM", RT_IPC_FLAG_PRIO);
+        rtduino_serial_focuson_mode = RT_TRUE;
         init = RT_TRUE;
     }
 
-    rt_mutex_take(arduino_serial_ringbuffer_mutex, RT_WAITING_FOREVER);
+    rt_mutex_take(rtduino_serial_ringbuffer_mutex, RT_WAITING_FOREVER);
     console_serial_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
-    rt_mutex_release(arduino_serial_ringbuffer_mutex);
+    rt_mutex_release(rtduino_serial_ringbuffer_mutex);
     while(1)
     {
         readchar = (unsigned char)finsh_getchar();
-        rt_mutex_take(arduino_serial_ringbuffer_mutex, RT_WAITING_FOREVER);
+        rt_mutex_take(rtduino_serial_ringbuffer_mutex, RT_WAITING_FOREVER);
         getsize = rt_ringbuffer_putchar(console_serial_ringbuffer, readchar);
-        rt_mutex_release(arduino_serial_ringbuffer_mutex);
+        rt_mutex_release(rtduino_serial_ringbuffer_mutex);
         if(getsize != 1)
         {
             LOG_E("ringbuffer write error!");

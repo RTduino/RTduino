@@ -32,7 +32,7 @@
 #include <rtdevice.h>
 #include <wiring_private.h>
 
-#define DBG_TAG    "Arduino.Servo"
+#define DBG_TAG    "RTduino.Servo"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

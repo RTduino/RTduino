@@ -15,7 +15,7 @@
 #include <perf_counter.h>
 #endif
 
-#define DBG_TAG    "Arduino.wiring"
+#define DBG_TAG    "RTduino.wiring"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
