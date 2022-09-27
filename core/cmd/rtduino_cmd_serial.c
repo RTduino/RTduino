@@ -11,10 +11,9 @@
 #include <rtdevice.h>
 #include <shell.h>
 
-#define DBG_TAG    "RTduino.cmd"
-#define DBG_LVL    DBG_INFO
-#include <rtdbg.h>
+#ifdef RTDUINO_CMD_USING_SERIAL
 
+#ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
 static rt_bool_t rtduino_serial_focuson_mode = RT_FALSE;
 
 int rt_kprintf(const char *fmt, ...)
@@ -78,8 +77,10 @@ void _cmd_serial_foucson(void)
         rt_mutex_release(rtduino_serial_ringbuffer_mutex);
         if(getsize != 1)
         {
-            LOG_E("ringbuffer write error!");
+            //LOG_E("ringbuffer write error!");
         }
     }
     rt_ringbuffer_destroy(console_serial_ringbuffer);
 }
+#endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
+#endif /* RTDUINO_CMD_USING_SERIAL */
