@@ -16,8 +16,8 @@ static int _cmd_rtduino(int argc, char **argv)
 #ifdef RTDUINO_CMD_USING_SERIAL
     if(rt_strcmp(argv[1], "serial") == 0)
     {
-#ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
-        if(rt_strcmp(argv[2], "focuson") == 0) /* rtduino serial focuson */
+#ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON /* rtduino serial focuson */
+        if(rt_strcmp(argv[2], "focuson") == 0)
         {
             extern void _cmd_serial_foucson(void);
             _cmd_serial_foucson();

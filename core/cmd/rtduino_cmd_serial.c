@@ -25,16 +25,11 @@ int rt_kprintf(const char *fmt, ...)
 
     if(rtduino_serial_focuson_mode && rt_thread_self() != rt_thread_find("RTduino"))
     {
-        /* only can be printed in Arduino thread in foucs on mode is enabled */
+        /* only can be printed in RTduino thread in foucs on mode is enabled */
         return RT_NULL;
     }
 
     va_start(args, fmt);
-    /* the return value of vsnprintf is the number of bytes that would be
-     * written to buffer had if the size of the buffer been sufficiently
-     * large excluding the terminating null byte. If the output string
-     * would be larger than the rt_log_buf, we have to adjust the output
-     * length. */
     length = rt_vsnprintf(rt_log_buf, sizeof(rt_log_buf) - 1, fmt, args);
     if (length > RT_CONSOLEBUF_SIZE - 1)
         length = RT_CONSOLEBUF_SIZE - 1;
