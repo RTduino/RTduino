@@ -72,7 +72,7 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 
 ![2.2-6](docs/figures/2.2-6.png)
 
-- Click `Hardware`, and select `Support Arduino`. Then, click the "hammer" button to compile the project. RT-Thread Studio will automatically download the RTduino and other dependency software packages and compile the whole project.
+- Click `Hardware`, and select `Compatible with Arduino Ecosystem (RTduino)`. Then, click the "hammer" button to compile the project. RT-Thread Studio will automatically download the RTduino and other dependency software packages and compile the whole project.
 
 ![2.2-7](docs/figures/2.2-7.png)
 
@@ -144,7 +144,7 @@ In RT-Thread software center, there is a specific category for Arduino. RTduino 
 
 The following example will show how to enable Arduino Adafruit AHTx0 sensor driver library with a few clicks:
 
-- Please follow the previous chapter to import a project into RT-Thread Studio and select `Support Arduino` in RT-Thread Settings.
+- Please follow the previous chapter to import a project into RT-Thread Studio and select `Compatible with Arduino Ecosystem (RTduino)` in RT-Thread Settings.
 
 - Please to go `Software` column, and select `Arduino libraries` category, and extend `Sensors` sub-category of Arduino library. Then, select and enable the Adafruit AHTx0 Arduino driver library. RT-Thread Studio will help you to enable other dependency libraries, such as Adafruit Unified Sensor library, Adafruit BusIO library and so on.
 

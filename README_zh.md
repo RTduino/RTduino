@@ -70,9 +70,9 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 ![2.2-6](docs/figures/2.2-6.png)
 
-- 点击Hardware，选择Support Arduino，只需要点一下即可，其他依赖项会自动处理。然后点击小锤子按钮进行编译，RT-Thread Studio会自动保存你当前的配置并下载RTduino软件包以及依赖项软件包，并将这些软件包加入到工程中，最后自动编译整个工程。
+- 点击Hardware，选择 `Compatible with Arduino Ecosystem (RTduino)`，只需要点一下即可，其他依赖项会自动处理。然后点击小锤子按钮进行编译，RT-Thread Studio会自动保存你当前的配置并下载RTduino软件包以及依赖项软件包，并将这些软件包加入到工程中，最后自动编译整个工程。
 
-- 总的来讲，你只需要选择Support Arduino，并点一下小锤子按钮，就坐等编译成功即可。
+- 总的来讲，你只需要选择 `Compatible with Arduino Ecosystem (RTduino)`，并点一下小锤子按钮，就坐等编译成功即可。
 
 ![2.2-7](docs/figures/2.2-7.png)
 
@@ -149,7 +149,7 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 
 RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTduino社区会将Arduino社区中一些常用的、重要的第三方库注册（如驱动库等）到RT-Thread软件包中心中，用户可以通过RT-Thread Studio或者Env工具一键化下载使用。下面以潘多拉板载的AHT10温湿度传感器为例，讲解如何快速使用Arduino的AHT10温湿度传感器驱动：
 
-- 在导入潘多拉BSP后，打开RT-Thread Settings，选择 Support Arduino。此时，工程已经具备支持Arduino生态的能力。
+- 在导入潘多拉BSP后，打开RT-Thread Settings，选择 `Compatible with Arduino Ecosystem (RTduino)`。此时，工程已经具备支持Arduino生态的能力。
 
 - 点击Package栏，选择Arduino软件包分类，找到Sensor分类（Arduino传感器库分类），找到并选择Adafruit AHTx0驱动。此时，RT-Thread Studio会自动选择该库依赖的其他Arduino库，例如Adafruit Unified Sensor库以及Adafruit BusIO库等。
 
@@ -342,7 +342,7 @@ menu "Onboard Peripheral Drivers"
 
     #增加 BSP_USING_ARDUINO 配置选项
     config BSP_USING_ARDUINO
-        bool "Support Arduino"
+        bool "Compatible with Arduino Ecosystem (RTduino)"
         select PKG_USING_RTDUINO
         select BSP_USING_STLINK_TO_USART
         select BSP_USING_GPIO
