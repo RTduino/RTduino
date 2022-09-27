@@ -24,7 +24,7 @@ int rt_kprintf(const char *fmt, ...)
     rt_device_t _console_device;
     static char rt_log_buf[RT_CONSOLEBUF_SIZE];
 
-    if(rtduino_serial_focuson_mode && rt_thread_self() != rt_thread_find("Arduino"))
+    if(rtduino_serial_focuson_mode && rt_thread_self() != rt_thread_find("RTduino"))
     {
         /* only can be printed in Arduino thread in foucs on mode is enabled */
         return RT_NULL;
