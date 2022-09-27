@@ -14,6 +14,9 @@
 #ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
 static rt_bool_t rtduino_serial_focuson_mode = RT_FALSE;
 
+struct rt_ringbuffer *rtduino_serial_focuson_ringbuffer = RT_NULL;
+rt_mutex_t rtduino_serial_focuson_ringbuffer_mutex;
+
 int rt_kprintf(const char *fmt, ...)
 {
     va_list args;
@@ -41,10 +44,6 @@ int rt_kprintf(const char *fmt, ...)
     return length;
 }
 
-struct rt_ringbuffer *console_serial_ringbuffer = RT_NULL;
-
-rt_mutex_t rtduino_serial_ringbuffer_mutex;
-
 void _cmd_serial_focuson(void)
 {
     static rt_bool_t init = RT_FALSE;
@@ -53,26 +52,25 @@ void _cmd_serial_focuson(void)
 
     if(init != RT_TRUE)
     {
-        rtduino_serial_ringbuffer_mutex =
+        rtduino_serial_focuson_ringbuffer_mutex =
                 rt_mutex_create("RTduCOM", RT_IPC_FLAG_PRIO);
+        rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
+        rtduino_serial_focuson_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
+        rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
         rtduino_serial_focuson_mode = RT_TRUE;
         init = RT_TRUE;
     }
 
-    rt_mutex_take(rtduino_serial_ringbuffer_mutex, RT_WAITING_FOREVER);
-    console_serial_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
-    rt_mutex_release(rtduino_serial_ringbuffer_mutex);
     while(1)
     {
         readchar = (unsigned char)finsh_getchar();
-        rt_mutex_take(rtduino_serial_ringbuffer_mutex, RT_WAITING_FOREVER);
-        getsize = rt_ringbuffer_putchar(console_serial_ringbuffer, readchar);
-        rt_mutex_release(rtduino_serial_ringbuffer_mutex);
+        rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
+        getsize = rt_ringbuffer_putchar(rtduino_serial_focuson_ringbuffer, readchar);
+        rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
         if(getsize != 1)
         {
             //LOG_E("ringbuffer write error!");
         }
     }
-    rt_ringbuffer_destroy(console_serial_ringbuffer);
 }
 #endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */

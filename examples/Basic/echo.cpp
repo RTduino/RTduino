@@ -5,22 +5,24 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-08-07     Meco Man     first version
+ * 2022-09-27     Meco Man     first version
  */
 
 #include <Arduino.h>
 
 void setup(void)
 {
-    SerialUSB.begin();
+    Serial.begin();
+    delay(10000);
 }
 
 void loop(void)
 {
     int ch;
-    ch = SerialUSB.read(); // block function
+    while(!Serial.available());
+    ch = Serial.read();
     if (ch > 0)
     {
-        SerialUSB.print((char)ch);
+        Serial.print((char)ch);
     }
 }
