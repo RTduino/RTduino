@@ -13,7 +13,7 @@
 #ifdef RT_USING_PIN
 #include "wiring_private.h"
 
-#define DBG_TAG    "Arduino.interrupts"
+#define DBG_TAG    "RTduino.interrupts"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

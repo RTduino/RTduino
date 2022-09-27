@@ -11,11 +11,11 @@
 #include <rtthread.h>
 
 #ifdef RT_USING_FINSH
-static int _cmd_arduino(int argc, char **argv)
+static int _cmd_rtduino(int argc, char **argv)
 {
     if(rt_strcmp(argv[1], "serial") == 0)
     {
-        if(rt_strcmp(argv[2], "focuson") == 0) /* arduino serial focuson */
+        if(rt_strcmp(argv[2], "focuson") == 0) /* rtduino serial focuson */
         {
             extern void _cmd_serial_foucson(void);
             _cmd_serial_foucson();
@@ -23,5 +23,5 @@ static int _cmd_arduino(int argc, char **argv)
     }
     return 0;
 }
-MSH_CMD_EXPORT_ALIAS(_cmd_arduino, arduino, arduino [option]);
+MSH_CMD_EXPORT_ALIAS(_cmd_rtduino, rtduino, rtduino [option]);
 #endif /* RT_USING_FINSH */

@@ -12,7 +12,7 @@
 #include "wiring_private.h"
 #include <rtdevice.h>
 
-#define DBG_TAG    "Arduino.analog"
+#define DBG_TAG    "RTduino.analog"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

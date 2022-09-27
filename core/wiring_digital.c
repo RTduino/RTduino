@@ -14,7 +14,7 @@
 #include <Arduino.h>
 #include "wiring_private.h"
 
-#define DBG_TAG    "Arduino.digital"
+#define DBG_TAG    "RTduino.digital"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 

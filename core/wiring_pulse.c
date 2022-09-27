@@ -10,7 +10,7 @@
 
 #include "wiring_private.h"
 
-#define DBG_TAG    "Arduino.pulse"
+#define DBG_TAG    "RTduino.pulse"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
