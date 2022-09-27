@@ -28,6 +28,10 @@ int ConsoleSerial::available(void)
 int ConsoleSerial::peek(void)
 {
     rt_uint8_t ch, *p_ch;
+    if(this->available()<=0)
+    {
+        return -1;
+    }
     rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
     rt_ringbuffer_peek(rtduino_serial_focuson_ringbuffer, &p_ch);
     ch = *p_ch;
@@ -38,6 +42,10 @@ int ConsoleSerial::peek(void)
 int ConsoleSerial::read(void)
 {
     rt_uint8_t ch;
+    if(this->available()<=0)
+    {
+        return -1;
+    }
     rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
     rt_ringbuffer_getchar(rtduino_serial_focuson_ringbuffer, &ch);
     rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
