@@ -46,11 +46,11 @@
 
 class HardwareSerial: public Stream
 {
-private:
+protected:
     rt_device_t uart_dev;
 
 public:
-    HardwareSerial(void);
+    HardwareSerial(rt_device_t device);
     HardwareSerial(const char* dev_name);
     virtual ~HardwareSerial() {}
     void begin(void);
@@ -71,7 +71,16 @@ public:
     using Print::write; // pull in write(str) and write(buf, size) from Print
 };
 
-extern HardwareSerial Serial;
+class ConsoleSerial: public HardwareSerial
+{
+public:
+    ConsoleSerial():HardwareSerial(rt_console_get_device()){};
+    int available(void);
+    int peek(void);
+    int read(void);
+};
+
+extern ConsoleSerial Serial;
 #ifdef RTDUINO_SERIAL2_DEVICE_NAME
 extern HardwareSerial Serial2;
 #endif

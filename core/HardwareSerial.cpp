@@ -15,9 +15,9 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-HardwareSerial::HardwareSerial(void)
+HardwareSerial::HardwareSerial(rt_device_t device)
 {
-    this->uart_dev = rt_console_get_device();
+    this->uart_dev = device;
     if(this->uart_dev != RT_NULL)
     {
         LOG_D("HardwareSerial %s (console) initiate successfully", RT_CONSOLE_DEVICE_NAME);
@@ -284,6 +284,16 @@ void HardwareSerial::end(void)
     // This could cause other threads make errors.
 }
 
+int HardwareSerial::availableForWrite(void)
+{
+    return 0; //TODO
+}
+
+void HardwareSerial::flush(void)
+{
+    //TODO
+}
+
 int HardwareSerial::available(void)
 {
     return 0; //TODO
@@ -299,18 +309,25 @@ int HardwareSerial::read(void)
     return 0; //TODO
 }
 
-int HardwareSerial::availableForWrite(void)
+#ifndef RTDUINO_CMD_SERIAL_USING_FOCUSON
+int ConsoleSerial::available(void)
 {
-    return 0; //TODO
+    return 0;
 }
 
-void HardwareSerial::flush(void)
+int ConsoleSerial::peek(void)
 {
-    //TODO
+    return 0;
 }
+
+int ConsoleSerial::read(void)
+{
+    return 0;
+}
+#endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
 
 #ifdef RT_USING_CONSOLE
-HardwareSerial Serial; /* console device */
+ConsoleSerial Serial;
 #endif
 #ifdef RTDUINO_SERIAL2_DEVICE_NAME
 HardwareSerial Serial2(RTDUINO_SERIAL2_DEVICE_NAME);

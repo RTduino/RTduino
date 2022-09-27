@@ -3,7 +3,7 @@ from building import *
 src = ['rtduino_cmd.c']
 
 if GetDepend(['RTDUINO_CMD_SERIAL_USING_FOCUSON']):
-    src += ['rtduino_cmd_serial_focuson.c']
+    src += ['rtduino_cmd_serial_focuson.c', 'rtduino_cmd_serial_focuson_cpp.cpp']
 
 group = DefineGroup('RTduino', src, depend = ['RTDUINO_USING_SHELL_CMD'])
 

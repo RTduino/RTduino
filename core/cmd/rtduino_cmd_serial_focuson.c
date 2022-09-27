@@ -11,8 +11,6 @@
 #include <rtdevice.h>
 #include <shell.h>
 
-#ifdef RTDUINO_CMD_USING_SERIAL
-
 #ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
 static rt_bool_t rtduino_serial_focuson_mode = RT_FALSE;
 
@@ -78,4 +76,3 @@ void _cmd_serial_focuson(void)
     rt_ringbuffer_destroy(console_serial_ringbuffer);
 }
 #endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
-#endif /* RTDUINO_CMD_USING_SERIAL */
