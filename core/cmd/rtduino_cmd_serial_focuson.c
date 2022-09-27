@@ -47,7 +47,7 @@ struct rt_ringbuffer *console_serial_ringbuffer = RT_NULL;
 
 rt_mutex_t rtduino_serial_ringbuffer_mutex;
 
-void _cmd_serial_foucson(void)
+void _cmd_serial_focuson(void)
 {
     static rt_bool_t init = RT_FALSE;
     rt_size_t getsize;

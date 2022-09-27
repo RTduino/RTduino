@@ -1,0 +1,10 @@
+from building import *
+
+src = ['rtduino_cmd.c']
+
+if GetDepend(['RTDUINO_CMD_SERIAL_USING_FOCUSON']):
+    src += ['rtduino_cmd_serial_focuson.c']
+
+group = DefineGroup('RTduino', src, depend = ['RTDUINO_USING_SHELL_CMD'])
+
+Return('group')
