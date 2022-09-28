@@ -44,6 +44,18 @@ int rt_kprintf(const char *fmt, ...)
     return length;
 }
 
+/* pre-init the "serial focuson" command's environment
+ * If we don't do the pre-init operation, when the users invoke
+ * Serial.read() function, it will be asserted because of mutex is NULL
+ */
+void rtduino_cmd_serial_focuson_preinit(void)
+{
+    rtduino_serial_focuson_ringbuffer_mutex = rt_mutex_create("RTduCOM", RT_IPC_FLAG_PRIO);
+    rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
+    rtduino_serial_focuson_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
+    rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
+}
+
 void _cmd_serial_focuson(void)
 {
     static rt_bool_t init = RT_FALSE;
@@ -52,11 +64,6 @@ void _cmd_serial_focuson(void)
 
     if(init != RT_TRUE)
     {
-        rtduino_serial_focuson_ringbuffer_mutex =
-                rt_mutex_create("RTduCOM", RT_IPC_FLAG_PRIO);
-        rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
-        rtduino_serial_focuson_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
-        rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
         rtduino_serial_focuson_mode = RT_TRUE;
         init = RT_TRUE;
     }

@@ -77,6 +77,10 @@ static void rtduino_entry(void *parameter)
     hwtimer_init();
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
     initVariant();
+#ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
+    extern void rtduino_cmd_serial_focuson_preinit(void);
+    rtduino_cmd_serial_focuson_preinit();
+#endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
 #ifndef RTDUINO_NO_SETUP_LOOP
     setup();
 
