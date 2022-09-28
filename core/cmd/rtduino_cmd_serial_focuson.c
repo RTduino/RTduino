@@ -48,13 +48,15 @@ int rt_kprintf(const char *fmt, ...)
  * If we don't do the pre-init operation, when the users invoke
  * Serial.read() function, it will be asserted because of mutex is NULL
  */
-void rtduino_cmd_serial_focuson_preinit(void)
+static int rtduino_cmd_serial_focuson_preinit(void)
 {
     rtduino_serial_focuson_ringbuffer_mutex = rt_mutex_create("RTduCOM", RT_IPC_FLAG_PRIO);
     rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
     rtduino_serial_focuson_ringbuffer = rt_ringbuffer_create(RT_SERIAL_RB_BUFSZ);
     rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
+    return 0;
 }
+INIT_PREV_EXPORT(rtduino_cmd_serial_focuson_preinit);
 
 void _cmd_serial_focuson(void)
 {

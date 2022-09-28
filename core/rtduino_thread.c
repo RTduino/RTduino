@@ -79,11 +79,6 @@ static void rtduino_entry(void *parameter)
 
     initVariant();
 
-#ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
-    extern void rtduino_cmd_serial_focuson_preinit(void);
-    rtduino_cmd_serial_focuson_preinit();
-#endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
-
 #ifdef RTDUINO_USING_SIMULINK
 
 #endif /* RTDUINO_USING_SIMULINK */
