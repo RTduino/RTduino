@@ -10,6 +10,8 @@
 
 #include <rtthread.h>
 
+#define RTDUINO_CMD_EXPORT(x) void x(void); x();
+
 #ifdef RT_USING_FINSH
 static int _cmd_rtduino(int argc, char **argv)
 {
@@ -19,8 +21,7 @@ static int _cmd_rtduino(int argc, char **argv)
 #ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON /* rtduino serial focuson */
         if(rt_strcmp(argv[2], "focuson") == 0)
         {
-            extern void _cmd_serial_focuson(void);
-            _cmd_serial_focuson();
+            RTDUINO_CMD_EXPORT(_cmd_serial_focuson);
         }
 #endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
     }
