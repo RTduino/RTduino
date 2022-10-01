@@ -18,6 +18,7 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
+#ifndef RTDUINO_NO_SETUP_LOOP
 #ifndef RTDUINO_THREAD_SIZE
 #define RTDUINO_THREAD_SIZE     1024
 #endif /* RTDUINO_THREAD_SIZE */
@@ -28,6 +29,7 @@
 
 static struct rt_thread rtduino_thread;
 static ALIGN(8) rt_uint8_t rtduino_thread_stack[RTDUINO_THREAD_SIZE];
+#endif /* RTDUINO_NO_SETUP_LOOP */
 
 /* initialization for BSP; maybe a blank function  */
 RT_WEAK void initVariant(void)
@@ -71,19 +73,9 @@ static void hwtimer_init(void)
 }
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
+#ifndef RTDUINO_NO_SETUP_LOOP
 static void rtduino_entry(void *parameter)
 {
-#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-    hwtimer_init();
-#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
-
-    initVariant();
-
-#ifdef RTDUINO_USING_SIMULINK
-
-#endif /* RTDUINO_USING_SIMULINK */
-
-#ifndef RTDUINO_NO_SETUP_LOOP
     setup();
 
     while(1)
@@ -91,14 +83,19 @@ static void rtduino_entry(void *parameter)
         loop();
         rt_schedule();
     }
-#endif /* RTDUINO_NO_SETUP_LOOP */
 }
+#endif /* RTDUINO_NO_SETUP_LOOP */
 
-static int rtduino_thread_init(void)
+static int rtduino_init(void)
 {
-    rt_err_t rt_err;
+#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
+    hwtimer_init();
+#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
-    rt_err = rt_thread_init(&rtduino_thread, "RTduino",
+    initVariant();
+
+#ifndef RTDUINO_NO_SETUP_LOOP
+    rt_err_t rt_err = rt_thread_init(&rtduino_thread, "RTduino",
                             rtduino_entry, RT_NULL,
                             rtduino_thread_stack,
                             RTDUINO_THREAD_SIZE,
@@ -112,7 +109,7 @@ static int rtduino_thread_init(void)
     {
         LOG_E("RTduino thread initialization failed!");
     }
-
+#endif /* RTDUINO_NO_SETUP_LOOP */
     return 0;
 }
-INIT_COMPONENT_EXPORT(rtduino_thread_init);
+INIT_COMPONENT_EXPORT(rtduino_init);

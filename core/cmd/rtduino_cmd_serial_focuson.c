@@ -35,18 +35,15 @@ void _cmd_serial_focuson(void)
     rt_uint8_t readchar;
 
     rt_device_register(rt_device_create(RT_NULL, RT_NULL), "dummy", RT_NULL);
-    rt_console_set_device("dummy"); /* terminate console */
+    rt_console_set_device("dummy"); /* terminate console, kill rt_kprintf */
 
     while(1)
     {
+        /* get a char from shell thread and transfer to rtduino thread */
         readchar = (unsigned char)finsh_getchar();
         rt_mutex_take(rtduino_serial_focuson_ringbuffer_mutex, RT_WAITING_FOREVER);
-        getsize = rt_ringbuffer_putchar(rtduino_serial_focuson_ringbuffer, readchar);
+        rt_ringbuffer_putchar(rtduino_serial_focuson_ringbuffer, readchar);
         rt_mutex_release(rtduino_serial_focuson_ringbuffer_mutex);
-        if(getsize != 1)
-        {
-            //LOG_E("ringbuffer write error!");
-        }
     }
 }
 #endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
