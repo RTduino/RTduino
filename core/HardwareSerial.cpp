@@ -309,23 +309,6 @@ int HardwareSerial::read(void)
     return 0; //TODO
 }
 
-#ifndef RTDUINO_CMD_SERIAL_USING_FOCUSON
-int ConsoleSerial::available(void)
-{
-    return 0;
-}
-
-int ConsoleSerial::peek(void)
-{
-    return 0;
-}
-
-int ConsoleSerial::read(void)
-{
-    return 0;
-}
-#endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
-
 #ifdef RT_USING_CONSOLE
 ConsoleSerial Serial;
 #endif

@@ -75,9 +75,11 @@ class ConsoleSerial: public HardwareSerial
 {
 public:
     ConsoleSerial():HardwareSerial(rt_console_get_device()){};
+#ifdef RTDUINO_CMD_SERIAL_USING_FOCUSON
     int available(void);
     int peek(void);
     int read(void);
+#endif /* RTDUINO_CMD_SERIAL_USING_FOCUSON */
 };
 
 extern ConsoleSerial Serial;
