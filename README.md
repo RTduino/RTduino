@@ -18,13 +18,13 @@ Using the RTduino and Arduino libraries will be very easy through the [RT-Thread
 
 | BSP List                                                                                                                            |
 | ----------------------------------------------------------------------------------------------------------------------------------- |
+| [ES32F3696](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinout)                    |
 | [STM32F103 BluePill](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill/applications/arduino_pinout)  |
 | [STM32F072 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout)    |
 | [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout)    |
 | [STM32F412 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f412-st-nucleo/applications/arduino_pinout)    |
 | [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout)  |
 | [STM32L475 Pandora](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) |
-| [ES32F3696](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinout)                    |
 
 > RTduino also allows users to directly run without a specific BSP supporting. Please see Chapter 5
 
@@ -127,16 +127,18 @@ You will find more information related a specific BSP Arduino pinout at: `applic
 
 ## 3 Arduino Libraries
 
+**Notice: If has any question related the Arduino (third-party) libraries, please open a issue and report in this repository.**
+
 ### 3.1 Arduino Build-in Libraries
 
 RTduino has supported most of [Arduino build-in libraries](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries), where is in the folder `libraries/buildin`. The following table will show the details:
 
-| Library   | Enable Macro            | Note                                                                                                                                                          |
-| --------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.                                                                                                                     |
-| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.                                                                                                                       |
-| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.                                                                                                                       |
-| USBSerial | RTDUINO_USING_USBSERIAL | Enable by default if USB is available, and reply on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically |
+| Library   | Enable Macro            | Note                                                                                                                                                  |
+| --------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.                                                                                                                |
+| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.                                                                                                                |
+| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.                                                                                                                |
+| USBSerial | RTDUINO_USING_USBSERIAL | Enable manually if is needed, and reply on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically. |
 
 ### 3.2 Enable Arduino Third Party libraries through RT-Thread software center
 
