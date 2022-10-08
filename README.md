@@ -52,7 +52,7 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 
 - Download and install [RT-Thread Studio IDE](https://www.rt-thread.io/studio.html)
 
-- Unzip the RT-Thread source code file and open RT-Thread Studio.
+- Unzip the RT-Thread source code file and open RT-Thread Studio
 
 ![2.2-1](docs/figures/2.2-1.png)
 
@@ -133,12 +133,12 @@ You will find more information related a specific BSP Arduino pinout at: `applic
 
 RTduino has supported most of [Arduino build-in libraries](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries), where is in the folder `libraries/buildin`. The following table will show the details:
 
-| Library   | Enable Macro            | Note                                                                                                                                                  |
-| --------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.                                                                                                                |
-| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.                                                                                                                |
-| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.                                                                                                                |
-| USBSerial | RTDUINO_USING_USBSERIAL | Enable manually if is needed, and reply on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically. |
+| Library   | Enable Macro            | Note                                                                                                                                                 |
+| --------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Servo     | RTDUINO_USING_SERVO     | Enable by default if PWM is available.                                                                                                               |
+| SPI       | RTDUINO_USING_SPI       | Enable by default if SPI is available.                                                                                                               |
+| Wire      | RTDUINO_USING_WIRE      | Enable by default if I2C is available.                                                                                                               |
+| USBSerial | RTDUINO_USING_USBSERIAL | Enable manually if is needed, and rely on the [TinyUSB for RT-Thread](https://github.com/RT-Thread-packages/tinyusb) software package automatically. |
 
 ### 3.2 Enable Arduino Third Party libraries through RT-Thread software center
 
