@@ -127,7 +127,7 @@ You will find more information related a specific BSP Arduino pinout at: `applic
 
 ## 3 Arduino Libraries
 
-**Notice: If has any question related the Arduino (third-party) libraries, please open a issue and report in this repository.**
+**Notice: if has any question related the Arduino (third-party) libraries, please open an issue and report in this repository.**
 
 ### 3.1 Arduino Build-in Libraries
 

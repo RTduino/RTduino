@@ -410,7 +410,7 @@ RT-Thread online packages  --->
 
 ### 5.3 常规模式（参见第4章）vs 精简模式（参见第5章）
 
-在[Arduino API可兼容性详情表](docs/zh/Arduino%20API%E5%8F%AF%E5%85%BC%E5%AE%B9%E6%80%A7%E8%AF%A6%E6%83%85%E8%A1%A8.md)文档中，列举了在两种不同模式下，RTduino对Arduino API的兼容情况。
+在[Arduino API兼容性一览表](docs/zh/Arduino%20API%E5%85%BC%E5%AE%B9%E6%80%A7%E4%B8%80%E8%A7%88%E8%A1%A8.md)文档中，列举了在两种不同模式下，RTduino对Arduino API的兼容情况。
 
 ## 6 需要注意的事项
 
