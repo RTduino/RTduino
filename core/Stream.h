@@ -135,4 +135,5 @@ class Stream : public Print
 };
 
 #undef NO_IGNORE_CHAR
-#endif
+
+#endif /* Stream_h */

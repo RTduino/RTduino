@@ -96,4 +96,4 @@ class Print
     virtual void flush() { /* Empty implementation for backward compatibility */ }
 };
 
-#endif
+#endif /* Print_h */
