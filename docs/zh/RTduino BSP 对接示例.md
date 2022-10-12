@@ -213,3 +213,4 @@ I2C
 ## 6、编写README.md文件
 
 参考其他已经适配RTduino的BSP编写。
+[RTduino/RTduino: Arduino Ecosystem Compatibility Layer for RT-Thread | RT-Thread的Arduino生态兼容层 (github.com)](https://github.com/RTduino/RTduino#11-rt-thread-bsps-which-have-supported-rtduino)
