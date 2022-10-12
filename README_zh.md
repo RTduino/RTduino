@@ -179,25 +179,58 @@ RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTdu
 
 - 编译完成之后，你就会发现在RTduino的`libraries/user`文件夹下，就会出现你刚刚增加的Arduino库。
 
-## 4 如何给某个BSP适配RTduino
+## 4 RTduino精简模式（快速使用，无需适配特定BSP）
 
-### 4.1 创建文件夹和文件
+### 4.1 不使用setup-loop编程模型
+
+`setup()` 和 `loop()` 函数是Arduino编程中非常经典的函数，当你在Arduino IDE中新建一个文件时，默认就提供了这两个函数。这两个函数RTduino是完全支持的（参见第4章），但是一些较为复杂或庞大的业务逻辑如果放在setup-loop函数中就会受到一些束缚。因此，可以在Env或者RT-Thread Studio的RT-Thread Settings中取消setup-loop编程模型：
+
+```Kconfig
+RT-Thread online packages  --->
+    system packages  --->
+         [*] RTduino: Arduino Ecological Compatibility Layer  --->
+              [*]   Don't use setup-loop structure  --->
+```
+
+选择此选项后，用户可以直接在 `core/arduino_thread.c` 中的 `arduino_entry` 线程函数中直接编程，或者在任意.cpp文件中调用Arduino API（不局限于Arduino线程，只要是.cpp文件下调用即可）。
+
+### 4.2 如何不用定义引脚映射表，更方便的使用RTduino？
+
+通过上文，我们可以看到，RTduino软件包并不是直接可以用的，需要RT-Thread BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚（IO）相关的API（如analogRead等），只想借助RTduino软件包，来直接兼容运行I2C芯片驱动库、纯软件算法库等和IO无关的函数和库，如何快速的使用起来呢？
+
+用户可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择精简模式 (Enable tiny mode)。在选择精简模式后，用户就无需定义引脚映射表，直接就可以使用Arduino库中的非IO相关的函数和库了。开启精简模式后，会自动开启 5.1 章节所介绍的不使用setup-loop编程模型选项，用户可以在任意.cpp文件下使用Arduino API。
+
+```Kconfig
+RT-Thread online packages  --->
+    system packages  --->
+         [*] RTduino: Arduino Ecological Compatibility Layer  --->
+              -*-   Don't use setup-loop structure
+              [*]   Enable tiny mode  --->
+```
+
+### 4.3 常规模式（参见第4章）vs 精简模式（参见第5章）
+
+在[Arduino API可兼容性一览表](docs/zh/Arduino%20API%E5%8F%AF%E5%85%BC%E5%AE%B9%E6%80%A7%E4%B8%80%E8%A7%88%E8%A1%A8.md)文档中，列举了在两种不同模式下，RTduino对Arduino API的兼容情况。
+
+## 5 如何给某个BSP适配RTduino
+
+### 5.1 创建文件夹和文件
 
 需要在某个BSP的applications文件夹下创建如下文件、文件夹：
 
 参考示例BSP：[STM32F072 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | [STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications)
 
-#### 4.1.1 arduino_main.cpp文件
+#### 5.1.1 arduino_main.cpp文件
 
 该文件是Arduino的编程入口，提供setup和loop函数。在loop函数默认以200ms为周期，闪烁Arduino内建LED灯（LED_BUILTIN）。如果该BSP默认支持SPI功能且为UNO引脚布局，由于SPI和LED_BUILTIN可能存在冲突(D13)，可以在loop函数内以 `Serial.println("Hello Arduino\n");` 代替频闪LED（例如[STM32F401 Nucleo板](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f401-st-nucleo/applications/main.c)）。
 
-#### 4.1.2 arduino_pinout文件夹
+#### 5.1.2 arduino_pinout文件夹
 
 需要在applications文件夹下创建arduino_pinout文件夹，这个文件夹主要包含 `arduino_pinout.c` 和 `arduino_pinout.h` 两个关键的文件，这两个文件是对接的关键。用户只需要做好这两个文件，即可完成与RTduino的对接。
 
 同时，这个文件夹内也需要SConscript脚本文件，以及提供Arduino引脚布局的README说明文档。请参照上面的示例BSP来完成对这两个文件的编写。
 
-#### 4.1.3 arduino_pinout.c 文件的编写
+#### 5.1.3 arduino_pinout.c 文件的编写
 
 `arduino_pinout.c` 内需要完成一个IO编号和功能的映射表。由于Arduino的习惯是采用1-13 (D0-D13) 以及 A0-A5的引脚编号，而正规的MCU的引脚编号一般都是PA1之类，因此需要将MCU真正的引脚编号与Arduino引脚编号映射起来。
 
@@ -253,7 +286,7 @@ RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什�
 
 后两个参数是复用功能IO才需要填写的，普通引脚只需要略过即可。
 
-#### 4.1.4 arduino_pinout.h 文件的编写
+#### 5.1.4 arduino_pinout.h 文件的编写
 
 参考示例BSP：[STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/pins_arduino.h)
 
@@ -328,7 +361,7 @@ D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引�
 #define RTDUINO_SERIAL2_DEVICE_NAME             "uart2"
 ```
 
-### 4.2 修改Kconfig文件
+### 5.2 修改Kconfig文件
 
 Kconfig文件位于BSP的board文件夹下：
 
@@ -373,44 +406,11 @@ endmenu
 
 需要在`Onboard Peripheral Drivers`栏下增加 `BSP_USING_ARDUINO` 配置选项，并依赖相应的PWM、ADC、UART、I2C以及SPI等设备框架，满足一键化开启RTduino的能力。
 
-### 4.3 编写Arduino引脚布局(pinout)的README说明文档
+### 5.3 编写Arduino引脚布局(pinout)的README说明文档
 
 示例： [STM32F072 Nucleo的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout/README.md) | [STM32L475潘多拉的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/README.md)
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
-
-## 5 RTduino精简模式（快速使用，无需适配特定BSP）
-
-### 5.1 不使用setup-loop编程模型
-
-`setup()` 和 `loop()` 函数是Arduino编程中非常经典的函数，当你在Arduino IDE中新建一个文件时，默认就提供了这两个函数。这两个函数RTduino是完全支持的（参见第4章），但是一些较为复杂或庞大的业务逻辑如果放在setup-loop函数中就会受到一些束缚。因此，可以在Env或者RT-Thread Studio的RT-Thread Settings中取消setup-loop编程模型：
-
-```Kconfig
-RT-Thread online packages  --->
-    system packages  --->
-         [*] RTduino: Arduino Ecological Compatibility Layer  --->
-              [*]   Don't use setup-loop structure  --->
-```
-
-选择此选项后，用户可以直接在 `core/arduino_thread.c` 中的 `arduino_entry` 线程函数中直接编程，或者在任意.cpp文件中调用Arduino API（不局限于Arduino线程，只要是.cpp文件下调用即可）。
-
-### 5.2 如何不用定义引脚映射表，更方便的使用RTduino？
-
-通过上文，我们可以看到，RTduino软件包并不是直接可以用的，需要RT-Thread BSP方面提供一些配套的支持，如引脚映射表（arduino_pinout）等。但是，如果用户不想使用Arduino引脚（IO）相关的API（如analogRead等），只想借助RTduino软件包，来直接兼容运行I2C芯片驱动库、纯软件算法库等和IO无关的函数和库，如何快速的使用起来呢？
-
-用户可以直接在Env或者RT-Thread Studio的RT-Thread Settings中选择精简模式 (Enable tiny mode)。在选择精简模式后，用户就无需定义引脚映射表，直接就可以使用Arduino库中的非IO相关的函数和库了。开启精简模式后，会自动开启 5.1 章节所介绍的不使用setup-loop编程模型选项，用户可以在任意.cpp文件下使用Arduino API。
-
-```Kconfig
-RT-Thread online packages  --->
-    system packages  --->
-         [*] RTduino: Arduino Ecological Compatibility Layer  --->
-              -*-   Don't use setup-loop structure
-              [*]   Enable tiny mode  --->
-```
-
-### 5.3 常规模式（参见第4章）vs 精简模式（参见第5章）
-
-在[Arduino API可兼容性一览表](docs/zh/Arduino%20API%E5%8F%AF%E5%85%BC%E5%AE%B9%E6%80%A7%E4%B8%80%E8%A7%88%E8%A1%A8.md)文档中，列举了在两种不同模式下，RTduino对Arduino API的兼容情况。
 
 ## 6 需要注意的事项
 
