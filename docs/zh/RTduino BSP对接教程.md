@@ -1,66 +1,55 @@
-# RTduino STM32F411RE 对接
+# RTduino BSP对接教程
 
-## 1、RTduino
-
-[RTduino/RTduino: Arduino Ecosystem Compatibility Layer for RT-Thread | RT-Thread的Arduino生态兼容层 (github.com)](https://github.com/RTduino/RTduino)
-
-## 2、STM32F411RE
-
-[NUCLEO-F411RE - 采用STM32F411RE MCU的STM32 Nucleo-64开发板，支持Arduino和ST morpho连接 - STMicroelectronics](https://www.st.com/zh/evaluation-tools/nucleo-f411re.html)
-
-![image-20221012095933566](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012095933566.png)
-
-## 3、如何对接
-
-### 3.1、检查是否具有底层驱动
+我们以 [STM32F411RE Nucleo-64开发板](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) 为例进行对接。
+## 1 检查是否具有底层驱动
 
 由于本次对接的是STM32系列的单片机，驱动文件是非常完善的，如下：
 
-![img](https://cdn.nlark.com/yuque/0/2022/png/26762801/1665450641091-de771396-cb18-4782-aa21-bd8f3d609f2a.png)
+![img](images/file-drivers.png)
 
 但是，如果大家对接的单片机是一些使用比较少的单片机，这些驱动文件或许并没有完全实现，大家可以自行实现或者去社区求助。
 
-![img](https://cdn.nlark.com/yuque/0/2022/png/26762801/1665452932423-835c3ba1-8bc9-428e-a084-afb1a16e1845.png)
+![img](images/file-drivers-n.png)
 
 比如沁恒的BSP，目前就不支持PWM驱动。
 
-### 3.2、CubeMX软件配置（STM32必须的，其他系列不一定）
+## 2 CubeMX软件配置（STM32必须的，其他系列不一定）
 
-![查看源图像](https://static.rapidonline.com/catalogueimages/product/75/07/s75-0777p02wl.jpg)
+![board](images/board.jpg)
 
-#### ADC
+### 2.1 ADC
 
-![image-20221012101441236](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012101441236.png)
+![adc](images/cubeadc.png)
 
-#### PWM
+### 2.2 PWM
 
-![image-20221012102114680](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012102114680.png)
+![pwm](images/cubepwm.png)
 
-#### UART
+### 2.3 UART
 
-![image-20221012102314517](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012102314517.png)
+![uart](images/cubeuart.png)
 
-#### SPI
+### 2.4 SPI
 
 由于与PWM冲突，这里我们不对接SPI
 
-#### I2C
+### 2.5 I2C
 
 RT-Thread使用的软件模拟I2C，所以我们可以直接使用GPIO框架。
 
-#### 生成工程，删除多余代码
+### 2.6 生成工程，删除多余代码
 
-![image-20221012102705256](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012102705256.png)
+![dir](images/dir-del.png)
 
 src里面：
 
-![image-20221012102733573](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012102733573.png)
+![src](images/file-del.png)
 
-### 3.3、编写Kconfig
+## 3 编写Kconfig
 
-#### On-chip Peripheral Drivers
+### 3.1 On-chip Peripheral Drivers
 
-UART
+#### 3.1.1 UART
 
 ```shell
     menuconfig BSP_USING_UART
@@ -79,7 +68,7 @@ UART
         endif
 ```
 
-ADC
+#### 3.1.2 ADC
 
 ```shell
 	menuconfig BSP_USING_ADC
@@ -93,7 +82,7 @@ ADC
         endif
 ```
 
-PWM
+#### 3.1.3 PWM
 
 ```shell
 	menuconfig BSP_USING_PWM
@@ -148,7 +137,7 @@ PWM
         endif
 ```
 
-I2C
+#### 3.1.4 I2C
 
 ```shell
 	menuconfig BSP_USING_I2C
@@ -176,7 +165,7 @@ I2C
         endif
 ```
 
-#### Onboard Peripheral Drivers
+### 3.2 Onboard Peripheral Drivers
 
 ```
     config BSP_USING_STLINK_TO_USART
@@ -188,30 +177,28 @@ I2C
 
 剩下的东西可以使用一个软件来完成！
 
-## 4、pinout-generator工具
+## 4 pinout-generator工具
 
-![image-20221012104737131](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012104737131.png)
+![image-20221012104737131](images/tool.png)
 
 填写完毕后，生成代码！
 
-![image-20221012112055176](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012112055176.png)
+![image-20221012112055176](images/tool-code.png)
 
-![image-20221012112105995](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012112105995.png)
+![image-20221012112105995](images/tool-files.png)
 
 拷贝Kconfig(Please copy)文件内容到Board文件夹下的Kconfig。
 
-![image-20221012112416495](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012112416495.png)
+![image-20221012112416495](images/kconfig-copy.png)
 
 然后就可以删除Kconfig(Please copy)文件了！
 
-## 5、完善代码
+## 5 完善代码
 
-![image-20221012112716647](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012112716647.png)
+![image-20221012112716647](images/code-xx1.png)
 
-![image-20221012112758574](C:\Users\94184\AppData\Roaming\Typora\typora-user-images\image-20221012112758574.png)
+![image-20221012112758574](images/code-xx2.png)
 
-## 6、编写README.md文件
+## 6 编写README.md文件
 
-参考其他已经适配RTduino的BSP编写。
-
-[RTduino/RTduino: Arduino Ecosystem Compatibility Layer for RT-Thread | RT-Thread的Arduino生态兼容层 (github.com)](https://github.com/RTduino/RTduino#11-rt-thread-bsps-which-have-supported-rtduino)
+参考其他[已经适配RTduino的BSP](https://github.com/RTduino/RTduino/blob/master/README_zh.md#11-%E5%B7%B2%E7%BB%8F%E6%94%AF%E6%8C%81arduino%E7%94%9F%E6%80%81%E5%85%BC%E5%AE%B9%E5%B1%82%E7%9A%84rt-thread-bsp)编写。
