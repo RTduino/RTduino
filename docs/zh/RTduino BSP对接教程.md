@@ -1,18 +1,7 @@
-# RTduino STM32F411RE 对接
+# RTduino BSP对接教程
 
-## 1、RTduino
-
-[RTduino/RTduino: Arduino Ecosystem Compatibility Layer for RT-Thread | RT-Thread的Arduino生态兼容层 (github.com)](https://github.com/RTduino/RTduino)
-
-## 2、STM32F411RE
-
-[NUCLEO-F411RE - 采用STM32F411RE MCU的STM32 Nucleo-64开发板，支持Arduino和ST morpho连接 - STMicroelectronics](https://www.st.com/zh/evaluation-tools/nucleo-f411re.html)
-
-![board-pinout](images/board-pinout.png)
-
-## 3、如何对接
-
-### 3.1、检查是否具有底层驱动
+我们以 [STM32F411RE Nucleo-64开发板](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) 为例进行对接。
+## 1 检查是否具有底层驱动
 
 由于本次对接的是STM32系列的单片机，驱动文件是非常完善的，如下：
 
@@ -24,31 +13,31 @@
 
 比如沁恒的BSP，目前就不支持PWM驱动。
 
-### 3.2、CubeMX软件配置（STM32必须的，其他系列不一定）
+## 2 CubeMX软件配置（STM32必须的，其他系列不一定）
 
 ![board](images/board.jpg)
 
-#### ADC
+### 2.1 ADC
 
 ![adc](images/cubeadc.png)
 
-#### PWM
+### 2.2 PWM
 
 ![pwm](images/cubepwm.png)
 
-#### UART
+### 2.3 UART
 
 ![uart](images/cubeuart.png)
 
-#### SPI
+### 2.4 SPI
 
 由于与PWM冲突，这里我们不对接SPI
 
-#### I2C
+### 2.5 I2C
 
 RT-Thread使用的软件模拟I2C，所以我们可以直接使用GPIO框架。
 
-#### 生成工程，删除多余代码
+### 2.6 生成工程，删除多余代码
 
 ![dir](images/dir-del.png)
 
@@ -56,11 +45,11 @@ src里面：
 
 ![src](images/file-del.png)
 
-### 3.3、编写Kconfig
+## 3 编写Kconfig
 
-#### On-chip Peripheral Drivers
+### 3.1 On-chip Peripheral Drivers
 
-UART
+#### 3.1.1 UART
 
 ```shell
     menuconfig BSP_USING_UART
@@ -79,7 +68,7 @@ UART
         endif
 ```
 
-ADC
+#### 3.1.2 ADC
 
 ```shell
 	menuconfig BSP_USING_ADC
@@ -93,7 +82,7 @@ ADC
         endif
 ```
 
-PWM
+#### 3.1.3 PWM
 
 ```shell
 	menuconfig BSP_USING_PWM
@@ -148,7 +137,7 @@ PWM
         endif
 ```
 
-I2C
+#### 3.1.4 I2C
 
 ```shell
 	menuconfig BSP_USING_I2C
@@ -176,7 +165,7 @@ I2C
         endif
 ```
 
-#### Onboard Peripheral Drivers
+### 3.2 Onboard Peripheral Drivers
 
 ```
     config BSP_USING_STLINK_TO_USART
@@ -188,7 +177,7 @@ I2C
 
 剩下的东西可以使用一个软件来完成！
 
-## 4、pinout-generator工具
+## 4 pinout-generator工具
 
 ![image-20221012104737131](images/tool.png)
 
@@ -204,12 +193,12 @@ I2C
 
 然后就可以删除Kconfig(Please copy)文件了！
 
-## 5、完善代码
+## 5 完善代码
 
 ![image-20221012112716647](images/code-xx1.png)
 
 ![image-20221012112758574](images/code-xx2.png)
 
-## 6、编写README.md文件
+## 6 编写README.md文件
 
-参考其他已经适配RTduino的BSP编写。
+参考其他[已经适配RTduino的BSP](https://github.com/RTduino/RTduino/blob/master/README_zh.md#11-%E5%B7%B2%E7%BB%8F%E6%94%AF%E6%8C%81arduino%E7%94%9F%E6%80%81%E5%85%BC%E5%AE%B9%E5%B1%82%E7%9A%84rt-thread-bsp)编写。
