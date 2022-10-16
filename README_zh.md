@@ -181,64 +181,71 @@ RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTdu
 
 ## 4 如何给某个BSP适配RTduino
 
-### 4.1 创建文件夹和文件
+### 4.1 参考资料
+
+- [RTduino BSP对接教程](/docs/zh/RTduino%20BSP%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B.md)
+- [RTduino pinout-generator辅助工具](https://github.com/RTduino/pinout-generator)
+
+### 4.2 创建文件夹和文件
 
 需要在某个BSP的applications文件夹下创建如下文件、文件夹：
 
 参考示例BSP：[STM32F072 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | [STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications)
 
-#### 4.1.1 arduino_main.cpp文件
+#### 4.2.1 arduino_main.cpp文件
 
 该文件是Arduino的编程入口，提供setup和loop函数。在loop函数默认以200ms为周期，闪烁Arduino内建LED灯（LED_BUILTIN）。如果该BSP默认支持SPI功能且为UNO引脚布局，由于SPI和LED_BUILTIN可能存在冲突(D13)，可以在loop函数内以 `Serial.println("Hello Arduino\n");` 代替频闪LED（例如[STM32F401 Nucleo板](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f401-st-nucleo/applications/main.c)）。
 
-#### 4.1.2 arduino_pinout文件夹
+#### 4.2.2 arduino_pinout文件夹
 
 需要在applications文件夹下创建arduino_pinout文件夹，这个文件夹主要包含 `arduino_pinout.c` 和 `arduino_pinout.h` 两个关键的文件，这两个文件是对接的关键。用户只需要做好这两个文件，即可完成与RTduino的对接。
 
 同时，这个文件夹内也需要SConscript脚本文件，以及提供Arduino引脚布局的README说明文档。请参照上面的示例BSP来完成对这两个文件的编写。
 
-#### 4.1.3 arduino_pinout.c 文件的编写
+#### 4.2.3 arduino_pinout.c 文件的编写
 
 `arduino_pinout.c` 内需要完成一个IO编号和功能的映射表。由于Arduino的习惯是采用1-13 (D0-D13) 以及 A0-A5的引脚编号，而正规的MCU的引脚编号一般都是PA1之类，因此需要将MCU真正的引脚编号与Arduino引脚编号映射起来。
 
 以下段代码来举例讲解：
 
 ```c
-/*
-    {Arduino Pin, RT-Thread Pin [, Device Name(PWM or ADC), Channel]}
-    [] means optional
-    Digital pins must NOT give the device name and channel.
-    Analog pins MUST give the device name and channel(ADC, PWM or DAC).
-    Arduino Pin must keep in sequence.
-*/
 /* 按照先数字引脚后模拟引脚的顺序从0开始，一定要按序排列 */
 /* 可以按照板卡实际IO情况，灵活调整功能，不一定非得按照Arduino UNO的引脚功能布局，但是建议按此布局设计 */
+/*
+ * {Arduino Pin, RT-Thread Pin [, Device Name, Channel]}
+ * [] means optional
+ * Digital pins must NOT give the device name and channel.
+ * Analog pins MUST give the device name and channel(ADC, PWM or DAC).
+ * Arduino Pin must keep in sequence.
+ */
 const pin_map_t pin_map_table[]=
 {
-    {D0}, /* RX */
-    {D1}, /* TX */
+    {D0, GET_PIN(A,3), "uart2"},        /* Serial-Rx */
+    {D1, GET_PIN(A,2), "uart2"},        /* Serial-Tx */
     {D2, GET_PIN(A,10)},
-    {D3, GET_PIN(B,3), "pwm2", 2}, /* PWM */
+    {D3, GET_PIN(B,3), "pwm2", 2},      /* PWM */
     {D4, GET_PIN(B,5)},
-    {D5, GET_PIN(B,4), "pwm3", 1}, /* PWM */
-    {D6, GET_PIN(B,10), "pwm2", 3}, /* PWM */
+    {D5, GET_PIN(B,4), "pwm3", 1},      /* PWM */
+    {D6, GET_PIN(B,10), "pwm2", 3},     /* PWM */
     {D7, GET_PIN(A,8)},
     {D8, GET_PIN(A,9)},
-    {D9, GET_PIN(C,7), "pwm3", 2}, /* PWM */
-    {D10, GET_PIN(B,6), "pwm16", 1}, /* PWM */
-    {D11, GET_PIN(A,7), "pwm17", 1}, /* PWM */
+    {D9, GET_PIN(C,7), "pwm3", 2},      /* PWM */
+    {D10, GET_PIN(B,6), "pwm16", -1},   /* PWM */
+    {D11, GET_PIN(A,7), "pwm17", 1},    /* PWM */
     {D12, GET_PIN(A,6)},
-    {D13, GET_PIN(A,5)},
-    {D14}, /* I2C1-SDA */
-    {D15}, /* I2C1-SCL */
-    {D16, GET_PIN(C,13)}, /* user button */
-    {A0, GET_PIN(A,0), "adc1", 0}, /* ADC */
-    {A1, GET_PIN(A,1), "adc1", 1}, /* ADC */
-    {A2, GET_PIN(A,4), "adc1", 4}, /* ADC */
-    {A3, GET_PIN(B,0), "adc1", 8}, /* ADC */
-    {A4, GET_PIN(C,1), "adc1", 11}, /* ADC */
-    {A5, GET_PIN(C,0), "adc1", 10}, /* ADC */
-}
+    {D13, GET_PIN(A,5)},                /* LED_BUILTIN */
+    {D14, GET_PIN(B,9), "i2c1"},        /* I2C-SDA (Wire) */
+    {D15, GET_PIN(B,8), "i2c1"},        /* I2C-SCL (Wire) */
+    {D16, GET_PIN(C,13)},               /* USER KEY */
+    {A0, GET_PIN(A,0), "adc1", 0},      /* ADC */
+    {A1, GET_PIN(A,1), "adc1", 1},      /* ADC */
+    {A2, GET_PIN(A,4), "adc1", 4},      /* ADC */
+    {A3, GET_PIN(B,0), "adc1", 8},      /* ADC */
+    {A4, GET_PIN(C,1), "adc1", 11},     /* ADC */
+    {A5, GET_PIN(C,0), "adc1", 10},     /* ADC */
+    {A6, RT_NULL, "adc1", 17},          /* ADC, On-Chip: internal reference voltage, ADC_CHANNEL_VREFINT */
+    {A7, RT_NULL, "adc1", 16},          /* ADC, On-Chip: internal temperature sensor, ADC_CHANNEL_TEMPSENSOR */
+};
 ```
 
 如上截取展示了IO编号和功能映射表，每一行用花括号包裹（实际是一个结构体）来建议一个IO的映射关系：
@@ -253,7 +260,7 @@ RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什�
 
 后两个参数是复用功能IO才需要填写的，普通引脚只需要略过即可。
 
-#### 4.1.4 arduino_pinout.h 文件的编写
+#### 4.2.4 arduino_pinout.h 文件的编写
 
 参考示例BSP：[STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/pins_arduino.h)
 
@@ -328,7 +335,7 @@ D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引�
 #define RTDUINO_SERIAL2_DEVICE_NAME             "uart2"
 ```
 
-### 4.2 修改Kconfig文件
+### 4.3 修改Kconfig文件
 
 Kconfig文件位于BSP的board文件夹下：
 
@@ -373,7 +380,7 @@ endmenu
 
 需要在`Onboard Peripheral Drivers`栏下增加 `BSP_USING_ARDUINO` 配置选项，并依赖相应的PWM、ADC、UART、I2C以及SPI等设备框架，满足一键化开启RTduino的能力。
 
-### 4.3 编写Arduino引脚布局(pinout)的README说明文档
+### 4.4 编写Arduino引脚布局(pinout)的README说明文档
 
 示例： [STM32F072 Nucleo的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout/README.md) | [STM32L475潘多拉的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/README.md)
 
