@@ -486,8 +486,6 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 ## 7 贡献与维护
 
-该项目于2021年12月立项，由RT-Thread社区核心开发和维护者[满鉴霆](https://github.com/mysterywolf)发起。
-
 ### 7.1 项目仓库地址
 
 https://github.com/RTduino/RTduino
