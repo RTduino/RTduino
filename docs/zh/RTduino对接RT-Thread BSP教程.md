@@ -1,6 +1,9 @@
-# RTduino BSP对接教程
+# RTduino对接RT-Thread BSP教程
 
 我们以 [STM32F411RE Nucleo-64开发板](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) 为例进行对接。
+
+配套视频教程：[RTduino对接到RT-Thread BSP手把手教程（视频）](https://www.bilibili.com/video/BV1WG41177Cu)
+
 ## 1 检查是否具有底层驱动
 
 由于本次对接的是STM32系列的单片机，驱动文件是非常完善的，如下：

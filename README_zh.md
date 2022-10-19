@@ -46,6 +46,8 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 ### 2.1 参考资料
 
 - [2022年RT-Thread全球开发者大会报告视频](https://www.bilibili.com/video/BV1Wa411L7B4)
+- [RTduino对接RT-Thread BSP教程](/docs/zh/RTduino%E5%AF%B9%E6%8E%A5RT-Thread%20BSP%E6%95%99%E7%A8%8B.md)
+- [RTduino对接到RT-Thread BSP手把手教程（视频）](https://www.bilibili.com/video/BV1WG41177Cu)
 
 ### 2.2 工程的创建和导入
 
@@ -184,9 +186,9 @@ RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTdu
 
 ### 4.1 参考资料
 
-- [RTduino BSP对接教程](/docs/zh/RTduino%20BSP%E5%AF%B9%E6%8E%A5%E6%95%99%E7%A8%8B.md)
+- [RTduino对接RT-Thread BSP教程](/docs/zh/RTduino%E5%AF%B9%E6%8E%A5RT-Thread%20BSP%E6%95%99%E7%A8%8B.md)
+- [RTduino对接到RT-Thread BSP手把手教程（视频）](https://www.bilibili.com/video/BV1WG41177Cu)
 - [RTduino pinout-generator辅助工具](https://github.com/RTduino/pinout-generator)
-
 ### 4.2 创建文件夹和文件
 
 需要在某个BSP的applications文件夹下创建如下文件、文件夹：
