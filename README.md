@@ -49,13 +49,13 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 
 ### 2.2 Import and create a project
 
+[This vedio](https://www.youtube.com/watch?v=fREPLuh-h8k) will also teach you how to import a BSP into RT-Thread Studio as a project
+
 - Please go to the [RT-Thread repository](https://github.com/RT-Thread/rt-thread) to [download](https://github.com/RT-Thread/rt-thread/archive/refs/heads/master.zip) the latest code
 
 - Download and install [RT-Thread Studio IDE](https://www.rt-thread.io/studio.html)
 
 - Unzip the RT-Thread source code file and open RT-Thread Studio
-
-- [This vedio](https://www.youtube.com/watch?v=fREPLuh-h8k) will also teach you how to import a BSP into RT-Thread Studio as a project
 
 ![2.2-1](docs/figures/2.2-1.png)
 
