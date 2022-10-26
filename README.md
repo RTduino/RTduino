@@ -55,6 +55,8 @@ We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree
 
 - Unzip the RT-Thread source code file and open RT-Thread Studio
 
+- [This vedio](https://www.youtube.com/watch?v=fREPLuh-h8k) will also teach you how to import a BSP into RT-Thread Studio as a project
+
 ![2.2-1](docs/figures/2.2-1.png)
 
 - In RT-Thread Studio IDE, select `File` -> `Import`, and select `RT-Thread BSP Project into Workspace`
@@ -119,8 +121,8 @@ There are two main folders in RTduino: core and libraries.
 
 - [core folder](https://github.com/RTduino/RTduino/tree/master/core): contains all Arduino related APIs will be implemented in this folder, such as: digitalRead, analogWrite and so on.
 - [libraries folder](https://github.com/RTduino/RTduino/tree/master/libraries)
-  - [buildin folder](https://github.com/RTduino/RTduino/tree/master/libraries/buildin): contains Arduino build-in libraries such as SPI, Wire (I2C), servo and so on.
-  - [user folder](https://github.com/RTduino/RTduino/tree/master/libraries/user): this folder is empty by default and it prepares for users to import the Arduino Third Parity libraries. This operation will introduce and explain in the next chapter.
+- [buildin folder](https://github.com/RTduino/RTduino/tree/master/libraries/buildin): contains Arduino build-in libraries such as SPI, Wire (I2C), servo and so on.
+- [user folder](https://github.com/RTduino/RTduino/tree/master/libraries/user): this folder is empty by default and it prepares for users to import the Arduino Third Parity libraries. This operation will introduce and explain in the next chapter.
 
 ### 2.6 BSP Arduino IO Pinout
 
