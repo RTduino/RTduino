@@ -28,10 +28,11 @@ unsigned long micros(void)
 {
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
     rt_hwtimerval_t timestamp;
-    extern rt_device_t arduino_hwtimer_device;
+    rt_device_t hwtimer_device;
 
-    if(arduino_hwtimer_device != RT_NULL &&
-       rt_device_read(arduino_hwtimer_device, 0, &timestamp, sizeof(timestamp)) > 0)
+    hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
+    if(hwtimer_device != RT_NULL &&
+       rt_device_read(hwtimer_device, 0, &timestamp, sizeof(timestamp)) > 0)
     {
         return timestamp.sec*1000000 + timestamp.usec;
     }

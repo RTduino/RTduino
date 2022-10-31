@@ -37,8 +37,6 @@ RT_WEAK void initVariant(void)
 }
 
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-rt_device_t rtduino_hwtimer_device = RT_NULL;
-
 static void hwtimer_init(void)
 {
     rt_device_t hwtimer_device;
@@ -57,11 +55,7 @@ static void hwtimer_init(void)
         }
         rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq); /* set hwtimer prescaler frequency */
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode); /* set hwtimer mode */
-        if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) != 0)
-        {
-            rtduino_hwtimer_device = hwtimer_device;
-        }
-        else
+        if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) == 0)
         {
             LOG_E("Failed to start (write) hardware timer!");
         }
