@@ -58,7 +58,12 @@ void delayMicroseconds(unsigned int us)
     rt_hw_us_delay(us);
 }
 
-RT_WEAK void yield(void)
+#ifdef rt_weak
+rt_weak
+#else
+RT_WEAK
+#endif
+void yield(void)
 {
     rt_schedule();
 }

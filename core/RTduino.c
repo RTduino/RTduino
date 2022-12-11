@@ -28,11 +28,21 @@
 #endif /* RTDUINO_THREAD_PRIO */
 
 static struct rt_thread rtduino_thread;
-static ALIGN(8) rt_uint8_t rtduino_thread_stack[RTDUINO_THREAD_SIZE];
+#ifdef rt_align
+rt_align(RT_ALIGN_SIZE)
+#else
+ALIGN(RT_ALIGN_SIZE)
+#endif
+static rt_uint8_t rtduino_thread_stack[RTDUINO_THREAD_SIZE];
 #endif /* RTDUINO_NO_SETUP_LOOP */
 
 /* initialization for BSP; maybe a blank function  */
-RT_WEAK void initVariant(void)
+#ifdef rt_weak
+rt_weak
+#else
+RT_WEAK
+#endif
+void initVariant(void)
 {
 }
 
