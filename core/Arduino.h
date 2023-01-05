@@ -113,7 +113,9 @@ extern uint32_t SystemCoreClock;
 #warning "This is just a backup solution. Please define F_CPU in pins_arduino.h"
 #endif /* RTDUINO_TINY_MODE */
 #endif /* F_CPU */
-#else
+#elif !defined(interrupts) || !defined(noInterrupts)
+#define interrupts()
+#define noInterrupts()
 #warning "Please define interrupts for this architecture in Arduino.h"
 #endif /* interrupts and noInterrupts */
 
