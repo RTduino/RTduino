@@ -103,21 +103,8 @@ typedef uint8_t byte;
 #define sq(x) ((x)*(x)) /* x^2 */
 
 /* define interrupts and noInterrupts */
-#if defined(__CM_CMSIS_VERSION) /* CMSIS for all ARM Cortex CPU */
-#define interrupts()   __enable_irq()
-#define noInterrupts() __disable_irq()
-#ifndef F_CPU
-extern uint32_t SystemCoreClock;
-#define F_CPU SystemCoreClock
-#ifndef RTDUINO_TINY_MODE
-#warning "This is just a backup solution. Please define F_CPU in pins_arduino.h"
-#endif /* RTDUINO_TINY_MODE */
-#endif /* F_CPU */
-#elif !defined(interrupts) || !defined(noInterrupts)
 #define interrupts()
 #define noInterrupts()
-#warning "Please define interrupts for this architecture in Arduino.h"
-#endif /* interrupts and noInterrupts */
 
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
