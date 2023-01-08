@@ -11,28 +11,26 @@
 #ifndef WInterrupts_h
 #define WInterrupts_h
 
-#include <rtthread.h>
 #include <rthw.h>
 
-class noInterrupts
+class rtduino_noInterrupts
 {
-private:
-    rt_base_t interrupt_nesting;
-public:
-    noInterrupts()
-    {
-        interrupt_nesting = rt_hw_interrupt_disable();
-        rt_kprintf("noInterrupts\n");
-    }
+    private:
+        rt_base_t rtduino_interrupt_nesting;
 
-    ~noInterrupts()
-    {
-        rt_hw_interrupt_enable(interrupt_nesting);
-        rt_kprintf("exit noInterrupts\n");
-    }
+    public:
+        rtduino_noInterrupts()
+        {
+            rtduino_interrupt_nesting = rt_hw_interrupt_disable();
+        }
 
-    noInterrupts(noInterrupts&&) = delete;
-    noInterrupts& operator=(noInterrupts&&) = delete;
+        ~rtduino_noInterrupts()
+        {
+            rt_hw_interrupt_enable(rtduino_interrupt_nesting);
+        }
 };
+
+#define noInterrupts() rtduino_noInterrupts *rtduino_noInterrupts_obj = new rtduino_noInterrupts()
+#define interrupts()   delete rtduino_noInterrupts_obj
 
 #endif /* WInterrupts_h */
