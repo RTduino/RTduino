@@ -103,7 +103,7 @@ typedef uint8_t byte;
 #define sq(x) ((x)*(x)) /* x^2 */
 
 /* define interrupts and noInterrupts */
-#define interrupts()
+#define interrupts() rt_kprintf("real interrupts\n");
 //#define noInterrupts()
 
 #ifdef F_CPU

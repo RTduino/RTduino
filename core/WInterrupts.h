@@ -22,12 +22,17 @@ public:
     noInterrupts()
     {
         interrupt_nesting = rt_hw_interrupt_disable();
+        rt_kprintf("noInterrupts\n");
     }
 
     ~noInterrupts()
     {
         rt_hw_interrupt_enable(interrupt_nesting);
+        rt_kprintf("exit noInterrupts\n");
     }
+
+    noInterrupts(noInterrupts&&) = delete;
+    noInterrupts& operator=(noInterrupts&&) = delete;
 };
 
 #endif /* WInterrupts_h */
