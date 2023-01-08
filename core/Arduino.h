@@ -102,11 +102,21 @@ typedef uint8_t byte;
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
 
+/* define interrupts and noInterrupts */
+#if defined(ARCH_ARM) || defined(ARCH_RISCV)
+#define interrupts()   __enable_irq()
+#define noInterrupts() __disable_irq()
+#else
+#define interrupts()
+#define noInterrupts()
+#warning "Please define interrupts for this architecture in Arduino.h"
+#endif
+
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
 #define microsecondsToClockCycles(a) ((a) * clockCyclesPerMicrosecond())
-#else
+#elif !defined(RTDUINO_TINY_MODE)
 #warning "Please define F_CPU in pins_arduino.h"
 #endif /* F_CPU */
 
@@ -182,7 +192,6 @@ void noTone(uint8_t _pin);
 
 #include "WCharacter.h"
 #include "WString.h"
-#include "WInterrupts.h"
 #include "HardwareSerial.h"
 #ifdef RTDUINO_USING_USBSERIAL
 #include "USBSerial.h"
