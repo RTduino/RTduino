@@ -31,6 +31,6 @@ class rtduino_noInterrupts
 };
 
 #define noInterrupts() rtduino_noInterrupts *rtduino_noInterrupts_obj = new rtduino_noInterrupts()
-#define interrupts()   delete rtduino_noInterrupts_obj
+#define interrupts()   if(rtduino_noInterrupts_obj) {delete rtduino_noInterrupts_obj;}
 
 #endif /* WInterrupts_h */
