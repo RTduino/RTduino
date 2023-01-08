@@ -102,10 +102,6 @@ typedef uint8_t byte;
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
 
-/* define interrupts and noInterrupts */
-#define interrupts()
-#define noInterrupts()
-
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
@@ -186,6 +182,7 @@ void noTone(uint8_t _pin);
 
 #include "WCharacter.h"
 #include "WString.h"
+#include "WInterrupts.h"
 #include "HardwareSerial.h"
 #ifdef RTDUINO_USING_USBSERIAL
 #include "USBSerial.h"
