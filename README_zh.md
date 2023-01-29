@@ -437,11 +437,7 @@ RT-Thread online packages  --->
 
 ![cannot_find_setuploop](docs/figures/arduinoheader2.png)
 
-### 6.2 Keil-MDK
-
-如果使用Keil AC5环境，需要勾选GNU extension。AC6不需要。RTduino本身可以在Keil-MDK AC5环境下编译通过，但是不保证所有第三方Arduino库均可顺利编译通过，因为Arduino库是在GNU-C下编写的，AC5不支持GNU-C扩展语法。如果非要使用Keil，建议使用AC6。
-
-### 6.3 启用PWM不能调用pinMode函数，否则PWM会失效，ADC、DAC同理
+### 6.2 启用PWM不能调用pinMode函数，否则PWM会失效，ADC、DAC同理
 
 ```c
 void setup() {
@@ -475,7 +471,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 当然，如果用户已经知道这样做的后果，但是故意需要将PWM、ADC或DAC引脚通过pinMode函数转为普通IO也是完全可以的。
 
-### 6.4 Serial.begin
+### 6.3 Serial.begin
 
 在很多Arduino例程中，都喜欢使用如下语句来初始化串口：
 
@@ -487,7 +483,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口波特率配置，不重新配置串口波特率。
 
-### 6.5 SPI.begin() / Wire.begin()
+### 6.4 SPI.begin() / Wire.begin()
 
 使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`
 
