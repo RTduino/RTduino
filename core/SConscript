@@ -15,7 +15,7 @@ if rtconfig.PLATFORM == 'gcc' or rtconfig.PLATFORM == 'armclang': # GCC or Keil 
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
 elif rtconfig.PLATFORM == 'armcc': # Keil AC5
-    CXXFLAGS = ' --gnu' # enable global GNU extension support for the whole project
+    CXXFLAGS = ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
     LOCAL_CFLAGS += ' --c99' # cannot use --c99 symbol for C++ files, pertically in Keil
     LOCAL_CXXFLAGS += ' --cpp11' # support C++11
