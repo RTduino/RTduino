@@ -4,7 +4,6 @@
  * 02-02-2023     Stanley Lwin   first version
  */
 
-
 #include <rtthread.h>
 #include <rtdevice.h>
 #include <board.h>
