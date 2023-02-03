@@ -19,9 +19,9 @@ volatile int count = 0;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 500;
 
-void ISR__blink() //ISR - hook
+void ISR__blink()
 {
-    //button debounceDelay
+    /*Button debounceDelay*/
     if ((millis() - lastDebounceTime) > debounceDelay || lastDebounceTime == 0)
     {
         state = !state;
