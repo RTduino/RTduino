@@ -6,7 +6,8 @@ user_libraries_root_path = GetCurrentDir()
 scripts_path = os.path.join(user_libraries_root_path, '..', '..', 'scripts')
 sys.path.append(scripts_path)
 
-# alm_path = os.path.join(scripts_path, 'ALM') # alm_path: ALM scripts' path
+# run ALM script
+# alm_path = os.path.join(scripts_path, 'ALM')
 # sys.path.append(alm_path)
 # from ALM_CMD import ALM_Init
 # ALM_Init(alm_path)
