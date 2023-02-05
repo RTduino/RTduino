@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       		Notes
- * 2023-02-03     Stanley Lwin     	first version
+ * Date           Author            Notes
+ * 2023-02-03     Stanley Lwin      first version
  */
 
 #include <Arduino.h>
@@ -17,7 +17,7 @@ volatile byte state = LOW;
 volatile int count = 0;
 
 unsigned long lastDebounceTime = 0;
-unsigned long debounceDelay = 500;
+unsigned long debounceDelay = 200;
 
 void ISR__blink()
 {
@@ -38,7 +38,7 @@ void setup()
     pinMode(ledPin, OUTPUT);
     pinMode(interruptPin, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(interruptPin), ISR__blink, FALLING);
-	
+
 }
 
 void loop()
