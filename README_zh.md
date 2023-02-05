@@ -487,15 +487,19 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`
 
-## 7 贡献与维护
+## 7 如何将某个Arduino库适配到RTduino
 
-### 7.1 项目仓库地址
+Arduino部分库会根据不同的架构（包括CPU架构或不同板子的结构），进行不同的适配，对于RTduino，识别宏为 `ARDUINO_ARCH_RTTHREAD`。请参考此[commit](https://github.com/PaulStoffregen/CapacitiveSensor/commit/25dd066f412af0c988aa3712bebfcb263c9054e0#diff-5957e867d92ebf881ddfc665f29824357eab87f987c6097dc8958d9053c6e6f7R387)进行适配。
+
+## 8 贡献与维护
+
+### 8.1 项目仓库地址
 
 https://github.com/RTduino/RTduino
 
 https://gitee.com/rtduino/RTduino
 
-### 7.2 感谢以下小伙伴对本仓库的贡献
+### 8.2 感谢以下小伙伴对本仓库的贡献
 
 <a href="https://github.com/RTduino/rtduino/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=RTduino/rtduino" />
