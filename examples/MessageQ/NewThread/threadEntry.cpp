@@ -22,7 +22,6 @@ void thread_entry(void *parameter)
         {
             rt_kprintf("Temperature: %f\n",mainData.temp);
             rt_kprintf("Humidity: %f\n",mainData.humidity);
-
         }
     }
 }
