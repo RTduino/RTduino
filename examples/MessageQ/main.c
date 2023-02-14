@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
- * Date           Author       		Notes
- * 2023-02-04     Stanley Lwin     	first version
+ * Date           Author            Notes
+ * 2023-02-04     Stanley Lwin      first version
  */
- 
+
 #include <rtthread.h>
 #include <rtdevice.h>
 #include <board.h>
@@ -23,11 +23,11 @@ int main(void)
 
     while (1)
     {
-		/* Receive messages from the message queue */
+        /* Receive messages from the message queue */
         if (rt_mq_recv(&mq, &mainData, sizeof(struct data), RT_WAITING_FOREVER) == RT_EOK)
         {
-            rt_kprintf("Temp: %f\n",mainData.temp);
-            rt_kprintf("Humidity: %f\n",mainData.humidity);
+            rt_kprintf("Temp: %f\n", mainData.temp);
+            rt_kprintf("Humidity: %f\n", mainData.humidity);
 
         }
     }
