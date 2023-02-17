@@ -13,7 +13,6 @@
 
 Data tObj;
 
-
 /*Entry function for tid1*/
 void thread_entry(void *parameter)
 {
