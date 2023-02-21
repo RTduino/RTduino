@@ -28,21 +28,25 @@
 #ifndef __ARDUINO_H__
 #define __ARDUINO_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <rtconfig.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <math.h>
 #include <rtdef.h>
 #include <rthw.h>
 #include <board.h>
+
+#include <stdint.h>
+#include <stdbool.h>
+#include <posix/stdlib.h>
+#include <posix/stdio.h>
+#include <math.h>
+
 #include "avr/io.h"
 #include "avr/pgmspace.h"
+#include "avr/dtostrf.h"
 #include "binary.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef RTDUINO_TINY_MODE
 #include "pins_arduino.h"
