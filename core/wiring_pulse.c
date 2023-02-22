@@ -8,6 +8,7 @@
  * 2022-04-12     Meco Man     first version
  */
 
+#include <rtdevice.h>
 #include "wiring_private.h"
 
 #define DBG_TAG    "RTduino.pulse"
