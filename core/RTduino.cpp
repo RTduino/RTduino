@@ -78,6 +78,11 @@ static void hwtimer_init(void)
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
 #ifndef RTDUINO_NO_SETUP_LOOP
+
+#if __has_include ("../../../applications/helloworld.ino")
+#include "../../../applications/helloworld.ino"
+#endif
+
 static void rtduino_entry(void *parameter)
 {
     setup();
