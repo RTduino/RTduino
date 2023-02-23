@@ -10,7 +10,7 @@
  * 2022-05-20     Meco Man     support no setup-loop structure
  */
 
-#include <Arduino.h>
+#include <RTduino.h>
 #include <rtdevice.h>
 #include "wiring_private.h"
 
@@ -27,24 +27,36 @@
 #define RTDUINO_THREAD_PRIO     30
 #endif /* RTDUINO_THREAD_PRIO */
 
-#ifdef rt_align
 rt_align(RT_ALIGN_SIZE)
-#else
-ALIGN(RT_ALIGN_SIZE)
-#endif
 static rt_uint8_t rtduino_thread_stack[RTDUINO_THREAD_SIZE];
 static struct rt_thread rtduino_thread;
-#endif /* RTDUINO_NO_SETUP_LOOP */
 
-/* initialization for BSP; maybe a blank function  */
-#ifdef rt_weak
-rt_weak
-#else
-RT_WEAK
-#endif
-void initVariant(void)
+static void rtduino_entry(void *parameter)
 {
+    setup();
+    while(1)
+    {
+        loop();
+        rt_schedule();
+    }
 }
+
+#ifdef RTDUINO_USING_SKETCH
+rt_align(RT_ALIGN_SIZE)
+static rt_uint8_t rtduino_sketch_thread_stack[RTDUINO_THREAD_SIZE];
+static struct rt_thread rtduino_sketch_thread;
+
+static void rtduino_sketch_entry(void *parameter)
+{
+    sketch_setup();
+    while(1)
+    {
+        sketch_loop();
+        rt_schedule();
+    }
+}
+#endif /* RTDUINO_USING_SKETCH */
+#endif /* RTDUINO_NO_SETUP_LOOP */
 
 #ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
 static void hwtimer_init(void)
@@ -77,18 +89,8 @@ static void hwtimer_init(void)
 }
 #endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
 
-#ifndef RTDUINO_NO_SETUP_LOOP
-static void rtduino_entry(void *parameter)
-{
-    setup();
-
-    while(1)
-    {
-        loop();
-        rt_schedule();
-    }
-}
-#endif /* RTDUINO_NO_SETUP_LOOP */
+/* initialization for BSP; maybe a blank function  */
+rt_weak void initVariant(void) {}
 
 static int rtduino_init(void)
 {
@@ -113,6 +115,22 @@ static int rtduino_init(void)
     {
         LOG_E("RTduino thread initialization failed!");
     }
+#ifdef RTDUINO_USING_SKETCH
+    rt_err = rt_thread_init(&rtduino_sketch_thread, "sketch",
+                            rtduino_sketch_entry, RT_NULL,
+                            rtduino_sketch_thread_stack,
+                            RTDUINO_THREAD_SIZE,
+                            RTDUINO_THREAD_PRIO, 20);
+
+    if (rt_err == RT_EOK)
+    {
+        rt_thread_startup(&rtduino_sketch_thread);
+    }
+    else
+    {
+        LOG_E("RTduino sketch thread initialization failed!");
+    }
+#endif /* RTDUINO_USING_SKETCH */
 #endif /* RTDUINO_NO_SETUP_LOOP */
     return 0;
 }

@@ -311,10 +311,10 @@ int HardwareSerial::read(void)
 
 #ifdef RT_USING_CONSOLE
 ConsoleSerial Serial;
-#endif
+#endif /* RT_USING_CONSOLE */
 #ifdef RTDUINO_SERIAL2_DEVICE_NAME
 HardwareSerial Serial2(RTDUINO_SERIAL2_DEVICE_NAME);
-#endif
+#endif /* RTDUINO_SERIAL2_DEVICE_NAME */
 #ifdef RTDUINO_SERIAL3_DEVICE_NAME
 HardwareSerial Serial3(RTDUINO_SERIAL3_DEVICE_NAME);
-#endif
+#endif /* RTDUINO_SERIAL3_DEVICE_NAME */
