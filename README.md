@@ -43,7 +43,7 @@ Using the RTduino and Arduino libraries will be very easy through the [RT-Thread
 
 We will use [STM32F103 BluePill BSP](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f103-blue-pill) as an example to show how to use RTduino.
 
-> RTduino requires the minimum version of RT-Thread is 4.1.1
+> RTduino requires the minimum version of RT-Thread is 5.0.0
 
 ### 2.1 References
 

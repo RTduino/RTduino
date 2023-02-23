@@ -43,7 +43,7 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
 
-> RTduino 要求 RT-Thread 版本至少为4.1.1
+> RTduino 要求 RT-Thread 版本至少为5.0.0
 
 ### 2.1 参考资料
 

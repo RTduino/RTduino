@@ -3,8 +3,8 @@ import os
 import zipfile
 
 user_libraries_root_path = GetCurrentDir()
-scripts_path = os.path.join(user_libraries_root_path, '..', '..', 'scripts')
-sys.path.append(scripts_path)
+# scripts_path = os.path.join(user_libraries_root_path, '..', '..', 'scripts')
+# sys.path.append(scripts_path)
 
 # run ALM script
 # alm_path = os.path.join(scripts_path, 'ALM')
