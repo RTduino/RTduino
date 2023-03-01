@@ -120,7 +120,21 @@ void SPIClass::transfer(void *buf, size_t count)
 
 uint16_t SPIClass::transfer16(uint16_t data)
 {
+#if RT_VER_NUM >= 0x50000
+    rt_err_t err;
+    rt_uint16_t recvdata;
+    err = rt_spi_sendrecv16(&this->spi_device, data, &recvdata);
+    if(err == RT_EOK)
+    {
+        return recvdata;
+    }
+    else
+    {
+        return 0U;
+    }
+#else
     return rt_spi_sendrecv16(&this->spi_device, data);
+#endif /* RT_VER_NUM >= 0x50000 */
 }
 
 void SPIClass::endTransaction(void)
