@@ -3,6 +3,9 @@
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *
+ * https://github.com/RTduino/RTduino
+ * https://gitee.com/rtduino/RTduino
+ *
  * Change Logs:
  * Date           Author       Notes
  * 2021-04-14     Meco Man     port to RTduino

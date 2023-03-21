@@ -3,6 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  *
+ * https://github.com/RTduino/RTduino
+ * https://gitee.com/rtduino/RTduino
+ *
  * Change Logs:
  * Date           Author            Notes
  * 2023-02-04     Stanley Lwin      first version

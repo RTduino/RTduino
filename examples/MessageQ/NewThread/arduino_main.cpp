@@ -3,6 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  *
+ * https://github.com/RTduino/RTduino
+ * https://gitee.com/rtduino/RTduino
+ *
  * Change Logs:
  * Date           Author            Notes
  * 2023-02-14     Stanley Lwin      first version
@@ -18,7 +21,7 @@ Adafruit_AHTX0 aht;
 struct rt_messagequeue mq;
 rt_uint8_t msg_pool[2048];
 
-void setup() 
+void setup()
 {
     Serial.begin();
     Serial.println("Adafruit AHT10/AHT20 demo!");
@@ -56,6 +59,6 @@ void loop()
     Data.humidity = humidity.relative_humidity;
 
     rt_mq_send(&mq,&Data, sizeof(struct data));
-    
+
     delay(500);
 }

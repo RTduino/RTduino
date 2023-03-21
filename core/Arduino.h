@@ -3,6 +3,9 @@
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *
+ * https://github.com/RTduino/RTduino
+ * https://gitee.com/rtduino/RTduino
+ *
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-10     Meco Man     first version
@@ -49,6 +52,10 @@ extern "C" {
 #endif
 
 #ifndef RTDUINO_TINY_MODE
+/*
+  Please read the document if pins_arduino.h cannot be found:
+  https://github.com/RTduino/RTduino#readme
+*/
 #include "pins_arduino.h"
 #endif
 

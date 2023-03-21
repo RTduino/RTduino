@@ -3,6 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  *
+ * https://github.com/RTduino/RTduino
+ * https://gitee.com/rtduino/RTduino
+ *
  * Change Logs:
  * Date           Author       Notes
  * 2022-09-09     Meco Man     first version
