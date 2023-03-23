@@ -66,10 +66,10 @@ extern "C" {
 /* Arduino Pin Map */
 typedef struct
 {
-    uint8_t arduino_pin;
-    rt_ubase_t rt_pin;
+    uint8_t     arduino_pin;
+    rt_base_t   rt_pin;
     const char* device_name;
-    rt_int8_t channel;
+    rt_int8_t   channel;
 }pin_map_t;
 
 typedef unsigned int word;
