@@ -176,3 +176,79 @@ You also can directly import an Arduino library manually, which has not been reg
 ![3-4](docs/figures/3-4.png)
 
 - When the compiling finishes, you will find the new library is shown on the project, where is in the `libraries\user` folder of the project group.
+
+## 4 How to support RTduino for a RT-Thread BSP
+
+## 5 RTduino Tiny Mode
+
+## 6 Matters needing attention
+
+### 6.1 Needs to include `<Arduino.h>`
+
+If you used Arduino related functions and macros, please include `Arduino.h` header file. Otherwise, it will cause some errors. This is not required in Arduino sketch file (ino), but is required in RTduino.
+
+![includearduino](docs/figures/arduinoheader1.png)
+
+![cannot_find_setuploop](docs/figures/arduinoheader2.png)
+
+
+### 6.2 PWM feature pins cannot invoke `pinMode` function
+
+PWM, ADC or DAC feature pins cannot invoke `pinMode` function to set as the GPIO, otherwise, the pins will lose the PWM, ADC or DAC features.
+
+```c
+void setup() {
+  //pinMode(led_pin, OUTPUT); //Cannot use PinMode function, otherwise, led_pin will lose the PWM feature.
+}
+void loop() {
+  //Fading the LED
+  for(int i=0; i<255; i++){
+    analogWrite(led_pin, i);
+    delay(5);
+  }
+  for(int i=255; i>0; i--){
+    analogWrite(led_pin, i);
+    delay(5);
+  }
+}
+```
+
+Arduino [official document](https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/) also suggests:
+
+```markdown
+You do not need to call pinMode() to set the pin as an output before calling analogWrite().
+The analogWrite function has nothing to do with the analog pins or the analogRead function.
+```
+
+If users use pinMode to set a PWM, ADC or DAC feature pin, RTduino also will gives an warning in terminal.
+
+![pwmwarning](docs/figures/pwmwarning.png)
+
+Of course, if the user already knows the consequences of doing so, it is completely possible to deliberately convert the PWM, ADC or DAC pins to ordinary IOs through the pinMode function.
+
+### 6.3 `Serial.begin()`
+
+Many Arduino example sketches ues `Serial.begin(9600)` to initialize serials. However, in RTduino, it is **highly suggested** users to use `Serial.begin()`, which is without bond parameter to initialize the serial, so that it can follow the original RT-Thread serial bond rate settings, which is 115200 by default for most of the BSPs. Unless you want to change the serial bond rate in RTduino sketch.
+
+### 6.4 `SPI.begin()` / `Wire.begin()`
+
+When operating SPI and Wire (I2C), the RT-Thread SPI and I2C devices called by default are defined in arduino_pin.h. When users use SPI and Wire libraries, they do not need to specify SPI and I2C devices, which is no different from using Arduino. If you use a non-default SPI/I2C, you only need to pass in the corresponding rt-thread device name in the initialization function, such as `SPI.begin("spi1")` or `Wire.begin("i2c1")`.
+
+## 7 How to adapt an Arduino library to RTduino
+
+Some Arduino libraries will be adapted differently according to different architectures (including CPU architecture or different board structures). For RTduino, the recognition macro is `ARDUINO_ARCH_RTTHREAD`. Please refer to this [commit](https://github.com/PaulStoffregen/CapacitiveSensor/commit/25dd066f412af0c988aa3712bebfcb263c9054e0#diff-5957e867d92ebf881ddfc665f29824357eab87f987c6097dc8958d9053c6e6f7R387) for adaptation.
+
+## 8 Contribution and Maintenance
+
+### 8.1 Project repository
+
+https://github.com/RTduino/RTduino
+
+https://gitee.com/rtduino/RTduino
+
+### 8.2 Thanks for the community contributors
+
+<a href="https://github.com/RTduino/rtduino/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=RTduino/rtduino" />
+</a>
+
