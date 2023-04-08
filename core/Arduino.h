@@ -31,8 +31,7 @@
 #ifndef __ARDUINO_H__
 #define __ARDUINO_H__
 
-#include <rtconfig.h>
-#include <rtdef.h>
+#include <rtdevice.h>
 #include <rthw.h>
 #include <board.h>
 

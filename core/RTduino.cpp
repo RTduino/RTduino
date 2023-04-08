@@ -14,7 +14,6 @@
  */
 
 #include <RTduino.h>
-#include <rtdevice.h>
 #include "wiring_private.h"
 
 #define DBG_TAG    "RTduino.thread"
