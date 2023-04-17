@@ -26,8 +26,8 @@ Using the RTduino and Arduino libraries will be very easy through the [RT-Thread
 | [STM32F401 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout)          | [CH32V208W-R0](https://github.com/RT-Thread/rt-thread/tree/master/bsp/wch/risc-v/ch32v208w-r0/applications/arduino_pinout)                         |
 | [STM32F410 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f410-st-nucleo/applications/arduino_pinout)          | [NXP LPC55S69 EVK](https://github.com/RT-Thread/rt-thread/tree/master/bsp/lpc55sxx/lpc55s69_nxp_evk/applications/arduino_pinout)                   |
 | [STM32F411 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout)          | [STM32L476 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l476-st-nucleo/applications/arduino_pinout)                   |
-| [STM32F412 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f412-st-nucleo/applications/arduino_pinout)          | [STM32G474 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32g474-st-nucleo/applications/arduino_pinout)                                                                                                                                                  |
-| [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout)        |                                                                                                                                                    |
+| [STM32F412 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f412-st-nucleo/applications/arduino_pinout)          | [STM32G474 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32g474-st-nucleo/applications/arduino_pinout)                   |
+| [STM32F469 Discovery](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f469-st-disco/applications/arduino_pinout)        | [STM32U575 Nucleo](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32u575-st-nucleo/applications/arduino_pinout)                   |
 
 > RTduino also allows users to directly run without a specific BSP supporting. Please see Chapter 5
 
@@ -191,7 +191,6 @@ If you used Arduino related functions and macros, please include `Arduino.h` hea
 
 ![cannot_find_setuploop](docs/figures/arduinoheader2.png)
 
-
 ### 6.2 PWM feature pins cannot invoke `pinMode` function
 
 PWM, ADC or DAC feature pins cannot invoke `pinMode` function to set as the GPIO, otherwise, the pins will lose the PWM, ADC or DAC features.
@@ -251,4 +250,3 @@ https://gitee.com/rtduino/RTduino
 <a href="https://github.com/RTduino/rtduino/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=RTduino/rtduino" />
 </a>
-
