@@ -32,10 +32,10 @@ extern rt_uint8_t msg_pool[2048];
 class Data
 {
     public:
-            float temp = 0.0;
-            float humidity = 0.0;
-            void setData(float t, float h);
-            void displayData(void);
+        volatile float temp = 0.0;
+        volatile float humidity = 0.0;
+        void setData(float t, float h);
+        void displayData(void);
 
 };
 

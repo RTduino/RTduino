@@ -25,8 +25,8 @@ extern struct rt_messagequeue mq;
 extern rt_uint8_t msg_pool[2048];
 
 struct data{
- float temp;
- float humidity;
+    volatile float temp;
+    volatile float humidity;
 };
 typedef struct data Data;
 
