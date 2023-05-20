@@ -15,6 +15,7 @@
 
 void setup(void)
 {
+    //Don't invoke pinMode function in here. It is not needed!
 }
 
 void loop(void)
