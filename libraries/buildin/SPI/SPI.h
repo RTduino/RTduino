@@ -53,6 +53,11 @@
    It should be defined in arduino_pinout.h
    If there is no SS definition, it will be defined as a dummy pin number.
 */
+
+#if !defined(SS) || !defined(RTDUINO_DEFAULT_SPI_BUS_NAME)
+#warning "If you don't use the RTduino SPI feature, please ignore the warnings."
+#endif
+
 #ifndef SS
 #define SS      0
 #warning "Please define SS pin number in arduino_pinout.h and make sure this board supports SPI!"
