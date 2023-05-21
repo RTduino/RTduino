@@ -5,11 +5,14 @@ import os
 cwd = GetCurrentDir()
 src = []
 group = []
-CPPDEFINES = []
 
 def merge_sketch_file_as_cpp(sketch_path, sketch_cpp_filename):
     sketch_cpp_f = open(os.path.join(cwd, sketch_cpp_filename), 'w+')
-    sketch_cpp_f.writelines(['#include <RTduino.h>\n', '#define setup sketch_setup\n', '#define loop sketch_loop\n', '#include <{}>\n'.format(sketch_path)])
+    sketch_cpp_f.writelines(['#include <RTduino.h>\n', \
+                             '#define setup sketch_setup\n', \
+                             '#define loop sketch_loop\n', \
+                             '#include <{}>\n'.format(sketch_path), \
+                             'RTDUINO_SKETCH_LOADER("sketch", sketch_setup, sketch_loop);\n'])
     sketch_cpp_f.close()
     return sketch_cpp_filename
 
@@ -24,13 +27,8 @@ if sketch_path!= None:
     if os.path.exists(sketch_path) == False or os.path.isfile(sketch_path) == False:
         print('Cannot find the sketch file. Please confirm the ino path and file name is correct!')
         exit()
-    if GetDepend('RTDUINO_NO_SETUP_LOOP'):
-        print('scons --sketch command can only be use when RTDUINO_NO_SETUP_LOOP is disabled.')
-        print('Please disable RTDUINO_NO_SETUP_LOOP option!')
-        exit()
     src += [merge_sketch_file_as_cpp(sketch_path, 'sketch.cpp')] # generate a sketch.cpp to include the ino file
-    CPPDEFINES += ['RTDUINO_USING_SKETCH']
 
-group = DefineGroup('RTduino', src, depend = ['PKG_USING_RTDUINO'],  CPPDEFINES=CPPDEFINES)
+group = DefineGroup('RTduino', src, depend = ['PKG_USING_RTDUINO'])
 
 Return('group')
