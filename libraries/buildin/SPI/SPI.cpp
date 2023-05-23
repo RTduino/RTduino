@@ -94,7 +94,16 @@ void SPIClass::beginTransaction(SPISettings settings)
 
 uint8_t SPIClass::transfer(uint8_t data)
 {
+#if RT_VER_NUM >= 0x50000
+    uint8_t recvdata;
+    if(rt_spi_sendrecv8(&this->spi_device, data, &recvdata) != RT_EOK)
+    {
+        recvdata = 0x00U;
+    }
+    return recvdata;
+#else
     return rt_spi_sendrecv8(&this->spi_device, data);
+#endif
 }
 
 void SPIClass::transfer(void *buf, size_t count)
@@ -124,17 +133,12 @@ void SPIClass::transfer(void *buf, size_t count)
 uint16_t SPIClass::transfer16(uint16_t data)
 {
 #if RT_VER_NUM >= 0x50000
-    rt_err_t err;
     rt_uint16_t recvdata;
-    err = rt_spi_sendrecv16(&this->spi_device, data, &recvdata);
-    if(err == RT_EOK)
+    if(rt_spi_sendrecv16(&this->spi_device, data, &recvdata) != RT_EOK)
     {
-        return recvdata;
+        recvdata = 0x00U;
     }
-    else
-    {
-        return 0U;
-    }
+    return recvdata;
 #else
     return rt_spi_sendrecv16(&this->spi_device, data);
 #endif /* RT_VER_NUM >= 0x50000 */
