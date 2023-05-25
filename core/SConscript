@@ -26,7 +26,7 @@ if GetDepend(['RTDUINO_TINY_MODE']):
 group = DefineGroup('RTduino', src,
                      depend = ['PKG_USING_RTDUINO'],
                      CPPPATH = inc,
-                     CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD'],
+                     CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
                      CXXFLAGS = CXXFLAGS,
                      LOCAL_CCFLAGS = LOCAL_CCFLAGS,
                      LOCAL_CFLAGS = LOCAL_CFLAGS,
