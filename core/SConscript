@@ -11,14 +11,17 @@ LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
 LOCAL_CXXFLAGS = ''
 
-if rtconfig.PLATFORM == 'gcc' or rtconfig.PLATFORM == 'armclang': # GCC or Keil AC6
+if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
-elif rtconfig.PLATFORM == 'armcc': # Keil AC5
+elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS = ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
     LOCAL_CFLAGS += ' --c99' # cannot use --c99 symbol for C++ files, pertically in Keil
     LOCAL_CXXFLAGS += ' --cpp11' # support C++11
+else:
+    print('[RTduino] Unsupported rtconfig.PLATFORM: {}'.format(rtconfig.PLATFORM))
+    exit()
 
 if GetDepend(['RTDUINO_TINY_MODE']):
     SrcRemove(src, ['Tone.cpp', 'WInterrupts.c', 'wiring_analog.c', 'wiring_digital.c', 'wiring_pulse.c', 'wiring_shift.c'])
