@@ -31,9 +31,9 @@
   Boston, MA  02111-1307  USA
 */
 
-extern "C" {
-  #include <stdlib.h>
-}
+#include <stdlib.h>
+#include <stdint.h>
+#include "Arduino.h"
 
 long random(long howbig)
 {
@@ -57,12 +57,12 @@ long random(long howsmall, long howbig)
     return random(diff) + howsmall;
 }
 
-unsigned int makeWord(unsigned int w)
+uint16_t  makeWord(uint16_t w)
 {
     return w;
 }
 
-unsigned int makeWord(unsigned char h, unsigned char l)
+uint16_t makeWord(byte h, byte l)
 {
     return (h << 8) | l;
 }
