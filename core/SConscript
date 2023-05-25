@@ -5,6 +5,7 @@ import rtconfig
 cwd = GetCurrentDir()
 src = Glob('*.c') + Glob('*.cpp') + Glob('avr/*.c')
 inc = [cwd]
+group = []
 
 CXXFLAGS = ''
 LOCAL_CCFLAGS = ''
@@ -14,6 +15,7 @@ LOCAL_CXXFLAGS = ''
 if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
+    LOCAL_CXXFLAGS += ' -include RTduino.h' # #include <RTduino.h>
 elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS = ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
@@ -21,19 +23,29 @@ elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     LOCAL_CXXFLAGS += ' --cpp11' # support C++11
 else:
     print('[RTduino] Unsupported rtconfig.PLATFORM: {}'.format(rtconfig.PLATFORM))
-    exit()
+    Return('group')
 
 if GetDepend(['RTDUINO_TINY_MODE']):
     SrcRemove(src, ['Tone.cpp', 'WInterrupts.c', 'wiring_analog.c', 'wiring_digital.c', 'wiring_pulse.c', 'wiring_shift.c'])
 
-group = DefineGroup('RTduino', src,
-                     depend = ['PKG_USING_RTDUINO'],
-                     CPPPATH = inc,
-                     CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
-                     CXXFLAGS = CXXFLAGS,
-                     LOCAL_CCFLAGS = LOCAL_CCFLAGS,
-                     LOCAL_CFLAGS = LOCAL_CFLAGS,
-                     LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
+group = group + DefineGroup('RTduino', src,
+                            depend = ['PKG_USING_RTDUINO'],
+                            CPPPATH = inc,
+                            CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
+                            CXXFLAGS = CXXFLAGS,
+                            LOCAL_CCFLAGS = LOCAL_CCFLAGS,
+                            LOCAL_CFLAGS = LOCAL_CFLAGS,
+                            LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
+
+# add CFLAGS for arduino_main.cpp
+if GetDepend(['PKG_USING_RTDUINO']) and not GetDepend(['RTDUINO_NO_SETUP_LOOP']):
+    group = group + DefineGroup('Applications', [], depend = [''], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
+
+# add CFLAGS for user libraries
+group = group + DefineGroup('RTduino-libraries', [], depend = [''], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
+
+# add CFLAGS for user .ino sketches
+group = group + DefineGroup('RTduino-sketches', [], depend = [''], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
 
 list = os.listdir(cwd)
 for item in list:

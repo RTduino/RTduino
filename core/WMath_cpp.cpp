@@ -31,9 +31,7 @@
   Boston, MA  02111-1307  USA
 */
 
-#include <stdlib.h>
-#include <stdint.h>
-#include "Arduino.h"
+#include <Arduino.h>
 
 long random(long howbig)
 {

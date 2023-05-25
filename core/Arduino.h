@@ -34,7 +34,7 @@
 #include <rtdevice.h>
 #include <rthw.h>
 #include <board.h>
-
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <posix/stdlib.h>
