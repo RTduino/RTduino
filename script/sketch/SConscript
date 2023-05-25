@@ -1,15 +1,16 @@
 from building import *
 from SCons.Script import AddOption, GetOption
 import os
+import rtconfig
 
 cwd = GetCurrentDir()
 src = []
 group = []
+LOCAL_CXXFLAGS = ''
 
 def merge_sketch_file_as_cpp(sketch_path, sketch_cpp_filename):
     sketch_cpp_f = open(os.path.join(cwd, sketch_cpp_filename), 'w+')
-    sketch_cpp_f.writelines(['#include <RTduino.h>\n', \
-                             '#define setup sketch_setup\n', \
+    sketch_cpp_f.writelines(['#define setup sketch_setup\n', \
                              '#define loop sketch_loop\n', \
                              '#include <{}>\n'.format(sketch_path), \
                              'RTDUINO_SKETCH_LOADER("sketch", sketch_setup, sketch_loop);\n'])
@@ -23,12 +24,21 @@ AddOption('--sketch',
         help = 'set Arduino sketch path and file name')
 
 sketch_path = GetOption('sketch')
-if sketch_path!= None:
-    if os.path.exists(sketch_path) == False or os.path.isfile(sketch_path) == False:
-        print('Cannot find the sketch file. Please confirm the ino path and file name is correct!')
-        exit()
-    src += [merge_sketch_file_as_cpp(sketch_path, 'sketch.cpp')] # generate a sketch.cpp to include the ino file
+if sketch_path == None:
+    Return('group')
 
-group = DefineGroup('RTduino', src, depend = ['PKG_USING_RTDUINO'])
+if os.path.exists(sketch_path) == False or os.path.isfile(sketch_path) == False:
+    print('Cannot find the sketch file. Please confirm the ino path and file name is correct!')
+    exit()
+src += [merge_sketch_file_as_cpp(sketch_path, 'sketch.cpp')] # generate a sketch.cpp to include the ino file
+
+sketch_toolchain_list = ['gcc', 'armclang', 'llvm-arm'] # GCC or Keil AC6 or Clang/LLVM
+if rtconfig.PLATFORM in sketch_toolchain_list:
+    LOCAL_CXXFLAGS += ' -include RTduino.h' # #include <RTduino.h>
+else:
+    print("[RTduino] --sketch command only can be used under toolchain: {}".format(sketch_toolchain_list))
+    exit()
+
+group = DefineGroup('RTduino-sketch', src, depend = ['PKG_USING_RTDUINO'], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS)
 
 Return('group')
