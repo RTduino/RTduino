@@ -11,9 +11,11 @@ CXXFLAGS = ''
 LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
 LOCAL_CXXFLAGS = ''
+LFLAGS = ''
 
 if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
-    CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections' # reduce resource consumption
+    CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections'
+    LFLAGS = ' -Wl,--gc-sections'
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
     LOCAL_CXXFLAGS += ' -include RTduino.h' # #include <RTduino.h>
@@ -34,6 +36,7 @@ group = group + DefineGroup('RTduino', src,
                             CPPPATH = inc,
                             CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
                             CXXFLAGS = CXXFLAGS,
+                            LFLAGS = LFLAGS,
                             LOCAL_CCFLAGS = LOCAL_CCFLAGS,
                             LOCAL_CFLAGS = LOCAL_CFLAGS,
                             LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
