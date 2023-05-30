@@ -429,15 +429,7 @@ RT-Thread online packages  --->
 
 ## 6 需要注意的事项
 
-### 6.1 包含 `Arduino.h` 头文件
-
-调用到Arduino相关函数和宏的源文件，请包含Arduino.h头文件，否则可能会报错：
-
-![includearduino](docs/figures/arduinoheader1.png)
-
-![cannot_find_setuploop](docs/figures/arduinoheader2.png)
-
-### 6.2 PWM功能引脚不能调用 `pinMode` 函数，否则PWM会失效，ADC、DAC同理
+### 6.1 PWM功能引脚不能调用 `pinMode` 函数，否则PWM会失效，ADC、DAC同理
 
 ```c
 void setup() {
@@ -470,7 +462,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 当然，如果用户已经知道这样做的后果，但是故意需要将PWM、ADC或DAC引脚通过pinMode函数转为普通IO也是完全可以的。
 
-### 6.3 `Serial.begin()`
+### 6.2 `Serial.begin()`
 
 在很多Arduino例程中，都喜欢使用如下语句来初始化串口：
 
@@ -482,7 +474,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口波特率配置，不重新配置串口波特率。
 
-### 6.4 `SPI.begin()` / `Wire.begin()`
+### 6.3 `SPI.begin()` / `Wire.begin()`
 
 在操作SPI和Wire(I2C)时，默认调用的RT-Thread SPI和I2C设备在arduino_pin.h中定义，用户使用SPI和Wire库时，无需指定SPI和I2C设备，和使用Arduino没有任何区别。如果使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名即可，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`。
 

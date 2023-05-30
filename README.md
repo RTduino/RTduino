@@ -183,15 +183,7 @@ You also can directly import an Arduino library manually, which has not been reg
 
 ## 6 Matters needing attention
 
-### 6.1 Needs to include `<Arduino.h>`
-
-If you used Arduino related functions and macros, please include `Arduino.h` header file. Otherwise, it will cause some errors. This is not required in Arduino sketch file (ino), but is required in RTduino.
-
-![includearduino](docs/figures/arduinoheader1.png)
-
-![cannot_find_setuploop](docs/figures/arduinoheader2.png)
-
-### 6.2 PWM feature pins cannot invoke `pinMode` function
+### 6.1 PWM feature pins cannot invoke `pinMode` function
 
 PWM, ADC or DAC feature pins cannot invoke `pinMode` function to set as the GPIO, otherwise, the pins will lose the PWM, ADC or DAC features.
 
@@ -225,11 +217,11 @@ If users use pinMode to set a PWM, ADC or DAC feature pin, RTduino also will giv
 
 Of course, if the user already knows the consequences of doing so, it is completely possible to deliberately convert the PWM, ADC or DAC pins to ordinary IOs through the pinMode function.
 
-### 6.3 `Serial.begin()`
+### 6.2 `Serial.begin()`
 
 Many Arduino example sketches ues `Serial.begin(9600)` to initialize serials. However, in RTduino, it is **highly suggested** users to use `Serial.begin()`, which is without bond parameter to initialize the serial, so that it can follow the original RT-Thread serial bond rate settings, which is 115200 by default for most of the BSPs. Unless you want to change the serial bond rate in RTduino sketch.
 
-### 6.4 `SPI.begin()` / `Wire.begin()`
+### 6.3 `SPI.begin()` / `Wire.begin()`
 
 When operating SPI and Wire (I2C), the RT-Thread SPI and I2C devices called by default are defined in arduino_pin.h. When users use SPI and Wire libraries, they do not need to specify SPI and I2C devices, which is no different from using Arduino. If you use a non-default SPI/I2C, you only need to pass in the corresponding rt-thread device name in the initialization function, such as `SPI.begin("spi1")` or `Wire.begin("i2c1")`.
 
