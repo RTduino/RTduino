@@ -108,26 +108,7 @@ uint8_t SPIClass::transfer(uint8_t data)
 
 void SPIClass::transfer(void *buf, size_t count)
 {
-    rt_err_t ret;
-    void *recv_buf;
-
-    RT_ASSERT(buf != RT_NULL);
-
-    recv_buf = rt_malloc(count);
-    if(recv_buf == RT_NULL)
-    {
-        return;
-    }
-
-    ret = rt_spi_transfer(&this->spi_device, buf, recv_buf, count);
-    if(ret == 0)
-    {
-        rt_free(recv_buf);
-        return;
-    }
-
-    rt_memcpy(buf, recv_buf, count);
-    rt_free(recv_buf);
+    rt_spi_transfer(&this->spi_device, buf, buf, count);
 }
 
 uint16_t SPIClass::transfer16(uint16_t data)
