@@ -72,6 +72,7 @@ public:
     inline size_t write(unsigned int n) { return write((uint8_t)n); }
     inline size_t write(int n) { return write((uint8_t)n); }
     using Print::write; // pull in write(str) and write(buf, size) from Print
+    operator bool() { return true; }
 };
 
 class ConsoleSerial: public HardwareSerial
