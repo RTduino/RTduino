@@ -277,6 +277,7 @@ void HardwareSerial::begin(uint32_t baud, uint8_t config)
         break;
     }
 
+    LOG_I("change serial baud rate to %d", baud);
     rt_device_control(this->uart_dev, RT_DEVICE_CTRL_CONFIG, &rt_config);
 }
 
