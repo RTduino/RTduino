@@ -122,6 +122,8 @@ typedef uint8_t byte;
 #warning "Please define interrupts for this architecture in Arduino.h"
 #endif /* defined(ARCH_ARM) || defined(ARCH_RISCV) */
 
+#define _NOP() do { __asm__ volatile ("nop"); } while (0)
+
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
 #define clockCyclesToMicroseconds(a) ((a) / clockCyclesPerMicrosecond())
@@ -141,11 +143,6 @@ typedef uint8_t byte;
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
-
-/* avr-libc defines _NOP() since 1.6.2 */
-#ifndef _NOP
-#define _NOP() do { __asm__ volatile ("nop"); } while (0)
-#endif /* _NOP */
 
 void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t val);
