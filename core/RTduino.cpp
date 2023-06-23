@@ -27,7 +27,6 @@ static void rtduino_sketch_entry(void *parameter)
     while(1)
     {
         loader->loop();
-        rt_schedule();
     }
 }
 
