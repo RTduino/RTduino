@@ -25,6 +25,10 @@ void pinMode(uint8_t pin, uint8_t mode)
 {
     rt_base_t rt_mode;
 
+    RT_ASSERT(mode == INPUT || mode == OUTPUT ||
+              mode == INPUT_PULLUP || mode == INPUT_PULLDOWN ||
+              mode == OUTPUT_OPEN_DRAIN);
+
     switch(mode)
     {
     case INPUT:
@@ -46,11 +50,6 @@ void pinMode(uint8_t pin, uint8_t mode)
     case OUTPUT_OPEN_DRAIN:
         rt_mode = PIN_MODE_OUTPUT_OD;
         break;
-
-    default:
-        rt_mode = RT_NULL;
-        LOG_E("pinMode mode parameter is illegal");
-        return;
     }
 
     if (pin_map_table[pin].device_name != RT_NULL)
@@ -64,6 +63,8 @@ void digitalWrite(uint8_t pin, uint8_t val)
 {
     rt_base_t rt_val;
 
+    RT_ASSERT(val == HIGH || val == LOW);
+
     if(val == HIGH)
     {
         rt_val = PIN_HIGH;
@@ -71,10 +72,6 @@ void digitalWrite(uint8_t pin, uint8_t val)
     else if(val == LOW)
     {
         rt_val = PIN_LOW;
-    }
-    else
-    {
-        return;
     }
 
     rt_pin_write(pin_map_table[pin].rt_pin, rt_val);
