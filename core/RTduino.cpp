@@ -31,7 +31,7 @@ static void rtduino_sketch_entry(void *parameter)
     }
 }
 
-rtduino_loader_t rtduino_sketch_loader_create_prio(const char* name, void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size, rt_uint8_t priority)
+rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name, void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size, rt_uint8_t priority)
 {
     rtduino_loader_t loader;
 
@@ -64,11 +64,6 @@ rtduino_loader_t rtduino_sketch_loader_create_prio(const char* name, void (*setu
     }
 
     return loader;
-}
-
-rtduino_loader_t rtduino_sketch_loader_create(const char* name, void (*setup)(void), void (*loop)(void))
-{
-    return rtduino_sketch_loader_create_prio(name, setup, loop, RTDUINO_THREAD_SIZE, RTDUINO_THREAD_PRIO);
 }
 
 rt_err_t rtduino_sketch_loader_delete(rtduino_loader_t loader)
