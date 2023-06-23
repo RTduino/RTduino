@@ -29,7 +29,9 @@ unsigned long millis(void)
 
 unsigned long micros(void)
 {
-#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
+#if defined(PKG_USING_PERF_COUNTER)
+    return get_system_us();
+#elif defined(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME)
     rt_hwtimerval_t timestamp;
     rt_device_t hwtimer_device;
 
@@ -39,10 +41,8 @@ unsigned long micros(void)
     {
         return timestamp.sec*1000000 + timestamp.usec;
     }
-    LOG_E("Failed to read from hardware timer!");
+    LOG_E("Failed to read from hardware timer %s!", RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
     return 0;
-#elif defined(PKG_USING_PERF_COUNTER)
-    return get_system_us();
 #elif defined(RT_USING_CPUTIME)
     return clock_cpu_microsecond(clock_cpu_gettime());
 #else
