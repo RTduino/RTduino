@@ -11,6 +11,7 @@
  * 2021-12-10     Meco Man     first version
  * 2022-05-01     Meco Man     support hardware timer
  * 2022-05-20     Meco Man     support no setup-loop structure
+ * 2023-06-22     Meco Man     add auto-init macros and functions
  */
 
 #include <RTduino.h>

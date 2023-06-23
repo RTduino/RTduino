@@ -56,11 +56,11 @@ extern "C" {
   https://github.com/RTduino/RTduino#readme
 */
 #include "pins_arduino.h"
-#endif
+#endif /* RTDUINO_TINY_MODE */
 
 #if RT_VER_NUM < 0x40101
 #error "The minimum version requirement of RT-Thread is 4.1.1"
-#endif
+#endif /* RT_VER_NUM < 0x40101 */
 
 /* Arduino Pin Map */
 typedef struct
@@ -103,11 +103,11 @@ typedef uint8_t byte;
 #define LSBFIRST 0
 #define MSBFIRST 1
 
+/* math operations */
+/* adb() in stdlib.h and round() in math.h */
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
-//#define abs(x) ((x)>0?(x):-(x)) // in stdlib.h
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-//#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5)) // in math.h
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
@@ -120,7 +120,7 @@ typedef uint8_t byte;
 #define interrupts()
 #define noInterrupts()
 #warning "Please define interrupts for this architecture in Arduino.h"
-#endif
+#endif /* defined(ARCH_ARM) || defined(ARCH_RISCV) */
 
 #ifdef F_CPU
 #define clockCyclesPerMicrosecond()  (F_CPU / 1000000L)
@@ -130,9 +130,11 @@ typedef uint8_t byte;
 #warning "Please define F_CPU in pins_arduino.h"
 #endif /* F_CPU */
 
+/* byte operations */
 #define lowByte(w) ((uint8_t) ((w) & 0xff))
 #define highByte(w) ((uint8_t) ((w) >> 8))
 
+/* bit operations */
 #define bit(b) (1UL << (b))
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
@@ -140,10 +142,10 @@ typedef uint8_t byte;
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
 
-// avr-libc defines _NOP() since 1.6.2
+/* avr-libc defines _NOP() since 1.6.2 */
 #ifndef _NOP
 #define _NOP() do { __asm__ volatile ("nop"); } while (0)
-#endif
+#endif /* _NOP */
 
 void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t val);
@@ -182,7 +184,7 @@ void randomSeed(unsigned long);
 void initVariant(void);
 
 #ifdef __cplusplus
-} // extern "C"
+} /* extern "C" { */
 #endif
 
 #ifdef __cplusplus
@@ -209,4 +211,4 @@ void noTone(uint8_t _pin);
 
 #endif /* __cplusplus */
 
-#endif /* Arduino_h */
+#endif /* __ARDUINO_H__ */

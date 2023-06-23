@@ -9,6 +9,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2022-09-27     Meco Man     first version
+ * 2023-06-22     Meco Man     add auto-init macros and functions
  */
 
 #ifndef __RTDUINO__
@@ -19,7 +20,7 @@
 #if RT_VER_NUM < 0x50000
 #define rt_align(x)  ALIGN(x)
 #define rt_weak      RT_WEAK
-#endif
+#endif /* RT_VER_NUM < 0x50000 */
 
 #ifndef RTDUINO_THREAD_SIZE
 #define RTDUINO_THREAD_SIZE     2048
@@ -80,7 +81,7 @@ rt_inline rtduino_loader_t rtduino_sketch_loader_create_stacksize(const char* na
     RTDUINO_SKETCH_LOADER_STACKSIZE_PRIO(name, setup, loop, stack_size, RTDUINO_THREAD_PRIO)
 
 #ifdef __cplusplus
-} // extern "C"
+} /* extern "C" { */
 #endif
 
 #endif /* __RTDUINO__ */
