@@ -26,7 +26,7 @@
 #endif /* RTDUINO_THREAD_SIZE */
 
 #ifndef RTDUINO_THREAD_PRIO
-#define RTDUINO_THREAD_PRIO     30
+#define RTDUINO_THREAD_PRIO     (RT_THREAD_PRIORITY_MAX - 2)
 #endif /* RTDUINO_THREAD_PRIO */
 
 #ifdef __cplusplus
