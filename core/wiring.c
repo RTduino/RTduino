@@ -31,6 +31,8 @@ rt_weak unsigned long micros(void)
 {
 #if defined(PKG_USING_PERF_COUNTER)
     return get_system_us();
+#elif defined(RT_USING_CPUTIME)
+    return clock_cpu_microsecond(clock_cpu_gettime());
 #elif defined(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME)
     rt_hwtimerval_t timestamp;
     rt_device_t hwtimer_device;
@@ -43,8 +45,6 @@ rt_weak unsigned long micros(void)
     }
     LOG_E("Failed to read from hardware timer %s!", RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
     return 0;
-#elif defined(RT_USING_CPUTIME)
-    return clock_cpu_microsecond(clock_cpu_gettime());
 #else
     LOG_W("Low accuracy micros()");
     return millis() * 1000;
