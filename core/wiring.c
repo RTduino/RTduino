@@ -9,10 +9,10 @@
  * Change Logs:
  * Date           Author       Notes
  * 2021-12-10     Meco Man     first version
+ * 2023-06-24     Meco Man     add rt_weak for micros()
  */
 
-#include <rtdevice.h>
-#include <Arduino.h>
+#include <RTduino.h>
 #include "wiring_private.h"
 #ifdef PKG_USING_PERF_COUNTER
 #include <perf_counter.h>
@@ -27,7 +27,7 @@ unsigned long millis(void)
     return rt_tick_get_millisecond();
 }
 
-unsigned long micros(void)
+rt_weak unsigned long micros(void)
 {
 #if defined(PKG_USING_PERF_COUNTER)
     return get_system_us();
@@ -61,12 +61,7 @@ void delayMicroseconds(unsigned int us)
     rt_hw_us_delay(us);
 }
 
-#ifdef rt_weak
-rt_weak
-#else
-RT_WEAK
-#endif
-void yield(void)
+rt_weak void yield(void)
 {
     rt_schedule();
 }
