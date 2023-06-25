@@ -104,19 +104,19 @@ static void hwtimer_1us_init(void)
 
         if(rt_device_open(hwtimer_device, RT_DEVICE_OFLAG_RDWR) != RT_EOK)
         {
-            LOG_E("Failed to open hardware timer!");
+            LOG_E("Failed to open hardware timer: %s!", RTDUINO_1US_HWTIMER_DEVICE_NAME);
             return;
         }
         rt_device_control(hwtimer_device, HWTIMER_CTRL_FREQ_SET, &freq); /* set hwtimer prescaler frequency */
         rt_device_control(hwtimer_device, HWTIMER_CTRL_MODE_SET, &mode); /* set hwtimer mode */
         if(rt_device_write(hwtimer_device, 0, &val, sizeof(val)) == 0)
         {
-            LOG_E("Failed to start (write) hardware timer!");
+            LOG_E("Failed to start (write) hardware timer: %s!", RTDUINO_1US_HWTIMER_DEVICE_NAME);
         }
     }
     else
     {
-        LOG_W("Cannot find a hardware timer. Some functions cannot be used.");
+        LOG_W("Cannot find a hardware timer: %s!", RTDUINO_1US_HWTIMER_DEVICE_NAME);
     }
 }
 #endif /* RTDUINO_1US_HWTIMER_DEVICE_NAME */
