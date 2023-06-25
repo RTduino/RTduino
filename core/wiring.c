@@ -33,22 +33,22 @@ rt_weak unsigned long micros(void)
     return get_system_us();
 #elif defined(RT_USING_CPUTIME)
     return clock_cpu_microsecond(clock_cpu_gettime());
-#elif defined(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME)
+#elif defined(RTDUINO_1US_HWTIMER_DEVICE_NAME)
     rt_hwtimerval_t timestamp;
     rt_device_t hwtimer_device;
 
-    hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
+    hwtimer_device = rt_device_find(RTDUINO_1US_HWTIMER_DEVICE_NAME);
     if(hwtimer_device != RT_NULL &&
        rt_device_read(hwtimer_device, 0, &timestamp, sizeof(timestamp)) > 0)
     {
         return timestamp.sec*1000000 + timestamp.usec;
     }
-    LOG_E("Failed to read from hardware timer %s!", RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
+    LOG_E("Failed to read from hardware timer %s!", RTDUINO_1US_HWTIMER_DEVICE_NAME);
     return 0;
 #else
     LOG_W("Low accuracy micros()");
     return millis() * 1000;
-#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
+#endif /* RTDUINO_1US_HWTIMER_DEVICE_NAME */
 }
 
 void delay(unsigned long ms)

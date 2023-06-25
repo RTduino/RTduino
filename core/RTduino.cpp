@@ -84,12 +84,18 @@ rt_err_t rtduino_sketch_loader_delete(rtduino_loader_t loader)
     return err;
 }
 
-#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-static void hwtimer_init(void)
+#ifdef RTDUINO_1US_HWTIMER_DEVICE_NAME
+/*
+ * This hardware timer is to support the macros() function to deliver a
+ * 1us level counter. Normally, there should be some other option will be
+ * used. This timer just a alternative feature. If there is no other functions
+ * can be used. This hardware timer will be used.
+ */
+static void hwtimer_1us_init(void)
 {
     rt_device_t hwtimer_device;
 
-    hwtimer_device = rt_device_find(RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME);
+    hwtimer_device = rt_device_find(RTDUINO_1US_HWTIMER_DEVICE_NAME);
     if(hwtimer_device != RT_NULL)
     {
         rt_hwtimer_mode_t mode = HWTIMER_MODE_PERIOD; /* periodic */
@@ -113,16 +119,16 @@ static void hwtimer_init(void)
         LOG_W("Cannot find a hardware timer. Some functions cannot be used.");
     }
 }
-#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
+#endif /* RTDUINO_1US_HWTIMER_DEVICE_NAME */
 
 /* initialization for BSP; maybe a blank function  */
 rt_weak void initVariant(void) {}
 
 static int rtduino_init(void)
 {
-#ifdef RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME
-    hwtimer_init();
-#endif /* RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME */
+#ifdef RTDUINO_1US_HWTIMER_DEVICE_NAME
+    hwtimer_1us_init();
+#endif /* RTDUINO_1US_HWTIMER_DEVICE_NAME */
 
     initVariant();
 

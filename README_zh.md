@@ -337,7 +337,7 @@ D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引�
    所有Cortex-M核MCU均不需要定义此宏，RTduino会自动调用systick来计算us级时间戳。
    非Cortex-M核的MCU需要提供一个硬件定时器来提供us级时间戳。
  */
-#define RTDUINO_DEFAULT_HWTIMER_DEVICE_NAME     "timer7"
+#define RTDUINO_1US_HWTIMER_DEVICE_NAME     "timer7"
 
 /* 如果有串口2、串口3可以定义串口2、3的设备名称，若没有可直接不定义此宏 */
 #define RTDUINO_SERIAL2_DEVICE_NAME             "uart2"
