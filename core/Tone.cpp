@@ -11,20 +11,18 @@
  * 2022-04-12     Meco Man     first version
  */
 
-#include <rtdevice.h>
-#include "wiring_private.h"
+#include <Arduino.h>
 
 #define DBG_TAG    "RTduino.Tone"
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-// frequency (in hertz) and duration (in milliseconds).
-void tone(uint8_t _pin, unsigned int frequency, unsigned long duration)
+rt_weak void tone(uint8_t _pin, unsigned int frequency, unsigned long duration)
 {
     LOG_E("tone() has not been implemented yet!");
 }
 
-void noTone(uint8_t _pin)
+rt_weak void noTone(uint8_t _pin)
 {
     LOG_E("noTone() has not been implemented yet!");
 }
