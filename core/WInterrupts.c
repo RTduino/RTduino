@@ -24,6 +24,7 @@
 
 uint8_t digitalPinToInterrupt(uint8_t pin)
 {
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, pin); /* with return value */
     return pin;
 }
 
@@ -31,6 +32,8 @@ void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
 {
     rt_int32_t rt_pin;
     rt_uint32_t rt_mode;
+
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(interruptNum,); /* without return value */
 
     rt_pin = pin_map_table[interruptNum].rt_pin;
 
@@ -69,6 +72,8 @@ void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
 void detachInterrupt(uint8_t interruptNum)
 {
     rt_int32_t rt_pin;
+
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(interruptNum,); /* without return value */
 
     rt_pin = pin_map_table[interruptNum].rt_pin;
     rt_pin_irq_enable(rt_pin, PIN_IRQ_DISABLE);

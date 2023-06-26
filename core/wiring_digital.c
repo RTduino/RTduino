@@ -29,6 +29,8 @@ void pinMode(uint8_t pin, uint8_t mode)
               mode == INPUT_PULLUP || mode == INPUT_PULLDOWN ||
               mode == OUTPUT_OPEN_DRAIN);
 
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
+
     switch(mode)
     {
     case INPUT:
@@ -65,6 +67,8 @@ void digitalWrite(uint8_t pin, uint8_t val)
 
     RT_ASSERT(val == HIGH || val == LOW);
 
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
+
     if(val == HIGH)
     {
         rt_val = PIN_HIGH;
@@ -79,6 +83,7 @@ void digitalWrite(uint8_t pin, uint8_t val)
 
 int digitalRead(uint8_t pin)
 {
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, LOW); /* with return value */
     return (rt_pin_read(pin_map_table[pin].rt_pin) == PIN_HIGH)? HIGH : LOW;
 }
 

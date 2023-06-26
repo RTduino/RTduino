@@ -70,6 +70,8 @@ uint8_t Servo::attach(int pin, int min, int max)
     struct rt_device_pwm *pwm_dev;
     int pwm_channel;
 
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, this->servo_info.Pin.nbr); /* with return value */
+
     pwm_dev = (struct rt_device_pwm*)rt_device_find(pin_map_table[pin].device_name);
     if(pwm_dev == RT_NULL)
     {

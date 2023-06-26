@@ -50,6 +50,8 @@ void analogWriteFrequency(uint32_t frequency)
 
 void analogWrite(uint8_t pin, int val)
 {
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
+
 #ifdef RT_USING_PWM
     struct rt_device_pwm *pwm_dev;
     rt_uint32_t rt_pwm_val;
@@ -99,6 +101,8 @@ void analogWrite(uint8_t pin, int val)
 
 int analogRead(uint8_t pin)
 {
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, 0); /* with return value */
+
 #ifdef RT_USING_ADC
     rt_adc_device_t adc_dev;
     rt_uint32_t rt_adc_val;

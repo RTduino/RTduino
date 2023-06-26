@@ -70,6 +70,8 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 
     RT_ASSERT(state == HIGH || state == LOW);
 
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, 0); /* with return value */
+
     if(pulsein_sem_init_flag == RT_FALSE)
     {
         rt_sem_init(&pulsein_sem, "pulsein", 0, RT_IPC_FLAG_PRIO);
