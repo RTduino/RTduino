@@ -17,7 +17,7 @@
 #include <Arduino.h>
 
 #ifndef RTDUINO_TINY_MODE
-extern const pin_map_t pin_map_table[];
+extern pin_map_t pin_map_table[];
 
 /*
  * If pins_arduino.h defined RTDUINO_PIN_MAX_LIMIT which is the maximum of RTduino pin number,

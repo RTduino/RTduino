@@ -123,6 +123,8 @@ static void hwtimer_1us_init(void)
 
 /* initialization for BSP; maybe a blank function  */
 rt_weak void initVariant(void) {}
+/* Switch the function of the pin */
+rt_weak char *pins_func_change(uint8_t pin, const char *func_name) {}
 
 static int rtduino_init(void)
 {

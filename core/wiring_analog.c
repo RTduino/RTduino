@@ -50,11 +50,23 @@ void analogWriteFrequency(uint32_t frequency)
 
 void analogWrite(uint8_t pin, int val)
 {
+    char *modify_name;
+
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
 
 #ifdef RT_USING_PWM
     struct rt_device_pwm *pwm_dev;
     rt_uint32_t rt_pwm_val;
+
+    if (rt_memcmp(pin_map_table[pin].device_name, "pwm", 3))
+    {
+        modify_name = pins_func_change(pin, "pwm");
+        if (modify_name != RT_NULL)
+        {
+            /* Modify the device_name of pin_map_table */
+            pin_map_table[pin].device_name = modify_name;
+        }
+    }
 
     pwm_dev = (struct rt_device_pwm*)rt_device_find(pin_map_table[pin].device_name);
     if(pwm_dev != RT_NULL && pwm_dev->parent.type == RT_Device_Class_PWM)

@@ -24,6 +24,7 @@
  */
 
 #include "SPI.h"
+#include "wiring_private.h"
 
 #define DBG_TAG    "RTduino.SPI"
 #define DBG_LVL    DBG_INFO
@@ -33,10 +34,29 @@ SPIClass SPI;
 
 void SPIClass::begin(const char *spi_bus_name)
 {
+    char *modify_name;
+
     if(rt_spi_bus_attach_device(&this->spi_device, "spiardu", spi_bus_name, NULL) != RT_EOK)
     {
         LOG_E("SPI device fail to attach!");
+        return;
     }
+
+#if defined(SCK) && defined(MISO) && defined(MOSI)
+    if (rt_memcmp(pin_map_table[SCK].device_name, "spi", 3) ||
+        rt_memcmp(pin_map_table[MISO].device_name, "spi", 3) ||
+        rt_memcmp(pin_map_table[MOSI].device_name, "spi", 3) )
+    {
+        modify_name = pins_func_change(PIN_NONE, "spi");
+        if (modify_name != RT_NULL)
+        {
+            /* Modify the device_name of pin_map_table */
+            pin_map_table[SCK].device_name = modify_name;
+            pin_map_table[MISO].device_name = modify_name;
+            pin_map_table[MOSI].device_name = modify_name;
+        }
+    }
+#endif /* defined(SCK) && defined(MISO) && defined(MOSI) */
 }
 
 void SPIClass::beginTransaction(SPISettings settings)

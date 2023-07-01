@@ -179,6 +179,7 @@ void randomSeed(unsigned long);
 
 /* Don't invoke this function manually */
 void initVariant(void);
+char *pins_func_change(uint8_t pin, const char *func_name);
 
 #ifdef __cplusplus
 } /* extern "C" { */
