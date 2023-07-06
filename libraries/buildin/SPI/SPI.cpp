@@ -33,7 +33,7 @@ SPIClass SPI;
 
 void SPIClass::begin(const char *spi_bus_name)
 {
-    if(rt_spi_bus_attach_device(&this->spi_device, "spiardu", spi_bus_name, NULL) != RT_EOK)
+    if(rt_spi_bus_attach_device(&this->spi_device, "RTduSPI", spi_bus_name, RT_NULL) != RT_EOK)
     {
         LOG_E("SPI device fail to attach!");
     }
