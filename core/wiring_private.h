@@ -29,6 +29,11 @@ extern const pin_map_t pin_map_table[];
     { \
         LOG_E("pin number exceed RTduino maximum for this board, please check in pins_arduino.h!"); \
         return value; \
+    } \
+    if (pin != pin_map_table[pin].arduino_pin) \
+    { \
+        LOG_E("pin_map_table is not sorted in sequence!"); \
+        return value; \
     }
 #else
 #define RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, value)
