@@ -109,7 +109,7 @@ int analogRead(uint8_t pin)
     rt_uint8_t resolution;
 
     adc_dev = (rt_adc_device_t)rt_device_find(pin_map_table[pin].device_name);
-    if(adc_dev != RT_NULL)
+    if(adc_dev != RT_NULL && adc_dev->parent.type == RT_Device_Class_ADC)
     {
         rt_adc_enable(adc_dev, pin_map_table[pin].channel);
         rt_adc_val = rt_adc_read(adc_dev, pin_map_table[pin].channel);
