@@ -31,6 +31,8 @@
 
 SPIClass SPI;
 
+void pins_switch_to_spi(const char *bus_name);
+
 void SPIClass::begin(const char *spi_bus_name)
 {
     pins_switch_to_spi(spi_bus_name);
