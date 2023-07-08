@@ -179,6 +179,7 @@ void randomSeed(unsigned long);
 
 /* Don't invoke this function manually */
 void initVariant(void);
+void pins_switch_to_spi(const char *bus_name);
 
 #ifdef __cplusplus
 } /* extern "C" { */

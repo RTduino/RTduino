@@ -123,6 +123,7 @@ static void hwtimer_1us_init(void)
 
 /* initialization for BSP; maybe a blank function  */
 rt_weak void initVariant(void) {}
+rt_weak void pins_switch_to_spi(const char *bus_name) {}
 
 static int rtduino_init(void)
 {
