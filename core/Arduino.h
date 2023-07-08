@@ -177,8 +177,11 @@ long long map(long long, long long, long long, long long, long long);
 float mapFloat(float, float, float, float, float);
 void randomSeed(unsigned long);
 
-/* Don't invoke this function manually */
+/* Don't invoke these functions manually */
 void initVariant(void);
+#ifdef RTDUINO_USING_SPI
+void switchToSPI(const char *bus_name);
+#endif /* RTDUINO_USING_SPI */
 
 #ifdef __cplusplus
 } /* extern "C" { */

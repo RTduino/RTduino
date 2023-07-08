@@ -31,8 +31,13 @@
 
 SPIClass SPI;
 
+/* Pins that are not spi by default can be converted by this function */
+rt_weak void switchToSPI(const char *bus_name) {}
+
 void SPIClass::begin(const char *spi_bus_name)
 {
+    switchToSPI(spi_bus_name);
+
     if(rt_spi_bus_attach_device(&this->spi_device, "RTduSPI", spi_bus_name, RT_NULL) != RT_EOK)
     {
         LOG_E("SPI device fail to attach!");
