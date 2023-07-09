@@ -27,7 +27,6 @@
 #define _SPI_H_INCLUDED
 
 #include <Arduino.h>
-#include <rtdevice.h>
 
 // SPI_HAS_TRANSACTION means SPI has beginTransaction(), endTransaction(),
 // usingInterrupt(), and SPISetting(clock, bitOrder, dataMode)

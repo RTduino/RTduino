@@ -37,7 +37,6 @@
 #define TwoWire_h
 
 #include <inttypes.h>
-#include <rtdevice.h>
 #include <Stream.h>
 #include <Arduino.h>
 
