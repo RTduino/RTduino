@@ -94,7 +94,7 @@ class SPISettings
 class SPIClass
 {
     public:
-        struct rt_spi_device spi_device;
+        struct rt_spi_device _spi_bus_device;
 
         void begin(const char *spi_bus_name = RTDUINO_DEFAULT_SPI_BUS_NAME);
         void beginTransaction(SPISettings settings);

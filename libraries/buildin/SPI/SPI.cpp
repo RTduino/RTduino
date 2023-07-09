@@ -38,7 +38,7 @@ void SPIClass::begin(const char *spi_bus_name)
 {
     switchToSPI(spi_bus_name);
 
-    if(rt_spi_bus_attach_device(&this->spi_device, "RTduSPI", spi_bus_name, RT_NULL) != RT_EOK)
+    if(rt_spi_bus_attach_device(&this->_spi_bus_device, "RTduSPI", spi_bus_name, RT_NULL) != RT_EOK)
     {
         LOG_E("SPI device fail to attach!");
     }
@@ -93,46 +93,46 @@ void SPIClass::beginTransaction(SPISettings settings)
         return;
     }
 
-    rt_spi_configure(&this->spi_device, &cfg);
-    rt_spi_take_bus(&this->spi_device);
+    rt_spi_configure(&this->_spi_bus_device, &cfg);
+    rt_spi_take_bus(&this->_spi_bus_device);
 }
 
 uint8_t SPIClass::transfer(uint8_t data)
 {
 #if RT_VER_NUM >= 0x50000
     uint8_t recvdata;
-    if(rt_spi_sendrecv8(&this->spi_device, data, &recvdata) != RT_EOK)
+    if(rt_spi_sendrecv8(&this->_spi_bus_device, data, &recvdata) != RT_EOK)
     {
         recvdata = 0x00U;
     }
     return recvdata;
 #else
-    return rt_spi_sendrecv8(&this->spi_device, data);
+    return rt_spi_sendrecv8(&this->_spi_bus_device, data);
 #endif
 }
 
 void SPIClass::transfer(void *buf, size_t count)
 {
-    rt_spi_transfer(&this->spi_device, buf, buf, count);
+    rt_spi_transfer(&this->_spi_bus_device, buf, buf, count);
 }
 
 uint16_t SPIClass::transfer16(uint16_t data)
 {
 #if RT_VER_NUM >= 0x50000
     rt_uint16_t recvdata;
-    if(rt_spi_sendrecv16(&this->spi_device, data, &recvdata) != RT_EOK)
+    if(rt_spi_sendrecv16(&this->_spi_bus_device, data, &recvdata) != RT_EOK)
     {
         recvdata = 0x00U;
     }
     return recvdata;
 #else
-    return rt_spi_sendrecv16(&this->spi_device, data);
+    return rt_spi_sendrecv16(&this->_spi_bus_device, data);
 #endif /* RT_VER_NUM >= 0x50000 */
 }
 
 void SPIClass::endTransaction(void)
 {
-    rt_spi_release_bus(&this->spi_device);
+    rt_spi_release_bus(&this->_spi_bus_device);
 }
 
 void SPIClass::end(void)
@@ -143,7 +143,7 @@ void SPIClass::end(void)
 /* ----------------------- legacy functions -------------------------- */
 void SPIClass::setBitOrder(uint8_t bitOrder)
 {
-    rt_uint8_t temp_mode = this->spi_device.config.mode;
+    rt_uint8_t temp_mode = this->_spi_bus_device.config.mode;
 
     RT_ASSERT(bitOrder == LSBFIRST || bitOrder == MSBFIRST);
 
@@ -160,13 +160,13 @@ void SPIClass::setBitOrder(uint8_t bitOrder)
         return;
     }
 
-    this->spi_device.config.mode = temp_mode;
-    this->spi_device.bus->ops->configure(&this->spi_device, &this->spi_device.config);
+    this->_spi_bus_device.config.mode = temp_mode;
+    this->_spi_bus_device.bus->ops->configure(&this->_spi_bus_device, &this->_spi_bus_device.config);
 }
 
 void SPIClass::setDataMode(uint8_t dataMode)
 {
-    rt_uint8_t temp_mode = this->spi_device.config.mode;
+    rt_uint8_t temp_mode = this->_spi_bus_device.config.mode;
 
     RT_ASSERT(dataMode == SPI_MODE0 ||
               dataMode == SPI_MODE1 ||
@@ -196,12 +196,12 @@ void SPIClass::setDataMode(uint8_t dataMode)
         return;
     }
 
-    this->spi_device.config.mode = temp_mode;
-    this->spi_device.bus->ops->configure(&this->spi_device, &this->spi_device.config);
+    this->_spi_bus_device.config.mode = temp_mode;
+    this->_spi_bus_device.bus->ops->configure(&this->_spi_bus_device, &this->_spi_bus_device.config);
 }
 
 void SPIClass::setClockDivider(uint8_t clockDiv)
 {
-    this->spi_device.config.max_hz = 100000;
-    this->spi_device.bus->ops->configure(&this->spi_device, &this->spi_device.config);
+    this->_spi_bus_device.config.max_hz = 100000;
+    this->_spi_bus_device.bus->ops->configure(&this->_spi_bus_device, &this->_spi_bus_device.config);
 }
