@@ -77,8 +77,7 @@ for file_dir in file_dirs:
         for dir in dirs:
             current_sub_path = os.path.join(root,dir)
 
-            # exclude 'examples' folder
-            if 'examples' in current_sub_path:
+            if os.path.split(current_sub_path)[1] != 'src':
                 continue
 
             # add all .c/cpp file and .h/hpp file
