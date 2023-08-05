@@ -3,6 +3,9 @@ import os
 import zipfile
 
 user_libraries_root_path = GetCurrentDir()
+inc = [user_libraries_root_path]
+src = Glob('*.c') + Glob('*.cpp')
+
 # scripts_path = os.path.join(user_libraries_root_path, '..', '..', 'scripts')
 # sys.path.append(scripts_path)
 
@@ -12,20 +15,46 @@ user_libraries_root_path = GetCurrentDir()
 # from ALM_CMD import ALM_Init
 # ALM_Init(alm_path)
 
-src = Glob('*.c') + Glob('*.cpp')
-inc = [user_libraries_root_path]
+def rtduino_scons_add_library(library_root_path):
+    global src, inc
 
-# check if .h or .hpp files exsit
-def check_h_hpp_exsit(path):
-    file_dirs = os.listdir(path)
-    for file_dir in file_dirs:
-        if os.path.splitext(file_dir)[1] in ['.h', '.hpp']:
-            return True
-    return False
+    library_root_path = os.path.abspath(library_root_path)
+
+    # Arduino libraries must have the 'library.properties' file.
+    # If this folder contains SConscript, just follow the SConscript rule rather than the Arduino rule.
+    if os.path.isdir(library_root_path) == False or \
+       os.path.exists(os.path.join(library_root_path, 'library.properties')) == False or \
+       os.path.exists(os.path.join(library_root_path, 'SConscript')) == True:
+        return
+
+    library_src_path = os.path.join(library_root_path, 'src')
+    library_utility_path = os.path.join(library_root_path, 'utility')
+
+    # add all .c/cpp files and header files' path in root folder (not include sub-folders)
+    inc = inc + [library_root_path]
+    src = src + Glob(os.path.join(library_root_path, '*.c'))
+    src = src + Glob(os.path.join(library_root_path, '*.cpp'))
+
+    # add root, src and untility folder header files' path (not include sub-folders)
+    if os.path.exists(library_src_path):
+        inc = inc + [library_src_path]
+        src = src + Glob(os.path.join(library_src_path, '*.c'))
+        src = src + Glob(os.path.join(library_src_path, '*.cpp'))
+    if os.path.exists(library_utility_path):
+        inc = inc + [library_utility_path]
+        src = src + Glob(os.path.join(library_utility_path, '*.c'))
+        src = src + Glob(os.path.join(library_utility_path, '*.cpp'))
+
+    # find the src folder's sub-folders and sub-files recursively
+    for root, dirs, files in os.walk(library_src_path):
+        for dir in dirs:
+            _sub_path = os.path.join(root,dir)
+            # add all .c/cpp file and .h/hpp file
+            src = src + Glob(os.path.join(_sub_path, '*.c'))
+            src = src + Glob(os.path.join(_sub_path, '*.cpp'))
 
 # Find and deal the ZIP file first
-files = os.listdir(user_libraries_root_path)
-for file in files:
+for file in os.listdir(user_libraries_root_path):
     if os.path.isfile(file) == True:
         splitext = os.path.splitext(file)
         if splitext[1] == '.zip':
@@ -36,56 +65,13 @@ for file in files:
             zFile.close()
             os.remove(file) # delete the zip file
 
-# Add all C/C++ and header files at 'user' folder into the group
-for root, dirs, files in os.walk(user_libraries_root_path):
-    for dir in dirs:
-        current_path = os.path.join(root,dir)
-
-        # exclude 'examples' folder
-        if 'examples' in current_path: 
-            continue
-
-        # add all .c/cpp file and .h/hpp file
-        src = src + Glob(os.path.join(current_path, '*.c'))
-        src = src + Glob(os.path.join(current_path, '*.cpp'))
-        if check_h_hpp_exsit(current_path):
-            inc = inc + [current_path]
+for dir in os.listdir(user_libraries_root_path):
+    rtduino_scons_add_library(os.path.join(user_libraries_root_path, dir))
 
 # Add all Arduino libraries at the root of 'package' folder into the group
-package_root_path = os.path.join(user_libraries_root_path, '..', '..','..')
-file_dirs = os.listdir(package_root_path)
-for file_dir in file_dirs:
-    current_path = os.path.join(package_root_path, file_dir)
-
-    # Arduino libraries must have the 'library.properties' file.
-    # If this folder contains SConscript, just follow the SConscript rule rather than the Arduino rule.
-    if os.path.isdir(os.path.abspath(current_path)) == False or \
-       os.path.exists(os.path.join(current_path, 'library.properties')) == False or \
-       os.path.exists(os.path.join(current_path, 'SConscript')) == True:
-        continue
-
-    # Now, we have found the Arduino library folder
-
-    # add all .c/cpp file and .h/hpp file
-    src = src + Glob(os.path.join(current_path, '*.c'))
-    src = src + Glob(os.path.join(current_path, '*.cpp'))
-    if check_h_hpp_exsit(current_path):
-        inc = inc + [current_path]
-
-    # find the current folder's sub-folders and sub-files recursively
-    for root, dirs, files in os.walk(current_path):
-        for dir in dirs:
-            current_sub_path = os.path.join(root,dir)
-
-            # exclude 'examples' folder
-            if 'examples' in current_sub_path:
-                continue
-
-            # add all .c/cpp file and .h/hpp file
-            src = src + Glob(os.path.join(current_sub_path, '*.c'))
-            src = src + Glob(os.path.join(current_sub_path, '*.cpp'))
-            if check_h_hpp_exsit(current_sub_path):
-                inc = inc + [current_sub_path]
+rtthread_packages_root_path = os.path.join(user_libraries_root_path, '..', '..', '..')
+for dir in os.listdir(rtthread_packages_root_path):
+    rtduino_scons_add_library(os.path.join(rtthread_packages_root_path, dir))
 
 group = DefineGroup('RTduino-libraries', src, depend = ['PKG_USING_RTDUINO'], CPPPATH = inc)
 
