@@ -41,8 +41,6 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 ## 2 如何使用RTduino
 
-本节以[STM32L475潘多拉](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora)开发板和[RT-Studio开发环境](https://www.rt-thread.org/page/studio.html)为例，来讲解如何使用本兼容层。
-
 > RTduino 要求 RT-Thread 版本至少为4.1.1
 
 ### 2.1 参考资料
@@ -53,35 +51,25 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 ### 2.2 工程的创建和导入
 
-- 请到[RT-Thread Github官方仓库](https://github.com/RT-Thread/rt-thread)，下载最新的源码。对于部分用户下载Github源码慢的问题，可以百度或者到B站搜索“Github加速”等关键字来解决，此处不再赘述。
+RTduino的工程创建分为两种：RTduino发行版 和 RTduino社区开发版本。
 
-![2.2-1](docs/figures/2.2-1.png)
+#### 2.2.1 RTduino社区开发版
 
-- 下载好之后请解压，打开RT-Studio IDE，选择文件(File) -> 导入(Import)，并选择RT-Thread BSP Project into Workspace，也就是将BSP工程导入到Studio的选项。
+RTduino社区开发版为社区开发的主线工程，使用最新RT-Thread和RTduino代码，支持更多的RT-Thread BSP，可以尝鲜RT-Thread和RTduino的最新功能。
 
-![2.2-2](docs/figures/2.2-2.png)
+有两种创建方法：
 
-![2.2-3](docs/figures/2.2-3.png)
+1. [使用Env配合VSCode创建RTduino工程](/docs/zh/6.使用Env配合VSCode创建工程.md) (当前推荐这种创建方式)
+2. [使用RT-Thread Studio IDE创建RTduino工程 (基于最新代码)](/docs/zh/5.使用RT-Thread%20Studio%20IDE创建工程.md#51-rtduino社区开发版工程创建方法)
 
-- 路径选择，你刚刚下载解压好的RT-Thread源码，以STM32L475潘多拉板为例：`rt-thread\bsp\stm32\stm32l475-atk-pandora`。工程名字随便起一个就好，比如`STM32`：
 
-![2.2-4](docs/figures/2.2-4-pandora.png)
+#### 2.2.2 RTduino发行版
 
-- 点击完成(Finish)，稍等片刻即可完成工程导入。
+**目前无RTduino发型版发布**
 
-- 导入成功之后，双击RT-Thread Settings，进入到RT-Thread工程配置界面，点击 `<<` 按钮，进入到详细配置页面：
+RTduino发行版为RT-Thread BSP经过验证，封装为RT-Thread Studio BSP包，用户可以直接通过RT-Thread Studio一键创建对应型号开发板的工程。
 
-![2.2-5](docs/figures/2.2-5.png)
-
-![2.2-6](docs/figures/2.2-6.png)
-
-- 点击Hardware，选择 `Compatible with Arduino Ecosystem (RTduino)`，只需要点一下即可，其他依赖项会自动处理。然后点击小锤子按钮进行编译，RT-Thread Studio会自动保存你当前的配置并下载RTduino软件包以及依赖项软件包，并将这些软件包加入到工程中，最后自动编译整个工程。
-
-- 总的来讲，你只需要选择 `Compatible with Arduino Ecosystem (RTduino)`，并点一下小锤子按钮，就坐等编译成功即可。
-
-![2.2-7](docs/figures/2.2-7.png)
-
-- 至此，RTduino软件包安装完成，此BSP工程已经具备了兼容Arduino生态的能力。
+[使用RT-Thread Studio IDE创建RTduino工程 (基于发布版)](/docs/zh/5.使用RT-Thread%20Studio%20IDE创建工程.md#52-rtduino发行版工程创建方法)
 
 ### 2.3 Arduino经典的setup和loop函数在哪里？
 
@@ -115,7 +103,7 @@ void loop(void)
 > 
 > 由于RT-Thread的main.c文件内，也会默认闪烁一个LED灯，如果板子上只有一个LED灯的话，两个线程会发生干涉。但是你会发现这个LED的闪烁速度明显变快了。因为main.c那边的闪烁周期是1000ms，上面这个例程是200ms。
 > 
-> 如果你用潘多拉板，main.c闪烁的是红灯，RTduino兼容层的Arduino程序默认闪烁的是绿色的灯，二者不会发生干扰。
+> 如果你用STM32L475潘多拉 BSP，main.c闪烁的是红灯，RTduino兼容层的Arduino程序默认闪烁的是绿色的灯，二者不会发生干扰。
 
 ### 2.5 RTduino文件夹目录结构
 
@@ -135,7 +123,7 @@ RTduino软件包包含有两个主要的文件夹：core和libraries。
 
 由于每个BSP的板子设计、以及芯片型号等，引脚分布是有区别的，因此需要到指定BSP的`applications/arduino`文件夹下的README.md文件查看详细信息。例如：
 
-[STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout) | [STM32F072 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout)
+[STM32F401 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | [STM32F411 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) | [STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout)
 
 ## 3 Arduino库的使用
 
@@ -178,7 +166,9 @@ RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTdu
 
 ![3-3](docs/figures/3-3.png)
 
-- 选择当前工程右键选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。然后再点一下小锤子按钮来重新编译一下工程。
+- 如果使用的是RT-Thread Studio IDE，请选择当前工程右键，并选择Sync Sconscript to project也就是让RT-Studio重新扫描并组织一遍工程目录，在扫描的过程中，RT-Studio会自动将zip压缩包解压，并按照Arduino IDE的文件添加逻辑（也就是忽略examples文件夹，并将其他文件夹的.c文件和.h路径添加到工程），将Arduino库添加到RT-Thread工程中来。然后再点一下小锤子按钮来重新编译一下工程。
+
+- 如果使用的是Env + VSCode环境，请直接执行 `scons` 命令重新编译工程即可。
 
 ![3-4](docs/figures/3-4.png)
 
@@ -198,7 +188,7 @@ RT-Thread软件包中心为Arduino第三方库专门创建了一个分类，RTdu
 
 需要在某个BSP的applications文件夹下创建如下文件、文件夹：
 
-参考示例BSP：[STM32F072 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout) | [STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications)
+参考示例BSP：[STM32F401 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | [STM32F411 Nucleo板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) | [STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications)
 
 #### 4.2.1 arduino_main.cpp文件
 
@@ -270,8 +260,6 @@ RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什�
 
 #### 4.2.4 arduino_pinout.h 文件的编写
 
-参考示例BSP：[STM32L475 潘多拉板applications文件夹](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/pins_arduino.h)
-
 该文件主要负责定义各种宏，包括：
 
 D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引脚的顺序进行排号。
@@ -282,72 +270,70 @@ D0、A0等引脚的数字宏，该宏一定要按照先数字引脚后模拟引�
 /* pins alias. Must keep in sequence */
 /* 按照先数字引脚后模拟引脚的顺序从0开始，一定要按序排列 */
 /* 可以按照板卡实际IO情况，灵活调整功能，不一定非得按照Arduino UNO的引脚功能布局，但是建议按此布局设计 */
-#define D0   (0)
-#define D1   (1)
-#define D2   (2)
-#define D3   (3)
-#define D4   (4)
-#define D5   (5)
-#define D6   (6)
-#define D7   (7)
-#define D8   (8)
-#define D9   (9)
-#define D10  (10)
-#define D11  (11)
-#define D12  (12)
-#define D13  (13)
-#define D14  (14)
-#define D15  (15)
-#define D16  (16)
-#define D17  (17)
-#define D18  (18)
-#define D19  (19)
-#define D20  (20)
-#define D21  (21)
-#define D22  (22)
-#define D23  (23)
-#define D24  (24)
-#define D25  (25)
-#define D26  (26)
-#define D27  (27)
-#define D28  (28)
-#define D29  (29)
-#define D30  (30)
-#define D31  (31)
-#define D32  (32)
-#define A0   (33)
-#define A1   (34)
-#define A2   (35)
-#define A3   (36)
-#define DAC0 (37)
+#define D0        (0)
+#define D1        (1)
+#define D2        (2)
+#define D3        (3)
+#define D4        (4)
+#define D5        (5)
+#define D6        (6)
+#define D7        (7)
+#define D8        (8)
+#define D9        (9)
+#define D10       (10)
+#define D11       (11)
+#define D12       (12)
+#define D13       (13)
+#define D14       (14)
+#define D15       (15)
+#define D16       (16)
+#define A0        (17)
+#define A1        (18)
+#define A2        (19)
+#define A3        (20)
+#define A4        (21)
+#define A5        (22)
+#define A6        (23)
+#define A7        (24)
 
-#define F_CPU  80000000L /* CPU: 80MHz，定义CPU的主频 */
-#define LED_BUILTIN  D22 /* Default Built-in LED，定义Arduino内置LED的引脚编号 */
+#define RTDUINO_PIN_MAX_LIMIT A7 /* 定义该宏，RTduino将对用户输入引脚有效性进行检查，该宏应为引脚宏的最大值 */
+
+#define F_CPU  84000000L /* CPU: 80MHz，定义CPU的主频 */
+#define LED_BUILTIN  D13 /* Default Built-in LED，定义Arduino内置LED的引脚编号 */
 
 /* 定义I2C设备名称，在使用Wire库时会直接调用。可选，如果没有I2C功能，不需要定义该宏 */
-#define RTDUINO_DEFAULT_IIC_BUS_NAME            "i2c4"
+#define RTDUINO_DEFAULT_IIC_BUS_NAME            "i2c1"
 
 /* 定义SPI设备名称，在使用SPI库时会直接调用。可选，如果没有SPI功能，不需要定义该宏 */
-#define RTDUINO_DEFAULT_SPI_BUS_NAME            "spi2"
-
-#define SS  D26 /* 定义SPI片选引脚 */
+#define RTDUINO_DEFAULT_SPI_BUS_NAME            "spi1"
+#define SS  D7 /* 定义SPI片选引脚 */
 
 /* 
    定义高精度定时器设备名称，该宏主要是提供us时基信号使用。
    所有Cortex-M核MCU均不需要定义此宏，RTduino会自动调用systick来计算us级时间戳。
    非Cortex-M核的MCU需要提供一个硬件定时器来提供us级时间戳。
+   依赖该定时器的函数有:
+   - micros() [位于core/wiring.c] 提供us级时间戳，该函数为若函数，默认使用用户
+     提供的1us级硬件高精度定时器，用户也可以在pins_arduino.c中重写该函数，由用户自定义us时钟提供方法。
+   - pulseIn() pulseInLong() [位于core/wiring_pulse.c] 依赖 micros()函数
  */
-#define RTDUINO_1US_HWTIMER_DEVICE_NAME     "timer7"
+#define RTDUINO_1US_HWTIMER_DEVICE_NAME     "timer9"
 
-/* 如果有串口2、串口3可以定义串口2、3的设备名称，若没有可直接不定义此宏 */
-#define RTDUINO_SERIAL2_DEVICE_NAME             "uart2"
+/* Tone() noTone() [位于core/tone.c] 功能使用的高精度硬件定时器，如果不需要该功能可以不定义该宏 */
+#define RTDUINO_TONE_HWTIMER_DEVICE_NAME    "timer7"
+
+/* 如果有串口2可以定义串口2的设备名称，若没有可直接不定义此宏 */
+#define RTDUINO_SERIAL2_DEVICE_NAME          "uart2"
+
+/* 如果有串口3可以定义串口3的设备名称，若没有可直接不定义此宏 */
+#define RTDUINO_SERIAL2_DEVICE_NAME          "uart3"
 ```
 
 ### 4.3 修改Kconfig文件
 
 Kconfig文件位于BSP的board文件夹下：
 
-参考示例BSP：[STM32F072 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/board/Kconfig) | [STM32L475 潘多拉板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/board/Kconfig)
+参考示例BSP：[STM32F401 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f401-st-nucleo/board/Kconfig) | [STM32F411 Nucleo板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f411-st-nucleo/board/Kconfig) | [STM32L475 潘多拉板Kconfig](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/board/Kconfig)
 
 ```Kconfig
 menu "Onboard Peripheral Drivers"
@@ -366,21 +352,25 @@ menu "Onboard Peripheral Drivers"
         select BSP_USING_ADC
         select BSP_USING_ADC1
         select BSP_USING_PWM
+        select BSP_USING_PWM1
+        select BSP_USING_PWM1_CH1
         select BSP_USING_PWM2
         select BSP_USING_PWM2_CH2
         select BSP_USING_PWM2_CH3
         select BSP_USING_PWM3
         select BSP_USING_PWM3_CH1
         select BSP_USING_PWM3_CH2
-        select BSP_USING_PWM16
-        select BSP_USING_PWM16_CH1
-        select BSP_USING_PWM17
-        select BSP_USING_PWM17_CH1
+        select BSP_USING_PWM4
+        select BSP_USING_PWM4_CH1
         select BSP_USING_I2C
         select BSP_USING_I2C1
+        select BSP_USING_SPI
+        select BSP_USING_SPI1
+        select BSP_SPI1_TX_USING_DMA
+        select BSP_SPI1_RX_USING_DMA
+        select RTDUINO_USING_WIRE
+        select RTDUINO_USING_SPI
         imply RTDUINO_USING_SERVO
-        imply RTDUINO_USING_WIRE
-        imply RTDUINO_USING_ADAFRUIT
         default n
 
 endmenu
@@ -390,7 +380,7 @@ endmenu
 
 ### 4.4 编写Arduino引脚布局(pinout)的README说明文档
 
-示例： [STM32F072 Nucleo的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f072-st-nucleo/applications/arduino_pinout/README.md) | [STM32L475潘多拉的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/README.md)
+示例：[STM32F401 Nucleo的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout/README.md) | [STM32F411 Nucleo的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout/README.md) | [STM32L475潘多拉的Arduino引脚布局说明文档](https://github.com/RT-Thread/rt-thread/blob/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout/README.md)
 
 该文档需位于`applications/arduino_pinout/README.md`，主要介绍该BSP下的Arduino引脚编号和引脚功能，以及注意事项等。
 
@@ -478,9 +468,17 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 在操作SPI和Wire(I2C)时，默认调用的RT-Thread SPI和I2C设备在arduino_pin.h中定义，用户使用SPI和Wire库时，无需指定SPI和I2C设备，和使用Arduino没有任何区别。如果使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名即可，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`。
 
+### 6.4 PWM与SPI功能复用
+
+在Arduino UNO R3标准引脚布局中，D10-D13引脚为SPI引脚，但同时，D10与D11引脚也是PWM引脚，引发冲突。
+
+在RTduino支持Arduino UNO R3标准引脚布局的BSP中，D10与D11默认优先支持PWM功能，当用户调用SPI.begin时，会自动将PWM功能重定向为SPI功能，重定向后，D10、D11引脚将无法再转回到PWM功能。
+
+在支持RTduino时，用户需要在BSP的 `pins_arduino.c` 文件中实现 `switchToSPI()` 函数，详见PR：https://github.com/RT-Thread/rt-thread/pull/7901 。
+
 ## 7 如何将某个Arduino库适配到RTduino
 
-Arduino部分库会根据不同的架构（包括CPU架构或不同板子的结构），进行不同的适配，对于RTduino，识别宏为 `ARDUINO_ARCH_RTTHREAD`。请参考此[commit](https://github.com/PaulStoffregen/CapacitiveSensor/commit/25dd066f412af0c988aa3712bebfcb263c9054e0#diff-5957e867d92ebf881ddfc665f29824357eab87f987c6097dc8958d9053c6e6f7R387)进行适配。
+Arduino部分库会根据不同的架构（包括CPU架构或不同板子的结构），进行不同的适配，对于RTduino，识别宏为 `ARDUINO_ARCH_RTTHREAD`。请参考此 [commit](https://github.com/PaulStoffregen/CapacitiveSensor/commit/25dd066f412af0c988aa3712bebfcb263c9054e0#diff-5957e867d92ebf881ddfc665f29824357eab87f987c6097dc8958d9053c6e6f7R387) 进行适配。
 
 ## 8 贡献与维护
 
