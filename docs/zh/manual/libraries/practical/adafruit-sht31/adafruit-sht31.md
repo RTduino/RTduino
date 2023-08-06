@@ -1,26 +1,26 @@
-# RT-Thread使用RTduino运行Arduino SHT31温湿度传感器驱动库
+# RTduino运行Adafruit SHT31温湿度传感器库
 
 本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](https://github.com/RTduino/RTduino/blob/master/README_zh.md#11-%E5%B7%B2%E7%BB%8F%E6%94%AF%E6%8C%81arduino%E7%94%9F%E6%80%81%E5%85%BC%E5%AE%B9%E5%B1%82%E7%9A%84rt-thread-bsp)，直接将Arduino SHT31温湿度传感器驱动库运行起来。
 
 打开兼容框架:
 
-![4.rt-thread-settings.png](images/4.rt-thread-settings.png)
+![4.rt-thread-settings.png](figures/4.rt-thread-settings.png)
 
 下一步就是去软件包里面拉去sht31的软件包（同时也是arduino那边的传感器库）。
 
-![4.sht31-pkgs.png](images/4.sht31-pkgs.png)
+![4.sht31-pkgs.png](figures/4.sht31-pkgs.png)
 
 然后保存后编译一下工程，到这一步基本上是不会报错的，如果报错的话就回头看看前面是否按照步骤来的。然后来到代码编写环节，不同于传统的RTthread编写方式，代码编写需要在arduino_main.c文件下进行。
 
-![4.arduino_main.png](images/4.arduino_main.png)
+![4.arduino_main.png](figures/4.arduino_main.png)
 
 这时来到packages文件下找到刚刚拉取的sht31软件包。将代码复制粘贴到arduino_main.cpp文件中去，然后开始修改。
 
-![4.sht31test.png](images/4.sht31test.png)
+![4.sht31test.png](figures/4.sht31test.png)
 
 主要是修改一下波特率，在arduino给的demo下是初始化的9600，但是我们RTthread使用的是115200，为了不乱码就不给Serial.begin()参数这样就使用RTthread的默认波特率。
 
-![4.demo-comment-out.png](images/4.demo-comment-out.png)
+![4.demo-comment-out.png](figures/4.demo-comment-out.png)
 
 最后编译一下代码，同时我也将最终代码放在下面：
 
@@ -102,4 +102,4 @@ void loop() {
 
 最终运行结果：
 
-![4.sht31-result.png](images/4.sht31-result.png)
+![4.sht31-result.png](figures/4.sht31-result.png)

@@ -1,0 +1,14 @@
+- [**Home**](/)
+- **Source Code**
+  - [Github](https://github.com/RTduino/RTduino)
+  - [Gitee](https://gitee.com/rtduino/RTduino)
+- **Official Website**
+  - [RTduino](https://www.rtduino.com)
+  - [RT-Thread](https://www.rt-thread.org)
+- **Forum**
+  - [Github Issue](https://github.com/RTduino/RTduino/issues)
+  - [Github Discussion](https://github.com/RTduino/RTduino/discussions)
+  - [Gitee Issue](https://gitee.com/rtduino/RTduino/issues)
+- **语言/Language**
+  - [中文](/zh/)
+  - [English](/en/)

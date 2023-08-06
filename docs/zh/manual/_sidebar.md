@@ -1,0 +1,10 @@
+- Arduino API
+  - [Arduino API可兼容性一览表](/zh/manual/api/api-compatibility.md)
+- Arduino库
+  - [RTduino文件夹目录结构](/zh/manual/libraries/dir-structure.md)
+  - [Arduino内建库](/zh/manual/libraries/buildin-libraries.md)
+  - [Arduino社区库](/zh/manual/libraries/community-libraries.md)
+- Arduino库使用实例与说明
+  - [Adafruit SHT31传感器库](/zh/manual/libraries/practical/adafruit-sht31/adafruit-sht31.md)
+- [RTduino精简模式](/zh/manual/tinymode.md)
+- [sketch文件的编译命令与编译方法](/zh/manual/sketch-loader.md)

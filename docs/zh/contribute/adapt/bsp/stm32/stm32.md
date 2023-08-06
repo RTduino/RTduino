@@ -1,4 +1,4 @@
-# RTduino对接RT-Thread STM32 BSP教程
+# STM32 BSP适配RTduino
 
 我们以 [STM32F411RE Nucleo-64开发板](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) 为例进行对接。
 
@@ -8,27 +8,27 @@
 
 由于本次对接的是STM32系列的单片机，驱动文件是非常完善的，如下：
 
-![img](images/1.file-drivers.png)
+![file-drivers](figures/file-drivers.png)
 
 但是，如果大家对接的单片机是一些使用比较少的单片机，这些驱动文件或许并没有完全实现，大家可以自行实现或者去社区求助。
 
 ## 2 CubeMX软件配置（STM32必须的，其他系列不一定）
 
-![board](images/1.board.jpg)
+![board](figures/board.jpg)
 
 ### 2.1 ADC
 
-![adc](images/1.cubeadc.png)
+![cubeadc](figures/cubeadc.png)
 
 ### 2.2 PWM
 
-![pwm](images/1.cubepwm.png)
+![cubepwm](figures/cubepwm.png)
 
 STM32对接PWM教程：https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/application-note/driver/pwm/an0037-rtthread-driver-pwm?id=%e6%b7%bb%e5%8a%a0-pwm-%e9%a9%b1%e5%8a%a8
 
 ### 2.3 UART
 
-![uart](images/1.cubeuart.png)
+![cubeuart](figures/cubeuart.png)
 
 ### 2.4 SPI
 
@@ -40,11 +40,11 @@ RT-Thread使用的软件模拟I2C，所以我们可以直接使用GPIO框架。
 
 ### 2.6 生成工程，删除多余代码
 
-![dir](images/1.dir-del.png)
+![dir-del](figures/dir-del.png)
 
 src里面：
 
-![src](images/1.file-del.png)
+![file-del](figures/file-del.png)
 
 ## 3 编写Kconfig
 
@@ -180,26 +180,26 @@ src里面：
 
 ## 4 pinout-generator工具
 
-![image-20221012104737131](images/1.tool.png)
+![tool](figures/tool.png)
 
 填写完毕后，生成代码！
 
-![image-20221012112055176](images/1.tool-code.png)
+![tool-code](figures/tool-code.png)
 
-![image-20221012112105995](images/1.tool-files.png)
+![tool-files](figures/tool-files.png)
 
 拷贝Kconfig(Please copy)文件内容到Board文件夹下的Kconfig。
 
-![image-20221012112416495](images/1.kconfig-copy.png)
+![kconfig-copy](figures/kconfig-copy.png)
 
 然后就可以删除Kconfig(Please copy)文件了！
 
 ## 5 完善代码
 
-![image-20221012112716647](images/1.code-xx1.png)
+![code-xx1](figures/code-xx1.png)
 
-![image-20221012112758574](images/1.code-xx2.png)
+![code-xx2](figures/code-xx2.png)
 
 ## 6 编写README.md文件
 
-参考其他[已经适配RTduino的BSP](https://github.com/RTduino/RTduino/blob/master/README_zh.md#11-%E5%B7%B2%E7%BB%8F%E6%94%AF%E6%8C%81arduino%E7%94%9F%E6%80%81%E5%85%BC%E5%AE%B9%E5%B1%82%E7%9A%84rt-thread-bsp)编写。
+参考其他[已经适配RTduino的BSP](/zh/beginner/rtduino?id=已经适配rtduino的rt-thread-bsp)编写。
