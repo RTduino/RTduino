@@ -252,7 +252,7 @@ const pin_map_t pin_map_table[]=
 {Arduino引脚编号, RT-Thread引脚编号(通过GET_PIN宏获取), 复用功能的设备名(PWM、ADC或DAC), 该复用功能设备的通道号}
 ```
 
-其中，Arduino引脚编号，即是第一个参数，是必填的，D0 - Dx 或者是 A0 - Ax。注意一定要按先数字引脚后模拟引脚照顺序来填写。
+其中，Arduino引脚编号，即是第一个参数，是必填的，D0 - Dx 或者是 A0 - Ax。**注意一定要按先数字引脚后模拟引脚照顺序来填写**。
 
 RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什么，这里就填什么，一般使用 `GET_PIN` 宏来获取。注意：D0、D1以及I2C、SPI IO需要将此参数略过。
 
@@ -417,9 +417,52 @@ RT-Thread online packages  --->
 
 在[Arduino API可兼容性一览表](docs/zh/1.Arduino%20API%E5%8F%AF%E5%85%BC%E5%AE%B9%E6%80%A7%E4%B8%80%E8%A7%88%E8%A1%A8.md)文档中，列举了在两种不同模式下，RTduino对Arduino API的兼容情况。
 
-## 6 需要注意的事项
+## 6 `.ino` sketch文件的编译命令与编译方法
 
-### 6.1 PWM功能引脚不能调用 `pinMode` 函数，否则PWM会失效，ADC、DAC同理
+### 6.1 以命令行方式编译运行 `.ino` 文件
+
+在 Arduino 中，编程源码文件被称之为 "sketch" (草稿之意)，其文件后缀为 `.ino`，具体 Arduino IDE 对 sketch 文件的编译方法，参见 [Arduino CLI文档](https://arduino.github.io/arduino-cli/0.33/sketch-build-process/) 。
+
+在RTduino中，我们也支持对 `.ino` 文件的直接编译，方法很简单，使用命令 `scons -j20 --sketch=".ino文件的绝对路径"` 即可完成编译，其中 `-j20` 表示20个CPU并发编译（取决于计算机有多少个核心）以提高编译速度，`--sketch=""` 用于指定 `.ino` 文件的绝对路径。这样RTduino就会单独创建一个新的线程运行该sketch文件内的源码。
+
+### 6.2 RTduino sketch loader 自动初始化机制
+
+RTduino 是基于 RT-Thread 操作系统开发，因此支持多线程并发是浑然天成的，也是 Arduino 并不具备的。使用 RTduino，我们可以通过 *sketch loader* 创建任意多个 sketch 源文件并以多线程的方式独立运行，互不干扰。
+
+在 RTduino 中，可以使用宏 `RTDUINO_SKETCH_LOADER` 或 `RTDUINO_SKETCH_LOADER_PRIO` 或 `RTDUINO_SKETCH_LOADER_STACKSIZE` 或 `RTDUINO_SKETCH_LOADER_STACKSIZE_PRIO` 来装填到 RTduino sketch loader中，只要该源文件添加到工程中并被编译，loader在板子上电之后会自动运行 sketch 源文件。sketch源文件需要将后缀改名为 `.cpp` 文件。
+
+以下为示例：
+
+```cpp
+#include <RTduino.h> /* 包含头文件，注意是<RTduino.h>，不是<Arduino.h> */
+
+static void my_setup(void) /* static函数，不可命名为setup */
+{
+    Serial.println("Hello my sketch");
+}
+
+static void my_loop(void) /* static函数，不可命名为loop */
+{
+
+}
+
+/* 
+  以下四个自动初始化宏根据实际情况选择一个使用即可。
+  四个宏的基本逻辑是一致的，即创建一个叫"my-sketch"的新容器（其实是一个新线程）
+  并运行 my_setup() 和 my_loop() 函数。
+  区别在于是否设置线程栈大小(STACKSIZE，默认为2048) 和 线程优先级(PRIO，默认为最低可用优先级)。
+*/
+RTDUINO_SKETCH_LOADER("my-sketch", my_setup, my_loop); /* 使用线程默认优先级和默认栈大小 */
+RTDUINO_SKETCH_LOADER_PRIO("my-sketch", my_setup, my_loop, 10); /* 使用默认线程栈大小，并重新设置线程优先级为10 */
+RTDUINO_SKETCH_LOADER_STACKSIZE("my-sketch", my_setup, my_loop, 1024); /* 使用默认线程优先级，并重新设置线程栈大小为1024 */ 
+RTDUINO_SKETCH_LOADER_STACKSIZE_PRIO("my-sketch", my_setup, my_loop, 1024, 10); /* 重新设置线程栈大小为1024，线程优先级为10 */
+```
+
+参考示例：[MsgQ-C-CPP-demo](https://github.com/RTduino/MsgQ-C-CPP-demo/blob/master/arduino_producer.cpp)
+
+## 7 需要注意的事项
+
+### 7.1 PWM功能引脚不能调用 `pinMode` 函数，否则PWM会失效，ADC、DAC同理
 
 ```c
 void setup() {
@@ -452,7 +495,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 当然，如果用户已经知道这样做的后果，但是故意需要将PWM、ADC或DAC引脚通过pinMode函数转为普通IO也是完全可以的。
 
-### 6.2 `Serial.begin()`
+### 7.2 `Serial.begin()`
 
 在很多Arduino例程中，都喜欢使用如下语句来初始化串口：
 
@@ -464,21 +507,17 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口波特率配置，不重新配置串口波特率。
 
-### 6.3 `SPI.begin()` / `Wire.begin()`
+### 7.3 `SPI.begin()` / `Wire.begin()`
 
 在操作SPI和Wire(I2C)时，默认调用的RT-Thread SPI和I2C设备在arduino_pin.h中定义，用户使用SPI和Wire库时，无需指定SPI和I2C设备，和使用Arduino没有任何区别。如果使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名即可，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`。
 
-### 6.4 PWM与SPI功能复用
+### 7.4 PWM与SPI功能复用
 
 在Arduino UNO R3标准引脚布局中，D10-D13引脚为SPI引脚，但同时，D10与D11引脚也是PWM引脚，引发冲突。
 
 在RTduino支持Arduino UNO R3标准引脚布局的BSP中，D10与D11默认优先支持PWM功能，当用户调用SPI.begin时，会自动将PWM功能重定向为SPI功能，重定向后，D10、D11引脚将无法再转回到PWM功能。
 
 在支持RTduino时，用户需要在BSP的 `pins_arduino.c` 文件中实现 `switchToSPI()` 函数，详见PR：https://github.com/RT-Thread/rt-thread/pull/7901 。
-
-## 7 如何将某个Arduino库适配到RTduino
-
-Arduino部分库会根据不同的架构（包括CPU架构或不同板子的结构），进行不同的适配，对于RTduino，识别宏为 `ARDUINO_ARCH_RTTHREAD`。请参考此 [commit](https://github.com/PaulStoffregen/CapacitiveSensor/commit/25dd066f412af0c988aa3712bebfcb263c9054e0#diff-5957e867d92ebf881ddfc665f29824357eab87f987c6097dc8958d9053c6e6f7R387) 进行适配。
 
 ## 8 贡献与维护
 
@@ -488,7 +527,11 @@ https://github.com/RTduino/RTduino
 
 https://gitee.com/rtduino/RTduino
 
-### 8.2 感谢以下小伙伴对本仓库的贡献
+### 8.2 如何将某个Arduino库适配到RTduino
+
+Arduino部分库会根据不同的架构（包括CPU架构或不同板子的结构），进行不同的适配，对于RTduino，识别宏为 `ARDUINO_ARCH_RTTHREAD`。请参考此 [commit](https://github.com/PaulStoffregen/CapacitiveSensor/commit/25dd066f412af0c988aa3712bebfcb263c9054e0#diff-5957e867d92ebf881ddfc665f29824357eab87f987c6097dc8958d9053c6e6f7R387) 进行适配。
+
+### 8.3 感谢以下小伙伴对本仓库的贡献
 
 <a href="https://github.com/RTduino/rtduino/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=RTduino/rtduino" />
