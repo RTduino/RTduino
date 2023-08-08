@@ -46,7 +46,7 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 ### 2.1 参考资料
 
 - [2022年RT-Thread全球开发者大会报告视频](https://www.bilibili.com/video/BV1Wa411L7B4)
-- [RTduino对接RT-Thread BSP教程](/docs/zh/RTduino%E5%AF%B9%E6%8E%A5RT-Thread%20BSP%E6%95%99%E7%A8%8B.md)
+- [RTduino对接RT-Thread BSP教程](docs/zh/RTduino%E5%AF%B9%E6%8E%A5RT-Thread%20BSP%E6%95%99%E7%A8%8B.md)
 - [RTduino对接到RT-Thread BSP手把手教程（视频）](https://www.bilibili.com/video/BV1WG41177Cu)
 
 ### 2.2 工程的创建和导入
@@ -59,8 +59,8 @@ RTduino社区开发版为社区开发的主线工程，使用最新RT-Thread和R
 
 有两种创建方法：
 
-1. [使用Env配合VSCode创建RTduino工程](/docs/zh/6.使用Env配合VSCode创建工程.md) (当前推荐这种创建方式)
-2. [使用RT-Thread Studio IDE创建RTduino工程 (基于最新代码)](/docs/zh/5.使用RT-Thread%20Studio%20IDE创建工程.md#51-rtduino社区开发版工程创建方法)
+1. [使用VSCode+Env创建工程](docs/zh/6.使用VSCode+Env创建工程.md) (当前推荐这种创建方式)
+2. [使用RT-Thread Studio IDE创建RTduino工程 (基于最新代码)](docs/zh/5.使用RT-Thread%20Studio%20IDE创建工程.md#51-rtduino社区开发版工程创建方法)
 
 
 #### 2.2.2 RTduino发行版
@@ -69,7 +69,7 @@ RTduino社区开发版为社区开发的主线工程，使用最新RT-Thread和R
 
 RTduino发行版为RT-Thread BSP经过验证，封装为RT-Thread Studio BSP包，用户可以直接通过RT-Thread Studio一键创建对应型号开发板的工程。
 
-[使用RT-Thread Studio IDE创建RTduino工程 (基于发布版)](/docs/zh/5.使用RT-Thread%20Studio%20IDE创建工程.md#52-rtduino发行版工程创建方法)
+[使用RT-Thread Studio IDE创建RTduino工程 (基于发布版)](docs/zh/5.使用RT-Thread%20Studio%20IDE创建工程.md#52-rtduino发行版工程创建方法)
 
 ### 2.3 Arduino经典的setup和loop函数在哪里？
 
