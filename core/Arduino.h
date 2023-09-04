@@ -38,7 +38,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <posix/stdlib.h>
-#include <posix/stdio.h>
 #include <math.h>
 
 #include "avr/io.h"
