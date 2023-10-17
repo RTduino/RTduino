@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html>
 
 <head>
   <meta charset="UTF-8">
-  <title>RTduino 文档中心</title>
+  <title>RTduino Document Center</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport"
@@ -22,7 +22,7 @@
   <script>
     window.$docsify = {
       // 项目名称
-      name: 'RTduino 文档中心',
+      name: 'RTduino Document Center',
       logo: '_media/logo.png  height = "60px"',
       // 仓库地址，点击右上角的Github章鱼猫头像会跳转到此地址
       repo: 'https://github.com/RTduino/RTduino',
@@ -32,7 +32,7 @@
       // 导航栏支持，默认加载的是项目根目录下的_navbar.md文件
       loadNavbar: true,
       // 封面支持，默认加载的是项目根目录下的_coverpage.md文件
-      coverpage: true,
+      coverpage: ['/', '/zh/', '/en/'],
       // 最大支持渲染的标题层级
       maxLevel: 6,
       // 自定义侧边栏后默认不会再生成目录，设置生成目录的最大层级（建议配置为2-4）
@@ -46,7 +46,8 @@
         placeholder: '搜索',
         // 支持本地化
         placeholder: {
-          '/zh-cn/': '搜索',
+          '/zh/': '搜索',
+          '/en/': 'Search',
           '/': 'Search'
         },
         noData: '找不到结果',
