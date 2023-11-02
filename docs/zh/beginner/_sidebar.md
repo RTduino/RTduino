@@ -1,3 +1,6 @@
-- [Env工具](/zh/beginner/environment/env.md)
-- [VSCode](/zh/beginner/environment/vscode.md)
-- 
+- [RTduino](/zh/beginner/rtduino.md)
+- [RT-Thread](/zh/beginner/rt-thread.md)
+- 环境搭建
+  - [Env工具下载安装](/zh/beginner/environment/env-install.md)
+  - [Env工具的使用](/zh/beginner/environment/env-usage.md)
+  - [使用Env+VSCode创建工程](/zh/beginner/environment/env-vscode.md)
