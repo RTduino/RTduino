@@ -1,1 +1,1 @@
-本段介绍如何为RTduino/RT-Thread社区贡献代码，以及代码规范。
+# PR

@@ -1,0 +1,2 @@
+- [如何提交PR](/zh/contribute/pr.md)
+- [如何提交issue](/zh/contribute/issue.md)
