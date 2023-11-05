@@ -10,7 +10,7 @@ RT-Thread诞生于2006年，是一款以开源、中立、社区化发展起来�
 
 RT-Thread是一个集实时操作系统（RTOS）内核、中间件组件的物联网操作系统，架构如下：
 
-![architecture](./figures/rt-thread-arch.png)
+![framework](./figures/rt-thread-framework.png)
 
 - 内核层：RT-Thread内核，是 RT-Thread的核心部分，包括了内核系统中对象的实现，例如多线程及其调度、信号量、邮箱、消息队列、内存管理、定时器等；libcpu/BSP（芯片移植相关文件 / 板级支持包）与硬件密切相关，由外设驱动和 CPU 移植构成。
 
