@@ -33,7 +33,7 @@ RTduino/RT-Thread官方本着“做精一块板卡”的原则，在上述已经
 
 ## 编译工具链与环境
 
-RTduino作为RT-Thread软件包，其本身支持GCC工具链以及Keil AC5、AC6 IDE，但由于Arduino社区第三方库均为GCC工具链下编写，因此建议使用GCC工具链。本手册将完全基于GCC工具链以及 Env + VSCode 编译环境来进行讲解。
+RTduino作为RT-Thread软件包，其本身支持GCC工具链以及Keil AC5、AC6 IDE，但由于Arduino社区第三方库均为GCC工具链下编写，**因此建议使用GCC工具链。RTduino文档中心将完全基于GCC工具链以及 Env + VSCode 编译环境来进行讲解**。
 
 ## 官网与代码仓库
 
