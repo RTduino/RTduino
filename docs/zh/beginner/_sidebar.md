@@ -3,3 +3,4 @@
 - 环境搭建
   - [Env工具下载安装](/zh/beginner/environment/env-install.md)
   - [Env工具的使用](/zh/beginner/environment/env-usage.md)
+- [点亮一颗LED吧！](/zh/beginner/helloworld-led.md)
