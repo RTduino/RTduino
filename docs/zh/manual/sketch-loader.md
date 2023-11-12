@@ -10,11 +10,16 @@ RTduino支持对 `.ino` 文件的直接编译，方法很简单，使用命令 `
 
 RTduino 是基于 RT-Thread 操作系统开发，因此支持多线程并发是浑然天成的，也是 Arduino 并不具备的。使用 RTduino，我们可以通过 *sketch loader* 创建任意多个 sketch 源文件并以多线程的方式独立运行，互不干扰。
 
-在 RTduino 中，可以使用宏 `RTDUINO_SKETCH_LOADER` 或 `RTDUINO_SKETCH_LOADER_PRIO` 或 `RTDUINO_SKETCH_LOADER_STACKSIZE` 或 `RTDUINO_SKETCH_LOADER_STACKSIZE_PRIO` 来装填到 RTduino sketch loader中，只要该源文件添加到工程中并被编译，loader在板子上电之后会自动运行 sketch 源文件。sketch源文件需要将后缀改名为 `.cpp` 文件。
+在 RTduino 中，可以使用以下4个宏其中之一来装填到 RTduino sketch loader中，只要该源文件添加到工程中并被编译，loader在板子上电之后会自动运行 sketch 源文件。sketch源文件需要将后缀改名为 `.cpp` 文件。
+
+-  `RTDUINO_SKETCH_LOADER`：使用线程默认优先级（最低可用优先级）和默认栈大小（2048字节）
+-  `RTDUINO_SKETCH_LOADER_PRIO`：使用默认线程栈大小，并重新设置线程优先级
+-  `RTDUINO_SKETCH_LOADER_STACKSIZE`：使用默认线程优先级，并重新设置线程栈大小
+-  `RTDUINO_SKETCH_LOADER_STACKSIZE_PRIO`：重新设置线程栈大小以及线程优先级
 
 以下为示例：
 
-```cpp
+``` c
 #include <RTduino.h> /* 包含头文件，注意是<RTduino.h>，不是<Arduino.h> */
 
 static void my_setup(void) /* static函数，不可命名为setup */
