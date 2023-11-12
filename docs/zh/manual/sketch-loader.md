@@ -19,7 +19,7 @@ RTduino 是基于 RT-Thread 操作系统开发，因此支持多线程并发是�
 
 以下为示例：
 
-``` c
+```c
 #include <RTduino.h> /* 包含头文件，注意是<RTduino.h>，不是<Arduino.h> */
 
 static void my_setup(void) /* static函数，不可命名为setup */

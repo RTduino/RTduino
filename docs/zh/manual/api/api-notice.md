@@ -58,5 +58,3 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 在Arduino UNO R3标准引脚布局中，D10-D13引脚为SPI引脚，但同时，D10与D11引脚也是PWM引脚，引发冲突。
 
 在RTduino支持Arduino UNO R3标准引脚布局的BSP中，D10与D11默认优先支持PWM功能，当用户调用SPI.begin时，会自动将PWM功能重定向为SPI功能，重定向后，D10、D11引脚将无法再转回到PWM功能。
-
-在支持RTduino时，用户需要在BSP的 `pins_arduino.c` 文件中实现 `switchToSPI()` 函数，详见PR：https://github.com/RT-Thread/rt-thread/pull/7901 。

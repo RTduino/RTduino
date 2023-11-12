@@ -52,128 +52,128 @@ src里面：
 
 #### 3.1.1 UART
 
-```shell
-    menuconfig BSP_USING_UART
-        bool "Enable UART"
-        default n
-        select RT_USING_SERIAL
-        if BSP_USING_UART
-            config BSP_USING_UART2
-                bool "Enable UART2"
-                default n
+```Kconfig
+menuconfig BSP_USING_UART
+    bool "Enable UART"
+    default n
+    select RT_USING_SERIAL
+    if BSP_USING_UART
+        config BSP_USING_UART2
+            bool "Enable UART2"
+            default n
 
-            config BSP_UART2_RX_USING_DMA
-                bool "Enable UART2 RX DMA"
-                depends on BSP_USING_UART2 && RT_SERIAL_USING_DMA
-                default n
-        endif
+        config BSP_UART2_RX_USING_DMA
+            bool "Enable UART2 RX DMA"
+            depends on BSP_USING_UART2 && RT_SERIAL_USING_DMA
+            default n
+    endif
 ```
 
 #### 3.1.2 ADC
 
-```shell
-	menuconfig BSP_USING_ADC
-        bool "Enable ADC"
-        default n
-        select RT_USING_ADC
-        if BSP_USING_ADC
-            config BSP_USING_ADC1
-                bool "Enable ADC1"
-                default n
-        endif
+```Kconfig
+menuconfig BSP_USING_ADC
+    bool "Enable ADC"
+    default n
+    select RT_USING_ADC
+    if BSP_USING_ADC
+        config BSP_USING_ADC1
+            bool "Enable ADC1"
+            default n
+    endif
 ```
 
 #### 3.1.3 PWM
 
-```shell
-	menuconfig BSP_USING_PWM
-        bool "Enable PWM"
-        default n
-        select RT_USING_PWM
+```Kconfig
+menuconfig BSP_USING_PWM
+    bool "Enable PWM"
+    default n
+    select RT_USING_PWM
 
-        if BSP_USING_PWM
-            menuconfig BSP_USING_PWM1
-                bool "Enable timer1 output PWM"
-                default n
-                if BSP_USING_PWM1
-                    config BSP_USING_PWM1_CH1
-                        bool "Enable PWM1 channel1"
-                        default n
-                endif
+    if BSP_USING_PWM
+        menuconfig BSP_USING_PWM1
+            bool "Enable timer1 output PWM"
+            default n
+            if BSP_USING_PWM1
+                config BSP_USING_PWM1_CH1
+                    bool "Enable PWM1 channel1"
+                    default n
+            endif
 
-            menuconfig BSP_USING_PWM2
-                bool "Enable timer2 output PWM"
-                default n
-                if BSP_USING_PWM2
-                    config BSP_USING_PWM2_CH2
-                        bool "Enable PWM2 channel2"
-                        default n
+        menuconfig BSP_USING_PWM2
+            bool "Enable timer2 output PWM"
+            default n
+            if BSP_USING_PWM2
+                config BSP_USING_PWM2_CH2
+                    bool "Enable PWM2 channel2"
+                    default n
 
-                    config BSP_USING_PWM2_CH3
-                        bool "Enable PWM2 channel3"
-                        default n
-                endif
+                config BSP_USING_PWM2_CH3
+                    bool "Enable PWM2 channel3"
+                    default n
+            endif
 
-            menuconfig BSP_USING_PWM3
-                bool "Enable timer3 output PWM"
-                default n
-                if BSP_USING_PWM3
-                    config BSP_USING_PWM3_CH1
-                        bool "Enable PWM3 channel1"
-                        default n
+        menuconfig BSP_USING_PWM3
+            bool "Enable timer3 output PWM"
+            default n
+            if BSP_USING_PWM3
+                config BSP_USING_PWM3_CH1
+                    bool "Enable PWM3 channel1"
+                    default n
 
-                    config BSP_USING_PWM3_CH2
-                        bool "Enable PWM3 channel2"
-                        default n
-                endif
-            
-            menuconfig BSP_USING_PWM4
-                bool "Enable timer4 output PWM"
-                default n
-                if BSP_USING_PWM4
-                    config BSP_USING_PWM4_CH1
-                        bool "Enable PWM4 channel1"
-                        default n
-                endif
-        endif
+                config BSP_USING_PWM3_CH2
+                    bool "Enable PWM3 channel2"
+                    default n
+            endif
+        
+        menuconfig BSP_USING_PWM4
+            bool "Enable timer4 output PWM"
+            default n
+            if BSP_USING_PWM4
+                config BSP_USING_PWM4_CH1
+                    bool "Enable PWM4 channel1"
+                    default n
+            endif
+    endif
 ```
 
 #### 3.1.4 I2C
 
-```shell
-	menuconfig BSP_USING_I2C
-        bool "Enable I2C BUS"
-        default n
-        select RT_USING_I2C
-        select RT_USING_I2C_BITOPS
-        select RT_USING_PIN
+```Kconfig
+menuconfig BSP_USING_I2C
+    bool "Enable I2C BUS"
+    default n
+    select RT_USING_I2C
+    select RT_USING_I2C_BITOPS
+    select RT_USING_PIN
 
-        if BSP_USING_I2C
-            config BSP_USING_I2C1
-                bool "Enable I2C1 Bus (User I2C)"
-                default n
-                if BSP_USING_I2C1
-                    comment "Notice: PB9 --> 25; PB8 --> 24" 
-                    config BSP_I2C1_SCL_PIN
-                        int "i2c1 SCL pin number"
-                        range 1 176
-                        default 24
-                    config BSP_I2C1_SDA_PIN
-                        int "i2c1 SDA pin number"
-                        range 1 176
-                        default 25
-                endif
-        endif
+    if BSP_USING_I2C
+        config BSP_USING_I2C1
+            bool "Enable I2C1 Bus (User I2C)"
+            default n
+            if BSP_USING_I2C1
+                comment "Notice: PB9 --> 25; PB8 --> 24" 
+                config BSP_I2C1_SCL_PIN
+                    int "i2c1 SCL pin number"
+                    range 1 176
+                    default 24
+                config BSP_I2C1_SDA_PIN
+                    int "i2c1 SDA pin number"
+                    range 1 176
+                    default 25
+            endif
+    endif
 ```
 
 ### 3.2 Onboard Peripheral Drivers
 
-```
-    config BSP_USING_STLINK_TO_USART
-        bool "Enable STLINK TO USART (uart2)"
-        select BSP_USING_UART
-        select BSP_USING_UART2
-        default y
+```Kconfig
+config BSP_USING_STLINK_TO_USART
+    bool "Enable STLINK TO USART (uart2)"
+    select BSP_USING_UART
+    select BSP_USING_UART2
+    default y
 ```
 
 剩下的东西可以使用一个软件来完成！

@@ -82,6 +82,8 @@ RT-Thread引脚编号，即第二个参数，rt_pin_write中引脚编号填什�
 
 后两个参数是复用功能IO才需要填写的，普通引脚只需要略过即可。
 
+此外，如果板卡支持SPI，则需要在 `pins_arduino.c` 文件中实现 `switchToSPI()` 函数，详见PR：https://github.com/RT-Thread/rt-thread/pull/7901 。
+
 ### 2.4 arduino_pinout.h 文件的编写
 
 该文件主要负责定义各种宏，包括：
