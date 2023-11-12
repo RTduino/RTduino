@@ -1,14 +1,6 @@
-# RTduino板卡引脚
+# RTduino API 注意事项
 
-## 1 RTduino板卡引脚分布
-
-由于每个BSP的板子设计、以及芯片型号等，引脚分布是有区别的，因此需要到指定BSP的 `applications/arduino` 文件夹下的README.md文件查看详细信息。例如：
-
-[STM32F401 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | [STM32F411 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) | [STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout)
-
-## 2 注意事项
-
-### 2.1 pinMode()
+### 1.1 pinMode()
 
 PWM功能引脚不能调用 pinMode() 函数，否则PWM会失效。
 
@@ -45,7 +37,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 当然，如果用户已经知道这样做的后果，但是故意需要将PWM、ADC或DAC引脚通过pinMode函数转为普通IO也是完全可以的。
 
-### 2.2 Serial.begin()
+### 1.2 Serial.begin()
 
 在很多Arduino例程中，都喜欢使用如下语句来初始化串口：
 
@@ -57,11 +49,11 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 **因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口波特率配置，不重新配置串口波特率。
 
-### 2.3 SPI.begin() / Wire.begin()
+### 1.3 SPI.begin() / Wire.begin()
 
 在操作SPI和Wire(I2C)时，默认调用的RT-Thread SPI和I2C设备在arduino_pin.h中定义，用户使用SPI和Wire库时，无需指定SPI和I2C设备，和使用Arduino没有任何区别。如果使用非默认的SPI/I2C时，只需要在初始化函数中传入对应的rt-thread设备名即可，如`SPI.begin("spi1")` 或 `Wire.begin("i2c1")`。
 
-### 2.4 PWM与SPI功能复用
+### 1.4 PWM与SPI功能复用
 
 在Arduino UNO R3标准引脚布局中，D10-D13引脚为SPI引脚，但同时，D10与D11引脚也是PWM引脚，引发冲突。
 

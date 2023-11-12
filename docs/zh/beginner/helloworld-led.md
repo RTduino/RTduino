@@ -1,4 +1,4 @@
-# 点亮一颗LED吧！
+# HelloWorld - 点亮一颗LED
 
 本节以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例。
 
@@ -34,3 +34,9 @@ void loop(void)
 > 
 > 由于RT-Thread的main.c文件内，也会默认闪烁一个LED灯，如果板子上只有一个LED灯的话，两个线程会发生干涉。但是你会发现这个LED的闪烁速度明显变快了。因为main.c那边的闪烁周期是1000ms，上面这个例程是200ms。
 > 
+
+## 3 板卡引脚分布
+
+由于每个BSP的板子设计、以及芯片型号等，引脚分布是有区别的，因此需要到指定BSP的 `applications/arduino` 文件夹下的README.md文件查看详细信息。例如：
+
+[STM32F401 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f401-st-nucleo/applications/arduino_pinout) | [STM32F411 Nucleo板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) | [STM32L475潘多拉板的Arduino引脚布局的详细说明](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32l475-atk-pandora/applications/arduino_pinout)

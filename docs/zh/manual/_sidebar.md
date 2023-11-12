@@ -1,5 +1,6 @@
 - Arduino API
   - [Arduino API可兼容性一览表](/zh/manual/api/api-compatibility.md)
+  - [RTduino API 注意事项](/zh/manual/api/api-notice.md)
 - Arduino库
   - [RTduino文件夹目录结构](/zh/manual/libraries/dir-structure.md)
   - [Arduino内建库](/zh/manual/libraries/buildin-libraries.md)
