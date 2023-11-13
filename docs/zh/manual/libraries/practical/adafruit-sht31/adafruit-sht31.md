@@ -8,16 +8,11 @@ Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino�
 
 ## 2. SHT31 温湿度传感器
 
-SHT3x是一款由瑞士Sensirion生产的高精度温湿度传感器。其特点主要为：
+SHT3x是一款由瑞士Sensirion生产的高精度温湿度传感器。
 
-- Fully calibrated, linearized, and temperature compensated digital output
-- Wide supply voltage range, from 2.4 V to 5.5 V
-- I2C Interface with communication speeds up to 1 MHz and two user selectable addresses
-- Typical accuracy of ± 1.5 % RH and ± 0.2 °C for SHT35
-- Very fast start-up and measurement time
-- Tiny 8-Pin DFN package
-
-SHT31详细数据可参见[芯片手册](https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf)。
+```pdf
+https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf
+```
 
 ## 3. 如何运行Adafruit SHT31库
 
