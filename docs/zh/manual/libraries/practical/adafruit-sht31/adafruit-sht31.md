@@ -1,105 +1,65 @@
-# RTduino运行Adafruit SHT31温湿度传感器库
+# Adafruit SHT31温湿度传感器库
 
-本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](https://github.com/RTduino/RTduino/blob/master/README_zh.md#11-%E5%B7%B2%E7%BB%8F%E6%94%AF%E6%8C%81arduino%E7%94%9F%E6%80%81%E5%85%BC%E5%AE%B9%E5%B1%82%E7%9A%84rt-thread-bsp)，直接将Arduino SHT31温湿度传感器驱动库运行起来。
+## 1. 简介
 
-打开兼容框架:
+本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将Adafruit SHT31温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
 
-![4.rt-thread-settings.png](figures/4.rt-thread-settings.png)
+Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
 
-下一步就是去软件包里面拉去sht31的软件包（同时也是arduino那边的传感器库）。
+## 2. SHT31 温湿度传感器
 
-![4.sht31-pkgs.png](figures/4.sht31-pkgs.png)
+SHT3x是一款由瑞士Sensirion生产的高精度温湿度传感器。其特点主要为：
 
-然后保存后编译一下工程，到这一步基本上是不会报错的，如果报错的话就回头看看前面是否按照步骤来的。然后来到代码编写环节，不同于传统的RTthread编写方式，代码编写需要在arduino_main.c文件下进行。
+- Fully calibrated, linearized, and temperature compensated digital output
+- Wide supply voltage range, from 2.4 V to 5.5 V
+- I2C Interface with communication speeds up to 1 MHz and two user selectable addresses
+- Typical accuracy of ± 1.5 % RH and ± 0.2 °C for SHT35
+- Very fast start-up and measurement time
+- Tiny 8-Pin DFN package
 
-![4.arduino_main.png](figures/4.arduino_main.png)
+SHT31详细数据可参见[芯片手册](https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf)。
 
-这时来到packages文件下找到刚刚拉取的sht31软件包。将代码复制粘贴到arduino_main.cpp文件中去，然后开始修改。
+## 3. 如何运行Adafruit SHT31库
 
-![4.sht31test.png](figures/4.sht31test.png)
+本节以 `stm32f411-st-nucleo` BSP为例，讲解如何运行Adafruit SHT31驱动库。
 
-主要是修改一下波特率，在arduino给的demo下是初始化的9600，但是我们RTthread使用的是115200，为了不乱码就不给Serial.begin()参数这样就使用RTthread的默认波特率。
+### 3.1 开启RTduino
 
-![4.demo-comment-out.png](figures/4.demo-comment-out.png)
+使用Env进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
 
-最后编译一下代码，同时我也将最终代码放在下面：
-
-```c
-/***************************************************
-  This is an example for the SHT31-D Humidity & Temp Sensor
-
-  Designed specifically to work with the SHT31-D sensor from Adafruit
-  ----> https://www.adafruit.com/products/2857
-
-  These sensors use I2C to communicate, 2 pins are required to
-  interface
- ****************************************************/
-
-#include <Arduino.h>
-#include <Wire.h>
-#include "Adafruit_SHT31.h"
-
-bool enableHeater = false;
-uint8_t loopCnt = 0;
-
-Adafruit_SHT31 sht31 = Adafruit_SHT31();
-
-void setup() {
-  Serial.begin();
-
-//  while (!Serial)
-//    delay(10);     // will pause Zero, Leonardo, etc until serial console opens
-
-  Serial.println("SHT31 test");
-  if (! sht31.begin(0x44)) {   // Set to 0x45 for alternate i2c addr
-    Serial.println("Couldn't find SHT31");
-    while (1) delay(1);
-  }
-
-  Serial.print("Heater Enabled State: ");
-  if (sht31.isHeaterEnabled())
-    Serial.println("ENABLED");
-  else
-    Serial.println("DISABLED");
-}
-
-
-void loop() {
-  float t = sht31.readTemperature();
-  float h = sht31.readHumidity();
-
-  if (! isnan(t)) {  // check if 'is not a number'
-    Serial.print("Temp *C = "); Serial.print(t); Serial.print("\t\t");
-  } else {
-    Serial.println("Failed to read temperature");
-  }
-
-  if (! isnan(h)) {  // check if 'is not a number'
-    Serial.print("Hum. % = "); Serial.println(h);
-  } else {
-    Serial.println("Failed to read humidity");
-  }
-
-  delay(1000);
-
-  // Toggle heater enabled state every 30 seconds
-  // An ~3.0 degC temperature increase can be noted when heater is enabled
-  if (loopCnt >= 30) {
-    enableHeater = !enableHeater;
-    sht31.heater(enableHeater);
-    Serial.print("Heater Enabled State: ");
-    if (sht31.isHeaterEnabled())
-      Serial.println("ENABLED");
-    else
-      Serial.println("DISABLED");
-
-    loopCnt = 0;
-  }
-  loopCnt++;
-}
-
+```Kconfig
+Hardware Drivers Config --->
+    Onboard Peripheral Drivers --->
+        [*] Compatible with Arduino Ecosystem (RTduino)
 ```
 
-最终运行结果：
+![enable-rtduino.png](figures/enable-rtduino.png)
 
-![4.sht31-result.png](figures/4.sht31-result.png)
+### 3.2 开启Adafruit SHT31库
+
+Adafruit SHT31库已经注册到RT-Thread软件包中心：
+
+```Kconfig
+RT-Thread online packages --->
+    Arduino libraries  --->
+        Sensors  --->
+            [*] Adafruit SHT31: Temperature and Humidity Sensor
+```
+
+![enable-sht31.png](figures/enable-sht31.png)
+
+### 3.3 驱动SHT31
+
+接下来就可以编写程序调用Adafruit SHT31库的接口（API）来驱动SHT31了。
+
+打开 BSP 工程下的 `packages\Adafruit-SHT31-latest\examples\SHT31test\SHT31test.ino` 示例文件，将其内容全部拷贝覆盖到 `applications\arduino_main.cpp` 中。
+
+**唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将`Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
+
+### 3.4 编译运行
+
+用 `scons -j12` 命令编译，并将 `.bin` 或 `.elf` 文件烧录到板卡中。
+
+板卡上电后，可以打开串口终端，调整接收波特率为115200 （RT-Thread默认波特率），即可看到基于RTduino运行Adafruit SHT31 Arduino驱动库获取的SHT31芯片实时温湿度数据：
+
+![sht31-result.png](figures/sht31-result.png)

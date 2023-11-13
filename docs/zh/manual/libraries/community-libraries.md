@@ -1,6 +1,6 @@
 # Arduino 社区库
 
-Arduino 社区库是指由Arduino社区贡献的大量第三方库。目前，Arduino社区已经包含有超过5000个库，其中包括通信、传感器驱动、数据处理、数据存储、设备控制、显示驱动、输入输出驱动、时间相关等。这里包含个人贡献的库，也有例如Adafruit等开源公司贡献的库，这些库占Arduino库的主题，是Arduino社区生态的极重要组成部分。这也是设计RTduino的核心目的，即让RT-Thread可以直接兼容并运行Arduino库。
+Arduino 社区库是指由Arduino社区贡献的大量第三方库。目前，Arduino社区已经包含有超过5000个库，其中包括通信、传感器驱动、数据处理、数据存储、设备控制、显示驱动、输入输出驱动、时间相关等。这里包含个人贡献的库，也有例如Adafruit等开源公司贡献的库，是Arduino社区生态的极重要组成部分。这也是设计RTduino的核心目的，即让RT-Thread可以直接兼容并运行Arduino库。
 
 库和软件包其实是一个意思，只不过RT-Thread和Arduino两个社区叫法不一样：
 - [软件包](https://packages.rt-thread.org)：英文为 software package，是指RT-Thread社区所属维护的第三方扩展，是RT-Thread原生生态一部分。
