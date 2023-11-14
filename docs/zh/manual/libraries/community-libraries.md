@@ -17,28 +17,7 @@ RTduino/RT-Thread官方一直在持续将优质的Arduino库注册到RT-Thread�
 - RT-Thread Env软件包管理有中国大陆镜像源，可以保证国内高速下载；
 - 被注册到软件包中心的库都是经过验证过的。
 
-下面AHT10温湿度传感器为例，讲解如何快速使用Arduino的AHT10温湿度传感器驱动：
-
-1. 使用Env进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
-
-```Kconfig
-Hardware Drivers Config --->
-    Onboard Peripheral Drivers --->
-        [*] Compatible with Arduino Ecosystem (RTduino)
-```
-
-2. 点击Package栏，选择Arduino软件包分类，找到Sensor分类（Arduino传感器库分类），找到并选择Adafruit AHTx0驱动。此时，Env会自动选择该库依赖的其他Arduino库，例如Adafruit Unified Sensor库以及Adafruit BusIO库等：
-
-``` Kconfig
-RT-Thread online packages  --->
-    Arduino libraries  --->
-        Sensors  --->
-            [*] Adafruit AHT10 & AHT20: Humidity and Temperature Sensor  ---->
-```
-
-3. 保存并退出 `menuconfig`，此时Env工具会自动下载一些列软件包，包括RTduino本身以及Adafruit AHTx0库及其依赖库。
-
-4. 软件包和库下载完毕后，可以将Adafruit AHTx0库的例程（位于该库文件夹下的examples文件夹）直接复制到 `arduino_main.cpp` 文件下运行，你可以看到，串口会输出当前的温湿度，Arduino库的例程是直接可以在RTduino/RT-Thread环境上运行起来的。
+具体使用方法和流程请参见[Arduino库使用实例与说明](http://localhost:3000/#/zh/manual/libraries/practical/)。
 
 ## 2 手动导入Arduino社区库
 

@@ -6,7 +6,7 @@
   - [Arduino内建库](/zh/manual/libraries/buildin-libraries.md)
   - [Arduino社区库](/zh/manual/libraries/community-libraries.md)
 - Arduino库使用实例与说明
+  - [Adafruit AHT10/20传感器库](/zh/manual/libraries/practical/adafruit-ahtx0/adafruit-ahtx0.md)
   - [Adafruit SHT31传感器库](/zh/manual/libraries/practical/adafruit-sht31/adafruit-sht31.md)
-  - [Adafruit AHTx0传感器库](/zh/manual/libraries/practical/adafruit-ahtx0/adafruit-ahtx0.md)
 - [RTduino精简模式](/zh/manual/tinymode.md)
 - [sketch文件的编译命令与编译方法](/zh/manual/sketch-loader.md)

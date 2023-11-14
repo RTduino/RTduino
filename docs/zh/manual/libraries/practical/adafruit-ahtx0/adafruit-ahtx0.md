@@ -12,7 +12,7 @@ Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino�
 https://datasheet.lcsc.com/lcsc/1912111437_Aosong--Guangzhou-Elec-AHT10_C368909.pdf
 ```
 
-## 3. 如何运行Adafruit AHTx0库
+## 3. 如何运行Adafruit AHT10/20库
 
 本节以 `stm32f411-st-nucleo` BSP为例，讲解如何运行Adafruit AHTx0驱动库。
 
@@ -26,8 +26,6 @@ Hardware Drivers Config --->
         [*] Compatible with Arduino Ecosystem (RTduino)
 ```
 
-![enable-rtduino.png](figures/enable-rtduino.png)
-
 ### 3.2 开启Adafruit AHT10/20库
 
 Adafruit AHTx0库已经注册到RT-Thread软件包中心：
@@ -39,9 +37,13 @@ RT-Thread online packages --->
              [*] Adafruit AHT10 & AHT20: Humidity and Temperature Sensor
 ```
 
-![enable-aht10.png](figures/enable-aht10.png)
+### 3.3 硬件连接
 
-### 3.3 驱动 AHT10
+AHT10传感器，使用I2C总线通信，将其与 STM32F411 Nucleo板的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
+
+![aht10-connection](figures/ahtx0-connection.png)
+
+### 3.4 驱动 AHT10
 
 接下来就可以编写程序调用Adafruit AHT10/20库的接口（API）来驱动AHT10了。
 
@@ -49,7 +51,7 @@ RT-Thread online packages --->
 
 **唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将`Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
 
-### 3.4 编译运行
+### 3.5 编译运行
 
 用 `scons -j12` 命令编译，并将 `.bin` 或 `.elf` 文件烧录到板卡中。
 

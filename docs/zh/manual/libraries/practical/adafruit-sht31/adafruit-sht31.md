@@ -28,8 +28,6 @@ Hardware Drivers Config --->
         [*] Compatible with Arduino Ecosystem (RTduino)
 ```
 
-![enable-rtduino.png](figures/enable-rtduino.png)
-
 ### 3.2 开启Adafruit SHT31库
 
 Adafruit SHT31库已经注册到RT-Thread软件包中心：
@@ -41,9 +39,13 @@ RT-Thread online packages --->
             [*] Adafruit SHT31: Temperature and Humidity Sensor
 ```
 
-![enable-sht31.png](figures/enable-sht31.png)
+### 3.3 硬件连接
 
-### 3.3 驱动SHT31
+SHT31传感器，使用I2C总线通信，将其与 STM32F411 Nucleo板的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
+
+![sht31-connection](figures/sht31-connection.png)
+
+### 3.4 驱动SHT31
 
 接下来就可以编写程序调用Adafruit SHT31库的接口（API）来驱动SHT31了。
 
@@ -51,10 +53,10 @@ RT-Thread online packages --->
 
 **唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将`Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
 
-### 3.4 编译运行
+### 3.5 编译运行
 
 用 `scons -j12` 命令编译，并将 `.bin` 或 `.elf` 文件烧录到板卡中。
 
 板卡上电后，可以打开串口终端，调整接收波特率为115200 （RT-Thread默认波特率），即可看到基于RTduino运行Adafruit SHT31 Arduino驱动库获取的SHT31芯片实时温湿度数据：
 
-![sht31-result.png](figures/sht31-result.png)
+![sht31-result](figures/sht31-result.png)
