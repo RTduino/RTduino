@@ -8,5 +8,6 @@
 - Arduino库使用实例与说明
   - [Adafruit AHT10/20传感器库](/zh/manual/libraries/practical/adafruit-ahtx0/adafruit-ahtx0.md)
   - [Adafruit SHT31传感器库](/zh/manual/libraries/practical/adafruit-sht31/adafruit-sht31.md)
+  - [电容性触摸传感库](/zh/manual/libraries/practical/capacitive-touch/capacitive-touch.md)
 - [RTduino精简模式](/zh/manual/tinymode.md)
 - [sketch文件的编译命令与编译方法](/zh/manual/sketch-loader.md)

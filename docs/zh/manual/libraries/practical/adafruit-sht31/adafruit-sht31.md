@@ -2,7 +2,7 @@
 
 ## 1. 简介
 
-本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将Adafruit SHT31温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
+本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将 *Adafruit SHT31* 温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
 
 Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
 
