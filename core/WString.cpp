@@ -700,8 +700,8 @@ void String::remove(unsigned int index){
 }
 
 void String::remove(unsigned int index, unsigned int count){
-    if (index >= len) { return; }
-    if (count <= 0) { return; }
+    if (index >= len){ return; }
+    if (count == 0) { return; }
     if (count > len - index) { count = len - index; }
     char *writeTo = buffer + index;
     len = len - count;

@@ -55,6 +55,8 @@ Servo::Servo(void)
     this->servo_info.Pin.nbr = 0;
     this->servo_info.rt_dev = RT_NULL;
     this->servo_info.pulsewidth = 0;
+    this->max = 0;
+    this->min = 0;
 }
 
 uint8_t Servo::attach(int pin)
