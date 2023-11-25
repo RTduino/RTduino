@@ -49,4 +49,3 @@ class Printable
 };
 
 #endif
-

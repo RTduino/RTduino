@@ -40,22 +40,27 @@ typedef struct
     void (*setup)(void);
     void (*loop)(void);
     rt_thread_t thread;
-}rtduino_loader, *rtduino_loader_t;
+} rtduino_loader, *rtduino_loader_t;
 
-rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name, void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size, rt_uint8_t priority);
+rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name,
+        void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size, rt_uint8_t priority);
+
 rt_err_t rtduino_sketch_loader_delete(rtduino_loader_t loader);
 
-rt_inline rtduino_loader_t rtduino_sketch_loader_create(const char* name, void (*setup)(void), void (*loop)(void))
+rt_inline rtduino_loader_t rtduino_sketch_loader_create(const char* name,
+        void (*setup)(void), void (*loop)(void))
 {
     return rtduino_sketch_loader_create_stacksize_prio(name, setup, loop, RTDUINO_THREAD_SIZE, RTDUINO_THREAD_PRIO);
 }
 
-rt_inline rtduino_loader_t rtduino_sketch_loader_create_prio(const char* name, void (*setup)(void), void (*loop)(void), rt_uint8_t priority)
+rt_inline rtduino_loader_t rtduino_sketch_loader_create_prio(const char* name,
+        void (*setup)(void), void (*loop)(void), rt_uint8_t priority)
 {
     return rtduino_sketch_loader_create_stacksize_prio(name, setup, loop, RTDUINO_THREAD_SIZE, priority);
 }
 
-rt_inline rtduino_loader_t rtduino_sketch_loader_create_stacksize(const char* name, void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size)
+rt_inline rtduino_loader_t rtduino_sketch_loader_create_stacksize(const char* name,
+        void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size)
 {
     return rtduino_sketch_loader_create_stacksize_prio(name, setup, loop, stack_size, RTDUINO_THREAD_PRIO);
 }

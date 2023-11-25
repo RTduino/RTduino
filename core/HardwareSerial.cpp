@@ -21,7 +21,7 @@
 HardwareSerial::HardwareSerial(rt_device_t device)
 {
     this->uart_dev = device;
-    if(this->uart_dev != RT_NULL)
+    if (this->uart_dev != RT_NULL)
     {
         LOG_D("HardwareSerial %s (console) initiate successfully", RT_CONSOLE_DEVICE_NAME);
     }
@@ -35,12 +35,12 @@ HardwareSerial::HardwareSerial(const char* dev_name)
 {
     rt_err_t err = -RT_ERROR;
     this->uart_dev = rt_device_find(dev_name);
-    if(this->uart_dev != RT_NULL)
+    if (this->uart_dev != RT_NULL)
     {
         err = rt_device_open(this->uart_dev, RT_DEVICE_FLAG_INT_RX);
     }
 
-    if(err == RT_EOK)
+    if (err == RT_EOK)
     {
         LOG_D("HardwareSerial %s initiate successfully", dev_name);
     }

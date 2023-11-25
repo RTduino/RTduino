@@ -68,7 +68,7 @@ typedef struct
     rt_base_t   rt_pin;
     const char* device_name;
     rt_int8_t   channel;
-}pin_map_t;
+} pin_map_t;
 
 typedef unsigned int word;
 typedef bool boolean;
@@ -104,9 +104,12 @@ typedef uint8_t byte;
 
 /* math operations */
 /* adb() in stdlib.h and round() in math.h */
-#define min(a,b) ((a)<(b)?(a):(b))
-#define max(a,b) ((a)>(b)?(a):(b))
-#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+/* min/max potential macro substitution problem */
+#undef min
+#undef max
+#define min(a, b) ((a)<(b)?(a):(b))
+#define max(a, b) ((a)>(b)?(a):(b))
+#define constrain(amt, low, high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
