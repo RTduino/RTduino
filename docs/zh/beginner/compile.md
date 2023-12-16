@@ -113,6 +113,12 @@ chmod 777 install_ubuntu.sh
 
 到RT-Thread 代码托管平台 [Github](https://github.com/RT-Thread/rt-thread) 或 [Gitee](https://gitee.com/rtthread/rt-thread) 下载源代码。
 
+`git clone https://github.com/RT-Thread/rt-thread.git` （从Github平台克隆）
+
+`git clone https://gitee.com/rtthread/rt-thread.git` （从Gitee平台克隆）
+
+或者，直接从Github、Gitee的下载源码Zip包。
+
 这里以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例，需要进入到 `rt-thread/bsp/stm32/stm32f411-st-nucleo` 文件夹下，按住Shift键+右键邮件，点击“在此处打开PowerShell窗口”。
 
 #### 3.1.1 menuconfig -s 预设配置界面
