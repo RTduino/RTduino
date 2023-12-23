@@ -2,7 +2,27 @@
 
 ## 1. 简介
 
-本节介绍如何使用 *CapacitiveSensor* Arduino电容性触摸传感库实现触摸开关的设计。
+本节介绍如何使用 CapacitiveSensor 电容性触摸传感库实现触摸开关的设计。
+
+### 1.1 仓库地址
+
+- 官方（Github）：https://github.com/PaulStoffregen/CapacitiveSensor
+- 镜像源（Gitee）：https://gitee.com/RT-Thread-Mirror/CapacitiveSensor
+
+### 1.2 自动依赖Arduino库
+
+- 无
+
+### 1.3 自动依赖RT-Thread软件包
+
+- RTduino
+
+### 1.4 BSP要求
+
+- 已对接RT-Thread ADC设备驱动框架
+- 已对接RT-Thread PIN设备驱动框架
+- 已对接RTduino基本引脚分布表(pinout)数字部分，支持DigitalRead/DigitalWrite
+- 已对接RTduino基本引脚分布表(pinout)模拟输入部分，支持AnalogRead
 
 ## 2. CapacitiveSensor库工作原理
 

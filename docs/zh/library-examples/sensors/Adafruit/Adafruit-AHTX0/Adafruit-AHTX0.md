@@ -2,9 +2,27 @@
 
 ## 1. 简介
 
-本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将 *Adafruit AHT10/20* 温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
+本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将 Adafruit AHT10/20 温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
 
 Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
+
+### 1.1 仓库地址
+
+- 官方（Github）：https://github.com/adafruit/Adafruit_AHTX0
+- 镜像源（Gitee）：https://gitee.com/RT-Thread-Mirror/Adafruit_AHTX0
+
+### 1.2 自动依赖Arduino库
+
+- [Adafruit BusIO](/zh/library-examples/signal-io/Adafruit/Adafruit-BusIO/Adafruit-BusIO)
+
+### 1.3 自动依赖RT-Thread软件包
+
+- RTduino
+
+### 1.4 BSP要求
+
+- 已对接RT-Thread I2C设备驱动框架
+- 已对接RTduino Wire(I2C)
 
 ## 2. AHT10温湿度传感器
 

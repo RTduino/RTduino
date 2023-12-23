@@ -1,7 +1,2 @@
 - [如何提交代码](/zh/contribute/pr.md)
-- [如何将Arduino库适配RTduino](/zh/contribute/adapt/libraries.md)
-- RT-Thread BSP适配RTduino
-  - [如何为RT-Thread BSP适配RTduino](/zh/contribute/adapt/bsp/bsp.md)
-  - [STM32 BSP适配RTduino](/zh/contribute/adapt/bsp/stm32/stm32.md)
-  - [适配RTduino后功能检查清单](/zh/contribute/adapt/bsp/func-checklist.md)
 - [如何提交问题](/zh/contribute/issue.md)

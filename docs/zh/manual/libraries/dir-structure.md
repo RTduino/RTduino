@@ -1,10 +1,10 @@
 # RTduino文件夹目录结构
 
-RTduino软件包包含有两个主要的文件夹：core和libraries。
+RTduino软件包包含有两个主要的文件夹：*core* 和 *libraries*。
 
 ![dir-structure](figures/dir-structure.png)
 
-- core文件夹主要是提供Arduino内置的所有的API函数，例如analogWrite、analogRead函数等等，这些函数可以在[Arduino官方](https://www.arduino.cc/reference/en/)找到详细的介绍，也可以参考(Arduino API可兼容性一览表)[/zh/manual/api/api-compatibility]。
+- core文件夹主要是提供Arduino内置的所有的API函数，例如 `analogWrite`、`analogRead` 函数等等，这些函数可以在[Arduino官方](https://www.arduino.cc/reference/en/)找到详细的介绍，也可以参考[Arduino API可兼容性一览表](/zh/manual/api/api-compatibility)。
 
 - libraries文件夹是Arduino库所在文件夹。其中：
   

@@ -5,9 +5,10 @@
   - [RTduino文件夹目录结构](/zh/manual/libraries/dir-structure.md)
   - [Arduino内建库](/zh/manual/libraries/buildin-libraries.md)
   - [Arduino社区库](/zh/manual/libraries/community-libraries.md)
-- Arduino库使用实例与说明
-  - [Adafruit AHT10/20传感器库](/zh/manual/libraries/practical/adafruit-ahtx0/adafruit-ahtx0.md)
-  - [Adafruit SHT31传感器库](/zh/manual/libraries/practical/adafruit-sht31/adafruit-sht31.md)
-  - [电容性触摸传感库](/zh/manual/libraries/practical/capacitive-touch/capacitive-touch.md)
 - [RTduino精简模式](/zh/manual/tinymode.md)
 - [sketch文件的编译命令与编译方法](/zh/manual/sketch-loader.md)
+- [如何将Arduino库适配RTduino](/zh/manual/adapt/libraries.md)
+- RT-Thread BSP适配RTduino
+  - [如何为RT-Thread BSP适配RTduino](/zh/manual/adapt/bsp/bsp.md)
+  - [STM32 BSP适配RTduino](/zh/manual/adapt/bsp/stm32/stm32.md)
+  - [适配RTduino后功能检查清单](/zh/manual/adapt/bsp/func-checklist.md)
