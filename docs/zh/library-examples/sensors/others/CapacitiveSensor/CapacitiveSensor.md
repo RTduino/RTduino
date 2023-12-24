@@ -13,16 +13,12 @@
 
 - 无
 
-### 1.3 自动依赖RT-Thread软件包
-
-- RTduino
-
-### 1.4 BSP要求
+### 1.3 BSP要求
 
 - 已对接RT-Thread ADC设备驱动框架
 - 已对接RT-Thread PIN设备驱动框架
-- 已对接RTduino基本引脚分布表(pinout)数字部分，支持DigitalRead/DigitalWrite
-- 已对接RTduino基本引脚分布表(pinout)模拟输入部分，支持AnalogRead
+- 已对接RTduino基本引脚分布表(pinout)数字部分，支持函数DigitalRead()/DigitalWrite()
+- 已对接RTduino基本引脚分布表(pinout)模拟输入部分，支持函数AnalogRead()
 
 ## 2. CapacitiveSensor库工作原理
 

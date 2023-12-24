@@ -15,11 +15,7 @@ Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino�
 
 - [Adafruit BusIO](/zh/library-examples/signal-io/Adafruit/Adafruit-BusIO/Adafruit-BusIO)
 
-### 1.3 自动依赖RT-Thread软件包
-
-- RTduino
-
-### 1.4 BSP要求
+### 1.3 BSP要求
 
 - 已对接RT-Thread I2C设备驱动框架
 - 已对接RTduino Wire(I2C)
