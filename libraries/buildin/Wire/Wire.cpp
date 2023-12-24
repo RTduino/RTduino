@@ -61,7 +61,7 @@ uint8_t TwoWire::twi_readFrom(unsigned char address, unsigned char * buf, unsign
 {
     rt_uint16_t flag = RT_NULL;
 
-    if(sendStop == false)
+    if (!sendStop)
     {
         flag |= RT_I2C_NO_STOP;
     }
@@ -87,7 +87,7 @@ uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigne
 {
     rt_uint16_t flag = RT_NULL;
 
-    if(sendStop == false)
+    if (!sendStop)
     {
         flag |= RT_I2C_NO_STOP;
     }
