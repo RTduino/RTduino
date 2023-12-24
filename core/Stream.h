@@ -72,7 +72,11 @@ class Stream : public Print
     virtual int read() = 0;
     virtual int peek() = 0;
 
-    Stream() {_timeout=1000;}
+    Stream():_startMillis(0)
+    {
+        _timeout = 1000;
+    }
+    virtual ~Stream() {}
 
 // parsing methods
 
