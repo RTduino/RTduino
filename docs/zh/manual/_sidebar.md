@@ -12,3 +12,4 @@
   - [如何为RT-Thread BSP适配RTduino](/zh/manual/adapt/bsp/bsp.md)
   - [STM32 BSP适配RTduino](/zh/manual/adapt/bsp/stm32/stm32.md)
   - [适配RTduino后功能检查清单](/zh/manual/adapt/bsp/func-checklist.md)
+  - [pinout-generator 软件如何新增MCU支持](/zh/manual/adapt/bsp/add-mcu.md)
