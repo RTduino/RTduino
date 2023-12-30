@@ -16,15 +16,17 @@ Env 是 RT-Thread 推出的开发辅助工具，针对基于 RT-Thread 操作系
 
 ## 2 安装Env工具
 
-### 2.1 Windows 10安装Env
+<!-- tabs:start -->
+
+## ** Windows 10安装Env **
 
 对于Windows 10及以上的操作系统，可以直接利用其内置的Powershell终端作为平台。
 
-#### 2.1.1 下载于安装
+### 2.1 下载与安装
 
 需要以**管理员身份**运行 PowerShell 来执行如下三行命令即可自动下载并安装Env。
 
-对于身在中国大陆的用户，请使用如下命令（使用[Gitee镜像源](https://gitee.com/RT-Thread-Mirror/env)下载）：
+对于身在**中国大陆**的用户，请使用如下命令（使用[Gitee镜像源](https://gitee.com/RT-Thread-Mirror/env)下载）：
 
 ``` shell
 wget https://gitee.com/RT-Thread-Mirror/env/raw/master/install_windows.ps1 -O install_windows.ps1
@@ -32,7 +34,7 @@ set-executionpolicy remotesigned
 .\install_windows.ps1 --gitee
 ```
 
-对于身在中国大陆之外的用户，请使用如下命令（使用[Github开发源](https://github.com/RT-Thread/env)下载）：
+对于身在**中国大陆之外**的用户，请使用如下命令（使用[Github开发源](https://github.com/RT-Thread/env)下载）：
 
 ``` shell
 wget https://raw.githubusercontent.com/RT-Thread/env/master/install_windows.ps1 -O install_windows.ps1
@@ -40,30 +42,42 @@ set-executionpolicy remotesigned
 .\install_windows.ps1
 ```
 
-#### 2.1.2 环境变量设置
+### 2.2 环境变量设置
 
-打开 `C:\Users\user\Documents\WindowsPowerShell`，如果没有`WindowsPowerShell`则新建该文件夹。新建文件 `Microsoft.PowerShell_profile.ps1`，然后写入 `~/.env/env.ps1` 命令保存并重启 Powershell，`Microsoft.PowerShell_profile.ps1` 文件内的命令将会在每次启动 Powershell 终端时，均会自动初始化Env环境变量，无需手动初始化。
+**以下操作仅需做一次**
 
-在Windows Powershell终端下默认不安装任何工具链，因此如果想要用 `scons` 命令编译工程以及能使用 QEMU，则需要再添加工具链路径和 QEMU 路径，例如：
+#### 2.2.1 Env环境变量设置
+
+打开 `C:\Users\user\Documents\WindowsPowerShell`，如果没有 `WindowsPowerShell` 则新建该文件夹。新建文件 `Microsoft.PowerShell_profile.ps1`，然后写入 `~/.env/env.ps1` 命令保存并重启 Powershell，`Microsoft.PowerShell_profile.ps1` 文件内的命令将会在每次启动 Powershell 终端时，均会自动初始化Env环境变量，无需手动初始化。
 
 ``` shell
 ~/.env/env.ps1
-$env:RTT_EXEC_PATH="your toolchain path (e.g. C:\xxx\bin)"
-$env:path="your QEMU path;$env:path"
+```
+
+#### 2.2.2 编译工具链下载与环境变量设置
+
+在Windows Powershell终端下默认不安装任何工具链，因此如果想要用 `scons` 命令直接编译，需要下载对应工具链，并将工具链所在路径添加到环境变量中。
+
+这里以 `arm-none-eabi-gcc` 工具链为例，这个工具链是最常用的工具链，ARM架构平台（如STM32）普遍使用的工具链。我们[下载](https://developer.arm.com/downloads/-/gnu-rm)并安装工具链。
+
+![armtoolchain-download](./figures/armtoolchain-download.png)
+
+打开上一小节刚刚提到的 `Microsoft.PowerShell_profile.ps1` 文件，并附加工具链bin文件夹所在路径，例如：
+
+``` shell
+~/.env/env.ps1 # 上一小节已经添加过，无需再重复添加
+$env:RTT_EXEC_PATH="C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\bin"
 ```
 
 > 注：
-> Windows Powershell平台在执行上述Env下载、安装命令时，不会自动安装工具链，因此要根据板卡的型号自行下载、安装并向Env指定工具链的位置。
-> 例如，`arm-none-eabi-gcc` 的[下载地址](https://developer.arm.com/downloads/-/gnu-rm)
-
-#### 2.1.3 注意
-
-1. Powershell 要以管理员身份打开；
-2. 将其设置为 remotesigned 后，您可以作为普通用户运行 PowerShell；
-3. 一定要关闭杀毒软件，否则安装过程可能会被杀毒软件强退；
+> 
+> 1. 开启VPN可能会影响clone，请关闭VPN；
+> 2. Powershell 要以管理员身份打开；
+> 3. 将其设置为 remotesigned 后，您可以作为普通用户运行 PowerShell；
+> 4. 一定要关闭杀毒软件，否则安装过程可能会被杀毒软件强退。
 
 
-### 2.2 Windows 7安装Env
+## ** Windows 7安装Env **
 
 Windows 7操作系统使用第三方终端ConEmu作为平台。RT-Thread基于ConEmu终端集成了所有Env功能，下载最新发布版本（.7z压缩包）并解压即可使用。
 
@@ -72,18 +86,19 @@ Windows 7操作系统使用第三方终端ConEmu作为平台。RT-Thread基于Co
 具体安装方法参见[RT-Thread文档中心](https://www.rt-thread.org/document/site/#/development-tools/env/env?id=env-%e7%9a%84%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95)。
 
 > 注：
-> Env-ConEmu 版本会内置QEMU以及 `arm-none-eabi-gcc`，编译ARM平台的BSP时可以直接 `scons` 编译。无需额外设置工具链的环境变量。
+> 
+> 1. Env-ConEmu 版本会内置QEMU以及 `arm-none-eabi-gcc`，编译ARM平台的BSP时可以直接 `scons` 编译。无需额外设置工具链的环境变量。
 
 
-### 2.3 Ubuntu安装Env
+## ** Ubuntu安装Env **
 
 对于Ubuntu操作系统，可以直接利用其内置的终端作为平台。
 
-#### 2.3.1 下载与安装
+### 2.1 下载与安装
 
 打开终端，并执行如下三行命令即可自动下载并安装Env。
 
-对于身在中国大陆的用户，请使用如下命令（使用[Gitee镜像源](https://gitee.com/RT-Thread-Mirror/env)拉取）：
+对于身在**中国大陆**的用户，请使用如下命令（使用[Gitee镜像源](https://gitee.com/RT-Thread-Mirror/env)拉取）：
 
 ``` shell
 wget https://gitee.com/RT-Thread-Mirror/env/raw/master/install_ubuntu.sh
@@ -91,7 +106,7 @@ chmod 777 install_ubuntu.sh
 ./install_ubuntu.sh --gitee
 ```
 
-对于身在中国大陆之外的用户，请使用如下命令（使用[Github开发源](https://github.com/RT-Thread/env)拉取）：
+对于身在**中国大陆之外**的用户，请使用如下命令（使用[Github开发源](https://github.com/RT-Thread/env)拉取）：
 
 ``` shell
 wget https://raw.githubusercontent.com/RT-Thread/env/master/install_ubuntu.sh
@@ -99,13 +114,16 @@ chmod 777 install_ubuntu.sh
 ./install_ubuntu.sh
 ```
 
-#### 2.3.2 环境变量设置
+### 2.2 环境变量设置
 
 打开 `~/.bashrc` 文件，将 `source ~/.env/env.sh` 这行命令附加在改文件末尾，保存并退出。这样，每次启动终端时，均会自动初始化Env环境变量，无需手动初始化。
 
 > 注：
-> Ubuntu终端窗口下的Env在执行上述下载、安装命令时会自动安装 `arm-none-eabi-gcc` 工具链。
+> 
+> 1. Ubuntu终端窗口下的Env在执行上述下载、安装命令时会自动安装 `arm-none-eabi-gcc` 工具链。但如需其他平台的工具链，需要用户手动安装。
+> 2. 开启VPN可能会影响clone，请关闭VPN。
 
+<!-- tabs:end -->
 
 ## 3 Env工具的使用
 
