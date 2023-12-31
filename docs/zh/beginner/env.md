@@ -18,7 +18,7 @@ Env 是 RT-Thread 推出的开发辅助工具，针对基于 RT-Thread 操作系
 
 <!-- tabs:start -->
 
-## ** Windows 10安装Env **
+## ** Windows 10 **
 
 ### 2.1 下载与安装
 
@@ -73,7 +73,7 @@ $env:RTT_EXEC_PATH="C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10
 > 2. 一定要关闭杀毒软件，否则安装过程可能会被杀毒软件强退。
 
 
-## ** Windows 7安装Env **
+## ** Windows 7 **
 
 ### 2.1 下载与安装
 
@@ -91,7 +91,7 @@ Windows 7操作系统使用第三方终端ConEmu作为平台。RT-Thread基于Co
 > 2. 因为需要设置 Env 进程的环境变量，第一次启动可能会出现杀毒软件误报的情况，如果遇到了杀毒软件误报，请允许 Env 相关程序运行，然后将相关程序添加至白名单即可。
 
 
-## ** Ubuntu安装Env **
+## ** Ubuntu **
 
 ### 2.1 下载与安装
 
@@ -150,7 +150,7 @@ git clone https://gitee.com/rtthread/rt-thread.git
 
 如果您身在中国大陆之外，请选择GitHub代码托管平台。
 
-#### 3.1.2 方法1 - 直接下载RT-Thread zip源码压缩包
+#### 3.1.1 方法1 - 直接下载RT-Thread zip源码压缩包
 
 仓库地址：https://github.com/RT-Thread/rt-thread
 
@@ -182,16 +182,16 @@ Env config --->
 
 其中：
 
-- `Auto update pkgs config`：退出 `menuconfig` 后是否自动下载选定的软件包，默认为选定。
+- `Auto update pkgs config`：退出 menuconfig 后是否自动下载选定的软件包，默认为选定。
 - `Select download server`：选择下载软件包时的服务器，默认为根据IP或时区自动确定下载服务器，也可以手动选择使用Gitee或GitHub服务器下载软件包。
-- `Auto create a Keil-MDK or IAR project`：退出 `menuconfig` 界面后是否自动生成Keil-MDK/IAR工程，默认不选定。RTduino不涉及，无需理会。
+- `Auto create a Keil-MDK or IAR project`：退出 menuconfig 界面后是否自动生成Keil-MDK/IAR工程，默认不选定。RTduino不涉及，无需理会。
 - `Send usage data for improve product`：向RT-Thread官方发送统计数据，用于RT-Thread统计软件包使用情况，默认为选定。
 
 #### 3.2.2 menuconfig 配置界面
 
 在PowerShell终端下，键入 `menuconfig` 命令，并进入到图形化配置界面中。
 
-在 `menuconfig` 界面中，操作功能键如下：
+在 menuconfig 界面中，操作功能键如下：
 
 - 上下方向键，或者数字区小键盘的加减按键用于控制上下功能的选择
 - 空格键用于选定（使能）某个功能
@@ -199,7 +199,7 @@ Env config --->
 - ESC用于返回上一级或者连续按ESC可以退出，退出前会提示是否保存当前配置，一般选择Yes。
 - 字母H键为帮助建，用于查看某个选项的详细信息
 
-在 `menuconfig` 界面中，选择使能RTduino：
+在 menuconfig 界面中，选择使能RTduino：
 
 ```Kconfig
 Hardware Drivers Config --->
@@ -258,7 +258,7 @@ optional arguments:
 
 #### 3.3.2 下载、更新、删除软件包
 
-在下载、更新软件包前，需要先在 `menuconfig` 中 **开启** 你想要操作的软件包
+在下载、更新软件包前，需要先在 menuconfig 中 **开启** 你想要操作的软件包
 
 这些软件包位于 `RT-Thread online packages` 菜单下，进入该菜单后，则可以看如下软件包分类：
 
@@ -267,7 +267,7 @@ optional arguments:
 找到你需要的软件包然后选中开启，保存并退出 menuconfig 。此时软件包已被标记选中，但是还没有下载到本地，所以还无法使用。
 
 - **下载** ：如果软件包在本地已被选中，但是未下载，此时输入：`pkgs --update` ，该软件包自动下载；
-- **自动下载** ：如果执行过`menuconfig -s` 命令并选中了 `Auto update pkgs config` 选项，则在menuconfig界面退出时自动执行 `pkgs --update`命令并下载选中和依赖的软件包；
+- **自动下载** ：如果执行过`menuconfig -s` 命令并选中了 `Auto update pkgs config` 选项，则在 menuconfig 界面退出时自动执行 `pkgs --update`命令并下载选中和依赖的软件包；
 - **更新** ：如果选中的软件包在服务器端有更新，并且版本号选择的是 **latest** 。此时输入： `pkgs --update` ，该软件包将会在本地进行更新；
 - **删除** ：某个软件包如果无需使用，需要先在 menuconfig 中取消其的选中状态，然后再执行： `pkgs --update` 。此时本地已下载但未被选中的软件包将会被删除。
 
