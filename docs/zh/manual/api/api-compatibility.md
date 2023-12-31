@@ -157,7 +157,8 @@
 |                                                                                              | [attached()](https://www.arduino.cc/reference/en/libraries/servo/attached/)                                                  | √    | ×    |                                                                                                                   |
 |                                                                                              | [detach()](https://www.arduino.cc/reference/en/libraries/servo/detach/)                                                      | √    | ×    |                                                                                                                   |
 
-> 注：
+> ⚠️注意：
+> 
 > 1. 未特殊注明的函数均为Arduino标准API，即在任何Arduino官方板卡中均可使用的API；
 > 2. 带有“Arduino 扩展API”字样的注明，表示该API仅在Arduino部分官方板卡中支持，但RTduino依然予以全面支持；
 > 3. 带有“RTduino 扩展API”字样的注明，表示该API为非Arduino官方API，为RTduino自己的扩展API；

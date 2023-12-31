@@ -186,7 +186,7 @@ pinout-generator是为了方便用户将BSP对接到[RTduino](https://github.com
 
 ![generator-maingui](figures/generator-maingui.png)
 
-> 注意
+> ⚠️注意：
 >
 > 完成项目配置后，请点击**保存配置**。
 
@@ -257,7 +257,7 @@ pinout-generator是为了方便用户将BSP对接到[RTduino](https://github.com
 
 ![generator-spi2](figures/generator-spi2.png)
 
-> 注意：
+> ⚠️注意：
 >
 > 这次只是单纯使用CubeMX生成跟SPI引脚初始化有关的代码，生成完代码后，建议重新恢复CubeMX工程。
 

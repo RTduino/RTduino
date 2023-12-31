@@ -1,4 +1,5 @@
 - [RTduino](/zh/beginner/rtduino.md)
 - [RT-Thread](/zh/beginner/rt-thread.md)
-- [编译环境搭建-Env](/zh/beginner/env-setup.md)
+- [Env编译环境搭建](/zh/beginner/env.md)
+- [使用VSCode开发RTduino](/zh/beginner/vscode.md)
 - [HelloWorld-点亮一颗LED](/zh/beginner/helloworld-led.md)
