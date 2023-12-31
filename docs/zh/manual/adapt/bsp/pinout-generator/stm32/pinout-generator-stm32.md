@@ -1,6 +1,6 @@
-# STM32 BSP适配RTduino
+# 为 STM32 BSP 适配 RTduino
 
-我们以 [STM32F411RE Nucleo-64开发板](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) 为例进行对接。
+我们以 [STM32F411RE Nucleo-64开发板](https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32f411-st-nucleo/applications/arduino_pinout) 为例，讲解如何使用 **pinout-generator** 软件辅助对接RTduino。
 
 ## 1 检查是否具有底层驱动
 
@@ -174,9 +174,9 @@ config BSP_USING_STLINK_TO_USART
     default y
 ```
 
-剩下的东西可以使用一个软件来完成！
-
 ## 4 pinout-generator工具
+
+剩下的就可以使用一个软件来完成！
 
 pinout-generator是为了方便用户将BSP对接到[RTduino](https://github.com/RTduino/RTduino)上而设计的一个自动化源文件生成工具。下面介绍如何使用本软件，并将该BSP对接到RTduino上。
 

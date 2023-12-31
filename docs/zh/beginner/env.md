@@ -166,7 +166,7 @@ git clone https://github.com/RT-Thread/rt-thread.git
 
 ### 3.2 基本命令与编译BSP
 
-这里以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例，需要进入到 `rt-thread/bsp/stm32/stm32f411-st-nucleo` 文件夹下，按住Shift键+右键邮件，点击“在此处打开PowerShell窗口”。
+这里以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例，需要进入到 `rt-thread/bsp/stm32/stm32f411-st-nucleo` 文件夹下，按住Shift键+单击鼠标右键，点击**在此处打开PowerShell窗口**。
 
 #### 3.2.1 menuconfig -s 预设配置界面
 
