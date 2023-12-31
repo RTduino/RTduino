@@ -32,7 +32,10 @@
 SPIClass SPI;
 
 /* Pins that are not spi by default can be converted by this function */
-rt_weak void switchToSPI(const char *bus_name) {}
+rt_weak void switchToSPI(const char *bus_name)
+{
+    RT_UNUSED(bus_name);
+}
 
 void SPIClass::begin(const char *spi_bus_name)
 {
@@ -202,6 +205,8 @@ void SPIClass::setDataMode(uint8_t dataMode)
 
 void SPIClass::setClockDivider(uint8_t clockDiv)
 {
+    RT_UNUSED(clockDiv);
+
     this->_spi_bus_device.config.max_hz = 100000;
     this->_spi_bus_device.bus->ops->configure(&this->_spi_bus_device, &this->_spi_bus_device.config);
 }

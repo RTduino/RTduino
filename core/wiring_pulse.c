@@ -32,6 +32,8 @@ static struct
 
 static void pulsein_pin_interrupt_cb(void *args)
 {
+    RT_UNUSED(args);
+
     if(pulse_record.first_pulse_coming == RT_FALSE
         && pulse_record.second_pulse_coming == RT_FALSE
         && rt_pin_read(pulse_record.rt_isr_pin) == pulse_record.state)

@@ -191,6 +191,7 @@ void TwoWire::end(void)
 void TwoWire::setClock(uint32_t frequency)
 {
     /* Nothing needs to do */
+    RT_UNUSED(frequency);
 }
 
 /***
@@ -221,6 +222,8 @@ void TwoWire::setClock(uint32_t frequency)
 void TwoWire::setWireTimeout(uint32_t timeout, bool reset_with_timeout)
 {
     /* Nothing needs to do */
+    RT_UNUSED(timeout);
+    RT_UNUSED(reset_with_timeout);
 }
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop)
