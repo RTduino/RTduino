@@ -32,6 +32,7 @@
 */
 
 #include <stdlib.h>
+#include <Arduino.h>
 
 void randomSeed(unsigned long seed)
 {
