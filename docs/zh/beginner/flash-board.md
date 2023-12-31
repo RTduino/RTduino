@@ -15,13 +15,13 @@
 
 <!-- tabs:start -->
 
-## ** STM32 Nucleo **
+## ** STM32 Nucleo (Windows 10) **
 
 这里以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例，需要进入到 `rt-thread/bsp/stm32/stm32f411-st-nucleo` 文件夹下，按住Shift键+右键邮件，点击“在此处打开PowerShell窗口”。
 
 ### 2.1 使能RTduino
 
-在 `menuconfig` 界面中，选择使能RTduino：
+在 menuconfig 界面中，选择使能RTduino：
 
 ```Kconfig
 Hardware Drivers Config --->
@@ -74,6 +74,6 @@ Hardware Drivers Config --->
 
 至此，你的RTduino程序就在板卡上运行起来了！
 
-## ** Raspberry Pi Pico **
+## ** Raspberry Pi Pico (Ubuntu)**
 
 <!-- tabs:end -->
