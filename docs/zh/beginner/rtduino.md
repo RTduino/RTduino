@@ -6,7 +6,9 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 ![framework](./figures/rtduino-framework.png)
 
-> 注：RTduino 要求 RT-Thread 版本至少为4.1.1
+> ⚠️注意：
+> 
+> 1. RTduino 要求 RT-Thread 版本至少为4.1.1
 
 ## 2 已经适配RTduino的RT-Thread BSP
 
