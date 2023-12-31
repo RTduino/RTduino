@@ -2,4 +2,5 @@
 - [RT-Thread](/zh/beginner/rt-thread.md)
 - [Env编译环境搭建](/zh/beginner/env.md)
 - [使用VSCode开发RTduino](/zh/beginner/vscode.md)
+- [向板卡烧录程序](/zh/beginner/flash-board.md)
 - [HelloWorld-点亮一颗LED](/zh/beginner/helloworld-led.md)
