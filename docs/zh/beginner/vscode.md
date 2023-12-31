@@ -2,11 +2,13 @@
 
 **待补充**
 
+## 1 下载VSCode并安装
+
 到[VSCode官网](https://code.visualstudio.com)下载VSCode并安装。
 
 在RT-Thread 某个BSP板卡目录打开Env终端（例如PowerShell）使用 `scons --target=vsc` 生成VSCode工程
 
-![](figures/target_vsc.png)
+![target_vsc](figures/target_vsc.png)
 
 在Env终端（例如PowerShell）输入 `code .` 基于当前路径来打开VSCode工程。
 
