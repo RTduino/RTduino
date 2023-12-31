@@ -55,7 +55,7 @@ long random(long howsmall, long howbig)
     return random(diff) + howsmall;
 }
 
-uint16_t  makeWord(uint16_t w)
+uint16_t makeWord(uint16_t w)
 {
     return w;
 }

@@ -27,6 +27,8 @@ static uint32_t _analog_pwm_hz = 500; /* default: Arduino UNO's PWM is around 50
 
 void analogReference(uint8_t mode)
 {
+    RT_UNUSED(mode);
+
     LOG_E("analogReference() has not been implemented yet!");
 }
 
