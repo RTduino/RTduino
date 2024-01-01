@@ -42,8 +42,6 @@ set-executionpolicy remotesigned
 
 ### 2.2 环境变量设置
 
-**以下操作仅需做一次**
-
 #### 2.2.1 Env环境变量设置
 
 打开 `C:\Users\user\Documents\WindowsPowerShell`，如果没有`WindowsPowerShell`则新建该文件夹。新建文件 `Microsoft.PowerShell_profile.ps1`，然后写入 `~/.env/env.ps1` 命令保存并重启 Powershell，`Microsoft.PowerShell_profile.ps1` 文件内的命令将会在每次启动 Powershell 终端时，均会自动初始化Env环境变量，无需手动初始化。
@@ -169,6 +167,8 @@ git clone https://github.com/RT-Thread/rt-thread.git
 这里以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例，需要进入到 `rt-thread/bsp/stm32/stm32f411-st-nucleo` 文件夹下，按住Shift键+单击鼠标右键，点击**在此处打开PowerShell窗口**。
 
 #### 3.2.1 menuconfig -s 预设配置界面
+
+⚠️**本节内容仅需操作一次，无需每次都操作一遍**
 
 如果这是你第一次使用Env，请先键入命令 `menuconfig -s`，用于检查和设置软件包的下载行为，这些设置只需要设置一次即可。
 
