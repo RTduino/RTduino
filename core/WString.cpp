@@ -517,6 +517,12 @@ unsigned char String::endsWith( const String &s2 ) const
 /*  Character Access                         */
 /*********************************************/
 
+/**
+ * Returns the character at the specified index in the string.
+ *
+ * @param loc The index of the character to retrieve.
+ * @return The character at the specified index.
+ */
 char String::charAt(unsigned int loc) const
 {
     return operator[](loc);
@@ -649,6 +655,15 @@ void String::replace(char find, char replace)
     }
 }
 
+/**
+ * @brief Replaces all occurrences of a substring with another substring.
+ * 
+ * This function replaces all occurrences of the `find` substring with the `replace` substring
+ * within the current string object.
+ * 
+ * @param find The substring to be replaced.
+ * @param replace The substring to replace the occurrences of `find`.
+ */
 void String::replace(const String& find, const String& replace)
 {
     if (len == 0 || find.len == 0) return;

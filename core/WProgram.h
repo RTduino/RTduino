@@ -31,7 +31,7 @@ in their usage and historical context.
    - It provided similar functionality as `Arduino.h` by including essential definitions and declarations.
    - In the Arduino 1.0 release and later, `WProgram.h` was replaced with `Arduino.h` for compatibility with the evolving Arduino ecosystem.
 
-In summary, if you're using a recent version of the Arduino IDE, it's recommended to use `Arduino.h` in your sketches. 
+In summary, if you're using a recent version of the Arduino IDE, it's recommended to use `Arduino.h` in your sketches.
 However, for older projects or if you encounter code that uses `WProgram.h`, it's likely that you're working with code
 that was written for an older version of the Arduino IDE, and you may need to update it to use `Arduino.h` for compatibility with newer IDE versions.
 */
