@@ -26,10 +26,8 @@ void loop() {
 因为底层已经将对应的PWM、ADC或DAC的IO设置为模拟输入或者复用推挽，调用pinMode之后把IO模式改成了纯输入输出，原有的PWM、ADC或DAC功能将无法使用。该问题无要修正，只需要知道调用analogRead和analogWrite的时候不需要设置pinMode即可。一旦调用pinMode，该引脚将丧失analogWrite或者analogRead功能，后续只能当做普通IO使用。
 Arduino [官方文档](https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/)也是这么建议的：
 
-```markdown
-You do not need to call pinMode() to set the pin as an output before calling analogWrite().
-The analogWrite function has nothing to do with the analog pins or the analogRead function.
-```
+> You do not need to call pinMode() to set the pin as an output before calling analogWrite().
+> The analogWrite function has nothing to do with the analog pins or the analogRead function.
 
 用户如果对PWM、ADC或DAC引脚使用pinMode函数，在终端也会给出警告：
 
@@ -47,7 +45,7 @@ The analogWrite function has nothing to do with the analog pins or the analogRea
 
 这句话将串口默认初始化成波特率为9600. 但是在RT-Thread中，串口的初始化实际是有RT-Thread驱动框架负责的，并且默认波特率为115200. 因此如果调用`Serial.begin(9600)` 函数后，串口的波特率将会从默认的115200调整为9600。如果你的终端或者串口助手还保持在115200的波特率，那么接收数据将出现乱码。
 
-**因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口波特率配置，不重新配置串口波特率。
+⚠️**因此建议：** 使用`Serial.begin()`代替`Serial.begin(9600)`。`Serial.begin()`无参数方法是RTduino的扩充方法，其表示跟随使用RT-Thread串口波特率配置，不重新配置串口波特率。
 
 ### 1.3 SPI.begin() / Wire.begin()
 
