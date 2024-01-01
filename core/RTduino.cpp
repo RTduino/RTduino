@@ -123,8 +123,11 @@ static void hwtimer_1us_init(void)
 }
 #endif /* RTDUINO_1US_HWTIMER_DEVICE_NAME */
 
-/* initialization for BSP; maybe a blank function  */
-rt_weak void initVariant(void) {}
+/* initialization for BSP */
+rt_weak void initVariant(void)
+{
+    /* maybe a blank function and does nothing */
+}
 
 static int rtduino_init(void)
 {
