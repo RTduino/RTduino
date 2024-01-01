@@ -1,2 +1,3 @@
-- [如何提交代码](/zh/contribute/pr.md)
+- [如何增改文档](/zh/contribute/documents.md)
 - [如何提交问题](/zh/contribute/issue.md)
+- [如何提交代码](/zh/contribute/pr.md)
