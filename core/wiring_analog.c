@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -25,31 +25,61 @@ static uint32_t _analog_pwm_hz = 500; /* default: Arduino UNO's PWM is around 50
 
 #define PWM_PERIOD_NS (1000*1000*1000/*ns*//_analog_pwm_hz)
 
+/**
+ * @brief Set the reference voltage for analog input.
+ *
+ * This function is not yet implemented.
+ *
+ * @param mode The reference voltage mode.
+ */
 void analogReference(uint8_t mode)
 {
     RT_UNUSED(mode);
 
-    LOG_E("analogReference() has not been implemented yet!");
+    LOG_E("analogReference() is not yet implemented!");
 }
 
-/* set analogRead resolution */
+/**
+ * @brief Set the resolution (number of bits) for analogRead() function.
+ *
+ * @param bits The resolution in bits.
+ */
 void analogReadResolution(uint8_t bits)
 {
     _analog_read_resolution = bits;
 }
 
-/* set analogWrtie resolution */
+/**
+ * @brief Set the resolution (number of bits) for analogWrite() function.
+ *
+ * @param bits The resolution in bits.
+ */
 void analogWriteResolution(uint8_t bits)
 {
     _analog_write_resolution = bits;
 }
 
-/* set analogWrtie frequency */
+/**
+ * @brief Set the PWM frequency (in Hz) for analogWrite() function.
+ *
+ * @param frequency The frequency in Hz.
+ */
 void analogWriteFrequency(uint32_t frequency)
 {
     _analog_pwm_hz = frequency;
 }
 
+/**
+ * @brief Write an analog value to a PWM or DAC pin.
+ *
+ * This function writes an analog value to the specified pin.
+ * If the pin supports PWM, the analog value is converted to a PWM duty cycle and applied to the pin.
+ * If the pin supports DAC, the analog value is converted to a DAC value and applied to the pin.
+ * If the pin does not support PWM or DAC, the function falls back to digital write.
+ *
+ * @param pin The pin number.
+ * @param val The analog value to write.
+ */
 void analogWrite(uint8_t pin, int val)
 {
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
@@ -101,6 +131,16 @@ void analogWrite(uint8_t pin, int val)
     }
 }
 
+/**
+ * @brief Read an analog value from an ADC pin.
+ *
+ * This function reads an analog value from the specified pin.
+ * If the pin supports ADC, the analog value is read from the pin.
+ * If the pin does not support ADC, an error message is logged and 0 is returned.
+ *
+ * @param pin The pin number.
+ * @return The analog value read from the pin. If the pin does not support ADC, 0 is returned.
+ */
 int analogRead(uint8_t pin)
 {
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, 0); /* with return value */

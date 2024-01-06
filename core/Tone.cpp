@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -116,11 +116,11 @@ void noTone(uint8_t pin)
 #else
 rt_weak void tone(uint8_t pin, unsigned int frequency, unsigned long duration)
 {
-    LOG_E("tone() has not been implemented yet, please define RTDUINO_TONE_HWTIMER_DEVICE_NAME in pins_arduino.h!");
+    LOG_E("tone() is not yet implemented, please define RTDUINO_TONE_HWTIMER_DEVICE_NAME in pins_arduino.h!");
 }
 
 rt_weak void noTone(uint8_t pin)
 {
-    LOG_E("noTone() has not been implemented yet, please define RTDUINO_TONE_HWTIMER_DEVICE_NAME in pins_arduino.h!");
+    LOG_E("noTone() is not yet implemented, please define RTDUINO_TONE_HWTIMER_DEVICE_NAME in pins_arduino.h!");
 }
 #endif /* RTDUINO_TONE_HWTIMER_DEVICE_NAME */

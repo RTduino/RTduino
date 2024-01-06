@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -21,6 +21,14 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
+/**
+ * @brief Entry point for the sketch loader thread.
+ *
+ * This function is the entry point for the sketch loader thread.
+ * It calls the setup function once, and then enters an infinite loop calling the loop function repeatedly.
+ *
+ * @param parameter A pointer to the sketch loader.
+ */
 static void rtduino_sketch_entry(void *parameter)
 {
     rtduino_loader_t loader = (rtduino_loader_t)parameter;
@@ -31,6 +39,16 @@ static void rtduino_sketch_entry(void *parameter)
     }
 }
 
+/**
+ * @brief Creates a sketch loader with the specified name, setup function, loop function, stack size, and priority.
+ *
+ * @param name The name of the sketch loader.
+ * @param setup The setup function of the sketch.
+ * @param loop The loop function of the sketch.
+ * @param stack_size The stack size of the sketch loader thread.
+ * @param priority The priority of the sketch loader thread.
+ * @return A pointer to the created sketch loader, or RT_NULL if the creation failed.
+ */
 rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name,
         void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size, rt_uint8_t priority)
 {
@@ -68,6 +86,12 @@ rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name,
     return loader;
 }
 
+/**
+ * @brief Deletes the specified sketch loader.
+ *
+ * @param loader A pointer to the sketch loader to delete.
+ * @return RT_EOK if the deletion is successful, or a negative RT-Thread error code if the deletion failed.
+ */
 rt_err_t rtduino_sketch_loader_delete(rtduino_loader_t loader)
 {
     rt_err_t err;
@@ -87,7 +111,9 @@ rt_err_t rtduino_sketch_loader_delete(rtduino_loader_t loader)
 }
 
 #ifdef RTDUINO_1US_HWTIMER_DEVICE_NAME
-/*
+/**
+ * @brief Initializes the hardware timer used for the `macros()` function, if available.
+ *
  * This hardware timer is to support the macros() function to deliver a
  * 1us level counter. Normally, there should be some other option will be
  * used. This timer just a alternative feature. If there is no other functions
@@ -123,12 +149,28 @@ static void hwtimer_1us_init(void)
 }
 #endif /* RTDUINO_1US_HWTIMER_DEVICE_NAME */
 
-/* initialization for BSP */
+/**
+ * @brief Initializes the BSP variant.
+ *
+ * This function is called during library initialization to initialize the BSP variant.
+ * It can be left blank if no initialization is required.
+ */
 rt_weak void initVariant(void)
 {
     /* maybe a blank function and does nothing */
 }
 
+/**
+ * @brief Initializes the RTduino.
+ *
+ * This function is called during RT-Thread initialization to initialize the RTduino library.
+ * It initializes:
+ *  - the hardware timer (if available)
+ *  - calls the `initVariant()` function to initialize the BSP variant
+ *  - creates the sketch loader
+ *
+ * @return RT_EOK if the initialization is successful.
+ */
 static int rtduino_init(void)
 {
 #ifdef RTDUINO_1US_HWTIMER_DEVICE_NAME

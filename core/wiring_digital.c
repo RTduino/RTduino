@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -21,6 +21,14 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
+/**
+ * @brief Configures the specified pin to behave either as an digital input or an output.
+ *        This function can only be used for digitalRead() and digitalWrite().
+ *        For analogRead() or analogWrite(), please DO NOT use this function to configure the pin.
+ *
+ * @param pin The number of the pin to be configured.
+ * @param mode The mode to set for the pin (INPUT, OUTPUT, INPUT_PULLUP, INPUT_PULLDOWN, OUTPUT_OPEN_DRAIN).
+ */
 void pinMode(uint8_t pin, uint8_t mode)
 {
     rt_base_t rt_mode;
@@ -61,6 +69,12 @@ void pinMode(uint8_t pin, uint8_t mode)
     rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
 }
 
+/**
+ * @brief Writes a HIGH or a LOW value to a digital pin.
+ *
+ * @param pin The number of the pin to write to.
+ * @param val The value to write (HIGH or LOW).
+ */
 void digitalWrite(uint8_t pin, uint8_t val)
 {
     rt_base_t rt_val;
@@ -81,6 +95,12 @@ void digitalWrite(uint8_t pin, uint8_t val)
     rt_pin_write(pin_map_table[pin].rt_pin, rt_val);
 }
 
+/**
+ * @brief Reads the value from a specified digital pin, either HIGH or LOW.
+ *
+ * @param pin The number of the pin to read from.
+ * @return The value read from the pin (HIGH or LOW).
+ */
 int digitalRead(uint8_t pin)
 {
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, LOW); /* with return value */

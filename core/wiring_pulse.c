@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -28,20 +28,20 @@ static struct
     unsigned long second_pulse_timestamp_us;
     rt_uint8_t state;
     rt_int32_t rt_isr_pin;
-}pulse_record;
+} pulse_record;
 
 static void pulsein_pin_interrupt_cb(void *args)
 {
     RT_UNUSED(args);
 
-    if(pulse_record.first_pulse_coming == RT_FALSE
+    if (pulse_record.first_pulse_coming == RT_FALSE
         && pulse_record.second_pulse_coming == RT_FALSE
         && rt_pin_read(pulse_record.rt_isr_pin) == pulse_record.state)
     {
         pulse_record.first_pulse_timestamp_us = micros();
         pulse_record.first_pulse_coming = RT_TRUE;
     }
-    else if(pulse_record.first_pulse_coming == RT_TRUE
+    else if (pulse_record.first_pulse_coming == RT_TRUE
         && pulse_record.second_pulse_coming == RT_FALSE
         && rt_pin_read(pulse_record.rt_isr_pin) != pulse_record.state)
     {
@@ -56,12 +56,17 @@ static void pulsein_pin_interrupt_cb(void *args)
     }
 }
 
-/* Measures the length (in microseconds) of a pulse on the pin; state is HIGH
- * or LOW, the type of pulse to measure.  Works on pulses from 2-3 microseconds
- * to 3 minutes in length, but must be called at least a few dozen microseconds
- * before the start of the pulse.
+/**
+ * Measures the length (in microseconds) of a pulse on the pin.
+ * The state parameter specifies the type of pulse to measure (HIGH or LOW).
+ * The timeout parameter specifies the maximum time to wait for the pulse to complete.
+ * This function works on pulses from 2-3 microseconds to 3 minutes in length.
+ * It cannot work in noInterrupt() context.
  *
- * This function performs better with short pulses in noInterrupt() context
+ * @param pin The pin number to measure the pulse on.
+ * @param state The type of pulse to measure (HIGH or LOW).
+ * @param timeout The maximum time to wait for the pulse to complete, in microseconds.
+ * @return The length of the pulse in microseconds, or 0 if timeout or other errors occur.
  */
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 {
@@ -74,7 +79,7 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, 0); /* with return value */
 
-    if(pulsein_sem_init_flag == RT_FALSE)
+    if (pulsein_sem_init_flag == RT_FALSE)
     {
         rt_sem_init(&pulsein_sem, "pulsein", 0, RT_IPC_FLAG_PRIO);
         pulsein_sem_init_flag = RT_TRUE;
@@ -95,10 +100,10 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 
     rt_pin_attach_irq(rt_pin, PIN_IRQ_MODE_RISING_FALLING, pulsein_pin_interrupt_cb, RT_NULL);
     rt_pin_irq_enable(rt_pin, PIN_IRQ_ENABLE); /* enable interrupt */
-    rt_err = rt_sem_take(&pulsein_sem, rt_tick_from_millisecond(timeout/1000));
+    rt_err = rt_sem_take(&pulsein_sem, rt_tick_from_millisecond(timeout / 1000));
     rt_pin_irq_enable(rt_pin, PIN_IRQ_DISABLE); /* disable interrupt */
 
-    if(rt_err == RT_EOK)
+    if (rt_err == RT_EOK)
     {
         level = rt_hw_interrupt_disable();
         delta = (pulse_record.second_pulse_timestamp_us - pulse_record.first_pulse_timestamp_us);
@@ -112,13 +117,17 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
     return delta;
 }
 
-/* Measures the length (in microseconds) of a pulse on the pin; state is HIGH
- * or LOW, the type of pulse to measure.  Works on pulses from 2-3 microseconds
- * to 3 minutes in length, but must be called at least a few dozen microseconds
- * before the start of the pulse.
+/**
+ * Measures the length (in microseconds) of a pulse on the pin.
+ * The state parameter specifies the type of pulse to measure (HIGH or LOW).
+ * The timeout parameter specifies the maximum time to wait for the pulse to complete.
+ * This function works on pulses from 2-3 microseconds to 3 minutes in length.
+ * It relies on the micros() function, so it cannot be used in noInterrupt() context.
  *
- * ATTENTION:
- * this function relies on micros() so cannot be used in noInterrupt() context
+ * @param pin The pin number to measure the pulse on.
+ * @param state The type of pulse to measure (HIGH or LOW).
+ * @param timeout The maximum time to wait for the pulse to complete, in microseconds.
+ * @return The length of the pulse in microseconds, or 0 if timeout or other errors occur.
  */
 unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout)
 {
