@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *
@@ -34,6 +34,14 @@
 
 #include <Arduino.h>
 
+/**
+ * Reads a byte of data from a shift register.
+ *
+ * @param dataPin The pin connected to the data pin of the shift register.
+ * @param clockPin The pin connected to the clock pin of the shift register.
+ * @param bitOrder The order in which the bits are shifted in (LSBFIRST or MSBFIRST).
+ * @return The byte of data read from the shift register.
+ */
 uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
     uint8_t value = 0;
     uint8_t i;
@@ -49,6 +57,14 @@ uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
     return value;
 }
 
+/**
+ * Sends a byte of data to a shift register.
+ *
+ * @param dataPin The pin connected to the data pin of the shift register.
+ * @param clockPin The pin connected to the clock pin of the shift register.
+ * @param bitOrder The order in which the bits are shifted out (LSBFIRST or MSBFIRST).
+ * @param val The byte of data to be sent to the shift register.
+ */
 void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
 {
     uint8_t i;

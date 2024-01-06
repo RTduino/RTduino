@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022, RTduino Development Team
+ * Copyright (c) 2021-2024, RTduino Development Team
  *
  * SPDX-License-Identifier: LGPL-v2.1
  *
@@ -20,14 +20,32 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-/* for RT-Thread: Arduino interruptNum = Arduino pin number */
-
+/**
+ * @brief Maps a digital pin to its corresponding interrupt number.
+ *
+ * This function maps a digital pin number to its corresponding interrupt number.
+ * The interrupt number is the same as the pin number for RT-Thread.
+ *
+ * @param pin The digital pin number.
+ * @return The interrupt number corresponding to the pin.
+ */
 uint8_t digitalPinToInterrupt(uint8_t pin)
 {
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, pin); /* with return value */
     return pin;
 }
 
+/**
+ * @brief Attaches an interrupt to a specific pin.
+ *
+ * This function attaches an interrupt to a specific pin. The interrupt is triggered
+ * when the specified mode is detected on the pin. The user-defined function is called
+ * when the interrupt is triggered.
+ *
+ * @param interruptNum The interrupt number to attach the interrupt to.
+ * @param userFunc The user-defined function to be called when the interrupt is triggered.
+ * @param mode The mode in which the interrupt is triggered (LOW, HIGH, CHANGE, RISING, FALLING).
+ */
 void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
 {
     rt_int32_t rt_pin;
@@ -69,6 +87,14 @@ void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
     rt_pin_irq_enable(rt_pin, PIN_IRQ_ENABLE);
 }
 
+/**
+ * @brief Detaches an interrupt from a specific pin.
+ *
+ * This function detaches an interrupt from a specific pin. The interrupt will no longer
+ * be triggered for the pin.
+ *
+ * @param interruptNum The interrupt number to detach the interrupt from.
+ */
 void detachInterrupt(uint8_t interruptNum)
 {
     rt_int32_t rt_pin;
