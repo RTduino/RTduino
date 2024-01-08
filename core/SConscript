@@ -1,5 +1,6 @@
 import os
 from building import *
+from gcc import GetGCCLikePLATFORM
 import rtconfig
 
 cwd = GetCurrentDir()
@@ -12,7 +13,7 @@ LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
 LOCAL_CXXFLAGS = ''
 
-if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
+if rtconfig.PLATFORM in GetGCCLikePLATFORM():
     CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections' # reduce resource consumption
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
