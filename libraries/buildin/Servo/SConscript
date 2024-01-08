@@ -4,6 +4,6 @@ cwd  = GetCurrentDir()
 src = ['Servo.cpp']
 inc = [cwd]
 
-group = DefineGroup('RTduino', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_SERVO'], CPPPATH = inc)
+group = DefineGroup('RTduino-libraries', src, depend = ['PKG_USING_RTDUINO', 'RTDUINO_USING_SERVO'], CPPPATH = inc)
 
 Return('group')
