@@ -4,19 +4,22 @@ from gcc import GetGCCLikePLATFORM
 import rtconfig
 
 cwd = GetCurrentDir()
-src = Glob('*.c') + Glob('*.cpp') + Glob('avr/*.c')
-inc = [cwd]
 group = []
 
 CXXFLAGS = ''
 LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
 LOCAL_CXXFLAGS = ''
+core_cflags = ''
+core_cxxflags = ''
 
 if rtconfig.PLATFORM in GetGCCLikePLATFORM():
     CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections' # reduce resource consumption
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
+    # strict code checking
+    # core_cflags += ' -Wno-unused-function -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-label -Wno-unused-value -Wno-unused-result'
+    # core_cxxflags += ' -Wno-unused-function -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-label -Wno-unused-value -Wno-unused-result'
 elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS += ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
@@ -26,17 +29,19 @@ else:
     print('[RTduino] Unsupported rtconfig.PLATFORM: {}'.format(rtconfig.PLATFORM))
     Return('group')
 
-if GetDepend(['RTDUINO_TINY_MODE']):
-    SrcRemove(src, ['Tone.cpp', 'WInterrupts.c', 'wiring_analog.c', 'wiring_digital.c', 'wiring_pulse.c', 'wiring_shift.c'])
+core_src = Glob('*.c') + Glob('*.cpp') + Glob('avr/*.c')
 
-group = group + DefineGroup('RTduino', src,
+if GetDepend(['RTDUINO_TINY_MODE']):
+    SrcRemove(core_src, ['Tone.cpp', 'WInterrupts.c', 'wiring_analog.c', 'wiring_digital.c', 'wiring_pulse.c', 'wiring_shift.c'])
+
+group = group + DefineGroup('RTduino-core', core_src,
                             depend = ['PKG_USING_RTDUINO'],
-                            CPPPATH = inc,
+                            CPPPATH = [cwd],
                             CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
                             CXXFLAGS = CXXFLAGS,
                             LOCAL_CCFLAGS = LOCAL_CCFLAGS,
-                            LOCAL_CFLAGS = LOCAL_CFLAGS,
-                            LOCAL_CXXFLAGS = LOCAL_CXXFLAGS)
+                            LOCAL_CFLAGS = LOCAL_CFLAGS + core_cflags,
+                            LOCAL_CXXFLAGS = LOCAL_CXXFLAGS + core_cxxflags)
 
 if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
     LOCAL_CXXFLAGS += ' -include RTduino.h' # #include <RTduino.h>
