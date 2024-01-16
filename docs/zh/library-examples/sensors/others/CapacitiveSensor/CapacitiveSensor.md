@@ -1,6 +1,6 @@
 # 电容性触摸传感库
 
-## 1. 简介
+## 1 简介
 
 本节介绍如何使用 CapacitiveSensor 电容性触摸传感库实现触摸开关的设计。
 
@@ -20,10 +20,10 @@
 - 已对接RTduino基本引脚分布表(pinout)数字部分，支持函数DigitalRead()/DigitalWrite()
 - 已对接RTduino基本引脚分布表(pinout)模拟输入部分，支持函数AnalogRead()
 
-## 2. CapacitiveSensor库工作原理
+## 2 CapacitiveSensor库工作原理
 
 
-## 3. 如何运行CapacitiveSensor库
+## 3 如何运行CapacitiveSensor库
 
 ### 3.1 开启RTduino
 

@@ -1,6 +1,6 @@
 # Adafruit SHT31温湿度传感器库
 
-## 1. 简介
+## 1 简介
 
 本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将 Adafruit SHT31 温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
 
@@ -21,7 +21,7 @@ Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino�
 - 已对接RT-Thread I2C设备驱动框架
 - 已对接RTduino Wire(I2C)
 
-## 2. SHT31 温湿度传感器
+## 2 SHT31 温湿度传感器
 
 SHT3x是一款由瑞士Sensirion生产的高精度温湿度传感器。
 
@@ -29,7 +29,7 @@ SHT3x是一款由瑞士Sensirion生产的高精度温湿度传感器。
 https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf
 ```
 
-## 3. 如何运行Adafruit SHT31库
+## 3 如何运行Adafruit SHT31库
 
 本节以 `stm32f411-st-nucleo` BSP为例，讲解如何运行Adafruit SHT31驱动库。
 

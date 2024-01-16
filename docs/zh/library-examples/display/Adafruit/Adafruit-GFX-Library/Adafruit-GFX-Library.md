@@ -4,13 +4,28 @@
 
 Adafruit GFX Library是一套开源的C/C++图形库，专门用于驱动各种图形液晶显示屏（LCD）。该库的设计理念是为开发者提供简单而高效的方式来在图形液晶显示屏上创建和显示各种图形。Adafruit GFX Library的API经过精心设计，使得开发者可以轻松地控制LCD屏幕的各种特性和参数，从而在有限的时间内实现更多的创意和功能。
 
-## 2 安装与配置
+### 1.1 仓库地址
 
-### 2.1 使能Adafruit GFX库
+Adafruit GFX库是专门针对RTduino/RT-Thread适配过的，RTduino对官方上游仓库有部分修改。
 
-一般情况下，Adafruit GFX库不需要单独使能，在使用Adafruit屏幕驱动时（如Adafruit ST7735库），Env会**自动依赖Adafruit GFX库，因此用户一般情况不需要自己手动使能**。
+- 官方上游仓库（Github）：https://github.com/adafruit/Adafruit-GFX-Library
+- RTduino适配仓库（Github）：https://github.com/RTduino-libraries/Adafruit-GFX-Library
+- 镜像源（Gitee）：https://gitee.com/RT-Thread-Mirror/Adafruit-GFX-Library
 
-用户如需手动使能，例如对接一些RTduino还没有注册的Arduino屏幕驱动库，可以参考以下方法：
+### 1.2 自动依赖Arduino库
+
+- [Adafruit BusIO](/zh/library-examples/signal-io/Adafruit/Adafruit-BusIO/Adafruit-BusIO)
+
+### 1.3 BSP要求
+
+- 已对接RT-Thread I2C设备驱动框架
+- 已对接RT-Thread SPI设备驱动框架
+- 已对接RTduino Wire(I2C)
+- 已对接RTduino SPI
+
+## 2 使能Adafruit GFX库
+
+一般情况下，Adafruit GFX库不需要单独使能，在使用Adafruit屏幕驱动库时（如Adafruit ST7735库），Env会自动依赖Adafruit GFX库，因此用户一般情况不需要自己手动使能。用户如需手动使能，可以参考以下方法：
 
 使用Env进入 `menuconfig` ：
 
@@ -20,17 +35,6 @@ RT-Thread online packages --->
         Display  --->
              [*]  Adafruit-GFX-Library: Adafruit GFX graphics core library
 ```
-
-### 2.2 自动依赖Arduino库
-
-- [Adafruit BusIO](/zh/library-examples/signal-io/Adafruit/Adafruit-BusIO/Adafruit-BusIO)
-
-### 2.3 BSP要求
-
-- 已对接RT-Thread I2C设备驱动框架
-- 已对接RT-Thread SPI设备驱动框架
-- 已对接RTduino Wire(I2C)
-- 已对接RTduino SPI
 
 ## 3 Adafruit GFX Library API详细介绍及使用示例
 
