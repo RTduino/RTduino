@@ -9,7 +9,7 @@
 - 屏幕驱动类
   - Adafruit屏幕库
     - [Adafruit GFX图形库](/zh/library-examples/display/Adafruit/Adafruit-GFX-Library/Adafruit-GFX-Library.md)
-    - [Adafruit ST7735屏幕驱动](/zh/library-examples/display/Adafruit/Adafruit-ST7735/Adafruit-ST7735.md)
+    - [Adafruit ST7735屏幕驱动库](/zh/library-examples/display/Adafruit/Adafruit-ST7735/Adafruit-ST7735.md)
 
 - 信号输入输出类
   - [Adafruit BusIO库](/zh/library-examples/signal-io/Adafruit/Adafruit-BusIO/Adafruit-BusIO.md)

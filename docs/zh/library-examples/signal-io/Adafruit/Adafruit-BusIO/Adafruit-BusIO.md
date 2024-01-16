@@ -29,13 +29,13 @@ Adafruit BusIO库是专门针对RTduino/RT-Thread适配过的，RTduino对官方
 
 ## 2 使能Adafruit BusIO库
 
-一般情况下，Adafruit BusIO库不需要单独使能，在使用Adafruit 传感器驱动库时（如Adafruit AHTX0库），Env会自动依赖Adafruit BusIO库，因此用户一般情况不需要自己手动使能。用户如需手动使能，可以参考以下方法：
+一般情况下，Adafruit BusIO库不需要单独使能，在使用 Adafruit 传感器驱动库时（如 Adafruit AHTX0 库），Env会自动依赖Adafruit BusIO库，因此用户一般情况不需要自己手动使能。用户如需手动使能，可以参考以下方法：
 
 ```Kconfig
 RT-Thread online packages --->
     Arduino libraries  --->
         Signal IO  --->
-             [*] Adafruit BusIO: abstract away I2C & SPI transactions and registers
+            [*] Adafruit BusIO: abstract away I2C & SPI transactions and registers
 ```
 
 ## 3 功能与API介绍
