@@ -31,11 +31,11 @@ https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datashee
 
 ## 3 如何运行Adafruit SHT31库
 
-本节以 `stm32f411-st-nucleo` BSP为例，讲解如何运行Adafruit SHT31驱动库。
+本节以**具有Arduino UNO标准引脚布局**的BSP为例，讲解如何运行Adafruit SHT31驱动库。
 
 ### 3.1 开启RTduino
 
-使用Env进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
+在某个BSP目录下，进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
 
 ```Kconfig
 Hardware Drivers Config --->
@@ -56,7 +56,7 @@ RT-Thread online packages --->
 
 ### 3.3 硬件连接
 
-SHT31传感器，使用I2C总线通信，将其与 STM32F411 Nucleo板的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
+SHT31传感器，使用I2C总线通信，将其与板卡Arduino引脚编号的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
 
 ![sht31-connection](figures/sht31-connection.png)
 
@@ -66,7 +66,7 @@ SHT31传感器，使用I2C总线通信，将其与 STM32F411 Nucleo板的 D14(SD
 
 打开 BSP 工程下的 `packages\Adafruit-SHT31-latest\examples\SHT31test\SHT31test.ino` 示例文件，将其内容全部拷贝覆盖到 `applications\arduino_main.cpp` 中。
 
-**唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将`Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
+**唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将 `Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
 
 ### 3.5 编译运行
 

@@ -28,11 +28,11 @@ https://datasheet.lcsc.com/lcsc/1912111437_Aosong--Guangzhou-Elec-AHT10_C368909.
 
 ## 3 如何运行Adafruit AHT10/20库
 
-本节以 `stm32f411-st-nucleo` BSP为例，讲解如何运行Adafruit AHTx0驱动库。
+本节以**具有Arduino UNO标准引脚布局**的BSP为例，讲解如何运行Adafruit AHTx0驱动库。
 
 ### 3.1 开启RTduino
 
-使用Env进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
+在某个BSP目录下，进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
 
 ```Kconfig
 Hardware Drivers Config --->
@@ -53,7 +53,7 @@ RT-Thread online packages --->
 
 ### 3.3 硬件连接
 
-AHT10传感器，使用I2C总线通信，将其与 STM32F411 Nucleo板的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
+AHT10传感器，使用I2C总线通信，将其与板卡Arduino引脚编号的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
 
 ![aht10-connection](figures/ahtx0-connection.png)
 
@@ -63,7 +63,7 @@ AHT10传感器，使用I2C总线通信，将其与 STM32F411 Nucleo板的 D14(SD
 
 打开 BSP 工程下的 `packages\Adafruit-AHTX0-latest\examples\adafruit_aht_test\adafruit_aht_test.ino` 示例文件，将其内容全部拷贝覆盖到 `applications\arduino_main.cpp` 中。
 
-**唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将`Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
+**唯一需要修改的地方是串口波特率**，在Arduino给的示例代码中串口波特率初始化为9600，但是RT-Thread串口设备框架默认使用的是115200，因此请将 `Serial.begin(9600);` 改为 `Serial.begin();` 无参数即可。这样就使用RT-Thread串口设备框架的默认波特率。
 
 ### 3.5 编译运行
 

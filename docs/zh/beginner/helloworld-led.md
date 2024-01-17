@@ -1,7 +1,5 @@
 # HelloWorld - 点亮一颗LED
 
-本节以 `stm32f411-st-nucleo` BSP、Windows 10操作系统环境为例。
-
 ## 1 Arduino经典的setup和loop函数在哪里？
 
 对于Arduino，最经典的莫过于setup和loop函数。这两个函数位于BSP目录下的 `applications` 文件夹内 `arduino_main.cpp` 文件中。以STM32F411 Nucleo板为例，这两个函数位于：`bsp/stm32/stm32f411-st-nucleo/applications/arduino_main.cpp` 文件中，在开启RTduino软件包后，你可以直接在工程的Applications组中找到它。
@@ -17,6 +15,9 @@ void setup(void)
 {
     // put your setup code here, to run once:
     pinMode(LED_BUILTIN, OUTPUT);
+    // LED_BUILTIN 表示板载LED灯，不同的BSP的LED灯对应的引脚不同，
+    // 但是 LED_BUILTIN 会提前预设好，因此用户可以无需关心板载LED灯的
+    // 引脚编号具体是什么，可以直接调用 LED_BUILTIN 。
 }
 
 void loop(void)

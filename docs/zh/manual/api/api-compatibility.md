@@ -1,8 +1,8 @@
 # Arduino API可兼容性一览表
 
-本表列举了RTduino对所有Arduino官方API的兼容情况。
+本表列举了 RTduino 对所有 Arduino 官方 API 的兼容情况。
 
-| [Arduino API](https://www.arduino.cc/reference/en/)                                          |                                                                                                                              | 常规模式 | 精简模式 | 备注                                                                                                                |
+| [Arduino API](https://www.arduino.cc/reference/en/)                                          |                                                                                                                              | [常规模式](/zh/manual/adapt/bsp/bsp.md) | [精简模式](/zh/manual/adapt/tinymode.md) | 备注                                                                                                                |
 |:-------------------------------------------------------------------------------------------- |:---------------------------------------------------------------------------------------------------------------------------- |:----:|:----:| ----------------------------------------------------------------------------------------------------------------- |
 | Digital I/O                                                                                  |                                                                                                                              |      |      |                                                                                                                   |
 |                                                                                              | [digitalRead()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/)                              | √    | ×    |                                                                                                                   |
@@ -159,6 +159,8 @@
 
 > ⚠️注意：
 > 
-> 1. 未特殊注明的函数均为Arduino标准API，即在任何Arduino官方板卡中均可使用的API；
-> 2. 带有“Arduino 扩展API”字样的注明，表示该API仅在Arduino部分官方板卡中支持，但RTduino依然予以全面支持；
-> 3. 带有“RTduino 扩展API”字样的注明，表示该API为非Arduino官方API，为RTduino自己的扩展API；
+> 1. 未特殊注明的函数均为 Arduino 标准 API，即在任何 Arduino 官方板卡中均可使用的 API；
+> 2. 带有“Arduino 扩展API”字样的注明，表示该API仅在 Arduino 部分官方板卡中支持，但 RTduino 依然予以全面支持；
+> 3. 带有“RTduino 扩展API”字样的注明，表示该 API 为非 Arduino 官方 API，为 RTduino 自己的扩展 API；
+> 4. “常规模式”表示 BSP 是充分对接 RTduino 功能。请参见[如何为 RT-Thread BSP 适配 RTduino](/zh/manual/adapt/bsp/bsp.md)章节；
+> 5. “精简模式”表示 BSP 仅支持部分 RTduino 功能，并未完全对接 RTduino。请参见[精简模式](/zh/manual/adapt/tinymode.md)章节；
