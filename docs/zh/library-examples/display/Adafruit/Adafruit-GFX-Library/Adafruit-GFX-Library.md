@@ -1,12 +1,12 @@
 # Adafruit GFX图形库
 
-## 1 Adafruit GFX Library 简介
+## 1 Adafruit GFX 图形库简介
 
-Adafruit GFX Library是一套开源的C/C++图形库，专门用于驱动各种图形液晶显示屏（LCD）。该库的设计理念是为开发者提供简单而高效的方式来在图形液晶显示屏上创建和显示各种图形。Adafruit GFX Library的API经过精心设计，使得开发者可以轻松地控制LCD屏幕的各种特性和参数，从而在有限的时间内实现更多的创意和功能。
+Adafruit GFX Library 是一套开源的 C/C++ 图形库，专门用于驱动各种图形液晶显示屏（LCD）。该库的设计理念是为开发者提供简单而高效的方式来在图形液晶显示屏上创建和显示各种图形。Adafruit GFX Library 的 API 经过精心设计，使得开发者可以轻松地控制LCD屏幕的各种特性和参数，从而在有限的时间内实现更多的创意和功能。
 
 ### 1.1 仓库地址
 
-Adafruit GFX库是专门针对RTduino/RT-Thread适配过的，RTduino对官方上游仓库有部分修改。
+Adafruit GFX 库是专门针对 RTduino/RT-Thread 环境适配过的，对官方上游仓库有部分修改。
 
 - 官方上游仓库（Github）：https://github.com/adafruit/Adafruit-GFX-Library
 - RTduino适配仓库（Github）：https://github.com/RTduino-libraries/Adafruit-GFX-Library

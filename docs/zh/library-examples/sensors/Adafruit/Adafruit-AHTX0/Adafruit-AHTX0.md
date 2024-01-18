@@ -2,9 +2,9 @@
 
 ## 1 简介
 
-本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将 Adafruit AHT10/20 温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
+本文将介绍如何使用 [RT-Thread 已经支持 RTduino 的 BSP](/zh/beginner/bsp-develop?id=_2-已经支持rtduino的bsp) 将 Adafruit AHT10/20 温湿度传感器驱动库在 RTduino/RT-Thread 环境下运行起来。
 
-Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
+Adafruit 是一个海外 Arduino 开源硬件社区，其贡献了[大量 Arduino 驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
 
 ### 1.1 仓库地址
 
@@ -32,7 +32,7 @@ https://datasheet.lcsc.com/lcsc/1912111437_Aosong--Guangzhou-Elec-AHT10_C368909.
 
 ### 3.1 开启RTduino
 
-在某个BSP目录下，进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
+在 BSP 根目录下目录下，进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，开启 RTduino，让 BSP 具备兼容 Arduino 生态的能力：
 
 ```Kconfig
 Hardware Drivers Config --->
@@ -42,7 +42,7 @@ Hardware Drivers Config --->
 
 ### 3.2 开启Adafruit AHT10/20库
 
-Adafruit AHTx0库已经注册到RT-Thread软件包中心：
+Adafruit AHTx0 库已经注册到 RT-Thread 软件包中心：
 
 ```Kconfig
 RT-Thread online packages --->
@@ -53,7 +53,7 @@ RT-Thread online packages --->
 
 ### 3.3 硬件连接
 
-AHT10传感器，使用I2C总线通信，将其与板卡Arduino引脚编号的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
+AHT10 传感器，使用 I2C 总线通信，将其与板卡 Arduino 标准布局引脚编号的 D14(SDA) 和 D15(SCL) 相连接（注意不是A4、A5），并连接VCC和GND。如图所示：
 
 ![aht10-connection](figures/ahtx0-connection.png)
 

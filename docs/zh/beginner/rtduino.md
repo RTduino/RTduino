@@ -12,7 +12,7 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 
 ## 2 已经适配RTduino的RT-Thread BSP
 
-请参见[BSP开发与板卡烧录](zh/beginner/bsp-develop.md)章节。
+请参见[BSP开发与板卡烧录](/zh/beginner/bsp-develop?id=_2-已经支持rtduino的bsp)章节。
 
 ## 3 编译工具链与环境
 

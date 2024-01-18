@@ -2,9 +2,9 @@
 
 ## 1 简介
 
-本文将介绍如何使用[RT-Thread已经支持RTduino的BSP](/zh/beginner/rtduino?id=_2-已经适配rtduino的rt-thread-bsp)将 Adafruit SHT31 温湿度传感器驱动库在RTduino/RT-Thread环境下运行起来。
+本文将介绍如何使用 [RT-Thread 已经支持 RTduino 的 BSP](/zh/beginner/bsp-develop?id=_2-已经支持rtduino的bsp) 将 Adafruit SHT31 温湿度传感器驱动库在 RTduino/RT-Thread 环境下运行起来。
 
-Adafruit 是一个海外Arduino开源硬件社区，其贡献了[大量Arduino驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
+Adafruit 是一个海外 Arduino 开源硬件社区，其贡献了[大量 Arduino 驱动库](https://github.com/orgs/adafruit/repositories?language=c%2B%2B&type=all)。
 
 ### 1.1 仓库地址
 
@@ -35,7 +35,7 @@ https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datashee
 
 ### 3.1 开启RTduino
 
-在某个BSP目录下，进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，让BSP具备兼容Arduino生态的能力：
+在 BSP 根目录下目录下，进入 `menuconfig` 后，先选择 `Compatible with Arduino Ecosystem (RTduino)`，开启 RTduino，让 BSP 具备兼容 Arduino 生态的能力：
 
 ```Kconfig
 Hardware Drivers Config --->
@@ -45,7 +45,7 @@ Hardware Drivers Config --->
 
 ### 3.2 开启Adafruit SHT31库
 
-Adafruit SHT31库已经注册到RT-Thread软件包中心：
+Adafruit SHT31 库已经注册到 RT-Thread 软件包中心：
 
 ```Kconfig
 RT-Thread online packages --->
