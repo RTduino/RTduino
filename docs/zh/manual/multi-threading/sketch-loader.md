@@ -8,7 +8,7 @@ RTduino支持对 `.ino` 文件的直接编译，方法很简单，使用命令 `
 
 ## 2 RTduino sketch loader 自动初始化机制
 
-RTduino 是基于 RT-Thread 操作系统开发，因此支持多线程并发是浑然天成的，也是 Arduino 并不具备的。使用 RTduino，我们可以通过 *sketch loader* 创建任意多个 sketch 源文件并以多线程的方式独立运行，互不干扰。
+RTduino 是基于 RT-Thread 操作系统开发，因此支持多线程并发是浑然天成的，也是 Arduino 并不具备的。使用 RTduino，我们可以通过 **sketch loader** 创建**任意多个** sketch 源文件并以多线程的方式独立运行，互不干扰。
 
 在 RTduino 中，可以使用以下4个宏其中之一来装填到 RTduino sketch loader中，只要该源文件添加到工程中并被编译，loader在板子上电之后会自动运行 sketch 源文件。sketch源文件需要将后缀改名为 `.cpp` 文件。
 
@@ -43,5 +43,3 @@ RTDUINO_SKETCH_LOADER_PRIO("my-sketch", my_setup, my_loop, 10); /* 使用默认�
 RTDUINO_SKETCH_LOADER_STACKSIZE("my-sketch", my_setup, my_loop, 1024); /* 使用默认线程优先级，并重新设置线程栈大小为1024 */ 
 RTDUINO_SKETCH_LOADER_STACKSIZE_PRIO("my-sketch", my_setup, my_loop, 1024, 10); /* 重新设置线程栈大小为1024，线程优先级为10 */
 ```
-
-参考示例：[MsgQ-C-CPP-demo](https://github.com/RTduino/MsgQ-C-CPP-demo/blob/master/arduino_producer.cpp)
