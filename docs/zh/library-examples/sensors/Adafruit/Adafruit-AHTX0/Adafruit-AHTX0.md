@@ -69,4 +69,4 @@ AHT10 传感器，使用 I2C 总线通信，将其与板卡 Arduino 标准布局
 
 用 `scons -j12` 命令编译，并将 `.bin` 或 `.elf` 文件烧录到板卡中。
 
-板卡上电后，可以打开串口终端，调整接收波特率为115200 （RT-Thread默认波特率），即可看到基于RTduino运行Adafruit AHT10/20 Arduino驱动库获取的AHT10芯片实时温湿度数据。
+板卡上电后，可以打开串口终端，调整接收波特率为115200（RT-Thread默认波特率），即可看到基于 RTduino 运行 Adafruit AHT10/20 Arduino 驱动库获取的 AHT10 芯片实时温湿度数据。
