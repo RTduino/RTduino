@@ -1,6 +1,6 @@
 # Arduino 内建库
 
-目前RTduino已经支持了大部分的Arduino[原生内建库](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries)，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
+目前 RTduino 已经支持了大部分的 Arduino [原生内建库](https://github.com/arduino/ArduinoCore-avr/tree/master/libraries)，存放于 `libraries/buildin` 文件夹内。具体如下表所示：
 
 | 库名称       | 说明       | 使能宏                     | 备注                                                                                    |
 | --------- | -------- | ----------------------- | ------------------------------------------------------------------------------------- |
