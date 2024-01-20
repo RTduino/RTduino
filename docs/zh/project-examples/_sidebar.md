@@ -1,5 +1,6 @@
 - 示例(Demo)
   - [RTduino线程间通信示例](/zh/project-examples/demos/MsgQ-C-CPP/MsgQ-C-CPP.md)
+  - [sketch loader使用示例](/zh/project-examples/demos/sketch-loader/sketch-loader.md)
 
 - 项目(Project)
   - [超声波雷达项目](/zh/project-examples/projects/UltrasoundRadar/UltrasoundRadar.md)
