@@ -72,6 +72,6 @@ SHT31传感器，使用I2C总线通信，将其与板卡Arduino引脚编号的 D
 
 用 `scons -j12` 命令编译，并将 `.bin` 或 `.elf` 文件烧录到板卡中。
 
-板卡上电后，可以打开串口终端，调整接收波特率为115200（RT-Thread默认波特率），即可看到基于 RTduino 运行 Adafruit SHT31 Arduino 驱动库获取的SHT31芯片实时温湿度数据：
+板卡上电后打开串口终端，调整接收波特率为115200（RT-Thread默认波特率），即可看到基于 RTduino 运行 Adafruit SHT31 Arduino 驱动库获取的SHT31芯片实时温湿度数据：
 
 ![sht31-result](figures/sht31-result.png)
