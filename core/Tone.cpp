@@ -20,6 +20,16 @@
 #ifdef RTDUINO_TONE_HWTIMER_DEVICE_NAME
 static volatile uint8_t _tone_pin = RT_NULL;
 
+
+/**
+ * @brief Callback function for tone frequency.
+ *
+ * This function is called when the tone frequency needs to be updated.
+ *
+ * @param dev The device associated with the callback.
+ * @param size The size of the data (unused in this function).
+ * @return The error code indicating the status of the callback.
+ */
 static rt_err_t _tone_freq_cb(rt_device_t dev, rt_size_t size)
 {
     RT_UNUSED(size);
