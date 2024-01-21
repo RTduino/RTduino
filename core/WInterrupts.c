@@ -12,7 +12,11 @@
  */
 
 #include <rtdevice.h>
+#ifdef ARCH_ARM
+#include <cmsis_compiler.h>
+#else
 #include <board.h>
+#endif /* ARCH_ARM */
 
 void interrupts(void)
 {
