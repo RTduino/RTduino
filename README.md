@@ -3,7 +3,7 @@
 --------
 
 <p align="center">
-	<img alt="logo" src="logo/RTduino-RT-Thread.png" width="600">
+	<img alt="logo" src="figures/logo/RTduino-RT-Thread.png" width="600">
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RTduino<br/>RT-Thread操作系统的Arduino生态兼容层</h1>
 <h3 align="center">RTduino<br/>Arduino Ecosystem Compatibility Layer for RT-Thread</h4>
@@ -20,7 +20,7 @@
 
 RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生态兼容层，为[RT-Thread社区](https://github.com/RT-Thread/rt-thread)的子社区，旨在兼容Arduino社区生态来丰富RT-Thread社区软件包生态（如上千种分门别类的Arduino库，以及Arduino社区优秀的开源项目），并降低RT-Thread操作系统以及与RT-Thread适配的芯片的学习门槛。通过RTduino，可以让用户使用Arduino的函数、编程方法，轻松地将RT-Thread和BSP使用起来。用户也可以直接使用[Arduino社区第三方库](https://www.arduino.cc/reference/en/libraries/)（例如传感器驱动库、算法库等）直接用在RT-Thread工程中，极大地补充了RT-Thread社区生态。
 
-![framework-zh](./docs/zh/beginner/figures/rtduino-framework.png)
+![framework-zh](./figures/rtduino-framework-zh.png)
 
 > 注：RTduino 要求 RT-Thread 版本至少为4.1.1
 
