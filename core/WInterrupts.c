@@ -12,6 +12,25 @@
  */
 
 #include <rtdevice.h>
+#include <board.h>
+
+void interrupts(void)
+{
+#if defined(ARCH_ARM) || defined(ARCH_RISCV)
+    __enable_irq();
+#else
+#warning "Please define interrupts for this architecture in Arduino.h"
+#endif /* defined(ARCH_ARM) || defined(ARCH_RISCV) */
+}
+
+void noInterrupts(void)
+{
+#if defined(ARCH_ARM) || defined(ARCH_RISCV)
+    __disable_irq();
+#else
+#warning "Please define noInterrupts for this architecture in Arduino.h"
+#endif /* defined(ARCH_ARM) || defined(ARCH_RISCV) */
+}
 
 #ifdef RT_USING_PIN
 #include "wiring_private.h"

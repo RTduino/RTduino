@@ -113,16 +113,6 @@ typedef uint8_t byte;
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x)) /* x^2 */
 
-/* define interrupts and noInterrupts */
-#if defined(ARCH_ARM) || defined(ARCH_RISCV)
-#define interrupts()   __enable_irq()
-#define noInterrupts() __disable_irq()
-#else
-#define interrupts()
-#define noInterrupts()
-#warning "Please define interrupts for this architecture in Arduino.h"
-#endif /* defined(ARCH_ARM) || defined(ARCH_RISCV) */
-
 #define _NOP() do { __asm__ volatile ("nop"); } while (0)
 
 #ifdef F_CPU
@@ -167,6 +157,9 @@ unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout);
 void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
 uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
 
+/* interrupts */
+void interrupts(void);
+void noInterrupts(void);
 uint8_t digitalPinToInterrupt(uint8_t pin);
 void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode);
 void detachInterrupt(uint8_t interruptNum);
