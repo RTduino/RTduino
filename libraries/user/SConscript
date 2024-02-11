@@ -27,13 +27,13 @@ def rtduino_scons_add_library(library_root_path):
        os.path.exists(os.path.join(library_root_path, 'SConscript')) == True:
         return
 
-    library_src_path = os.path.join(library_root_path, 'src')
-    library_utility_path = os.path.join(library_root_path, 'utility')
+    library_src_path = os.path.join(library_root_path, 'src') # Arduino library source code folder
+    library_utility_path = os.path.join(library_root_path, 'utility') # Arduino library utility folder
 
     # add all .c/cpp files and header files' path in root folder (not include sub-folders)
-    inc = inc + [library_root_path]
-    src = src + Glob(os.path.join(library_root_path, '*.c'))
-    src = src + Glob(os.path.join(library_root_path, '*.cpp'))
+    inc = inc + [library_root_path] # add root folder header files' path
+    src = src + Glob(os.path.join(library_root_path, '*.c')) # add all .c file
+    src = src + Glob(os.path.join(library_root_path, '*.cpp')) # add all .cpp file
 
     # add root, src and untility folder header files' path (not include sub-folders)
     if os.path.exists(library_src_path):
@@ -47,13 +47,13 @@ def rtduino_scons_add_library(library_root_path):
 
     # find the src folder's sub-folders and sub-files recursively
     for root, dirs, files in os.walk(library_src_path):
-        for dir in dirs:
-            _sub_path = os.path.join(root,dir)
+        for dir in dirs: # add all sub-folders' header files' path
+            _sub_path = os.path.join(root,dir) # sub-folder path
             # add all .c/cpp file and .h/hpp file
             src = src + Glob(os.path.join(_sub_path, '*.c'))
             src = src + Glob(os.path.join(_sub_path, '*.cpp'))
 
-# Find and deal the ZIP file first
+# Unzip all zip files in the root of 'libraries' folder
 for file in os.listdir(user_libraries_root_path):
     if os.path.isfile(file) == True:
         splitext = os.path.splitext(file)
@@ -65,6 +65,7 @@ for file in os.listdir(user_libraries_root_path):
             zFile.close()
             os.remove(file) # delete the zip file
 
+# Add all user libraries at the root of 'libraries' folder into the group
 for dir in os.listdir(user_libraries_root_path):
     rtduino_scons_add_library(os.path.join(user_libraries_root_path, dir))
 
