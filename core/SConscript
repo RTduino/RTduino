@@ -43,9 +43,6 @@ group = group + DefineGroup('RTduino-core', core_src,
                             LOCAL_CFLAGS = LOCAL_CFLAGS + core_cflags,
                             LOCAL_CXXFLAGS = LOCAL_CXXFLAGS + core_cxxflags)
 
-if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
-    LOCAL_CXXFLAGS += ' -include RTduino.h' # #include <RTduino.h>
-
 # add CFLAGS for arduino_main.cpp
 if not GetDepend(['RTDUINO_NO_SETUP_LOOP']):
     group = group + DefineGroup('Applications', [], depend = ['PKG_USING_RTDUINO'], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
