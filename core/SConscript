@@ -17,9 +17,24 @@ if rtconfig.PLATFORM in GetGCCLikePLATFORM():
     CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections' # reduce resource consumption
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
-    # strict code checking
-    # core_cflags += ' -Wno-unused-function -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-label -Wno-unused-value -Wno-unused-result'
-    # core_cxxflags += ' -Wno-unused-function -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-label -Wno-unused-value -Wno-unused-result'
+
+    # enable warning
+    # both C and C++ files
+    core_cflags += ' -Wall -Wextra' # enable all warning
+    core_cflags += ' -Wunused -Wunused-parameter -Wunused-function -Wunused-label -Wunused-variable -Wunused-value' # unused warning
+    core_cflags += ' -Wformat -Wformat-security' # printf/scanf format warning
+    core_cflags += ' -Warray-bounds -Wuninitialized -Wsequence-point' # memory access warning
+    core_cflags += ' -Wreturn-type -Wcomment -Wswitch -Wmissing-braces -Wmultichar' # code style warning
+    core_cflags += ' -Wparentheses -Wlogical-op -Wsequence-point -Wfloat-equal -Wsign-compare -Wpointer-arith' # operation warning -Wconversion   
+    core_cflags += ' -Wimplicit-fallthrough' # implicit fallthrough warning
+    core_cflags += ' -Wduplicated-cond -Wduplicated-branches -Wunreachable-code' # duplicated code warning
+    core_cxxflags += core_cflags
+
+    # only for C files
+    core_cflags += ' -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes' # function declaration warning
+
+    # only for C++ files
+    # core_cxxflags += ' -Wreorder -Wnon-virtual-dtor -Woverloaded-virtual' # virtual function warning
 elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS += ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'

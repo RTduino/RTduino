@@ -11,6 +11,7 @@
  * 2022-04-13     Meco Man     first version
  */
 
+#include <Arduino.h>
 #include <rtdevice.h>
 #ifdef ARCH_ARM
 #include <cmsis_compiler.h>

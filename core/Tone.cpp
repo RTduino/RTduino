@@ -32,6 +32,7 @@ static volatile uint8_t _tone_pin = RT_NULL;
  */
 static rt_err_t _tone_freq_cb(rt_device_t dev, rt_size_t size)
 {
+    RT_UNUSED(dev);
     RT_UNUSED(size);
 
     digitalWrite(_tone_pin, !digitalRead(_tone_pin));

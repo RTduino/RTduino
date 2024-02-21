@@ -121,7 +121,7 @@ void analogWrite(uint8_t pin, int val)
 
     /* This pin doesn't support PWM or DAC */
     pinMode(pin, OUTPUT);
-    if (val < bit(_analog_write_resolution)/2)
+    if (val < (int)(bit(_analog_write_resolution) / 2))
     {
         digitalWrite(pin, LOW);
     }

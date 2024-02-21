@@ -118,14 +118,14 @@ String::String(float value, unsigned char decimalPlaces)
 {
     init();
     char buf[33];
-    *this = dtostrnf(value, (decimalPlaces + 2), decimalPlaces, buf, sizeof(buf));
+    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, sizeof(buf));
 }
 
 String::String(double value, unsigned char decimalPlaces)
 {
     init();
     char buf[33];
-    *this = dtostrnf(value, (decimalPlaces + 2), decimalPlaces, buf, sizeof(buf));
+    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, sizeof(buf));
 }
 
 String::~String()

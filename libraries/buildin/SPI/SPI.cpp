@@ -41,7 +41,7 @@ void SPIClass::begin(const char *spi_bus_name, rt_base_t cs_pin)
 {
     switchToSPI(spi_bus_name);
 #if RT_VER_NUM >= 0x50002
-    if(rt_spi_bus_attach_device_cspin(&this->_spi_bus_device, "RTduSPI", spi_bus_name, PIN_NONE, RT_NULL) != RT_EOK)
+    if(rt_spi_bus_attach_device_cspin(&this->_spi_bus_device, "RTduSPI", spi_bus_name, cs_pin, RT_NULL) != RT_EOK)
 #else
     RT_UNUSED(cs_pin);
     if(rt_spi_bus_attach_device(&this->_spi_bus_device, "RTduSPI", spi_bus_name, RT_NULL) != RT_EOK)
