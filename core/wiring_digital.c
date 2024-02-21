@@ -31,7 +31,7 @@
  */
 void pinMode(uint8_t pin, uint8_t mode)
 {
-    rt_base_t rt_mode;
+    rt_base_t rt_mode = RT_NULL;
 
     RT_ASSERT(mode == INPUT || mode == OUTPUT ||
               mode == INPUT_PULLUP || mode == INPUT_PULLDOWN ||
@@ -77,7 +77,7 @@ void pinMode(uint8_t pin, uint8_t mode)
  */
 void digitalWrite(uint8_t pin, uint8_t val)
 {
-    rt_base_t rt_val;
+    rt_base_t rt_val = RT_NULL;
 
     RT_ASSERT(val == HIGH || val == LOW);
 

@@ -699,13 +699,12 @@ void String::remove(unsigned int index){
     remove(index, (unsigned int)-1);
 }
 
-void String::remove(unsigned int index, unsigned int count){
-    if (index >= len){ return; }
+void String::remove(unsigned int index, unsigned int count) {
+    if (index >= len || buffer == nullptr) { return; }
     if (count == 0) { return; }
     if (count > len - index) { count = len - index; }
-    char *writeTo = buffer + index;
     len = len - count;
-    strncpy(writeTo, buffer + index + count,len - index);
+    memmove(buffer + index, buffer + index + count, len - index);
     buffer[len] = 0;
 }
 
