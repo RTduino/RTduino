@@ -127,11 +127,16 @@ void noTone(uint8_t pin)
 #else
 rt_weak void tone(uint8_t pin, unsigned int frequency, unsigned long duration)
 {
+    RT_UNUSED(pin);
+    RT_UNUSED(frequency);
+    RT_UNUSED(duration);
+
     LOG_E("tone() is not yet implemented, please define RTDUINO_TONE_HWTIMER_DEVICE_NAME in pins_arduino.h!");
 }
 
 rt_weak void noTone(uint8_t pin)
 {
+    RT_UNUSED(pin);
     LOG_E("noTone() is not yet implemented, please define RTDUINO_TONE_HWTIMER_DEVICE_NAME in pins_arduino.h!");
 }
 #endif /* RTDUINO_TONE_HWTIMER_DEVICE_NAME */
