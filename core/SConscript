@@ -10,8 +10,8 @@ CXXFLAGS = ''
 LOCAL_CCFLAGS = ''
 LOCAL_CFLAGS = ''
 LOCAL_CXXFLAGS = ''
-core_cflags = ''
-core_cxxflags = ''
+strict_cflags = ''
+strict_cxxflags = ''
 
 if rtconfig.PLATFORM in GetGCCLikePLATFORM():
     CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections' # reduce resource consumption
@@ -20,21 +20,21 @@ if rtconfig.PLATFORM in GetGCCLikePLATFORM():
 
     # enable warning
     # both C and C++ files
-    core_cflags += ' -Wall -Wextra' # enable all warning
-    core_cflags += ' -Wunused -Wunused-parameter -Wunused-function -Wunused-label -Wunused-variable -Wunused-value' # unused warning
-    core_cflags += ' -Wformat -Wformat-security' # printf/scanf format warning
-    core_cflags += ' -Warray-bounds -Wuninitialized -Wsequence-point' # memory access warning
-    core_cflags += ' -Wreturn-type -Wcomment -Wswitch -Wmissing-braces -Wmultichar' # code style warning
-    core_cflags += ' -Wparentheses -Wlogical-op -Wsequence-point -Wfloat-equal -Wsign-compare -Wpointer-arith' # operation warning -Wconversion   
-    core_cflags += ' -Wimplicit-fallthrough' # implicit fallthrough warning
-    core_cflags += ' -Wduplicated-cond -Wduplicated-branches -Wunreachable-code' # duplicated code warning
-    core_cxxflags += core_cflags
+    strict_cflags += ' -Wall -Wextra' # enable all warning
+    strict_cflags += ' -Wunused -Wunused-parameter -Wunused-function -Wunused-label -Wunused-variable -Wunused-value' # unused warning
+    strict_cflags += ' -Wformat -Wformat-security' # printf/scanf format warning
+    strict_cflags += ' -Warray-bounds -Wuninitialized -Wsequence-point' # memory access warning
+    strict_cflags += ' -Wreturn-type -Wcomment -Wswitch -Wmissing-braces -Wmultichar' # code style warning
+    strict_cflags += ' -Wparentheses -Wlogical-op -Wsequence-point -Wfloat-equal -Wsign-compare -Wpointer-arith' # operation warning -Wconversion
+    strict_cflags += ' -Wimplicit-fallthrough' # implicit fallthrough warning
+    strict_cflags += ' -Wduplicated-cond -Wduplicated-branches -Wunreachable-code' # duplicated code warning
+    strict_cxxflags += strict_cflags
 
     # only for C files
-    core_cflags += ' -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes' # function declaration warning
+    strict_cflags += ' -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes' # function declaration warning
 
     # only for C++ files
-    # core_cxxflags += ' -Wreorder -Wnon-virtual-dtor -Woverloaded-virtual' # virtual function warning
+    # strict_cxxflags += ' -Wreorder -Wnon-virtual-dtor -Woverloaded-virtual' # virtual function warning
 elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS += ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
@@ -50,26 +50,49 @@ if GetDepend(['RTDUINO_TINY_MODE']):
     SrcRemove(core_src, ['Tone.cpp', 'WInterrupts.c', 'wiring_analog.c', 'wiring_digital.c', 'wiring_pulse.c', 'wiring_shift.c'])
 
 group = group + DefineGroup('RTduino-core', core_src,
-                            depend = ['PKG_USING_RTDUINO'],
-                            CPPPATH = [cwd],
-                            CPPDEFINES = ['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
-                            CXXFLAGS = CXXFLAGS,
-                            LOCAL_CCFLAGS = LOCAL_CCFLAGS,
-                            LOCAL_CFLAGS = LOCAL_CFLAGS + core_cflags,
-                            LOCAL_CXXFLAGS = LOCAL_CXXFLAGS + core_cxxflags)
+                            depend=['PKG_USING_RTDUINO'],
+                            CPPPATH=[cwd],
+                            CPPDEFINES=['ARDUINO=10819', 'ARDUINO_ARCH_RTTHREAD=10000'],
+                            CXXFLAGS=CXXFLAGS,
+                            LOCAL_CCFLAGS=LOCAL_CCFLAGS,
+                            LOCAL_CFLAGS=LOCAL_CFLAGS + strict_cflags,
+                            LOCAL_CXXFLAGS=LOCAL_CXXFLAGS + strict_cxxflags)
 
 # add CFLAGS for arduino_main.cpp
 if not GetDepend(['RTDUINO_NO_SETUP_LOOP']):
-    group = group + DefineGroup('Applications', [], depend = ['PKG_USING_RTDUINO'], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
+    group = group + DefineGroup('Applications', [],
+                                depend=['PKG_USING_RTDUINO'],
+                                LOCAL_CCFLAGS=LOCAL_CCFLAGS,
+                                LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
+                                LOCAL_CFLAGS=LOCAL_CFLAGS)
+
+# add CFLAGS for buildin libraries
+group = group + DefineGroup('RTduino-libraries-buildin', [],
+                            depend = ['PKG_USING_RTDUINO'],
+                            LOCAL_CCFLAGS=LOCAL_CCFLAGS,
+                            LOCAL_CXXFLAGS=LOCAL_CXXFLAGS + strict_cxxflags,
+                            LOCAL_CFLAGS=LOCAL_CFLAGS + strict_cflags)
 
 # add CFLAGS for user libraries
-group = group + DefineGroup('RTduino-libraries', [], depend = ['PKG_USING_RTDUINO'], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
+group = group + DefineGroup('RTduino-libraries', [],
+                            depend = ['PKG_USING_RTDUINO'],
+                            LOCAL_CCFLAGS=LOCAL_CCFLAGS,
+                            LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
+                            LOCAL_CFLAGS=LOCAL_CFLAGS)
 
 # add CFLAGS for user .ino sketches
-group = group + DefineGroup('RTduino-sketches', [], depend = ['PKG_USING_RTDUINO'], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
+group = group + DefineGroup('RTduino-sketches', [],
+                            depend = ['PKG_USING_RTDUINO'],
+                            LOCAL_CCFLAGS=LOCAL_CCFLAGS,
+                            LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
+                            LOCAL_CFLAGS=LOCAL_CFLAGS)
 
 # add CFLAGS for demos
-group = group + DefineGroup('RTduino-demos', [], depend = ['PKG_USING_RTDUINO'], LOCAL_CXXFLAGS=LOCAL_CXXFLAGS, LOCAL_CFLAGS=LOCAL_CFLAGS)
+group = group + DefineGroup('RTduino-demos', [],
+                            depend = ['PKG_USING_RTDUINO'],
+                            LOCAL_CCFLAGS=LOCAL_CCFLAGS,
+                            LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
+                            LOCAL_CFLAGS=LOCAL_CFLAGS)
 
 list = os.listdir(cwd)
 for item in list:
