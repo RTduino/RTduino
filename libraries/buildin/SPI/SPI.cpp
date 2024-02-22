@@ -53,8 +53,6 @@ void SPIClass::begin(const char *spi_bus_name, rt_base_t cs_pin)
 
 void SPIClass::beginTransaction(SPISettings settings)
 {
-    struct rt_spi_configuration cfg = {0};
-
     RT_ASSERT(settings._bitOrder == LSBFIRST || settings._bitOrder == MSBFIRST);
     RT_ASSERT(settings._dataMode == SPI_MODE0 ||
               settings._dataMode == SPI_MODE1 ||
@@ -62,9 +60,13 @@ void SPIClass::beginTransaction(SPISettings settings)
               settings._dataMode == SPI_MODE3);
 
     /* Don't need to RT-Thread SPI device driver to control CS */
-    cfg.mode = RT_SPI_MASTER | RT_SPI_NO_CS;
-    cfg.data_width = 8;
-    cfg.max_hz = settings._clock;
+    struct rt_spi_configuration cfg =
+    {
+        .mode = RT_SPI_MASTER | RT_SPI_NO_CS, /* Don't need RT-Thread SPI device driver to control CS */
+        .data_width = 8,
+        .reserved = 0,
+        .max_hz = settings._clock
+    };
 
     if(settings._bitOrder == LSBFIRST)
     {

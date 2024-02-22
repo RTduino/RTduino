@@ -68,28 +68,28 @@ if not GetDepend(['RTDUINO_NO_SETUP_LOOP']):
 
 # add CFLAGS for buildin libraries
 group = group + DefineGroup('RTduino-libraries-buildin', [],
-                            depend = ['PKG_USING_RTDUINO'],
+                            depend=['PKG_USING_RTDUINO'],
                             LOCAL_CCFLAGS=LOCAL_CCFLAGS,
                             LOCAL_CXXFLAGS=LOCAL_CXXFLAGS + strict_cxxflags,
                             LOCAL_CFLAGS=LOCAL_CFLAGS + strict_cflags)
 
 # add CFLAGS for user libraries
 group = group + DefineGroup('RTduino-libraries', [],
-                            depend = ['PKG_USING_RTDUINO'],
+                            depend=['PKG_USING_RTDUINO'],
                             LOCAL_CCFLAGS=LOCAL_CCFLAGS,
                             LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
                             LOCAL_CFLAGS=LOCAL_CFLAGS)
 
 # add CFLAGS for user .ino sketches
 group = group + DefineGroup('RTduino-sketches', [],
-                            depend = ['PKG_USING_RTDUINO'],
+                            depend=['PKG_USING_RTDUINO'],
                             LOCAL_CCFLAGS=LOCAL_CCFLAGS,
                             LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
                             LOCAL_CFLAGS=LOCAL_CFLAGS)
 
 # add CFLAGS for demos
 group = group + DefineGroup('RTduino-demos', [],
-                            depend = ['PKG_USING_RTDUINO'],
+                            depend=['PKG_USING_RTDUINO'],
                             LOCAL_CCFLAGS=LOCAL_CCFLAGS,
                             LOCAL_CXXFLAGS=LOCAL_CXXFLAGS,
                             LOCAL_CFLAGS=LOCAL_CFLAGS)
