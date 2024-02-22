@@ -59,7 +59,6 @@ void SPIClass::beginTransaction(SPISettings settings)
               settings._dataMode == SPI_MODE2 ||
               settings._dataMode == SPI_MODE3);
 
-    /* Don't need to RT-Thread SPI device driver to control CS */
     struct rt_spi_configuration cfg =
     {
         .mode = RT_SPI_MASTER | RT_SPI_NO_CS, /* Don't need RT-Thread SPI device driver to control CS */
@@ -78,6 +77,7 @@ void SPIClass::beginTransaction(SPISettings settings)
     }
     else
     {
+        LOG_E("[beginTransaction] Invalid bit order!");
         return;
     }
 
@@ -99,6 +99,7 @@ void SPIClass::beginTransaction(SPISettings settings)
     }
     else
     {
+        LOG_E("[beginTransaction] Invalid data mode!");
         return;
     }
 
@@ -166,6 +167,7 @@ void SPIClass::setBitOrder(uint8_t bitOrder)
     }
     else
     {
+        LOG_E("[setBitOrder] Invalid bit order!");
         return;
     }
 
@@ -202,6 +204,7 @@ void SPIClass::setDataMode(uint8_t dataMode)
     }
     else
     {
+        LOG_E("[setDataMode] Invalid data mode!");
         return;
     }
 

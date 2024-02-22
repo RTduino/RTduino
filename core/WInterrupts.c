@@ -73,12 +73,13 @@ uint8_t digitalPinToInterrupt(uint8_t pin)
  */
 void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
 {
-    rt_int32_t rt_pin;
-    rt_uint32_t rt_mode;
-
     RTDUINO_CHECK_PIN_LIMIT_RETURN(interruptNum,); /* without return value */
 
-    rt_pin = pin_map_table[interruptNum].rt_pin;
+    rt_uint8_t rt_mode = RT_NULL;
+    rt_base_t rt_pin = pin_map_table[interruptNum].rt_pin;
+
+    RT_ASSERT(mode == LOW || mode == HIGH ||
+              mode == CHANGE || mode == RISING || mode == FALLING);
 
     switch(mode)
     {
@@ -103,9 +104,8 @@ void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
         break;
 
     default:
-        rt_mode = RT_NULL;
-        LOG_E("attachInterrupt mode parameter is illegal");
-        break;
+        LOG_E("[attachInterrupt] Invalid mode %d", mode);
+        return;
     }
 
     rt_pin_attach_irq(rt_pin, rt_mode, (void*)userFunc, RT_NULL);

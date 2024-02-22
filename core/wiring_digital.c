@@ -60,6 +60,10 @@ void pinMode(uint8_t pin, uint8_t mode)
     case OUTPUT_OPEN_DRAIN:
         rt_mode = PIN_MODE_OUTPUT_OD;
         break;
+
+    default:
+        LOG_E("[pinMode] Invalid mode %u", mode);
+        return;
     }
 
     if (pin_map_table[pin].device_name != RT_NULL)
