@@ -39,16 +39,6 @@ static void rtduino_sketch_entry(void *parameter)
     }
 }
 
-/**
- * @brief Creates a sketch loader with the specified name, setup function, loop function, stack size, and priority.
- *
- * @param name The name of the sketch loader.
- * @param setup The setup function of the sketch.
- * @param loop The loop function of the sketch.
- * @param stack_size The stack size of the sketch loader thread.
- * @param priority The priority of the sketch loader thread.
- * @return A pointer to the created sketch loader, or RT_NULL if the creation failed.
- */
 rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name,
         void (*setup)(void), void (*loop)(void), rt_uint32_t stack_size, rt_uint8_t priority)
 {
@@ -86,12 +76,6 @@ rtduino_loader_t rtduino_sketch_loader_create_stacksize_prio(const char* name,
     return loader;
 }
 
-/**
- * @brief Deletes the specified sketch loader.
- *
- * @param loader A pointer to the sketch loader to delete.
- * @return RT_EOK if the deletion is successful, or a negative RT-Thread error code if the deletion failed.
- */
 rt_err_t rtduino_sketch_loader_delete(rtduino_loader_t loader)
 {
     rt_err_t err;

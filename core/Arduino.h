@@ -1,6 +1,6 @@
 /**
  * @file Arduino.h
- * @brief Arduino Core Library
+ * @brief Arduino Core Header File.
  * @author Meco Man
  * @date 2021-12-10
  * @version 1.0
@@ -17,7 +17,8 @@
  * ensuring that the necessary core features are available for use.
  *
  * @copyright
- * Copyright 2021 RTduino Development Team. All rights reserved.
+ * - Copyright (c) 2005-2013, Arduino Team.  All right reserved.
+ * - Copyright (c) 2021-2023, RTduino Development Team. All rights reserved.
  *
  * @note
  * SPDX-License-Identifier: LGPL-v2.1
@@ -73,6 +74,61 @@ extern "C" {
 #if RT_VER_NUM < 0x40101
 #error "The minimum version requirement of RT-Thread is 4.1.1"
 #endif /* RT_VER_NUM < 0x40101 */
+
+/**
+ * @defgroup Bits and Bytes
+ * @brief Bit and byte data type definitions.
+ */
+
+/**
+ * @defgroup Digital I/O
+ * @brief Digital input and output pins.
+ */
+
+/**
+ * @defgroup Maths
+ * @brief Mathematical definitions and functions.
+ */
+
+/**
+ * @defgroup Time
+ * @brief Time-related functions and definitions.
+ */
+
+/**
+ * @defgroup Advanced I/O
+ * @brief Advanced input and output functions.
+ */
+
+/**
+ * @defgroup Analog I/O
+ * @brief Analog input and output functions.
+ */
+
+/**
+ * @defgroup Interrupts
+ * @brief Interrupt-related functions and definitions.
+ */
+
+/**
+ * @defgroup External Interrupts
+ * @brief External interrupt functions and definitions.
+ */
+
+/**
+ * @defgroup Sketch
+ * @brief Arduino sketch structure and functions.
+ */
+
+/**
+ * @defgroup Random Numbers
+ * @brief Random number generation functions.
+ */
+
+/**
+ * @defgroup System
+ * @brief System-related functions and initialization.
+ */
 
 /**
  * @struct pin_map_t
