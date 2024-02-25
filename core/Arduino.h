@@ -513,10 +513,15 @@ unsigned long micros(void);
 
 /**
  * @ingroup Advanced I/O
- * @brief Measures the duration of a pulse on the specified pin.
- * @param pin The number of the pin on which to measure the pulse.
- * @param state The type of pulse to measure (e.g., HIGH, LOW, CHANGE, FALLING, RISING).
- * @param timeout The maximum duration to wait for the pulse, in microseconds.
+ * @brief Measures the duration of a pulse (in us) on the specified pin.
+ * @details
+ * The state parameter specifies the type of pulse to measure (HIGH or LOW).
+ * The timeout parameter specifies the maximum time to wait for the pulse to complete.
+ * This function works on pulses from 2-3 microseconds to 3 minutes in length.
+ * It cannot work in noInterrupt() context.
+ * @param pin The pin number to measure the pulse on.
+ * @param state The type of pulse to measure (HIGH or LOW).
+ * @param timeout The maximum time to wait for the pulse to complete, in microseconds.
  * @return The duration of the pulse in microseconds, or 0 if no pulse starts before the timeout.
  * @see https://www.arduino.cc/reference/en/language/functions/advanced-io/pulsein
  */
@@ -524,10 +529,15 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout);
 
 /**
  * @ingroup Advanced I/O
- * @brief Measures the duration of a pulse on the specified pin.
- * @param pin The number of the pin on which to measure the pulse.
- * @param state The type of pulse to measure (e.g., HIGH, LOW, CHANGE, FALLING, RISING).
- * @param timeout The maximum duration to wait for the pulse, in microseconds.
+ * @brief Measures the duration of a pulse (in us) on the specified pin.
+ * @details
+ * The state parameter specifies the type of pulse to measure (HIGH or LOW).
+ * The timeout parameter specifies the maximum time to wait for the pulse to complete.
+ * This function works on pulses from 2-3 microseconds to 3 minutes in length.
+ * It relies on the micros() function, so it cannot be used in noInterrupt() context.
+ * @param pin The pin number to measure the pulse on.
+ * @param state The type of pulse to measure (HIGH or LOW).
+ * @param timeout The maximum time to wait for the pulse to complete, in microseconds.
  * @return The duration of the pulse in microseconds, or 0 if no pulse starts before the timeout.
  * @see https://www.arduino.cc/reference/en/language/functions/advanced-io/pulseinlong
  */

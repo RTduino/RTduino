@@ -56,18 +56,6 @@ static void pulsein_pin_interrupt_cb(void *args)
     }
 }
 
-/**
- * Measures the length (in microseconds) of a pulse on the pin.
- * The state parameter specifies the type of pulse to measure (HIGH or LOW).
- * The timeout parameter specifies the maximum time to wait for the pulse to complete.
- * This function works on pulses from 2-3 microseconds to 3 minutes in length.
- * It cannot work in noInterrupt() context.
- *
- * @param pin The pin number to measure the pulse on.
- * @param state The type of pulse to measure (HIGH or LOW).
- * @param timeout The maximum time to wait for the pulse to complete, in microseconds.
- * @return The length of the pulse in microseconds, or 0 if timeout or other errors occur.
- */
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
 {
     rt_base_t level;
@@ -117,18 +105,6 @@ unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout)
     return delta;
 }
 
-/**
- * Measures the length (in microseconds) of a pulse on the pin.
- * The state parameter specifies the type of pulse to measure (HIGH or LOW).
- * The timeout parameter specifies the maximum time to wait for the pulse to complete.
- * This function works on pulses from 2-3 microseconds to 3 minutes in length.
- * It relies on the micros() function, so it cannot be used in noInterrupt() context.
- *
- * @param pin The pin number to measure the pulse on.
- * @param state The type of pulse to measure (HIGH or LOW).
- * @param timeout The maximum time to wait for the pulse to complete, in microseconds.
- * @return The length of the pulse in microseconds, or 0 if timeout or other errors occur.
- */
 unsigned long pulseInLong(uint8_t pin, uint8_t state, unsigned long timeout)
 {
     return pulseIn(pin, state, timeout);
