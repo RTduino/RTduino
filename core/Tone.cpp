@@ -18,6 +18,7 @@
 #include <rtdbg.h>
 
 #ifdef RTDUINO_TONE_HWTIMER_DEVICE_NAME
+
 static volatile uint8_t _tone_pin = RT_NULL;
 
 
