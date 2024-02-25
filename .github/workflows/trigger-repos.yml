@@ -1,0 +1,29 @@
+name: Trigger Repos
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  trigger-rt-thread-bsp-static-build-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger RT-Thread BSP Static Build Check
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.RT_THREAD_PAT }}
+        repository: RT-Thread/rt-thread
+        event-type: online-pkgs-static-building-trigger-event
+
+  trigger-rtduino-doxygen-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger RTduino Doxygen Deploy
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ secrets.RT_THREAD_PAT }}
+        repository: RTduino/doxygen
+        event-type: rtduino-doxygen-deploy-trigger-event
