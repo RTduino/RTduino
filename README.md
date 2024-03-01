@@ -38,7 +38,7 @@ RTduino作为RT-Thread软件包，其本身支持GCC工具链以及Keil AC5、AC
 - Github代码仓库: https://github.com/RTduino/RTduino
 - Gitee代码仓库: https://gitee.com/rtduino/RTduino
 - 文档中心（全球）：https://docs.rtduino.com
-- 文档中心（国内）：https://rtduino.gitee.io
+- 文档中心（国内）：https://rtduino.gitee.io/docs
 
 ## 5 感谢以下小伙伴对本仓库的贡献
 
