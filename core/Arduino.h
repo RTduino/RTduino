@@ -116,11 +116,6 @@ extern "C" {
  */
 
 /**
- * @defgroup Sketch
- * @brief Arduino sketch structure and functions.
- */
-
-/**
  * @defgroup Random Numbers
  * @brief Random number generation functions.
  */
@@ -607,20 +602,12 @@ void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode);
 void detachInterrupt(uint8_t interruptNum);
 
 /**
- * @ingroup Sketch
- * @brief Initialization function for the Arduino environment.
- * @details This function should be called at the beginning of the program to set up the Arduino environment.
- * @see https://www.arduino.cc/reference/en/language/structure/sketch/setup
+ * @ingroup Random Numbers
+ * @brief Initializes the pseudo-random number generator.
+ * @param seed The seed value for the random number generator.
+ * @see https://www.arduino.cc/reference/en/language/functions/random-numbers/randomseed
  */
-void setup(void);
-
-/**
- * @ingroup Sketch
- * @brief Main loop function for the Arduino program.
- * @details This function is called repeatedly after the setup function, forming the main loop of the Arduino program.
- * @see https://www.arduino.cc/reference/en/language/structure/sketch/loop
- */
-void loop(void);
+void randomSeed(unsigned long seed);
 
 /**
  * @ingroup Maths
@@ -633,28 +620,23 @@ void loop(void);
  * @return The mapped value.
  * @see https://www.arduino.cc/reference/en/language/functions/math/map
  */
-long long map(long long x, long long in_min, long long in_max, long long out_min, long long out_max);
+long map(long x, long in_min, long in_max, long out_min, long out_max);
 
 /**
- * @ingroup Maths
- * @brief Maps a floating-point value from one range to another.
- * @param x The value to map.
- * @param in_min The lower bound of the input range.
- * @param in_max The upper bound of the input range.
- * @param out_min The lower bound of the output range.
- * @param out_max The upper bound of the output range.
- * @return The mapped value.
- * @note This function is not part of the Arduino API, but is provided for convenience.
+ * @ingroup System
+ * @brief Initialization function for the Arduino environment.
+ * @details This function should be called at the beginning of the program to set up the Arduino environment.
+ * @see https://www.arduino.cc/reference/en/language/structure/sketch/setup
  */
-float mapFloat(float x, float in_min, float in_max, float out_min, float out_max);
+void setup(void);
 
 /**
- * @ingroup Random Numbers
- * @brief Initializes the pseudo-random number generator.
- * @param seed The seed value for the random number generator.
- * @see https://www.arduino.cc/reference/en/language/functions/random-numbers/randomseed
+ * @ingroup System
+ * @brief Main loop function for the Arduino program.
+ * @details This function is called repeatedly after the setup function, forming the main loop of the Arduino program.
+ * @see https://www.arduino.cc/reference/en/language/structure/sketch/loop
  */
-void randomSeed(unsigned long seed);
+void loop(void);
 
 /**
  * @ingroup System
@@ -698,6 +680,35 @@ long random(long max);
  * @see https://www.arduino.cc/reference/en/language/functions/random-numbers/random
  */
 long random(long min, long max);
+
+/**
+ * @ingroup Maths
+ * @brief Maps a value from one range to another range.
+ *
+ * This template function maps a number from one range to another range, maintaining the ratio of the input range 
+ * to output range. It can be used with any data type that supports arithmetic operations (e.g., int, float, double).
+ *
+ * @tparam T The data type of the input and output values. Must support arithmetic operations.
+ * @param x The number to map.
+ * @param in_min The lower bound of the input range.
+ * @param in_max The upper bound of the input range.
+ * @param out_min The lower bound of the output range.
+ * @param out_max The upper bound of the output range.
+ *
+ * @return The mapped value of type T.
+ *
+ * @code
+ * int input = 10;
+ * int output = map<int>(input, 0, 100, -50, 50); // Maps 10 from range 0-100 to -40 in range -50 to 50
+ * @endcode
+ *
+ * @see https://www.arduino.cc/reference/en/language/functions/math/map
+ */
+template <typename T>
+T map(T x, T in_min, T in_max, T out_min, T out_max)
+{
+    return (T)(((double)(x - in_min) * (double)(out_max - out_min)) / (double)((in_max - in_min) + out_min));
+}
 
 /**
  * @ingroup Conversion
