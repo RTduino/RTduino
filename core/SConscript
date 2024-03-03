@@ -1,6 +1,5 @@
 import os
 from building import *
-from gcc import GetGCCLikePLATFORM
 import rtconfig
 
 cwd = GetCurrentDir()
@@ -13,28 +12,28 @@ LOCAL_CXXFLAGS = ''
 strict_cflags = ''
 strict_cxxflags = ''
 
-if rtconfig.PLATFORM in GetGCCLikePLATFORM():
+if rtconfig.PLATFORM in ['gcc', 'armclang', 'llvm-arm']: # GCC or Keil AC6 or Clang/LLVM
     CXXFLAGS += ' -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections' # reduce resource consumption
     LOCAL_CFLAGS += ' -std=gnu99' # enable GNU extension. Cannot use -std=c99, some toolchain like RISC-V GCC doesn't support 'asm' key word
     LOCAL_CXXFLAGS += ' -std=c++11' # support C++11, like non-static data member initializers
 
-    # enable warning
-    # both C and C++ files
-    strict_cflags += ' -Wall -Wextra' # enable all warning
-    strict_cflags += ' -Wunused -Wunused-parameter -Wunused-function -Wunused-label -Wunused-variable -Wunused-value' # unused warning
-    strict_cflags += ' -Wformat -Wformat-security' # printf/scanf format warning
-    strict_cflags += ' -Warray-bounds -Wuninitialized -Wsequence-point' # memory access warning
-    strict_cflags += ' -Wreturn-type -Wcomment -Wswitch -Wmissing-braces -Wmultichar' # code style warning
-    strict_cflags += ' -Wparentheses -Wlogical-op -Wsequence-point -Wfloat-equal -Wsign-compare -Wpointer-arith' # operation warning -Wconversion
-    strict_cflags += ' -Wimplicit-fallthrough' # implicit fallthrough warning
-    strict_cflags += ' -Wduplicated-cond -Wduplicated-branches -Wunreachable-code' # duplicated code warning
-    strict_cxxflags += strict_cflags
+    if rtconfig.PLATFORM in ['gcc']: # enable warning (only for GCC)
+        # both C and C++ files
+        strict_cflags += ' -Wall -Wextra' # enable all warning
+        strict_cflags += ' -Wunused -Wunused-parameter -Wunused-function -Wunused-label -Wunused-variable -Wunused-value' # unused warning
+        strict_cflags += ' -Wformat -Wformat-security' # printf/scanf format warning
+        strict_cflags += ' -Warray-bounds -Wuninitialized -Wsequence-point' # memory access warning
+        strict_cflags += ' -Wreturn-type -Wcomment -Wswitch -Wmissing-braces -Wmultichar' # code style warning
+        strict_cflags += ' -Wparentheses -Wlogical-op -Wsequence-point -Wfloat-equal -Wsign-compare -Wpointer-arith' # operation warning -Wconversion
+        strict_cflags += ' -Wimplicit-fallthrough' # implicit fallthrough warning
+        strict_cflags += ' -Wduplicated-cond -Wduplicated-branches -Wunreachable-code' # duplicated code warning
+        strict_cxxflags += strict_cflags
 
-    # only for C files
-    strict_cflags += ' -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes' # function declaration warning
+        # only for C files
+        strict_cflags += ' -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes' # function declaration warning
 
-    # only for C++ files
-    # strict_cxxflags += ' -Wreorder -Wnon-virtual-dtor -Woverloaded-virtual' # virtual function warning
+        # only for C++ files
+        # strict_cxxflags += ' -Wreorder -Wnon-virtual-dtor -Woverloaded-virtual' # virtual function warning
 elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS += ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
