@@ -139,23 +139,94 @@ typedef struct
     rt_int8_t   channel;        /**< Channel number */
 } pin_map_t;
 
+/**
+ * @typedef word
+ * @brief Represents a 16-bit unsigned integer.
+ * @ingroup Bits and Bytes
+ */
 typedef unsigned int word;
+
+/**
+ * @typedef boolean
+ * @brief Represents a boolean value (true or false).
+ * @ingroup Bits and Bytes
+ */
 typedef bool boolean;
+
+/**
+ * @typedef byte
+ * @brief Represents an 8-bit unsigned integer.
+ * @ingroup Bits and Bytes
+ */
 typedef uint8_t byte;
 
+/**
+ * @brief Represents a low state (0V).
+ * @ingroup External Interrupts
+ */
 #define LOW     0x0
+
+/**
+ * @brief Represents a high state (usually 3.3V or 5V).
+ * @ingroup External Interrupts
+ */
 #define HIGH    0x1
+
+/**
+ * @brief Represents a change in state.
+ * @ingroup External Interrupts
+ */
 #define CHANGE  0x2
+
+/**
+ * @brief Represents a transition from high to low.
+ * @ingroup External Interrupts
+ */
 #define FALLING 0x3
+
+/**
+ * @brief Represents a transition from low to high.
+ * @ingroup External Interrupts
+ */
 #define RISING  0x4
 
-/* Arduino Official */
+/**
+ * @brief Configures the pin as an input.
+ * @ingroup Digital I/O
+ */
 #define INPUT               0x0
+
+/**
+ * @brief Configures the pin as an output.
+ * @ingroup Digital I/O
+ */
 #define OUTPUT              0x1
+
+/**
+ * @brief Configures the pin as an input with an internal pull-up resistor.
+ * @ingroup Digital I/O
+ */
 #define INPUT_PULLUP        0x2
-/* RT-Thread extension */
+
+/**
+ * @brief Configures the pin as a floating input (same as INPUT).
+ * @note RTduino extension.
+ * @ingroup Digital I/O
+ */
 #define INPUT_FLOATING      INPUT
+
+/**
+ * @brief Configures the pin as an input with an internal pull-down resistor.
+ * @note RTduino extension.
+ * @ingroup Digital I/O
+ */
 #define INPUT_PULLDOWN      0x3
+
+/**
+ * @brief Configures the pin as an open-drain output.
+ * @note RTduino extension.
+ * @ingroup Digital I/O
+ */
 #define OUTPUT_OPEN_DRAIN   0x4
 
 /**
@@ -197,7 +268,16 @@ typedef uint8_t byte;
 #define SERIAL  0x0
 #define DISPLAY 0x1
 
+/**
+ * @brief Least Significant Bit first.
+ * @ingroup Bits and Bytes
+ */
 #define LSBFIRST 0
+
+/**
+ * @brief Most Significant Bit first.
+ * @ingroup Bits and Bytes
+ */
 #define MSBFIRST 1
 
 /* math operations */
