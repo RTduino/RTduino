@@ -60,7 +60,7 @@ void pinMode(uint8_t pin, uint8_t mode)
 
     if (pin_map_table[pin].device_name != RT_NULL)
     {
-        LOG_W("[pinMode] Pin %d was a %s device IO, but now it becomes a general-purpose IO.", pin, pin_map_table[pin].device_name);
+        LOG_I("[pinMode] Pin %d was a %s device IO, but now it becomes a general-purpose IO.", pin, pin_map_table[pin].device_name);
     }
     rt_pin_mode(pin_map_table[pin].rt_pin, rt_mode);
 }
