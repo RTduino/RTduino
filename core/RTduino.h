@@ -33,11 +33,6 @@
 
 #include "Arduino.h"
 
-#if RT_VER_NUM < 0x50000
-#define rt_align(x)  ALIGN(x)
-#define rt_weak      RT_WEAK
-#endif /* RT_VER_NUM < 0x50000 */
-
 #ifndef RTDUINO_THREAD_SIZE
 #define RTDUINO_THREAD_SIZE     2048
 #endif /* RTDUINO_THREAD_SIZE */

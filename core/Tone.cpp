@@ -11,7 +11,7 @@
  * 2023-06-25     Meco Man     first version
  */
 
-#include <Arduino.h>
+#include <RTduino.h>
 
 #define DBG_TAG    "RTduino.Tone"
 #define DBG_LVL    DBG_INFO

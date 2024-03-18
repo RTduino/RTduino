@@ -8,7 +8,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-05-31     Meco Man     first version
+ * 2022-05-31     Meco Man     port to RTduino
  */
 
 /*

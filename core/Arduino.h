@@ -55,17 +55,20 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <posix/stdlib.h>
 #include <math.h>
-
-#include "avr/io.h"
-#include "avr/pgmspace.h"
-#include "avr/dtostrf.h"
 #include "binary.h"
+#include "avr/io.h"
+#include "avr/stdlib.h"
+#include "avr/pgmspace.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#if RT_VER_NUM < 0x50000
+#define rt_align(x)  ALIGN(x)
+#define rt_weak      RT_WEAK
+#endif /* RT_VER_NUM < 0x50000 */
 
 #ifndef RTDUINO_TINY_MODE
 #include "pins_arduino.h"
