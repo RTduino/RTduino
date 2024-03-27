@@ -38,7 +38,7 @@ elif rtconfig.PLATFORM in ['armcc']: # Keil AC5
     CXXFLAGS += ' --gnu --c99' # enable global C99 and GNU extension support for the whole project
     LOCAL_CCFLAGS += ' --gnu -g -W'
     LOCAL_CFLAGS += ' --c99' # cannot use --c99 symbol for C++ files, pertically in Keil
-    LOCAL_CXXFLAGS += ' --cpp11' # support C++11
+    # LOCAL_CXXFLAGS += ' --cpp11' # support C++11, Keil5 5.38 doesn't support C++11
 else:
     print('[RTduino] Unsupported rtconfig.PLATFORM: {}'.format(rtconfig.PLATFORM))
     Return('group')

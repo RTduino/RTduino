@@ -699,7 +699,7 @@ void String::remove(unsigned int index){
 }
 
 void String::remove(unsigned int index, unsigned int count) {
-    if (index >= len || buffer == nullptr) { return; }
+    if (index >= len || buffer == NULL) { return; }
     if (count == 0) { return; }
     if (count > len - index) { count = len - index; }
     len = len - count;
