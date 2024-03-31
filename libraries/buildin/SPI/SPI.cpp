@@ -31,7 +31,6 @@
 
 SPIClass SPI;
 
-/* Pins that are not spi by default can be converted by this function */
 rt_weak void switchToSPI(const char *bus_name)
 {
     RT_UNUSED(bus_name);

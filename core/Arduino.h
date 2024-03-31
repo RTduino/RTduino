@@ -729,10 +729,18 @@ void loop(void);
  */
 void initVariant(void);
 
+/**
+ * @ingroup System
+ * @brief Switches to the PWM device.
+ * @param bus_name The name of the PWM device to switch to.
+ * @note Do not call this function manually.
+ */
+void switchToPWM(const char *dev_name);
+
 #ifdef RTDUINO_USING_SPI
 /**
  * @ingroup System
- * @brief Switches the current SPI bus.
+ * @brief Switches to the SPI bus.
  * @param bus_name The name of the SPI bus to switch to.
  * @note Do not call this function manually.
  */
