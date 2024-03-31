@@ -25,6 +25,11 @@ static uint32_t _analog_pwm_hz = 500; /* default: Arduino UNO's PWM is around 50
 
 #define PWM_PERIOD_NS (1000*1000*1000/*ns*//_analog_pwm_hz)
 
+rt_weak void switchToPWM(const char *dev_name)
+{
+    RT_UNUSED(dev_name);
+}
+
 /**
  * @brief Set the reference voltage for analog input.
  *
@@ -88,6 +93,7 @@ void analogWrite(uint8_t pin, int val)
     struct rt_device_pwm *pwm_dev;
     rt_uint32_t rt_pwm_val;
 
+    switchToPWM(pin_map_table[pin].device_name);
     pwm_dev = (struct rt_device_pwm*)rt_device_find(pin_map_table[pin].device_name);
     if(pwm_dev != RT_NULL && pwm_dev->parent.type == RT_Device_Class_PWM)
     {
