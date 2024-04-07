@@ -63,8 +63,8 @@ class Stream : public Print
   protected:
     unsigned long _timeout;      // number of milliseconds to wait for the next char before aborting timed read
     unsigned long _startMillis;  // used for timeout measurement
-    int timedRead();    // read stream with timeout
-    int timedPeek();    // peek stream with timeout
+    int timedRead(void);    // read stream with timeout
+    int timedPeek(void);    // peek stream with timeout
     int peekNextDigit(LookaheadMode lookahead, bool detectDecimal); // returns the next numeric digit in the stream or -1 if timeout
 
   public:
@@ -120,7 +120,7 @@ class Stream : public Print
   // returns the number of characters placed in the buffer (0 means no valid data found)
 
   // Arduino String functions to be added here
-  String readString();
+  String readString(void);
   String readStringUntil(char terminator);
 
   protected:

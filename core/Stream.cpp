@@ -38,7 +38,7 @@
 #include "Stream.h"
 
 // protected method to read stream with timeout
-int Stream::timedRead()
+int Stream::timedRead(void)
 {
   int c;
   _startMillis = millis();
@@ -52,7 +52,7 @@ int Stream::timedRead()
 }
 
 // protected method to peek stream with timeout
-int Stream::timedPeek()
+int Stream::timedPeek(void)
 {
   int c;
   _startMillis = millis();
@@ -242,7 +242,7 @@ size_t Stream::readBytesUntil(char terminator, char *buffer, size_t length)
   return index; // return number of characters, not including null terminator
 }
 
-String Stream::readString()
+String Stream::readString(void)
 {
   String ret;
   int c = timedRead();
