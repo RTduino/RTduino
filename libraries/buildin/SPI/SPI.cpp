@@ -146,7 +146,7 @@ void SPIClass::endTransaction(void)
 
 void SPIClass::end(void)
 {
-    /* Nothing to do. RTduino has no right to shutdown RT-Thread SPI devcies */
+    /* Nothing to do. RTduino has no right to shutdown RT-Thread SPI devices */
 }
 
 /* ----------------------- legacy functions -------------------------- */
