@@ -92,10 +92,12 @@ class SPISettings
 
 class SPIClass
 {
+    private:
+        struct rt_spi_device _chip_device;
     public:
-        struct rt_spi_device _spi_bus_device;
-
-        void begin(const char *spi_bus_name = RTDUINO_DEFAULT_SPI_BUS_NAME, rt_base_t cs_pin = PIN_NONE);
+        void begin(const char *chip_name = "RTdu",
+                   const char *bus_name = RTDUINO_DEFAULT_SPI_BUS_NAME,
+                   rt_base_t cs_pin = PIN_NONE);
         void beginTransaction(SPISettings settings);
         uint8_t transfer(uint8_t data);
         void transfer(void *buf, size_t count);
