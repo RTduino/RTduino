@@ -75,6 +75,7 @@ private:
 
 public:
     struct rt_i2c_bus_device *_i2c_bus_dev;
+    bool _i2c_bus_dev_initialized;
 
     TwoWire();
     void begin(const char *i2c_dev_name = RTDUINO_DEFAULT_IIC_BUS_NAME);

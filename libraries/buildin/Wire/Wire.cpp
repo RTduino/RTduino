@@ -141,6 +141,7 @@ void twi_disable(void)
 TwoWire::TwoWire()
 {
     _i2c_bus_dev = RT_NULL;
+    _i2c_bus_dev_initialized = false;
     rt_memset(rxBuffer, 0, RTDUINO_WIRE_BUFFER_LENGTH);
     rt_memset(txBuffer, 0, RTDUINO_WIRE_BUFFER_LENGTH);
     rxBufferIndex = 0;
@@ -157,21 +158,26 @@ TwoWire::TwoWire()
 
 void TwoWire::begin(const char *i2c_dev_name)
 {
-    struct rt_i2c_bus_device * dev;
-
-    dev = (struct rt_i2c_bus_device *)rt_device_find(i2c_dev_name);
-    if(dev == RT_NULL)
+    if (!_i2c_bus_dev_initialized)
     {
-        LOG_E("Cannot find IIC device!");
-        return;
+        struct rt_i2c_bus_device *dev;
+
+        dev = (struct rt_i2c_bus_device *)rt_device_find(i2c_dev_name);
+        if(dev == RT_NULL)
+        {
+            LOG_E("Cannot find device: %s!", i2c_dev_name);
+            return;
+        }
+
+        rxBufferIndex = 0;
+        rxBufferLength = 0;
+
+        txBufferIndex = 0;
+        txBufferLength = 0;
+
+        _i2c_bus_dev = dev;
+        _i2c_bus_dev_initialized = true;        
     }
-    _i2c_bus_dev = dev;
-
-    rxBufferIndex = 0;
-    rxBufferLength = 0;
-
-    txBufferIndex = 0;
-    txBufferLength = 0;
 }
 
 //void TwoWire::begin(uint8_t address)
