@@ -53,6 +53,9 @@
 class TwoWire : public Stream
 {
 private:
+    bool _i2c_bus_dev_initialized;
+    struct rt_i2c_bus_device *_i2c_bus_dev;
+
     uint8_t rxBuffer[RTDUINO_WIRE_BUFFER_LENGTH];
     size_t rxBufferIndex;
     size_t rxBufferLength;
@@ -74,9 +77,6 @@ private:
     uint8_t twi_status(void);
 
 public:
-    struct rt_i2c_bus_device *_i2c_bus_dev;
-    bool _i2c_bus_dev_initialized;
-
     TwoWire();
     void begin(const char *i2c_dev_name = RTDUINO_DEFAULT_IIC_BUS_NAME);
     void begin(uint8_t);
@@ -108,6 +108,10 @@ public:
     inline size_t write(int n) { return write((uint8_t)n); }
 
     using Print::write;
+
+    /* RTduino extension */
+    bool isBusDeviceInited(void);
+    struct rt_i2c_bus_device* getBusDevice(void);
 };
 
 extern TwoWire Wire;

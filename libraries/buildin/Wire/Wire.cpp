@@ -158,26 +158,28 @@ TwoWire::TwoWire()
 
 void TwoWire::begin(const char *i2c_dev_name)
 {
-    if (!_i2c_bus_dev_initialized)
+    if (_i2c_bus_dev_initialized)
     {
-        struct rt_i2c_bus_device *dev;
-
-        dev = (struct rt_i2c_bus_device *)rt_device_find(i2c_dev_name);
-        if(dev == RT_NULL)
-        {
-            LOG_E("Cannot find device: %s!", i2c_dev_name);
-            return;
-        }
-
-        rxBufferIndex = 0;
-        rxBufferLength = 0;
-
-        txBufferIndex = 0;
-        txBufferLength = 0;
-
-        _i2c_bus_dev = dev;
-        _i2c_bus_dev_initialized = true;        
+        return;
     }
+
+    struct rt_i2c_bus_device *dev;
+
+    dev = (struct rt_i2c_bus_device *)rt_device_find(i2c_dev_name);
+    if(dev == RT_NULL)
+    {
+        LOG_E("Cannot find device: %s!", i2c_dev_name);
+        return;
+    }
+
+    rxBufferIndex = 0;
+    rxBufferLength = 0;
+
+    txBufferIndex = 0;
+    txBufferLength = 0;
+
+    _i2c_bus_dev = dev;
+    _i2c_bus_dev_initialized = true;
 }
 
 //void TwoWire::begin(uint8_t address)
@@ -490,6 +492,16 @@ void TwoWire::flush(void)
 //{
 //    user_onRequest = function;
 //}
+
+bool TwoWire::isBusDeviceInited(void)
+{
+    return _i2c_bus_dev_initialized;
+}
+
+struct rt_i2c_bus_device* TwoWire::getBusDevice(void)
+{
+    return _i2c_bus_dev;
+}
 
 // Preinstantiate Objects //////////////////////////////////////////////////////
 
