@@ -53,8 +53,8 @@
 class TwoWire : public Stream
 {
 private:
-    bool _i2c_bus_dev_initialized;
-    struct rt_i2c_bus_device *_i2c_bus_dev;
+    bool _bus_dev_initialized;
+    struct rt_i2c_bus_device *_bus_dev;
 
     uint8_t rxBuffer[RTDUINO_WIRE_BUFFER_LENGTH];
     size_t rxBufferIndex;

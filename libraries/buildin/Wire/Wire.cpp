@@ -66,7 +66,7 @@ uint8_t TwoWire::twi_readFrom(unsigned char address, unsigned char * buf, unsign
         flag |= RT_I2C_NO_STOP;
     }
 
-    return rt_i2c_master_recv(_i2c_bus_dev, address, flag, buf, len);
+    return rt_i2c_master_recv(_bus_dev, address, flag, buf, len);
 }
 
 /*
@@ -92,7 +92,7 @@ uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigne
         flag |= RT_I2C_NO_STOP;
     }
 
-    if(rt_i2c_master_send(_i2c_bus_dev, address, flag, buf, len) != 0)
+    if(rt_i2c_master_send(_bus_dev, address, flag, buf, len) != 0)
     {
         return 0; //success
     }
@@ -114,7 +114,7 @@ uint8_t TwoWire::twi_writeTo(unsigned char address, unsigned char * buf, unsigne
  */
 uint8_t TwoWire::twi_transmit(const uint8_t * buf, uint8_t len)
 {
-    int8_t ret = rt_i2c_master_send(_i2c_bus_dev, txAddress, RT_NULL, buf, len);
+    int8_t ret = rt_i2c_master_send(_bus_dev, txAddress, RT_NULL, buf, len);
 
     if(ret > 0)
     {
@@ -140,8 +140,8 @@ void twi_disable(void)
 
 TwoWire::TwoWire()
 {
-    _i2c_bus_dev = RT_NULL;
-    _i2c_bus_dev_initialized = false;
+    _bus_dev = RT_NULL;
+    _bus_dev_initialized = false;
     rt_memset(rxBuffer, 0, RTDUINO_WIRE_BUFFER_LENGTH);
     rt_memset(txBuffer, 0, RTDUINO_WIRE_BUFFER_LENGTH);
     rxBufferIndex = 0;
@@ -158,7 +158,7 @@ TwoWire::TwoWire()
 
 void TwoWire::begin(const char *i2c_dev_name)
 {
-    if (_i2c_bus_dev_initialized)
+    if (_bus_dev_initialized)
     {
         return;
     }
@@ -178,8 +178,8 @@ void TwoWire::begin(const char *i2c_dev_name)
     txBufferIndex = 0;
     txBufferLength = 0;
 
-    _i2c_bus_dev = dev;
-    _i2c_bus_dev_initialized = true;
+    _bus_dev = dev;
+    _bus_dev_initialized = true;
 }
 
 //void TwoWire::begin(uint8_t address)
@@ -495,12 +495,12 @@ void TwoWire::flush(void)
 
 bool TwoWire::isBusDeviceInited(void)
 {
-    return _i2c_bus_dev_initialized;
+    return _bus_dev_initialized;
 }
 
 struct rt_i2c_bus_device* TwoWire::getBusDevice(void)
 {
-    return _i2c_bus_dev;
+    return _bus_dev;
 }
 
 // Preinstantiate Objects //////////////////////////////////////////////////////
