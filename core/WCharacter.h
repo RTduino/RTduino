@@ -34,6 +34,10 @@
 
 #include "avr/ctype.h"
 
+// This header file is consistent with Arduino AVR/ESP8266/ESP32 API
+// but not consistent with ArduinoCore-API
+// see: https://github.com/arduino/ArduinoCore-API/commit/47e23ccfe5062e6075eb6d5a11be49d909f99ea3
+
 // WCharacter.h prototypes
 inline boolean isAlphaNumeric(int c) __attribute__((always_inline));
 inline boolean isAlpha(int c) __attribute__((always_inline));

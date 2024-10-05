@@ -56,7 +56,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
-#include "binary.h"
+#include "Binary.h"
 #include "avr/io.h"
 #include "avr/stdlib.h"
 #include "avr/pgmspace.h"

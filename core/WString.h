@@ -56,11 +56,15 @@ class StringSumHelper;
 // The string class
 class String
 {
-    // use a function pointer to allow for "if (s)" without the
-    // complications of an operator bool(). for more information, see:
-    // http://www.artima.com/cppsource/safebool.html
-    typedef void (String::*StringIfHelperType)() const;
-    void StringIfHelper() const {}
+	friend class StringSumHelper;
+	// use a function pointer to allow for "if (s)" without the
+	// complications of an operator bool(). for more information, see:
+	// http://www.artima.com/cppsource/safebool.html
+	typedef void (String::*StringIfHelperType)() const;
+	void StringIfHelper() const {}
+
+	static size_t const FLT_MAX_DECIMAL_PLACES = 10;
+	static size_t const DBL_MAX_DECIMAL_PLACES = FLT_MAX_DECIMAL_PLACES;
 
 public:
     // constructors
@@ -73,9 +77,7 @@ public:
     String(const uint8_t *cstr, unsigned int length) : String((const char*)cstr, length) {}
     String(const String &str);
     String(const __FlashStringHelper *str);
-#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
     String(String &&rval);
-#endif
     explicit String(char c);
     explicit String(unsigned char, unsigned char base=10);
     explicit String(int, unsigned char base=10);
@@ -90,8 +92,9 @@ public:
     // return true on success, false on failure (in which case, the string
     // is left unchanged).  reserve(0), if successful, will validate an
     // invalid string (i.e., "if (s)" will be true afterwards)
-    unsigned char reserve(unsigned int size);
+    bool reserve(unsigned int size);
     inline unsigned int length(void) const {return len;}
+	inline bool isEmpty(void) const { return length() == 0; }
 
     // creates a copy of the assigned value.  if the value is null or
     // invalid, or if the memory allocation fails, the string will be
@@ -99,28 +102,26 @@ public:
     String & operator = (const String &rhs);
     String & operator = (const char *cstr);
     String & operator = (const __FlashStringHelper *str);
-#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
     String & operator = (String &&rval);
-#endif
 
     // concatenate (works w/ built-in types)
 
-    // returns true on success, false on failure (in which case, the string
-    // is left unchanged).  if the argument is null or invalid, the
-    // concatenation is considered unsuccessful.
-    unsigned char concat(const String &str);
-    unsigned char concat(const char *cstr);
-    unsigned char concat(const char *cstr, unsigned int length);
-	unsigned char concat(const uint8_t *cstr, unsigned int length) {return concat((const char*)cstr, length);}
-    unsigned char concat(char c);
-    unsigned char concat(unsigned char c);
-    unsigned char concat(int num);
-    unsigned char concat(unsigned int num);
-    unsigned char concat(long num);
-    unsigned char concat(unsigned long num);
-    unsigned char concat(float num);
-    unsigned char concat(double num);
-    unsigned char concat(const __FlashStringHelper * str);
+	// returns true on success, false on failure (in which case, the string
+	// is left unchanged).  if the argument is null or invalid, the
+	// concatenation is considered unsuccessful.
+	bool concat(const String &str);
+	bool concat(const char *cstr);
+	bool concat(const char *cstr, unsigned int length);
+	bool concat(const uint8_t *cstr, unsigned int length) {return concat((const char*)cstr, length);}
+	bool concat(char c);
+	bool concat(unsigned char num);
+	bool concat(int num);
+	bool concat(unsigned int num);
+	bool concat(long num);
+	bool concat(unsigned long num);
+	bool concat(float num);
+	bool concat(double num);
+	bool concat(const __FlashStringHelper * str);
 
     // if there's not enough memory for the concatenated value, the string
     // will be left unchanged (but this isn't signalled in any way)
@@ -148,22 +149,37 @@ public:
     friend StringSumHelper & operator + (const StringSumHelper &lhs, double num);
     friend StringSumHelper & operator + (const StringSumHelper &lhs, const __FlashStringHelper *rhs);
 
-    // comparison (only works w/ Strings and "strings")
-    int compareTo(const String &s) const;
-    unsigned char equals(const String &s) const;
-    unsigned char equals(const char *cstr) const;
-    unsigned char operator == (const String &rhs) const {return equals(rhs);}
-    unsigned char operator == (const char *cstr) const {return equals(cstr);}
-    unsigned char operator != (const String &rhs) const {return !equals(rhs);}
-    unsigned char operator != (const char *cstr) const {return !equals(cstr);}
-    unsigned char operator <  (const String &rhs) const;
-    unsigned char operator >  (const String &rhs) const;
-    unsigned char operator <= (const String &rhs) const;
-    unsigned char operator >= (const String &rhs) const;
-    unsigned char equalsIgnoreCase(const String &s) const;
-    unsigned char startsWith( const String &prefix) const;
-    unsigned char startsWith(const String &prefix, unsigned int offset) const;
-    unsigned char endsWith(const String &suffix) const;
+	// comparison (only works w/ Strings and "strings")
+	operator StringIfHelperType() const { return buffer ? &String::StringIfHelper : 0; }
+	int compareTo(const String &s) const;
+	int compareTo(const char *cstr) const;
+	bool equals(const String &s) const;
+	bool equals(const char *cstr) const;
+
+	friend bool operator == (const String &a, const String &b) { return a.equals(b); }
+	friend bool operator == (const String &a, const char   *b) { return a.equals(b); }
+	friend bool operator == (const char   *a, const String &b) { return b == a; }
+	friend bool operator <  (const String &a, const String &b) { return a.compareTo(b) < 0; }
+	friend bool operator <  (const String &a, const char   *b) { return a.compareTo(b) < 0; }
+	friend bool operator <  (const char   *a, const String &b) { return b.compareTo(a) > 0; }
+
+	friend bool operator != (const String &a, const String &b) { return !(a == b); }
+	friend bool operator != (const String &a, const char   *b) { return !(a == b); }
+	friend bool operator != (const char   *a, const String &b) { return !(a == b); }
+	friend bool operator >  (const String &a, const String &b) { return b < a; }
+	friend bool operator >  (const String &a, const char   *b) { return b < a; }
+	friend bool operator >  (const char   *a, const String &b) { return b < a; }
+	friend bool operator <= (const String &a, const String &b) { return !(b < a); }
+	friend bool operator <= (const String &a, const char   *b) { return !(b < a); }
+	friend bool operator <= (const char   *a, const String &b) { return !(b < a); }
+	friend bool operator >= (const String &a, const String &b) { return !(a < b); }
+	friend bool operator >= (const String &a, const char   *b) { return !(a < b); }
+	friend bool operator >= (const char   *a, const String &b) { return !(a < b); }
+
+	bool equalsIgnoreCase(const String &s) const;
+	bool startsWith( const String &prefix) const;
+	bool startsWith(const String &prefix, unsigned int offset) const;
+	bool endsWith(const String &suffix) const;
 
     // character access
     char charAt(unsigned int index) const;
@@ -210,16 +226,14 @@ protected:
     unsigned int capacity;  // the array length minus one (for the '\0')
     unsigned int len;       // the String length (not counting the '\0')
 protected:
-    void init(void);
-    void invalidate(void);
-    unsigned char changeBuffer(unsigned int maxStrLen);
+	void init(void);
+	void invalidate(void);
+	bool changeBuffer(unsigned int maxStrLen);
 
     // copy and move
     String & copy(const char *cstr, unsigned int length);
     String & copy(const __FlashStringHelper *pstr, unsigned int length);
-#if __cplusplus >= 201103L || defined(__GXX_EXPERIMENTAL_CXX0X__)
     void move(String &rhs);
-#endif
 };
 
 class StringSumHelper : public String

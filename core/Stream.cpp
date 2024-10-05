@@ -45,8 +45,7 @@ int Stream::timedRead(void)
   do {
     c = read();
     if(c >= 0) return c;
-    if(_timeout == 0) return -1;
-    yield();
+    //yield(); //cherry-pick from esp8266 arduino 55f07f1e08868b855f2ae2fb3b7b42004ff8022f
   } while(millis() - _startMillis < _timeout);
   return -1;     // -1 indicates timeout
 }
@@ -59,8 +58,7 @@ int Stream::timedPeek(void)
   do {
     c = peek();
     if(c >= 0) return c;
-    if(_timeout == 0) return -1;
-    yield();
+    //yield(); //cherry-pick from esp8266 arduino 55f07f1e08868b855f2ae2fb3b7b42004ff8022f
   } while(millis() - _startMillis < _timeout);
   return -1;     // -1 indicates timeout
 }
@@ -104,20 +102,20 @@ void Stream::setTimeout(unsigned long timeout)  // sets the maximum number of mi
 }
 
  // find returns true if the target string is found
-bool  Stream::find(char *target)
+bool  Stream::find(const char *target)
 {
   return findUntil(target, strlen(target), NULL, 0);
 }
 
 // reads data from the stream until the target string of given length is found
 // returns true if target string is found, false if timed out
-bool Stream::find(char *target, size_t length)
+bool Stream::find(const char *target, size_t length)
 {
   return findUntil(target, length, NULL, 0);
 }
 
 // as find but search ends if the terminator string is found
-bool  Stream::findUntil(char *target, char *terminator)
+bool  Stream::findUntil(const char *target, const char *terminator)
 {
   return findUntil(target, strlen(target), terminator, strlen(terminator));
 }
@@ -125,14 +123,14 @@ bool  Stream::findUntil(char *target, char *terminator)
 // reads data from the stream until the target string of the given length is found
 // search terminated if the terminator string is found
 // returns true if target string is found, false if terminated or timed out
-bool Stream::findUntil(char *target, size_t targetLen, char *terminator, size_t termLen)
+bool Stream::findUntil(const char *target, size_t targetLen, const char *terminator, size_t termLen)
 {
   if (terminator == NULL) {
     MultiTarget t[1] = {{target, targetLen, 0}};
-    return findMulti(t, 1) == 0 ? true : false;
+    return findMulti(t, 1) == 0;
   } else {
     MultiTarget t[2] = {{target, targetLen, 0}, {terminator, termLen, 0}};
-    return findMulti(t, 2) == 0 ? true : false;
+    return findMulti(t, 2) == 0;
   }
 }
 
@@ -153,7 +151,7 @@ long Stream::parseInt(LookaheadMode lookahead, char ignore)
     return 0; // zero returned if timeout
 
   do{
-    if(c == ignore)
+    if((char)c == ignore)
       ; // ignore this character
     else if(c == '-')
       isNegative = true;
@@ -162,7 +160,7 @@ long Stream::parseInt(LookaheadMode lookahead, char ignore)
     read();  // consume the character we got with peek
     c = timedPeek();
   }
-  while( (c >= '0' && c <= '9') || c == ignore );
+  while( (c >= '0' && c <= '9') || (char)c == ignore );
 
   if(isNegative)
     value = -value;
@@ -174,9 +172,9 @@ float Stream::parseFloat(LookaheadMode lookahead, char ignore)
 {
   bool isNegative = false;
   bool isFraction = false;
-  long value = 0;
+  double value = 0.0;
   int c;
-  float fraction = 1.0;
+  double fraction = 1.0;
 
   c = peekNextDigit(lookahead, true);
     // ignore non numeric leading characters
@@ -184,28 +182,29 @@ float Stream::parseFloat(LookaheadMode lookahead, char ignore)
     return 0; // zero returned if timeout
 
   do{
-    if(c == ignore)
+    if((char)c == ignore)
       ; // ignore
     else if(c == '-')
       isNegative = true;
     else if (c == '.')
       isFraction = true;
     else if(c >= '0' && c <= '9')  {      // is c a digit?
-      value = value * 10 + c - '0';
-      if(isFraction)
-         fraction *= 0.1f;
+      if(isFraction) {
+        fraction *= 0.1;
+        value = value + fraction * (c - '0');
+      } else {
+        value = value * 10 + c - '0';
+      }
     }
     read();  // consume the character we got with peek
     c = timedPeek();
   }
-  while( (c >= '0' && c <= '9')  || (c == '.' && !isFraction) || c == ignore );
+  while( (c >= '0' && c <= '9')  || (c == '.' && !isFraction) || (char)c == ignore );
 
   if(isNegative)
     value = -value;
-  if(isFraction)
-    return value * fraction;
-  else
-    return value;
+
+  return value;
 }
 
 // read characters from stream into buffer
@@ -235,7 +234,7 @@ size_t Stream::readBytesUntil(char terminator, char *buffer, size_t length)
   size_t index = 0;
   while (index < length) {
     int c = timedRead();
-    if (c < 0 || c == terminator) break;
+    if (c < 0 || (char)c == terminator) break;
     *buffer++ = (char)c;
     index++;
   }
@@ -258,7 +257,7 @@ String Stream::readStringUntil(char terminator)
 {
   String ret;
   int c = timedRead();
-  while (c >= 0 && c != terminator)
+  while (c >= 0 && (char)c != terminator)
   {
     ret += (char)c;
     c = timedRead();
@@ -281,7 +280,7 @@ int Stream::findMulti( struct Stream::MultiTarget *targets, int tCount) {
 
     for (struct MultiTarget *t = targets; t < targets+tCount; ++t) {
       // the simple case is if we match, deal with that first.
-      if (c == t->str[t->index]) {
+      if ((char)c == t->str[t->index]) {
         if (++t->index == t->len)
           return t - targets;
         else
@@ -299,7 +298,7 @@ int Stream::findMulti( struct Stream::MultiTarget *targets, int tCount) {
       do {
         --t->index;
         // first check if current char works against the new current index
-        if (c != t->str[t->index])
+        if ((char)c != t->str[t->index])
           continue;
 
         // if it's the only char then we're good, nothing more to check
