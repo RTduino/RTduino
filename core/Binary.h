@@ -21,6 +21,7 @@
 #ifndef Binary_h
 #define Binary_h
 
+#if 0 // stop deprecation warnings
 /* If supported, 0b binary literals are preferable to these constants.
  * In that case, warn the user about these being deprecated (if possible). */
 #if __cplusplus >= 201402L
@@ -31,6 +32,9 @@
   #define DEPRECATED(x) __attribute__ ((__deprecated__ ("use " #x " instead")))
 #else
   /* binary literals not supported, or "deprecated" warning not displayable */
+  #define DEPRECATED(x)
+#endif
+#else
   #define DEPRECATED(x)
 #endif
 
