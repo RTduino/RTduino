@@ -283,11 +283,14 @@ typedef uint8_t byte;
  */
 #define MSBFIRST 1
 
-/* math operations */
-/* adb() in stdlib.h and round() in math.h */
-/* min/max potential macro substitution problem */
-#undef min
-#undef max
+
+/*
+  to prevent the error of redefinition of min and max:
+  #define RTDUINO_NO_MIN
+  #define RTDUINO_NO_MAX
+  #include <RTduino.h>
+*/
+#ifndef RTDUINO_NO_MIN
 /**
  * @ingroup Maths
  * @brief Returns the smaller of two values.
@@ -296,7 +299,9 @@ typedef uint8_t byte;
  * @return The smaller of the two values.
  */
 #define min(a, b) ((a)<(b)?(a):(b))
+#endif /* RTDUINO_NO_MIN */
 
+#ifndef RTDUINO_NO_MAX
 /**
  * @ingroup Maths
  * @brief Returns the larger of two values.
@@ -305,6 +310,7 @@ typedef uint8_t byte;
  * @return The larger of the two values.
  */
 #define max(a, b) ((a)>(b)?(a):(b))
+#endif /* RTDUINO_NO_MAX */
 
 /**
  * @ingroup Maths
