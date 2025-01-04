@@ -63,20 +63,26 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#if RT_VER_NUM < 0x50000
-#define rt_align(x)  ALIGN(x)
-#define rt_weak      RT_WEAK
-#endif /* RT_VER_NUM < 0x50000 */
+#endif /* __cplusplus */
 
 #ifndef RTDUINO_TINY_MODE
 #include "pins_arduino.h"
 #endif /* RTDUINO_TINY_MODE */
 
-#if RT_VER_NUM < 0x40101
+#ifdef RT_VER_NUM
+#if RT_VER_NUM < 0x50000
+#ifndef rt_align
+#define rt_align(x)  ALIGN(x)
+#endif /* rt_align */
+#ifndef rt_weak
+#define rt_weak      RT_WEAK
+#endif /* rt_weak */
+#elif RT_VER_NUM < 0x40101
 #error "The minimum version requirement of RT-Thread is 4.1.1"
-#endif /* RT_VER_NUM < 0x40101 */
+#endif /* RT_VER_NUM < 0x50000 */
+#else
+#error "Please use RT-Thread Standard Version with software packages management system!"
+#endif /* RT_VER_NUM */
 
 /**
  * @defgroup Bits and Bytes
