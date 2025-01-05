@@ -16,7 +16,7 @@
 
 char *dtostrf(double val, signed char width, unsigned char prec, char *sout)
 {
-    char fmt[20];
+    char fmt[20] = {0};
     rt_sprintf(fmt, "%%%d.%df", width, prec);
     rt_sprintf(sout, fmt, val);
     return sout;
@@ -24,7 +24,7 @@ char *dtostrf(double val, signed char width, unsigned char prec, char *sout)
 
 char *dtostrnf(double val, signed char width, unsigned char prec, char *sout, size_t sout_size)
 {
-    char fmt[20];
+    char fmt[20] = {0};
     rt_snprintf(fmt, sizeof(fmt), "%%%d.%df", width, prec);
     rt_snprintf(sout, sout_size, fmt, val);
     return sout;

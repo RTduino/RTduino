@@ -125,19 +125,21 @@ String::String(unsigned long value, unsigned char base)
 String::String(float value, unsigned char decimalPlaces)
 {
 	static size_t const FLOAT_BUF_SIZE = FLT_MAX_10_EXP + FLT_MAX_DECIMAL_PLACES + 1 /* '-' */ + 1 /* '.' */ + 1 /* '\0' */;
-	init();
-	char buf[FLOAT_BUF_SIZE];
+	char *buf = (char *)rt_malloc(FLOAT_BUF_SIZE);
+    init();
 	decimalPlaces = min(decimalPlaces, FLT_MAX_DECIMAL_PLACES);
-    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, sizeof(buf));
+    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, FLOAT_BUF_SIZE);
+    rt_free(buf);
 }
 
 String::String(double value, unsigned char decimalPlaces)
 {
 	static size_t const DOUBLE_BUF_SIZE = DBL_MAX_10_EXP + DBL_MAX_DECIMAL_PLACES + 1 /* '-' */ + 1 /* '.' */ + 1 /* '\0' */;
-	init();
-	char buf[DOUBLE_BUF_SIZE];
+	char *buf = (char *)rt_malloc(DOUBLE_BUF_SIZE);
+    init();
 	decimalPlaces = min(decimalPlaces, DBL_MAX_DECIMAL_PLACES);
-    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, sizeof(buf));
+    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, DOUBLE_BUF_SIZE);
+    rt_free(buf);
 }
 
 String::~String()
