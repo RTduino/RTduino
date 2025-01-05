@@ -144,7 +144,7 @@ String::String(double value, unsigned char decimalPlaces)
 
 String::~String()
 {
-    if (buffer) free(buffer);
+    if (buffer) rt_free(buffer);
 }
 
 /*********************************************/
@@ -160,7 +160,7 @@ inline void String::init(void)
 
 void String::invalidate(void)
 {
-    if (buffer) free(buffer);
+    if (buffer) rt_free(buffer);
     buffer = NULL;
     capacity = len = 0;
 }
@@ -177,7 +177,7 @@ bool String::reserve(unsigned int size)
 
 bool String::changeBuffer(unsigned int maxStrLen)
 {
-    char *newbuffer = (char *)realloc(buffer, maxStrLen + 1);
+    char *newbuffer = (char *)rt_realloc(buffer, maxStrLen + 1);
     if (newbuffer) {
         buffer = newbuffer;
         capacity = maxStrLen;
@@ -197,7 +197,7 @@ String & String::copy(const char *cstr, unsigned int length)
         return *this;
     }
     len = length;
-	memcpy(buffer, cstr, length);
+	rt_memcpy(buffer, cstr, length);
 	buffer[len] = '\0';
     return *this;
 }
@@ -217,7 +217,7 @@ void String::move(String &rhs)
 {
 	if (this != &rhs)
 	{
-		free(buffer);
+		rt_free(buffer);
 
 		buffer = rhs.buffer;
 		len = rhs.len;
@@ -276,7 +276,7 @@ bool String::concat(const char *cstr, unsigned int length)
 	if (!cstr) return false;
 	if (length == 0) return true;
 	if (!reserve(newlen)) return false;
-	memcpy(buffer + len, cstr, length);
+	rt_memcpy(buffer + len, cstr, length);
 	len = newlen;
 	buffer[len] = '\0';
 	return true;
@@ -643,7 +643,7 @@ void String::replace(const String& find, const String& replace)
 	char *foundAt;
 	if (diff == 0) {
 		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
-			memcpy(foundAt, replace.buffer, replace.len);
+			rt_memcpy(foundAt, replace.buffer, replace.len);
 			readFrom = foundAt + replace.len;
 		}
 	} else if (diff < 0) {
@@ -657,10 +657,10 @@ void String::replace(const String& find, const String& replace)
 		int index = len - 1;
 		while (index >= 0 && (index = lastIndexOf(find, index)) >= 0) {
 			readFrom = buffer + index + find.len;
-			memmove(readFrom - diff, readFrom, len - (readFrom - buffer));
+			rt_memmove(readFrom - diff, readFrom, len - (readFrom - buffer));
 			len -= diff;
 			buffer[len] = 0;
-			memcpy(buffer + index, replace.buffer, replace.len);
+			rt_memcpy(buffer + index, replace.buffer, replace.len);
 			index--;
 		}
 	} else {
@@ -674,10 +674,10 @@ void String::replace(const String& find, const String& replace)
 		int index = len - 1;
 		while (index >= 0 && (index = lastIndexOf(find, index)) >= 0) {
 			readFrom = buffer + index + find.len;
-			memmove(readFrom + diff, readFrom, len - (readFrom - buffer));
+			rt_memmove(readFrom + diff, readFrom, len - (readFrom - buffer));
 			len += diff;
 			buffer[len] = 0;
-			memcpy(buffer + index, replace.buffer, replace.len);
+			rt_memcpy(buffer + index, replace.buffer, replace.len);
 			index--;
 		}
 	}
@@ -696,7 +696,7 @@ void String::remove(unsigned int index, unsigned int count) {
     if (count > len - index) { count = len - index; }
 	char *writeTo = buffer + index;
     len = len - count;
-    memmove(writeTo, buffer + index + count, len - index);
+    rt_memmove(writeTo, buffer + index + count, len - index);
     buffer[len] = 0;
 }
 
@@ -724,7 +724,7 @@ void String::trim(void)
     char *end = buffer + len - 1;
     while (isspace(*end) && end >= begin) end--;
     len = end + 1 - begin;
-    if (begin > buffer) memmove(buffer, begin, len);
+    if (begin > buffer) rt_memmove(buffer, begin, len);
     buffer[len] = 0;
 }
 
