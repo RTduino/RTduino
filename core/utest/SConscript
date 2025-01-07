@@ -5,6 +5,9 @@ src = []
 if GetDepend('RT_USING_CI_ACTION') or GetDepend('RTDUINO_UTEST_CORE'):
     src += Glob('TC_*.c')
     src += Glob('TC_*.cpp')
+    if not GetDepend('RTDUINO_UTEST_HIL'):
+        SrcRemove(src, Glob('TC_HIL_*.c'))
+        SrcRemove(src, Glob('TC_HIL_*.cpp'))
 
 group = DefineGroup('utestcases', src, depend = [''])
 
