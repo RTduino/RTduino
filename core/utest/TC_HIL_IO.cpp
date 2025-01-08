@@ -15,10 +15,16 @@
 
 static void TC_digital(void)
 {
-    digitalWrite(D3, LOW);
-    uassert_true(digitalRead(D3) == LOW);
-    digitalWrite(D3, HIGH);
-    uassert_true(digitalRead(D3) == HIGH);
+    pinMode(D13, INPUT);
+    pinMode(D12, OUTPUT);
+
+    digitalWrite(D12, LOW);
+    rt_thread_delay(5);
+    uassert_true(digitalRead(D13) == LOW);
+
+    digitalWrite(D12, HIGH);
+    rt_thread_delay(5);
+    uassert_true(digitalRead(D13) == HIGH);
 }
 
 /* Utest function to run all test cases */
