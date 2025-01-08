@@ -52,8 +52,7 @@ void StreamMock::resize(size_t new_capacity)
 
 void StreamMock::operator<<(char const* str)
 {
-    size_t len = 0;
-    while (str[len] != '\0') ++len;
+    size_t len = rt_strlen(str);
 
     size_t new_size = _size + len;
     if (new_size > _capacity) {
