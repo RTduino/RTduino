@@ -13,24 +13,70 @@
 #include <RTduino.h>
 #include <utest.h>
 
+#include "HIL_variants.h"
+
 static void TC_digital(void)
 {
-    pinMode(D13, INPUT);
-    pinMode(D12, OUTPUT);
+    pinMode(HIL_DIGITAL_PIN_TARGET, INPUT);
 
-    digitalWrite(D12, LOW);
-    rt_thread_delay(5);
-    uassert_true(digitalRead(D13) == LOW);
+    pinMode(HIL_DIGITAL_PIN_PULSE, PIN_MODE_INPUT_PULLUP);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    uassert_true(digitalRead(HIL_DIGITAL_PIN_TARGET) == HIGH);
 
-    digitalWrite(D12, HIGH);
-    rt_thread_delay(5);
-    uassert_true(digitalRead(D13) == HIGH);
+    pinMode(HIL_DIGITAL_PIN_PULSE, PIN_MODE_INPUT_PULLDOWN);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    uassert_true(digitalRead(HIL_DIGITAL_PIN_TARGET) == LOW);
+
+    pinMode(HIL_DIGITAL_PIN_PULSE, OUTPUT);
+
+    digitalWrite(HIL_DIGITAL_PIN_PULSE, LOW);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    uassert_true(digitalRead(HIL_DIGITAL_PIN_TARGET) == LOW);
+
+    digitalWrite(HIL_DIGITAL_PIN_PULSE, HIGH);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    uassert_true(digitalRead(HIL_DIGITAL_PIN_TARGET) == HIGH);
 }
+
+static volatile rt_bool_t interrupted_flag = RT_FALSE;
+
+void _cb_pin_interrupt(void)
+{
+    interrupted_flag = RT_TRUE;
+}
+
+#undef HIL_DIGITAL_PIN_TARGET
+#define HIL_DIGITAL_PIN_TARGET D16
+
+static void TC_interrupt(void)
+{
+    pinMode(HIL_DIGITAL_PIN_PULSE, OUTPUT);
+    pinMode(HIL_DIGITAL_PIN_TARGET, INPUT);
+
+    digitalWrite(HIL_DIGITAL_PIN_PULSE, HIGH);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+
+    interrupted_flag = RT_FALSE;
+    attachInterrupt(digitalPinToInterrupt(HIL_DIGITAL_PIN_TARGET), _cb_pin_interrupt, LOW);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    digitalWrite(HIL_DIGITAL_PIN_PULSE, LOW);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    uassert_true(interrupted_flag);
+
+    interrupted_flag = RT_FALSE;
+    attachInterrupt(digitalPinToInterrupt(HIL_DIGITAL_PIN_TARGET), _cb_pin_interrupt, HIGH);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    digitalWrite(HIL_DIGITAL_PIN_PULSE, HIGH);
+    rt_thread_mdelay(HIL_LEVEL_ESTABLISH_MS);
+    uassert_true(interrupted_flag);
+}
+
 
 /* Utest function to run all test cases */
 static void utest_do_tc(void)
 {
     UTEST_UNIT_RUN(TC_digital);
+    //UTEST_UNIT_RUN(TC_interrupt);
 }
 
 UTEST_TC_EXPORT(utest_do_tc, "RTduino.core.HIL.IO", RT_NULL, RT_NULL, 1000);

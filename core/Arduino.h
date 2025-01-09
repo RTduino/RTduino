@@ -880,4 +880,18 @@ void noTone(uint8_t pin);
 
 #endif /* __cplusplus */
 
+/* low level test functions */
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+#if defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES)
+rt_base_t LLT__ard2rt_pinmode(uint8_t mode);
+rt_base_t LLT__ard2rt_pinlevel(uint8_t mode);
+#endif /* defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES) */
+
+#ifdef __cplusplus
+} /* extern "C" { */
+#endif /* __cplusplus */
+
 #endif /* __ARDUINO_CORE_H__ */

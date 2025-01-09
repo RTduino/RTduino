@@ -21,15 +21,9 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-void pinMode(uint8_t pin, uint8_t mode)
+static rt_base_t ard2rt_pinmode(uint8_t mode)
 {
-    rt_base_t rt_mode = RT_NULL;
-
-    RT_ASSERT(mode == INPUT || mode == OUTPUT ||
-              mode == INPUT_PULLUP || mode == INPUT_PULLDOWN ||
-              mode == OUTPUT_OPEN_DRAIN);
-
-    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
+    rt_base_t rt_mode = -1;
 
     switch(mode)
     {
@@ -52,9 +46,36 @@ void pinMode(uint8_t pin, uint8_t mode)
     case OUTPUT_OPEN_DRAIN:
         rt_mode = PIN_MODE_OUTPUT_OD;
         break;
+    }
 
-    default:
-        LOG_E("[pinMode] Invalid mode %u", mode);
+    return rt_mode;
+}
+
+static rt_base_t ard2rt_pinlevel(uint8_t val)
+{
+    rt_base_t rt_val = -1;
+
+    switch(val)
+    {
+    case HIGH:
+        rt_val = PIN_HIGH;
+        break;
+    case LOW:
+        rt_val = PIN_LOW;
+        break;
+    }
+
+    return rt_val;
+}
+
+void pinMode(uint8_t pin, uint8_t mode)
+{
+    RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
+
+    rt_base_t rt_mode = ard2rt_pinmode(mode);
+    if (rt_mode < 0)
+    {
+        LOG_E("[pinMode] Invalid mode %d", mode);
         return;
     }
 
@@ -67,21 +88,14 @@ void pinMode(uint8_t pin, uint8_t mode)
 
 void digitalWrite(uint8_t pin, uint8_t val)
 {
-    rt_base_t rt_val = RT_NULL;
-
-    RT_ASSERT(val == HIGH || val == LOW);
-
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
 
-    if(val == HIGH)
+    rt_base_t rt_val = ard2rt_pinlevel(val);
+    if (rt_val < 0)
     {
-        rt_val = PIN_HIGH;
+        LOG_E("[digitalWrite] Invalid value %d", val);
+        return;
     }
-    else if(val == LOW)
-    {
-        rt_val = PIN_LOW;
-    }
-
     rt_pin_write(pin_map_table[pin].rt_pin, rt_val);
 }
 
@@ -90,5 +104,17 @@ int digitalRead(uint8_t pin)
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin, LOW); /* with return value */
     return (rt_pin_read(pin_map_table[pin].rt_pin) == PIN_HIGH)? HIGH : LOW;
 }
+
+#if defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES)
+rt_base_t LLT__ard2rt_pinmode(uint8_t mode)
+{
+    return ard2rt_pinmode(mode);
+}
+
+rt_base_t LLT__ard2rt_pinlevel(uint8_t mode)
+{
+    return ard2rt_pinlevel(mode);
+}
+#endif /* defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES) */
 
 #endif /* RT_USING_PIN */

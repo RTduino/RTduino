@@ -2,10 +2,10 @@ from building import *
 
 src = []
 
-if GetDepend('RT_USING_CI_ACTION') or GetDepend('RTDUINO_UTEST_CORE'):
+if GetDepend('RT_UTEST_USING_ALL_CASES') or GetDepend('RTDUINO_USING_UTEST'):
     src += Glob('TC_*.c')
     src += Glob('TC_*.cpp')
-    if not GetDepend('RTDUINO_UTEST_HIL'):
+    if GetDepend('RTDUINO_UTEST_USING_HIL'):
         SrcRemove(src, Glob('TC_HIL_*.c'))
         SrcRemove(src, Glob('TC_HIL_*.cpp'))
 
