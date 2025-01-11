@@ -34,9 +34,10 @@
 
 #include "avr/ctype.h"
 
-// This header file is consistent with Arduino AVR/ESP8266/ESP32 API
+// This header file is consistent with ArduinoCore-avr/sam/esp8266/esp32
 // but not consistent with ArduinoCore-API
-// see: https://github.com/arduino/ArduinoCore-API/commit/47e23ccfe5062e6075eb6d5a11be49d909f99ea3
+// We use the hardware platform version because no one use ArduinoCore-API version
+// except ArduinoCore-API itself
 
 // WCharacter.h prototypes
 inline boolean isAlphaNumeric(int c) __attribute__((always_inline));
@@ -181,4 +182,4 @@ inline int toUpperCase(int c)
   return toupper (c);
 }
 
-#endif
+#endif // Character_h
