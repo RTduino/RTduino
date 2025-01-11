@@ -19,8 +19,8 @@ extern "C" {
 #endif
 
 #define _BV(bit) (1 << (bit))
-#define cbi(reg, bitmask) *reg &= ~bitmask
-#define sbi(reg, bitmask) *reg |= bitmask
+#define cbi(reg, bitmask) *(reg) &= ~(bitmask)
+#define sbi(reg, bitmask) *(reg) |= (bitmask)
 
 #ifdef __cplusplus
 }
