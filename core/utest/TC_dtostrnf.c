@@ -131,8 +131,10 @@ static void TC_dtostrnf(void)
 /* Utest function to run all test cases */
 static void utest_do_tc(void)
 {
+#ifdef RT_KLIBC_USING_VSNPRINTF_STANDARD
     UTEST_UNIT_RUN(TC_dtostrf);
     UTEST_UNIT_RUN(TC_dtostrnf);
+#endif /* RT_KLIBC_USING_VSNPRINTF_STANDARD */
 }
 
 UTEST_TC_EXPORT(utest_do_tc, "RTduino.core.dtostrnf", RT_NULL, RT_NULL, 1000);

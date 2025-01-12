@@ -311,12 +311,14 @@ TC_dtostrf_entry(width)
 /* Utest function to run all test cases */
 static void utest_do_tc(void)
 {
+#ifdef RT_KLIBC_USING_VSNPRINTF_STANDARD
     TC_dtostrf_run(basic);
+    TC_dtostrf_run(round);
+    TC_dtostrf_run(width);
     // TC_dtostrf_run(big);
     // TC_dtostrf_run(minmax);
     // TC_dtostrf_run(nans);
-    TC_dtostrf_run(round);
-    TC_dtostrf_run(width);
+#endif /* RT_KLIBC_USING_VSNPRINTF_STANDARD */
 }
 
 UTEST_TC_EXPORT(utest_do_tc, "RTduino.core.dtostrf", RT_NULL, RT_NULL, 1000);
