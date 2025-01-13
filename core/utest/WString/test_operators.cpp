@@ -70,7 +70,6 @@ TEST_CASE ("Testing String::operator + (unsigned long)", "[String-operator+-08]"
   REQUIRE(str == str1+num);
 }
 
-#ifdef RTDUINO_SUPPORT_FLOAT_STRING
 TEST_CASE ("Testing String::operator + (float)", "[String-operator+-09]")
 {
   String str1("Hello ");
@@ -86,7 +85,6 @@ TEST_CASE ("Testing String::operator + (double)", "[String-operator+-10]")
   String str("Hello 5.68");
   REQUIRE(str == str1+num);
 }
-#endif /* RTDUINO_SUPPORT_FLOAT_STRING */
 
 TEST_CASE ("Testing String::operator + (const __FlashStringHelper *)", "[String-operator+-11]")
 {

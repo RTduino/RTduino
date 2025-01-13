@@ -45,7 +45,6 @@ char* ultoa(unsigned long value, char *string, int radix);
    The dtostrf() function returns the pointer to the converted string \c s.
 */
 char *dtostrf(double val, signed char width, unsigned char prec, char *sout);
-char *dtostrnf(double val, signed char width, unsigned char prec, char *sout, size_t sout_size);
 
 #ifdef __cplusplus
 } /* extern "C" { */

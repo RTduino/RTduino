@@ -70,7 +70,6 @@ TEST_CASE ("Testing String::concat(unsigned long)", "[String-concat-08]")
   REQUIRE(str == "Hello 1");
 }
 
-#ifdef RTDUINO_SUPPORT_FLOAT_STRING
 TEST_CASE ("Testing String::concat(float)", "[String-concat-09]")
 {
   String str("Hello ");
@@ -86,7 +85,6 @@ TEST_CASE ("Testing String::concat(double)", "[String-concat-10]")
   REQUIRE(str.concat(num) == 1);
   REQUIRE(str == "Hello 5.68");
 }
-#endif /* RTDUINO_SUPPORT_FLOAT_STRING */
 
 TEST_CASE ("Testing String::concat(const __FlashStringHelper *)", "[String-concat-11]")
 {

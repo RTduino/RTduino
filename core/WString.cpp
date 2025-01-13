@@ -128,7 +128,7 @@ String::String(float value, unsigned char decimalPlaces)
 	char *buf = (char *)rt_malloc(FLOAT_BUF_SIZE);
     init();
 	decimalPlaces = min(decimalPlaces, FLT_MAX_DECIMAL_PLACES);
-    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, FLOAT_BUF_SIZE);
+    *this = dtostrf(value, (decimalPlaces + 2U), decimalPlaces, buf);
     rt_free(buf);
 }
 
@@ -138,7 +138,7 @@ String::String(double value, unsigned char decimalPlaces)
 	char *buf = (char *)rt_malloc(DOUBLE_BUF_SIZE);
     init();
 	decimalPlaces = min(decimalPlaces, DBL_MAX_DECIMAL_PLACES);
-    *this = dtostrnf(value, (decimalPlaces + 2U), decimalPlaces, buf, DOUBLE_BUF_SIZE);
+    *this = dtostrf(value, (decimalPlaces + 2U), decimalPlaces, buf);
     rt_free(buf);
 }
 
@@ -330,15 +330,15 @@ bool String::concat(unsigned long num)
 
 bool String::concat(float num)
 {
-    char buf[20];
-    char* string = dtostrnf(num, 4, 2, buf, sizeof(buf));
+    char buf[20] = {0};
+    char* string = dtostrf(num, 4, 2, buf);
     return concat(string);
 }
 
 bool String::concat(double num)
 {
-    char buf[20];
-    char* string = dtostrnf(num, 4, 2, buf, sizeof(buf));
+    char buf[20] = {0};
+    char* string = dtostrf(num, 4, 2, buf);
     return concat(string);
 }
 
