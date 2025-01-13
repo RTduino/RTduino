@@ -37,7 +37,7 @@ static void TC_getTimeout(void)
 
 static void TC_parseFloat(void)
 {
-    //#include "Stream/test_parseFloat.cpp"
+    #include "Stream/test_parseFloat.cpp"
 }
 
 static void TC_parseInt(void)

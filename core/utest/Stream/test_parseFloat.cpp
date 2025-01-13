@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */
 
-#include <float.h>
-
 /**************************************************************************************
  * TEST CODE
  **************************************************************************************/
@@ -17,37 +15,37 @@ TEST_CASE ("Testing parseFloat(LookaheadMode lookahead = SKIP_ALL, char ignore =
   WHEN ("Only a integer (no comma) is contained in stream")
   {
     mock << "12";
-    REQUIRE(mock.parseFloat() == 12.0f);
+    uassert_float_equal(mock.parseFloat(), 12.0f);
   }
   WHEN ("A positive float is contained in stream")
   {
     mock << "12.34";
-    REQUIRE(mock.parseFloat() == 12.34f);
+    uassert_float_equal(mock.parseFloat(), 12.34f);
   }
   WHEN ("A negative float is contained in stream")
   {
     mock << "-12.34";
-    REQUIRE(mock.parseFloat() == -12.34f);
+    uassert_float_equal(mock.parseFloat(), -12.34f);
   }
   WHEN ("A float is prepended by digits")
   {
     mock << "abcdef12.34";
-    REQUIRE(mock.parseFloat() == 12.34f);
+    uassert_float_equal(mock.parseFloat(), 12.34f);
   }
   WHEN ("The integer is prepended by whitespace chars")
   {
     mock << "\r\n\t 12.34";
-    REQUIRE(mock.parseFloat() == 12.34f);
+    uassert_float_equal(mock.parseFloat(), 12.34f);
   }
   WHEN ("A float is provided with too many digits after the decimal point")
   {
     mock << "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870064";
-    REQUIRE(mock.parseFloat() == Approx(3.141592654f));
+    uassert_float_equal(mock.parseFloat(), 3.141592654f);
   }
   WHEN ("A float is larger than LONG_MAX")
   {
     mock << "602200000000000000000000.00";
-    REQUIRE(mock.parseFloat() == Approx(6.022e23f));
+    uassert_float_equal(mock.parseFloat(), 6.022e23f);
   }
 }
 
@@ -58,19 +56,19 @@ TEST_CASE ("Testing parseFloat(LookaheadMode lookahead = SKIP_NONE, char ignore 
   WHEN ("Only a integer is contained in stream")
   {
     mock << "12.34";
-    REQUIRE(mock.parseFloat(SKIP_NONE) == 12.34f);
+    uassert_float_equal(mock.parseFloat(SKIP_NONE), 12.34f);
     REQUIRE(mock.readString() == String(""));
   }
   WHEN ("The integer is prepended by digits")
   {
     mock << "abcdef12.34";
-    REQUIRE(mock.parseFloat(SKIP_NONE) == 0);
+    uassert_float_equal(mock.parseFloat(SKIP_NONE), 0);
     REQUIRE(mock.readString() == String("abcdef12.34"));
   }
   WHEN ("The integer is prepended by whitespace chars")
   {
     mock << "\r\n\t 12.34";
-    REQUIRE(mock.parseFloat(SKIP_NONE) == 0);
+    uassert_float_equal(mock.parseFloat(SKIP_NONE), 0);
     REQUIRE(mock.readString() == String("\r\n\t 12.34"));
   }
 }
@@ -82,7 +80,7 @@ TEST_CASE ("Testing parseFloat(LookaheadMode lookahead = SKIP_WHITESPACE, char i
   WHEN ("The integer is prepended by whitespace chars")
   {
     mock << "\r\n\t 12.34";
-    REQUIRE(mock.parseFloat(SKIP_WHITESPACE) == 12.34f);
+    uassert_float_equal(mock.parseFloat(SKIP_WHITESPACE), 12.34f);
     REQUIRE(mock.readString() == String(""));
   }
 }
@@ -95,19 +93,19 @@ TEST_CASE ("Testing parseFloat(LookaheadMode lookahead = SKIP_ALL, char ignore =
   WHEN ("A float is contained in stream")
   {
     mock << "12.34";
-    REQUIRE(mock.parseFloat(SKIP_ALL, 'a') == 12.34f);
+    uassert_float_equal(mock.parseFloat(SKIP_ALL, 'a'), 12.34f);
     REQUIRE(mock.readString() == String(""));
   }
   WHEN ("The float contains only ignore char values")
   {
     mock << "12a.3a4a";
-    REQUIRE(mock.parseFloat(SKIP_ALL, 'a') == 12.34f);
+    uassert_float_equal(mock.parseFloat(SKIP_ALL, 'a'), 12.34f);
     REQUIRE(mock.readString() == String(""));
   }
   WHEN ("The integer contains other than ignore chars")
   {
     mock << "1bed234";
-    REQUIRE(mock.parseFloat(SKIP_ALL, 'a') == 1.0f);
+    uassert_float_equal(mock.parseFloat(SKIP_ALL, 'a'), 1.0f);
     REQUIRE(mock.readString() == String("bed234"));
   }
 }
