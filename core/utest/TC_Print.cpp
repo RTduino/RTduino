@@ -37,7 +37,7 @@ static void TC_getWriteError(void)
 
 static void TC_print(void)
 {
-    // #include "Print/test_print.cpp"
+    #include "Print/test_print.cpp"
 }
 
 static void TC_println(void)

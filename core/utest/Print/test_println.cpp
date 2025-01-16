@@ -13,8 +13,8 @@ TEST_CASE ("Print::println(char)", "[Print-println-01]")
   PrintMock mock;
 
   mock.println('A');
-
   REQUIRE(mock._str == "A\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(const String &)", "[Print-println-02]")
@@ -23,8 +23,8 @@ TEST_CASE ("Print::println(const String &)", "[Print-println-02]")
   String const str("Test String");
 
   mock.println(str);
-
   REQUIRE(mock._str == "Test String\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(const char str[])", "[Print-println-03]")
@@ -33,8 +33,8 @@ TEST_CASE ("Print::println(const char str[])", "[Print-println-03]")
   const char str[] = "Test String";
 
   mock.println(str);
-
   REQUIRE(mock._str == "Test String\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(int, int = DEC (default))", "[Print-println-04]")
@@ -43,8 +43,8 @@ TEST_CASE ("Print::println(int, int = DEC (default))", "[Print-println-04]")
   int const val = -1;
 
   mock.println(val);
-
   REQUIRE(mock._str == "-1\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(unsigned int, int = DEC (default))", "[Print-println-05]")
@@ -53,8 +53,8 @@ TEST_CASE ("Print::println(unsigned int, int = DEC (default))", "[Print-println-
   unsigned int const val = 17;
 
   mock.println(val);
-
   REQUIRE(mock._str == "17\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(long, int = DEC (default))", "[Print-println-06]")
@@ -63,8 +63,8 @@ TEST_CASE ("Print::println(long, int = DEC (default))", "[Print-println-06]")
   long const val = -1;
 
   mock.println(val);
-
   REQUIRE(mock._str == "-1\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(unsigned long, int = DEC (default))", "[Print-println-07]")
@@ -73,8 +73,8 @@ TEST_CASE ("Print::println(unsigned long, int = DEC (default))", "[Print-println
   unsigned long const val = 17;
 
   mock.println(val);
-
   REQUIRE(mock._str == "17\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(long long, int = DEC (default))", "[Print-println-08]")
@@ -83,8 +83,8 @@ TEST_CASE ("Print::println(long long, int = DEC (default))", "[Print-println-08]
   long long const val = -1;
 
   mock.println(val);
-
   REQUIRE(mock._str == "-1\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(unsigned long long, int = DEC|HEX|OCT|BIN)", "[Print-println-09]")
@@ -93,8 +93,8 @@ TEST_CASE ("Print::println(unsigned long long, int = DEC|HEX|OCT|BIN)", "[Print-
   unsigned long long const val = 17;
 
   mock.println(val);
-
   REQUIRE(mock._str == "17\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(double, int = 2)", "[Print-println-10]")
@@ -103,8 +103,8 @@ TEST_CASE ("Print::println(double, int = 2)", "[Print-println-10]")
   double const val = 3.1459;
 
   mock.println(val);
-
   REQUIRE(mock._str == "3.15\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(Printable)", "[Print-println-11]")
@@ -114,8 +114,8 @@ TEST_CASE ("Print::println(Printable)", "[Print-println-11]")
   printable._i = 1;
 
   mock.println(printable);
-
   REQUIRE(mock._str  == "PrintableMock i = 1\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Print::println(unsigned char, int base = DEC (default))", "[Print-println-12]")
@@ -123,8 +123,8 @@ TEST_CASE ("Print::println(unsigned char, int base = DEC (default))", "[Print-pr
   PrintMock mock;
 
   mock.println('A', DEC);
-
   REQUIRE(mock._str == "65\r\n");
+  mock.flush();
 }
 
 TEST_CASE ("Testing Print::println(const __FlashStringHelper *)", "[Print-println-13]")
@@ -134,6 +134,6 @@ TEST_CASE ("Testing Print::println(const __FlashStringHelper *)", "[Print-printl
   PrintMock mock;
 
   mock.println(F("Hello flash string"));
-
   REQUIRE(mock._str  == "Hello flash string\r\n");
+  mock.flush();
 }

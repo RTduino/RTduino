@@ -16,7 +16,7 @@
 
 #include <utest.h>
 
-#define TEST_CASE(name, tags) LOG_I("[==========] [ TESTCASE ] %s", name);
+#define TEST_CASE(name, tags) LOG_I("[==========] %s %s", tags, name);
 #define WHEN(name)  LOG_I("[==========] [   WHEN   ] %s", name);
 #define THEN(name)  LOG_I("[==========] [   THEN   ] %s", name);
 #define GIVEN(name) LOG_I("[==========] [  GIVEN   ] %s", name);
