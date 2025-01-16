@@ -76,7 +76,7 @@ String::String(String &&rval)
 String::String(char c)
 {
     init();
-    char buf[2];
+    char buf[2] = {0};
     buf[0] = c;
     buf[1] = 0;
     *this = buf;
@@ -85,7 +85,7 @@ String::String(char c)
 String::String(unsigned char value, unsigned char base)
 {
     init();
-    char buf[1 + 8 * sizeof(unsigned char)];
+    char buf[1 + 8 * sizeof(unsigned char)] = {0};
     utoa(value, buf, base);
     *this = buf;
 }
@@ -93,7 +93,7 @@ String::String(unsigned char value, unsigned char base)
 String::String(int value, unsigned char base)
 {
     init();
-    char buf[2 + 8 * sizeof(int)];
+    char buf[2 + 8 * sizeof(int)] = {0};
     itoa(value, buf, base);
     *this = buf;
 }
@@ -101,7 +101,7 @@ String::String(int value, unsigned char base)
 String::String(unsigned int value, unsigned char base)
 {
     init();
-    char buf[1 + 8 * sizeof(unsigned int)];
+    char buf[1 + 8 * sizeof(unsigned int)] = {0};
     utoa(value, buf, base);
     *this = buf;
 }
@@ -109,7 +109,7 @@ String::String(unsigned int value, unsigned char base)
 String::String(long value, unsigned char base)
 {
     init();
-    char buf[2 + 8 * sizeof(long)];
+    char buf[2 + 8 * sizeof(long)] = {0};
     ltoa(value, buf, base);
     *this = buf;
 }
@@ -117,7 +117,7 @@ String::String(long value, unsigned char base)
 String::String(unsigned long value, unsigned char base)
 {
     init();
-    char buf[1 + 8 * sizeof(unsigned long)];
+    char buf[1 + 8 * sizeof(unsigned long)] = {0};
     ultoa(value, buf, base);
     *this = buf;
 }
@@ -126,6 +126,7 @@ String::String(float value, unsigned char decimalPlaces)
 {
 	static size_t const FLOAT_BUF_SIZE = FLT_MAX_10_EXP + FLT_MAX_DECIMAL_PLACES + 1 /* '-' */ + 1 /* '.' */ + 1 /* '\0' */;
 	char *buf = (char *)rt_malloc(FLOAT_BUF_SIZE);
+    rt_memset(buf, 0, FLOAT_BUF_SIZE);
     init();
 	decimalPlaces = min(decimalPlaces, FLT_MAX_DECIMAL_PLACES);
     *this = dtostrf(value, (decimalPlaces + 2U), decimalPlaces, buf);
@@ -136,6 +137,7 @@ String::String(double value, unsigned char decimalPlaces)
 {
 	static size_t const DOUBLE_BUF_SIZE = DBL_MAX_10_EXP + DBL_MAX_DECIMAL_PLACES + 1 /* '-' */ + 1 /* '.' */ + 1 /* '\0' */;
 	char *buf = (char *)rt_malloc(DOUBLE_BUF_SIZE);
+    rt_memset(buf, 0, DOUBLE_BUF_SIZE);
     init();
 	decimalPlaces = min(decimalPlaces, DBL_MAX_DECIMAL_PLACES);
     *this = dtostrf(value, (decimalPlaces + 2U), decimalPlaces, buf);
@@ -295,35 +297,35 @@ bool String::concat(char c)
 
 bool String::concat(unsigned char num)
 {
-    char buf[1 + 3 * sizeof(unsigned char)];
+    char buf[1 + 3 * sizeof(unsigned char)] = {0};
     itoa(num, buf, 10);
     return concat(buf);
 }
 
 bool String::concat(int num)
 {
-    char buf[2 + 3 * sizeof(int)];
+    char buf[2 + 3 * sizeof(int)] = {0};
     itoa(num, buf, 10);
     return concat(buf);
 }
 
 bool String::concat(unsigned int num)
 {
-    char buf[1 + 3 * sizeof(unsigned int)];
+    char buf[1 + 3 * sizeof(unsigned int)] = {0};
     utoa(num, buf, 10);
     return concat(buf);
 }
 
 bool String::concat(long num)
 {
-    char buf[2 + 3 * sizeof(long)];
+    char buf[2 + 3 * sizeof(long)] = {0};
     ltoa(num, buf, 10);
     return concat(buf);
 }
 
 bool String::concat(unsigned long num)
 {
-    char buf[1 + 3 * sizeof(unsigned long)];
+    char buf[1 + 3 * sizeof(unsigned long)] = {0};
     ultoa(num, buf, 10);
     return concat(buf);
 }
@@ -498,7 +500,7 @@ bool String::startsWith( const String &s2, unsigned int offset ) const
 
 bool String::endsWith( const String &s2 ) const
 {
-	if ( len < s2.len || !buffer || !s2.buffer) return false;
+	if (len < s2.len || !buffer || !s2.buffer) return false;
 	return strcmp(&buffer[len - s2.len], s2.buffer) == 0;
 }
 
