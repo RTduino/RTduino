@@ -59,7 +59,7 @@ static void TC_length(void)
 
 static void TC_move(void)
 {
-    //#include "WString/test_move.cpp"
+    #include "WString/test_move.cpp"
 }
 
 static void TC_operators(void)

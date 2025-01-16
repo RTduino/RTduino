@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */
 
+#define move(x) static_cast<String&&>(x)
+
 /**************************************************************************************
  * TEST CODE
  **************************************************************************************/
@@ -12,7 +14,7 @@ TEST_CASE("Testing String move constructor", "[String-move-01]")
 {
     String a("src");
     char const* const a_str = a.c_str();
-    String b(std::move(a));
+    String b(move(a));
     REQUIRE(a.length() == 0);
     REQUIRE(a.c_str() == nullptr);
     REQUIRE(b.c_str() == a_str);
@@ -24,7 +26,7 @@ TEST_CASE("Testing String move assignment", "[String-move-02]")
     String a("src");
     char const* const a_str = a.c_str();
     String b;
-    b = std::move(a);
+    b = move(a);
     REQUIRE(a.length() == 0);
     REQUIRE(a.c_str() == nullptr);
     REQUIRE(b == String("src"));
@@ -38,7 +40,7 @@ TEST_CASE("Testing String move self assignment", "[String-move-03]")
 #pragma GCC diagnostic ignored "-Wself-move"
 #endif
     String a("src");
-    a = std::move(a);
+    a = move(a);
     REQUIRE(a == "src");
 #if defined(GCC_VERSION) && GCC_VERSION >= 13
 #pragma GCC diagnostic pop
