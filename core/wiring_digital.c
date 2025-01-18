@@ -21,7 +21,7 @@
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
-static rt_base_t ard2rt_pinmode(uint8_t mode)
+static rt_base_t ard2rt_pin_mode(uint8_t mode)
 {
     rt_base_t rt_mode = -1;
 
@@ -51,7 +51,7 @@ static rt_base_t ard2rt_pinmode(uint8_t mode)
     return rt_mode;
 }
 
-static rt_base_t ard2rt_pinlevel(uint8_t val)
+static rt_base_t ard2rt_pin_level(uint8_t val)
 {
     rt_base_t rt_val = -1;
 
@@ -72,7 +72,7 @@ void pinMode(uint8_t pin, uint8_t mode)
 {
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
 
-    rt_base_t rt_mode = ard2rt_pinmode(mode);
+    rt_base_t rt_mode = ard2rt_pin_mode(mode);
     if (rt_mode < 0)
     {
         LOG_E("[pinMode] Invalid mode %d", mode);
@@ -90,7 +90,7 @@ void digitalWrite(uint8_t pin, uint8_t val)
 {
     RTDUINO_CHECK_PIN_LIMIT_RETURN(pin,); /* without return value */
 
-    rt_base_t rt_val = ard2rt_pinlevel(val);
+    rt_base_t rt_val = ard2rt_pin_level(val);
     if (rt_val < 0)
     {
         LOG_E("[digitalWrite] Invalid value %d", val);
@@ -106,14 +106,14 @@ int digitalRead(uint8_t pin)
 }
 
 #if defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES)
-rt_base_t LLT__ard2rt_pinmode(uint8_t mode)
+rt_base_t LLT__ard2rt_pin_mode(uint8_t mode)
 {
-    return ard2rt_pinmode(mode);
+    return ard2rt_pin_mode(mode);
 }
 
-rt_base_t LLT__ard2rt_pinlevel(uint8_t mode)
+rt_base_t LLT__ard2rt_pin_level(uint8_t mode)
 {
-    return ard2rt_pinlevel(mode);
+    return ard2rt_pin_level(mode);
 }
 #endif /* defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES) */
 
