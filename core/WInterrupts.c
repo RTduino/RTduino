@@ -44,6 +44,36 @@ void noInterrupts(void)
 #define DBG_LVL    DBG_INFO
 #include <rtdbg.h>
 
+static rt_base_t ard2rt_interrupt_mode(uint8_t mode)
+{
+    rt_base_t rt_mode = -1;
+
+    switch(mode)
+    {
+    case LOW:
+        rt_mode = PIN_IRQ_MODE_LOW_LEVEL;
+        break;
+
+    case HIGH:
+        rt_mode = PIN_IRQ_MODE_HIGH_LEVEL;
+        break;
+
+    case CHANGE:
+        rt_mode = PIN_IRQ_MODE_RISING_FALLING;
+        break;
+
+    case RISING:
+        rt_mode = PIN_IRQ_MODE_RISING;
+        break;
+
+    case FALLING:
+        rt_mode = PIN_IRQ_MODE_FALLING;
+        break;
+    }
+
+    return rt_mode;
+}
+
 /**
  * @brief Maps a digital pin to its corresponding interrupt number.
  *
@@ -73,42 +103,18 @@ uint8_t digitalPinToInterrupt(uint8_t pin)
  */
 void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode)
 {
+    rt_base_t rt_pin = pin_map_table[interruptNum].rt_pin;
+    rt_base_t rt_mode = ard2rt_interrupt_mode(mode);
+
     RTDUINO_CHECK_PIN_LIMIT_RETURN(interruptNum,); /* without return value */
 
-    rt_uint8_t rt_mode = RT_NULL;
-    rt_base_t rt_pin = pin_map_table[interruptNum].rt_pin;
-
-    RT_ASSERT(mode == LOW || mode == HIGH ||
-              mode == CHANGE || mode == RISING || mode == FALLING);
-
-    switch(mode)
+    if (rt_mode < 0)
     {
-    case LOW:
-        rt_mode = PIN_IRQ_MODE_LOW_LEVEL;
-        break;
-
-    case HIGH:
-        rt_mode = PIN_IRQ_MODE_HIGH_LEVEL;
-        break;
-
-    case CHANGE:
-        rt_mode = PIN_IRQ_MODE_RISING_FALLING;
-        break;
-
-    case RISING:
-        rt_mode = PIN_IRQ_MODE_RISING;
-        break;
-
-    case FALLING:
-        rt_mode = PIN_IRQ_MODE_FALLING;
-        break;
-
-    default:
         LOG_E("[attachInterrupt] Invalid mode %d", mode);
         return;
     }
 
-    rt_pin_attach_irq(rt_pin, rt_mode, (void*)userFunc, RT_NULL);
+    rt_pin_attach_irq(rt_pin, (rt_uint8_t)rt_mode, (void*)userFunc, RT_NULL);
     rt_pin_irq_enable(rt_pin, PIN_IRQ_ENABLE);
 }
 
@@ -130,5 +136,12 @@ void detachInterrupt(uint8_t interruptNum)
     rt_pin_irq_enable(rt_pin, PIN_IRQ_DISABLE);
     rt_pin_detach_irq(rt_pin);
 }
+
+#if defined(RTDUINO_USING_UTEST) || defined(RT_UTEST_USING_ALL_CASES)
+rt_base_t LLT__ard2rt_interrupt_mode(uint8_t mode)
+{
+    return ard2rt_interrupt_mode(mode);
+}
+#endif /* RTDUINO_USING_UTEST || RT_UTEST_USING_ALL_CASES */
 
 #endif /* RT_USING_PIN */

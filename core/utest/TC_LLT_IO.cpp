@@ -32,11 +32,23 @@ static void TC_ard2rt_pin_level(void)
     uassert_int_equal(LLT__ard2rt_pin_level(LOW), PIN_LOW);
 }
 
+static void TC_ard2rt_interrupt_mode(void)
+{
+    int error_mode = PIN_MODE_INPUT + 50;
+    uassert_int_equal(LLT__ard2rt_interrupt_mode(error_mode), -1);
+    uassert_int_equal(LLT__ard2rt_interrupt_mode(LOW), PIN_IRQ_MODE_LOW_LEVEL);
+    uassert_int_equal(LLT__ard2rt_interrupt_mode(HIGH), PIN_IRQ_MODE_HIGH_LEVEL);
+    uassert_int_equal(LLT__ard2rt_interrupt_mode(CHANGE), PIN_IRQ_MODE_RISING_FALLING);
+    uassert_int_equal(LLT__ard2rt_interrupt_mode(RISING), PIN_IRQ_MODE_RISING);
+    uassert_int_equal(LLT__ard2rt_interrupt_mode(FALLING), PIN_IRQ_MODE_FALLING);
+}
+
 /* Utest function to run all test cases */
 static void utest_do_tc(void)
 {
     UTEST_UNIT_RUN(TC_ard2rt_pin_mode);
     UTEST_UNIT_RUN(TC_ard2rt_pin_level);
+    UTEST_UNIT_RUN(TC_ard2rt_interrupt_mode);
 }
 
 UTEST_TC_EXPORT(utest_do_tc, "RTduino.core.LLT.IO", RT_NULL, RT_NULL, 1000);

@@ -25,6 +25,7 @@ extern "C" {
 
 rt_base_t LLT__ard2rt_pin_mode(uint8_t mode);
 rt_base_t LLT__ard2rt_pin_level(uint8_t mode);
+rt_base_t LLT__ard2rt_interrupt_mode(uint8_t mode);
 
 #ifdef __cplusplus
 } /* extern "C" { */
