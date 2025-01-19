@@ -13,7 +13,7 @@
 #include <RTduino.h>
 #include <utest.h>
 
-#include "HIL_variants.h"
+#include "TC_HIL.h"
 
 static void TC_digital(void)
 {

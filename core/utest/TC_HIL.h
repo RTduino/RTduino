@@ -11,11 +11,7 @@
  * 2025-01-05     Meco Man     first version
  */
 
-#ifndef __HIL_VARIANTS_H__
-#define __HIL_VARIANTS_H__
-
-#include <RTduino.h>
-#include <rtconfig.h>
+/* This file can only be included in TC_HIL_xx.cpp/.c files */
 
 #if defined(BOARD_STM32L475_ATK_PANDORA)
 #define HIL_DIGITAL_PIN_PULSE D13
@@ -28,5 +24,3 @@
 #ifndef HIL_LEVEL_ESTABLISH_MS
 #define HIL_LEVEL_ESTABLISH_MS 1 /* the level establishment time in ms */
 #endif /* HIL_LEVEL_ESTABLISH_MS */
-
-#endif /* __HIL_VARIANTS_H__ */
