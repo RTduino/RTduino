@@ -64,3 +64,16 @@ uint16_t makeWord(byte h, byte l)
 {
     return (h << 8) | l;
 }
+
+void randomSeed(unsigned long seed)
+{
+    if (seed != 0)
+    {
+        srand(seed);
+    }
+}
+
+long map(long x, long in_min, long in_max, long out_min, long out_max)
+{
+    return (long)(((double)(x - in_min) * (double)(out_max - out_min)) / (double)((in_max - in_min) + out_min));
+}
