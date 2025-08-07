@@ -59,7 +59,8 @@ RTduino 支持以下开发环境:
 - GCC
 - VSCode
 - RT-Thread Studio
-- Keil MDK5
+- CLion
+- Keil MDK5（不推荐）
 - Keil MDK6
 
 > 注：
