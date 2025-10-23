@@ -51,7 +51,7 @@ RTduino是[RT-Thread实时操作系统](https://www.rt-thread.org)的Arduino生�
 | ES32F3696                 | [Github](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinout) / [Gitee](https://gitee.com/rtthread/rt-thread/tree/master/bsp/essemi/es32f369x/applications/arduino_pinou)                                    | √                   | √                 | √                | √   | √   | √   |
 | ES32VF2264                | [Github](https://github.com/RT-Thread/rt-thread/tree/master/bsp/essemi/es32vf2264/applications/arduino_pinout) / [Gitee](https://gitee.com/rtthread/rt-thread/tree/master/bsp/essemi/es32vf2264/applications/arduino_pinout)                                 | √                   | √                 | √                | √   | √   | √   |
 | psoc6-evaluationkit-062S2  | [Github](https://github.com/RT-Thread/rt-thread/tree/master/bsp/Infineon/psoc6-evaluationkit-062S2/applications/arduino_pinout) / [Gitee](https://gitee.com/rtthread/rt-thread/tree/master/bsp/Infineon/psoc6-evaluationkit-062S2/applications/arduino_pinout)                                 | √                   | √                 | √                | √   | √   | √   |
-
+| XMC7100D-F144K4160AA  | [Github](https://github.com/RT-Thread/rt-thread/tree/master/bsp/Infineon/xmc7100d-f144k4160aa/applications/arduino_pinout) / [Gitee](https://gitee.com/rtthread/rt-thread/tree/master/bsp/Infineon/xmc7100d-f144k4160aa/applications/arduino_pinout)                                 | √                   |                  |                 | √   | √   | √   |
 ## 3 开发环境
 
 RTduino 支持以下开发环境:
