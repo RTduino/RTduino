@@ -63,7 +63,10 @@ void SPIClass::beginTransaction(SPISettings settings)
         .mode = RT_SPI_MASTER | RT_SPI_NO_CS, /* Don't need RT-Thread SPI device driver to control CS */
         .data_width = 8,
         .reserved = 0,
-        .max_hz = settings._clock
+        .max_hz = settings._clock,
+#if defined(RT_VERSION_CHECK) && (RTTHREAD_VERSION >= RT_VERSION_CHECK(5, 3, 0))
+        .usage_freq = RT_NULL
+#endif
     };
 
     if(settings._bitOrder == LSBFIRST)
